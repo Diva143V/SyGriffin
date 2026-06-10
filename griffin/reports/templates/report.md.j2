@@ -1,0 +1,76 @@
+# Griffin Neoantigen Candidate Report
+
+{{ disclaimer }}
+
+## Input Summary
+
+- Sample ID: {{ manifest.get("sample_id", "unknown") }}
+- Cancer type: {{ manifest.get("parameters", {}).get("cancer_type", "unknown") }}
+- HLA alleles: {{ manifest.get("parameters", {}).get("hla_alleles", []) | join(", ") }}
+
+## Methodology
+
+Griffin parsed the input VCF, annotated variants, generated deterministic mutant peptide candidates, predicted MHC binding through the configured adapter, gathered research evidence, and ranked candidates using transparent weighted scoring.
+
+## Tool Versions
+
+{% for key, value in manifest.get("tool_versions", {}).items() -%}
+- {{ key }}: {{ value }}
+{% endfor %}
+
+## Candidate Ranking
+
+| Rank | Candidate ID | Gene | Mutation | HLA | Peptide | IC50 nM | Binding Strength | Presentation Score | Mutation Impact Score | Evidence Score | Composite Score | Confidence Label |
+| --- | --- | --- | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | --- |
+{% for c in candidates -%}
+| {{ c.rank }} | {{ c.candidate_id }} | {{ c.gene }} | {{ c.protein_change or "" }} | {{ c.hla }} | {{ c.peptide }} | {{ c.ic50_nm }} | {{ c.binding_strength }} | {{ c.presentation_score }} | {{ c.mutation_impact_score }} | {{ c.evidence_score }} | {{ c.composite_score }} | {{ c.confidence_label }} |
+{% endfor %}
+
+## Top Candidate Deep Dives
+
+{% for c in candidates[:5] -%}
+### {{ c.rank }}. {{ c.candidate_id }} - {{ c.gene }}
+
+{{ c.rationale }}
+
+Limitations: {{ c.limitations | join("; ") }}
+
+{% endfor %}
+
+## Evidence Summary
+
+{% for record in evidence[:10] -%}
+- {{ record.candidate_id }}: {{ record.summary }} Evidence level: {{ record.evidence_level }}.
+{% endfor %}
+
+## Clinical Trial Context
+
+Clinical trial entries are contextual research signals only and do not imply suitability, eligibility, safety, or efficacy.
+
+## Limitations
+
+- Griffin outputs computational predictions for research prioritization.
+- Mock mode outputs are not scientific evidence.
+- Results require independent wet-lab validation and expert review.
+- Griffin does not provide diagnosis, treatment recommendations, or medical advice.
+
+## Reproducibility Manifest
+
+```json
+{{ manifest | tojson(indent=2) }}
+```
+
+## Appendix: Raw Parameters
+
+```json
+{{ manifest.get("parameters", {}) | tojson(indent=2) }}
+```
+
+{% if warnings %}
+## Warnings
+
+{% for warning in warnings -%}
+- {{ warning }}
+{% endfor %}
+{% endif %}
+
