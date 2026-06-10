@@ -63,7 +63,7 @@ Required Scientific MVP agents still to add or formalize:
 
 | Integration | Status | Notes |
 |---|---|---|
-| MHCflurry | Partial | Adapter exists; unavailable in current Python 3.14 environment. |
+| MHCflurry | Verified in Python 3.11 | MHCflurry 2.2.1 with pan models returns real IC50 output. |
 | Deterministic mock MHC | Working | Explicit `--mock` only. |
 | Ensembl VEP REST | Partial/mock | Client path exists; real Scientific MVP integration remains. |
 | PubMed E-utilities | Partial/mock | Mock records are visibly synthetic; real retrieval remains. |
@@ -91,6 +91,7 @@ Required Scientific MVP agents still to add or formalize:
 
 - Input validation.
 - Non-mock run fails clearly if MHCflurry is unavailable.
+- Real MHCflurry prediction path verified in the Python 3.11 `.venv`.
 - Report regeneration from existing artifacts.
 - Ollama reachability checks.
 - Scientific Python version recommendation in `doctor`.
@@ -109,15 +110,17 @@ Required Scientific MVP agents still to add or formalize:
 
 ## Current Known Issues
 
-- Real MHCflurry prediction is blocked by unavailable scientific environment dependencies.
 - Real VEP annotation is not complete.
 - Real PubMed retrieval is not complete.
 - Real ClinicalTrials.gov retrieval is not complete.
+- End-to-end non-mock runs still stop at VEP annotation to avoid fabricated biology.
 - Python 3.14 works for demo mode but is too new for some scientific dependencies.
+- On Windows, default `mhcflurry-downloads fetch` can fail on legacy archives with invalid
+  filename characters; targeted `models_class1_pan` fetch is verified.
 
 ## Current Test Status
 
-`python -m pytest -q` passes with 19 tests and 1 Pydantic deprecation warning.
+`python -m pytest -q` passes with 20 tests and 1 Pydantic deprecation warning.
 
 ## Current Lint / Type Status
 
@@ -127,9 +130,12 @@ Required Scientific MVP agents still to add or formalize:
 
 ## Latest Quality Gate Results
 
-- `python -m pytest -q`: 19 passed, 1 warning.
+- `python -m pytest -q`: 20 passed, 1 warning.
 - `python -m ruff check .`: passed.
 - `python -m mypy griffin`: passed.
+- `.venv\Scripts\python.exe -m pytest -q`: 20 passed, 1 warning.
+- `.venv\Scripts\python.exe -m ruff check .`: passed.
+- `.venv\Scripts\python.exe -m mypy griffin`: passed.
 
 ## Recent Changes
 
@@ -155,14 +161,21 @@ Required Scientific MVP agents still to add or formalize:
 - Added `scientific_python_recommended` and a Python 3.13+ warning to `griffin doctor`.
 - Verified tests, lint, and type checks pass after environment setup documentation.
 - Added `docs/SCIENTIFIC_MVP_STATUS.md` with the current Scientific MVP readiness state.
+- Installed Python 3.11.9 and created the local `.venv` scientific environment.
+- Installed Griffin dev dependencies and MHCflurry 2.2.1 in `.venv`.
+- Fetched MHCflurry `models_class1_pan` and verified real Class I affinity prediction.
+- Fixed the MHCflurry adapter to use `predict_to_dataframe` and record real raw output.
+- Added `doctor` fields for MHCflurry version, downloads availability, and scientific MHC
+  readiness.
+- Verified a non-mock CLI smoke test now passes MHC setup and stops at real VEP annotation.
 
 ## Next 5 Tasks
 
-1. Commit Scientific MVP status document.
-2. Add or formalize Critic and Safety Agent outputs.
-3. Begin real MHCflurry integration verification in a Python 3.11 environment.
-4. Add real Ensembl VEP REST annotation.
-5. Add biologically traceable peptide generation.
+1. Commit real MHCflurry verification milestone.
+2. Add real Ensembl VEP REST annotation.
+3. Add biologically traceable peptide generation.
+4. Add PubMed and ClinicalTrials.gov retrieval.
+5. Add Critic and Safety Agent outputs.
 
 ## Important Commands
 

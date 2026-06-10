@@ -43,6 +43,9 @@ def doctor() -> None:
     settings = load_settings()
     ollama = OllamaSummarizer(settings.ollama_model, settings.ollama_base_url)
     ollama_diagnostic = ollama.probe()
+    mhcflurry = MHCflurryPredictor()
+    mhcflurry_available = mhcflurry.available()
+    mhcflurry_downloads_available = mhcflurry.downloads_available()
     scientific_python_warning = None
     if sys.version_info >= (3, 13):
         scientific_python_warning = (
@@ -55,7 +58,10 @@ def doctor() -> None:
         "scientific_python_recommended": "3.11",
         "scientific_python_warning": scientific_python_warning,
         "mock_mode_default": False,
-        "mhcflurry_available": MHCflurryPredictor().available(),
+        "mhcflurry_available": mhcflurry_available,
+        "mhcflurry_version": mhcflurry.version() if mhcflurry_available else None,
+        "mhcflurry_downloads_available": mhcflurry_downloads_available,
+        "scientific_mhc_ready": mhcflurry_available and mhcflurry_downloads_available,
         "cache_dir": str(settings.cache_dir),
         "ncbi_email_configured": bool(settings.ncbi_email),
         "ollama_reachable": ollama_diagnostic["reachable"],

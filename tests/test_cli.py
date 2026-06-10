@@ -5,6 +5,7 @@ import requests
 from typer.testing import CliRunner
 
 import griffin.adapters.llm.ollama as ollama_module
+from griffin.adapters.mhc.mhcflurry import MHCflurryPredictor
 from griffin.cli import app
 
 runner = CliRunner()
@@ -164,7 +165,10 @@ def test_run_end_to_end_and_resume(fixture_dir: Path, tmp_path: Path):
     assert resumed.exit_code == 0, resumed.stdout
 
 
-def test_non_mock_run_fails_clearly_without_mhcflurry(fixture_dir: Path, tmp_path: Path):
+def test_non_mock_run_fails_clearly_without_mhcflurry(
+    fixture_dir: Path, tmp_path: Path, monkeypatch
+):
+    monkeypatch.setattr(MHCflurryPredictor, "available", lambda self: False)
     result = runner.invoke(
         app,
         [

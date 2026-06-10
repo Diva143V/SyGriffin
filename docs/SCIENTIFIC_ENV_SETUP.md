@@ -11,7 +11,8 @@ py -3.11 -m venv .venv
 python -m pip install --upgrade pip setuptools wheel
 pip install -e .
 pip install mhcflurry
-mhcflurry-downloads fetch
+mhcflurry-downloads fetch models_class1_pan
+mhcflurry-downloads fetch models_class1_presentation
 python -m griffin doctor
 ```
 
@@ -43,6 +44,34 @@ python -m griffin run `
 
 Mock mode is for demo/testing only. Mock predictions, mock annotations, mock peptides, and
 mock evidence are not scientific evidence.
+
+## MHCflurry Notes on Windows
+
+The default `mhcflurry-downloads fetch` command can attempt older archives whose extracted
+filenames contain characters that are invalid on Windows. For the current Griffin MHC-I
+affinity path, the verified Windows-safe download is:
+
+```powershell
+mhcflurry-downloads fetch models_class1_pan
+```
+
+The presentation models can also be fetched for future presentation-aware work:
+
+```powershell
+mhcflurry-downloads fetch models_class1_presentation
+```
+
+Verified local milestone:
+
+```json
+{
+  "python": "3.11.9",
+  "mhcflurry_available": true,
+  "mhcflurry_version": "2.2.1",
+  "mhcflurry_downloads_available": true,
+  "scientific_mhc_ready": true
+}
+```
 
 ## Non-Mock Scientific Requirements
 

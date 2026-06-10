@@ -11,6 +11,9 @@ Scientific MVP partially complete
 - `validate-input`.
 - VCF parsing and HLA validation.
 - Clear failure if MHCflurry is unavailable.
+- Real MHCflurry Class I affinity prediction in a Python 3.11 environment.
+- `doctor` reports MHCflurry package, version, downloads availability, and scientific MHC
+  readiness.
 - Clear failure instead of fabricated VEP annotation or peptide sequence context when non-mock
   execution reaches those unfinished integrations.
 
@@ -20,13 +23,14 @@ Scientific MVP partially complete
 - Current demo peptide sequence generation.
 - Current demo evidence records.
 - Current demo MHC predictions without MHCflurry.
-- End-to-end candidate/report generation in the current Python 3.14 environment.
+- End-to-end candidate/report generation until real VEP annotation and traceable peptide
+  generation are complete.
 
 ## Real Tools Integrated
 
 | Tool | Status | Notes |
 |---|---|---|
-| MHCflurry | Partial | Adapter exists; scientific environment setup still required. |
+| MHCflurry | Verified | Python 3.11.9, MHCflurry 2.2.1, pan model downloads, real IC50 output. |
 | Ensembl VEP REST | Not complete | Non-mock mode now fails clearly instead of mock-annotating. |
 | PubMed E-utilities | Not complete | Mock records are visibly synthetic and use no fake PMIDs. |
 | ClinicalTrials.gov | Not complete | Mock records are visibly synthetic and use no fake NCT IDs. |
@@ -71,12 +75,13 @@ No benchmark suite is implemented yet.
 
 - Python 3.11 is recommended for scientific dependencies; current Python 3.14 is demo-capable
   but may not support MHCflurry cleanly.
+- On Windows, default `mhcflurry-downloads fetch` can fail on legacy archives with invalid
+  filename characters; `models_class1_pan` was fetched and verified separately.
 - Real network integrations need retries, provenance, and caching hardening.
 - The Pydantic v1-style config emits a deprecation warning under Pydantic v2.
 
 ## Next Steps After MVP
 
-- Complete real MHCflurry prediction verification in Python 3.11.
 - Add Ensembl VEP REST annotation.
 - Add biologically traceable peptide generation from real protein sequence context.
 - Add real PubMed and ClinicalTrials.gov retrieval.

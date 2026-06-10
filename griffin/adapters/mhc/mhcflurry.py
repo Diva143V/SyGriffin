@@ -7,6 +7,7 @@ from typing import Any
 
 from griffin.adapters.mhc.base import MHCPredictor
 from griffin.bio.scoring import binding_score_from_ic50, binding_strength
+from griffin.core.exceptions import GriffinError
 from griffin.core.models import MHCPrediction, PeptideCandidate
 
 
@@ -22,18 +23,30 @@ class MHCflurryPredictor(MHCPredictor):
         except importlib.metadata.PackageNotFoundError:
             return None
 
+    def downloads_available(self) -> bool:
+        if not self.available():
+            return False
+        try:
+            mhcflurry = importlib.import_module("mhcflurry")
+            mhcflurry.Class1AffinityPredictor.load()
+        except Exception:
+            return False
+        return True
+
     def predict(self, peptides: list[PeptideCandidate]) -> list[MHCPrediction]:
         mhcflurry = importlib.import_module("mhcflurry")
         predictor = mhcflurry.Class1AffinityPredictor.load()
         rows: list[MHCPrediction] = []
         version = self.version()
         for candidate in peptides:
-            raw = predictor.predict(
-                peptides=[candidate.peptide],
-                alleles=[candidate.hla],
-            )
+            raw = self._predict_one_raw(predictor, candidate)
             raw_record = self._first_record(raw)
-            ic50 = float(raw_record.get("prediction", raw_record.get("ic50", 0.0)))
+            ic50_value = raw_record.get("prediction", raw_record.get("ic50"))
+            if ic50_value is None:
+                raise GriffinError(
+                    "MHCflurry returned no prediction value. No synthetic IC50 was generated."
+                )
+            ic50 = float(ic50_value)
             percentile = raw_record.get("prediction_percentile")
             rows.append(
                 MHCPrediction(
@@ -54,12 +67,36 @@ class MHCflurryPredictor(MHCPredictor):
             )
         return rows
 
+    def _predict_one_raw(self, predictor: Any, candidate: PeptideCandidate) -> Any:
+        if hasattr(predictor, "predict_to_dataframe"):
+            return predictor.predict_to_dataframe(
+                peptides=[candidate.peptide],
+                alleles=[candidate.hla],
+            )
+        return predictor.predict(
+            peptides=[candidate.peptide],
+            alleles=[candidate.hla],
+        )
+
     def _first_record(self, raw: Any) -> dict[str, Any]:
         if hasattr(raw, "to_dict"):
             records = raw.to_dict(orient="records")
-            return dict(records[0]) if records else {}
+            return self._json_ready_record(dict(records[0])) if records else {}
         if isinstance(raw, list) and raw:
-            return dict(raw[0])
+            return self._json_ready_record(dict(raw[0]))
         if isinstance(raw, dict):
-            return dict(raw)
+            return self._json_ready_record(dict(raw))
+        if hasattr(raw, "tolist"):
+            values = raw.tolist()
+            if isinstance(values, list) and values:
+                return {"prediction": self._json_ready_value(values[0])}
+            return {}
         return {}
+
+    def _json_ready_record(self, record: dict[str, Any]) -> dict[str, Any]:
+        return {key: self._json_ready_value(value) for key, value in record.items()}
+
+    def _json_ready_value(self, value: Any) -> Any:
+        if hasattr(value, "item"):
+            return value.item()
+        return value
