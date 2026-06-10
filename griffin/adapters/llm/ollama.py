@@ -9,6 +9,9 @@ from griffin.adapters.llm.base import EvidenceSummarizer
 from griffin.core.exceptions import GriffinError
 from griffin.core.models import EvidenceRecord, model_to_dict
 
+DEFAULT_OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+FALLBACK_OLLAMA_BASE_URLS = [DEFAULT_OLLAMA_BASE_URL, "http://localhost:11434"]
+
 OLLAMA_SYSTEM_PROMPT = """You are summarizing structured biomedical evidence records for research-use-only neoantigen prioritization.
 
 Do not invent PMIDs, titles, years, trial IDs, genes, variants, or claims.
@@ -21,29 +24,44 @@ Return concise research language."""
 class OllamaSummarizer(EvidenceSummarizer):
     name = "ollama"
 
-    def __init__(self, model: str = "phi3", base_url: str = "http://localhost:11434") -> None:
+    def __init__(self, model: str = "phi3", base_url: str | None = None) -> None:
         self.model = model
-        self.base_url = base_url.rstrip("/")
+        self.base_urls = self._base_urls(base_url)
+        self.base_url = self.base_urls[0]
+        self._available_models: list[str] = []
 
     def available(self) -> bool:
-        try:
-            response = requests.get(f"{self.base_url}/api/tags", timeout=2)
-        except requests.RequestException:
-            return False
-        return response.ok
+        return self.probe()["reachable"]
+
+    def probe(self) -> dict[str, Any]:
+        for base_url in self.base_urls:
+            try:
+                response = requests.get(f"{base_url}/api/tags", timeout=2)
+            except requests.RequestException:
+                continue
+            if not response.ok:
+                continue
+            self.base_url = base_url
+            self._available_models = self._model_names(response.json())
+            return {
+                "reachable": True,
+                "base_url": self.base_url,
+                "models": self._available_models,
+            }
+        self.base_url = self.base_urls[0]
+        self._available_models = []
+        return {"reachable": False, "base_url": self.base_url, "models": []}
 
     def models(self) -> list[str]:
-        try:
-            response = requests.get(f"{self.base_url}/api/tags", timeout=2)
-            response.raise_for_status()
-        except requests.RequestException as exc:
+        diagnostic = self.probe()
+        if not diagnostic["reachable"]:
             raise GriffinError(
                 "Ollama LLM unavailable. Griffin was run with --use-llm "
-                "--llm-provider ollama, but http://localhost:11434 is not reachable. "
+                "--llm-provider ollama, but no Ollama server is reachable at "
+                f"{', '.join(self.base_urls)}. "
                 "Start Ollama with `ollama serve` or rerun without --use-llm."
-            ) from exc
-        data = response.json()
-        return [item.get("name", "") for item in data.get("models", [])]
+            )
+        return list(diagnostic["models"])
 
     def ensure_available(self) -> None:
         names = self.models()
@@ -90,3 +108,11 @@ class OllamaSummarizer(EvidenceSummarizer):
             "is_mock": data.get("is_mock"),
             "summary": data.get("summary"),
         }
+
+    def _base_urls(self, base_url: str | None) -> list[str]:
+        if base_url:
+            return [base_url.rstrip("/")]
+        return [url.rstrip("/") for url in FALLBACK_OLLAMA_BASE_URLS]
+
+    def _model_names(self, data: dict[str, Any]) -> list[str]:
+        return [item.get("name", "") for item in data.get("models", []) if item.get("name")]

@@ -40,6 +40,8 @@ def init(
 def doctor() -> None:
     """Check local environment."""
     settings = load_settings()
+    ollama = OllamaSummarizer(settings.ollama_model, settings.ollama_base_url)
+    ollama_diagnostic = ollama.probe()
     checks = {
         "griffin_version": __version__,
         "python": platform.python_version(),
@@ -47,7 +49,9 @@ def doctor() -> None:
         "mhcflurry_available": MHCflurryPredictor().available(),
         "cache_dir": str(settings.cache_dir),
         "ncbi_email_configured": bool(settings.ncbi_email),
-        "ollama_reachable": OllamaSummarizer(settings.ollama_model).available(),
+        "ollama_reachable": ollama_diagnostic["reachable"],
+        "ollama_base_url": ollama_diagnostic["base_url"],
+        "available_ollama_models": ollama_diagnostic["models"],
         "default_ollama_model": settings.ollama_model,
         "write_permissions": Path(".").resolve().exists(),
     }

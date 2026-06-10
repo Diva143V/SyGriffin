@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import requests
@@ -16,6 +17,100 @@ def test_cli_doctor_works():
     assert "mhcflurry_available" in result.stdout
     assert "ollama_reachable" in result.stdout
     assert "default_ollama_model" in result.stdout
+
+
+def test_doctor_reports_reachable_ollama_models(monkeypatch):
+    calls = []
+
+    class Response:
+        ok = True
+
+        def json(self):
+            return {"models": [{"name": "phi3:latest"}, {"name": "llama3.2:latest"}]}
+
+    def fake_get(url, timeout):
+        calls.append((url, timeout))
+        return Response()
+
+    monkeypatch.delenv("OLLAMA_BASE_URL", raising=False)
+    monkeypatch.setattr(ollama_module.requests, "get", fake_get)
+    result = runner.invoke(app, ["doctor"])
+
+    assert result.exit_code == 0
+    data = json.loads(result.stdout)
+    assert data["ollama_reachable"] is True
+    assert data["ollama_base_url"] == "http://127.0.0.1:11434"
+    assert data["available_ollama_models"] == ["phi3:latest", "llama3.2:latest"]
+    assert calls[0] == ("http://127.0.0.1:11434/api/tags", 2)
+
+
+def test_doctor_falls_back_to_localhost_for_ollama(monkeypatch):
+    calls = []
+
+    class Response:
+        ok = True
+
+        def json(self):
+            return {"models": [{"name": "phi3"}]}
+
+    def fake_get(url, timeout):
+        calls.append((url, timeout))
+        if url.startswith("http://127.0.0.1:11434"):
+            raise requests.ConnectionError("127 unavailable")
+        return Response()
+
+    monkeypatch.delenv("OLLAMA_BASE_URL", raising=False)
+    monkeypatch.setattr(ollama_module.requests, "get", fake_get)
+    result = runner.invoke(app, ["doctor"])
+
+    assert result.exit_code == 0
+    data = json.loads(result.stdout)
+    assert data["ollama_reachable"] is True
+    assert data["ollama_base_url"] == "http://localhost:11434"
+    assert data["available_ollama_models"] == ["phi3"]
+    assert calls == [
+        ("http://127.0.0.1:11434/api/tags", 2),
+        ("http://localhost:11434/api/tags", 2),
+    ]
+
+
+def test_doctor_reports_unreachable_ollama(monkeypatch):
+    def raise_connection_error(*args, **kwargs):
+        raise requests.ConnectionError("not running")
+
+    monkeypatch.delenv("OLLAMA_BASE_URL", raising=False)
+    monkeypatch.setattr(ollama_module.requests, "get", raise_connection_error)
+    result = runner.invoke(app, ["doctor"])
+
+    assert result.exit_code == 0
+    data = json.loads(result.stdout)
+    assert data["ollama_reachable"] is False
+    assert data["ollama_base_url"] == "http://127.0.0.1:11434"
+    assert data["available_ollama_models"] == []
+
+
+def test_doctor_uses_ollama_base_url_env(monkeypatch):
+    calls = []
+
+    class Response:
+        ok = True
+
+        def json(self):
+            return {"models": [{"name": "phi3"}]}
+
+    def fake_get(url, timeout):
+        calls.append((url, timeout))
+        return Response()
+
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://127.0.0.1:11435")
+    monkeypatch.setattr(ollama_module.requests, "get", fake_get)
+    result = runner.invoke(app, ["doctor"])
+
+    assert result.exit_code == 0
+    data = json.loads(result.stdout)
+    assert data["ollama_reachable"] is True
+    assert data["ollama_base_url"] == "http://127.0.0.1:11435"
+    assert calls == [("http://127.0.0.1:11435/api/tags", 2)]
 
 
 def test_init_creates_expected_folders(tmp_path: Path):

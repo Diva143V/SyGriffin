@@ -17,6 +17,7 @@ class Settings(BaseModel):
     use_llm: bool = False
     llm_provider: str = "none"
     ollama_model: str = "phi3"
+    ollama_base_url: str | None = None
     ncbi_email: str | None = None
     ncbi_api_key: str | None = None
 
@@ -51,6 +52,9 @@ def load_settings(
             ),
             "llm_provider": os.getenv("GRIFFIN_LLM_PROVIDER", merged.get("llm_provider")),
             "ollama_model": os.getenv("GRIFFIN_OLLAMA_MODEL", merged.get("ollama_model")),
+            "ollama_base_url": os.getenv(
+                "OLLAMA_BASE_URL", merged.get("ollama_base_url")
+            ),
             "ncbi_email": os.getenv("NCBI_EMAIL"),
             "ncbi_api_key": os.getenv("NCBI_API_KEY"),
         }

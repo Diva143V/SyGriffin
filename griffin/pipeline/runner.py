@@ -207,7 +207,11 @@ class PipelineRunner:
             raise GriffinError(
                 "Unsupported LLM provider. Griffin currently supports --llm-provider ollama only."
             )
-        return OllamaSummarizer(self.config.ollama_model).summarize(evidence)
+        settings = load_settings()
+        return OllamaSummarizer(
+            self.config.ollama_model,
+            settings.ollama_base_url,
+        ).summarize(evidence)
 
     def _warn(self, ctx: PipelineContext, warning: str) -> None:
         if warning not in ctx.manifest.warnings:
