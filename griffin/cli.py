@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import platform
+import sys
 from pathlib import Path
 
 import typer
@@ -42,9 +43,17 @@ def doctor() -> None:
     settings = load_settings()
     ollama = OllamaSummarizer(settings.ollama_model, settings.ollama_base_url)
     ollama_diagnostic = ollama.probe()
+    scientific_python_warning = None
+    if sys.version_info >= (3, 13):
+        scientific_python_warning = (
+            "Python 3.11 is recommended for scientific dependencies such as MHCflurry. "
+            "Current Python can still run Griffin demo/mock mode."
+        )
     checks = {
         "griffin_version": __version__,
         "python": platform.python_version(),
+        "scientific_python_recommended": "3.11",
+        "scientific_python_warning": scientific_python_warning,
         "mock_mode_default": False,
         "mhcflurry_available": MHCflurryPredictor().available(),
         "cache_dir": str(settings.cache_dir),

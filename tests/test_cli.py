@@ -17,6 +17,7 @@ def test_cli_doctor_works():
     assert "mhcflurry_available" in result.stdout
     assert "ollama_reachable" in result.stdout
     assert "default_ollama_model" in result.stdout
+    assert "scientific_python_recommended" in result.stdout
 
 
 def test_doctor_reports_reachable_ollama_models(monkeypatch):
