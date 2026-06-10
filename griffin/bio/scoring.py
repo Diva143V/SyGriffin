@@ -37,8 +37,8 @@ def evidence_level_score(level: str) -> float:
         "mutation_cancer_evidence": 0.65,
         "gene_pathway_evidence": 0.45,
         "trial_context": 0.35,
-        "weak_or_no_evidence": 0.1,
-    }.get(level, 0.1)
+        "weak_or_no_evidence": 0.0,
+    }.get(level, 0.0)
 
 
 def composite_score(
@@ -48,10 +48,10 @@ def composite_score(
     evidence_score: float,
 ) -> float:
     score = (
-        0.40 * binding_score
+        0.35 * binding_score
         + 0.25 * presentation_score
-        + 0.20 * mutation_impact_score
-        + 0.15 * evidence_score
+        + 0.25 * evidence_score
+        + 0.15 * mutation_impact_score
     )
     if binding_score < 0.35:
         score = min(score, 0.50)

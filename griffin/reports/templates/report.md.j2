@@ -12,18 +12,36 @@
 
 Griffin parsed the input VCF, annotated variants, generated deterministic mutant peptide candidates, predicted MHC binding through the configured adapter, gathered research evidence, and ranked candidates using transparent weighted scoring.
 
+LLM summarization: {{ "enabled (" ~ manifest.get("parameters", {}).get("llm_provider", "none") ~ ")" if manifest.get("parameters", {}).get("use_llm") else "disabled" }}
+
+{% if manifest.get("parameters", {}).get("mock_mode") %}
+> Mock Mode Warning: This run used deterministic mock scientific adapters for demo/testing only. Mock predictions and mock evidence are not scientific evidence.
+{% endif %}
+
 ## Tool Versions
 
 {% for key, value in manifest.get("tool_versions", {}).items() -%}
 - {{ key }}: {{ value }}
 {% endfor %}
 
+## Scoring Formula
+
+Composite Score =
+0.35 x MHC Binding Score +
+0.25 x Antigen Presentation Score +
+0.25 x Evidence Score +
+0.15 x Mutation Impact Score
+
+Scores are normalized to the range 0-1. Higher scores indicate stronger computational priority for research follow-up.
+
 ## Candidate Ranking
 
-| Rank | Candidate ID | Gene | Mutation | HLA | Peptide | IC50 nM | Binding Strength | Presentation Score | Mutation Impact Score | Evidence Score | Composite Score | Confidence Label |
-| --- | --- | --- | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | --- |
+> Research Use Only: Candidate ranking is based on computational prioritization signals. These results are not clinically validated and must not be used for diagnosis, treatment selection, or patient care decisions.
+
+| Rank | Candidate ID | Variant | Genomic Locus | Gene | Mutation | HLA | Peptide | Peptide Length | Mutation Position in Peptide | IC50 nM | Binding Strength | Presentation Score | Mutation Impact Score | Evidence Score | Composite Score | Priority |
+| --- | --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | --- |
 {% for c in candidates -%}
-| {{ c.rank }} | {{ c.candidate_id }} | {{ c.gene }} | {{ c.protein_change or "" }} | {{ c.hla }} | {{ c.peptide }} | {{ c.ic50_nm }} | {{ c.binding_strength }} | {{ c.presentation_score }} | {{ c.mutation_impact_score }} | {{ c.evidence_score }} | {{ c.composite_score }} | {{ c.confidence_label }} |
+| {{ c.rank }} | {{ c.candidate_id }} | {{ c.source_variant_id or "N/A" }} | {{ (c.chromosome ~ ":" ~ c.position ~ " " ~ c.ref ~ ">" ~ c.alt) if c.chromosome and c.position and c.ref and c.alt else "N/A" }} | {{ c.gene }} | {{ c.mutation or c.protein_change or "N/A" }} | {{ c.hla }} | {{ c.peptide }} | {{ c.peptide_length or "N/A" }} | {{ c.mutation_position_in_peptide or "N/A" }} | {{ c.ic50_nm }} | {{ c.binding_strength }} | {{ c.presentation_score }} | {{ c.mutation_impact_score }} | {{ c.evidence_score }} | {{ c.composite_score }} | {{ label_display.get(c.confidence_label, c.confidence_label) }} |
 {% endfor %}
 
 ## Top Candidate Deep Dives
@@ -39,8 +57,11 @@ Limitations: {{ c.limitations | join("; ") }}
 
 ## Evidence Summary
 
+{% if not evidence %}
+No evidence records retrieved. Evidence score was computed as 0.0 or unavailable.
+{% endif %}
 {% for record in evidence[:10] -%}
-- {{ record.candidate_id }}: {{ record.summary }} Evidence level: {{ record.evidence_level }}.
+- {{ record.candidate_id }}: {{ record.summary }} Source: {{ record.source }}. PMID: {{ record.pmid or "N/A" }}. Title: {{ record.title or "N/A" }}. Year: {{ record.year or "N/A" }}. Query: {{ record.query or "N/A" }}. Mock: {{ record.is_mock }}.
 {% endfor %}
 
 ## Clinical Trial Context
@@ -73,4 +94,3 @@ Clinical trial entries are contextual research signals only and do not imply sui
 - {{ warning }}
 {% endfor %}
 {% endif %}
-

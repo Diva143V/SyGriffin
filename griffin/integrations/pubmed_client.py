@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from griffin.core.hashing import stable_hash
 from griffin.core.models import PubMedRecord
 
 
@@ -12,15 +13,19 @@ class PubMedClient:
     def search(self, query: str, max_results: int = 5) -> list[PubMedRecord]:
         if max_results <= 0:
             return []
+        if not self.mock:
+            return []
         return [
             PubMedRecord(
-                pmid=str(90000000 + abs(hash(query)) % 999999),
+                pmid=str(90000000 + int(stable_hash(query)[:8], 16) % 999999),
                 title=f"Mock literature context for {query}",
                 year=2024,
                 journal="Griffin Mock Evidence",
                 evidence_level=self._level_for_query(query),
                 url="https://pubmed.ncbi.nlm.nih.gov/",
                 query=query,
+                source="mock",
+                is_mock=True,
             )
         ]
 

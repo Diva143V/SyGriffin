@@ -13,7 +13,10 @@ def test_report_includes_disclaimer(fixture_dir: Path, tmp_path: Path):
             hla_alleles=["HLA-A*02:01"],
             cancer_type="melanoma",
             output_dir=run_dir,
+            mock_mode=True,
         )
     ).run()
     report = (run_dir / "outputs" / "report.md").read_text(encoding="utf-8")
     assert "Research Use Only" in report
+    assert "## Scoring Formula" in report
+    assert "Candidate ranking is based on computational prioritization signals" in report

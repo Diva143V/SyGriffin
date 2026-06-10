@@ -22,8 +22,10 @@ class RunConfig(GriffinModel):
     top_n_evidence: int = 20
     peptide_lengths: list[int] = Field(default_factory=lambda: [9, 10, 11])
     use_llm: bool = False
+    llm_provider: str = "none"
+    ollama_model: str = "phi3"
     generate_pdf: bool = False
-    mock_mode: bool = True
+    mock_mode: bool = False
 
 
 class SampleMetadata(GriffinModel):
@@ -55,11 +57,19 @@ class AnnotatedVariant(VariantRecord):
 class PeptideCandidate(GriffinModel):
     candidate_id: str
     variant_id: str
+    source_variant_id: str | None = None
+    chromosome: str | None = None
+    position: int | None = None
+    ref: str | None = None
+    alt: str | None = None
     gene: str
+    transcript: str | None = None
+    mutation: str | None = None
     protein_change: str | None = None
     hla: str
     peptide: str
     peptide_length: int
+    mutation_position_in_peptide: int | None = None
     presentation_score: float
     mutation_impact_score: float
 
@@ -69,21 +79,27 @@ class MHCPrediction(GriffinModel):
     hla: str
     peptide: str
     ic50_nm: float
-    binding_percentile: float
+    binding_percentile: float | None = None
     binding_strength: str
     binding_score: float
-    predictor: str
+    predictor: str | None = None
+    predictor_name: str
+    predictor_version: str | None = None
+    raw_output: dict[str, Any] = Field(default_factory=dict)
+    is_mock: bool = False
     mock: bool = False
 
 
 class PubMedRecord(GriffinModel):
-    pmid: str
-    title: str
+    pmid: str | None
+    title: str | None
     year: int | None = None
     journal: str | None = None
     evidence_level: str
     url: str
     query: str | None = None
+    source: str = "PubMed"
+    is_mock: bool = False
 
 
 class ClinicalTrialRecord(GriffinModel):
@@ -97,6 +113,17 @@ class ClinicalTrialRecord(GriffinModel):
 
 class EvidenceRecord(GriffinModel):
     candidate_id: str
+    gene: str | None = None
+    mutation: str | None = None
+    query: str | None = None
+    source: str = "PubMed"
+    pmid: str | None = None
+    title: str | None = None
+    year: int | None = None
+    journal: str | None = None
+    url: str | None = None
+    evidence_type: str = "mutation_cancer_evidence"
+    is_mock: bool = False
     pubmed: list[PubMedRecord] = Field(default_factory=list)
     clinical_trials: list[ClinicalTrialRecord] = Field(default_factory=list)
     summary: str
@@ -131,6 +158,7 @@ class RunManifest(GriffinModel):
     started_at: datetime
     completed_at: datetime | None = None
     status: str = "running"
+    mock_mode: bool = False
     parameters: dict[str, Any] = Field(default_factory=dict)
     input_hashes: dict[str, str] = Field(default_factory=dict)
     tool_versions: dict[str, str] = Field(default_factory=dict)

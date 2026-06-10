@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+from typing import Any
+
 from griffin.bio.peptide_generator import generate_peptides
 from griffin.core.models import AnnotatedVariant, PeptideCandidate
-from griffin.integrations.mhcflurry_adapter import MHCflurryAdapter
 
 
 class NeoantigenAgent:
-    def __init__(self, adapter: MHCflurryAdapter):
+    def __init__(self, adapter: Any = None):
         self.adapter = adapter
 
     def generate(

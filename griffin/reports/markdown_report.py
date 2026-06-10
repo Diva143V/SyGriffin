@@ -37,6 +37,12 @@ def generate_markdown_report(run_dir: Path, generate_pdf: bool = False) -> Path:
         candidates=candidates,
         evidence=evidence,
         warnings=manifest.get("warnings", []),
+        label_display={
+            "high_computational_priority": "High computational priority for research follow-up",
+            "moderate_computational_priority": "Moderate computational priority for research follow-up",
+            "low_computational_priority": "Low computational priority for research follow-up",
+            "insufficient_evidence": "Insufficient evidence for computational prioritization",
+        },
     )
     report_path = outputs_dir / "report.md"
     report_path.write_text(content, encoding="utf-8")

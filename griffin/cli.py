@@ -7,6 +7,8 @@ from pathlib import Path
 import typer
 
 from griffin import __version__
+from griffin.adapters.llm.ollama import OllamaSummarizer
+from griffin.adapters.mhc.mhcflurry import MHCflurryPredictor
 from griffin.bio.hla import validate_hla_alleles
 from griffin.bio.vcf_parser import parse_vcf
 from griffin.config.settings import ensure_project, load_settings, write_default_config
@@ -41,9 +43,12 @@ def doctor() -> None:
     checks = {
         "griffin_version": __version__,
         "python": platform.python_version(),
-        "mock_mode": settings.mock_mode,
+        "mock_mode_default": False,
+        "mhcflurry_available": MHCflurryPredictor().available(),
         "cache_dir": str(settings.cache_dir),
         "ncbi_email_configured": bool(settings.ncbi_email),
+        "ollama_reachable": OllamaSummarizer(settings.ollama_model).available(),
+        "default_ollama_model": settings.ollama_model,
         "write_permissions": Path(".").resolve().exists(),
     }
     typer.echo(json.dumps(checks, indent=2, sort_keys=True))
@@ -74,6 +79,10 @@ def run(
     sample_id: str = typer.Option(..., "--sample-id"),
     out: Path = typer.Option(..., "--out"),
     top_n_evidence: int = typer.Option(20, "--top-n-evidence"),
+    mock: bool = typer.Option(False, "--mock", help="Use deterministic mock scientific adapters."),
+    use_llm: bool = typer.Option(False, "--use-llm", help="Enable optional LLM summarization."),
+    llm_provider: str = typer.Option("none", "--llm-provider"),
+    ollama_model: str = typer.Option("phi3", "--ollama-model"),
     pdf: bool = typer.Option(False, "--pdf", help="Generate optional PDF report."),
 ) -> None:
     """Run the full Griffin pipeline."""
@@ -85,6 +94,10 @@ def run(
             cancer_type=cancer_type,
             output_dir=out,
             top_n_evidence=top_n_evidence,
+            mock_mode=mock,
+            use_llm=use_llm,
+            llm_provider=llm_provider,
+            ollama_model=ollama_model,
             generate_pdf=pdf,
         )
         result = PipelineRunner(config).run()

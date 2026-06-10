@@ -13,6 +13,8 @@ def test_manifest_includes_input_hash(fixture_dir: Path, tmp_path: Path):
         hla_alleles=["HLA-A*02:01"],
         cancer_type="melanoma",
         output_dir=tmp_path / "run",
+        mock_mode=True,
     )
     manifest = create_manifest(config, sha256_file(vcf))
     assert manifest.input_hashes["vcf"]
+    assert manifest.mock_mode is True

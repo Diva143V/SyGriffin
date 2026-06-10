@@ -8,6 +8,8 @@ class ClinicalTrialsClient:
         self.mock = mock
 
     def search(self, condition: str, terms: list[str]) -> list[ClinicalTrialRecord]:
+        if not self.mock:
+            return []
         query = " ".join([condition, *terms])
         return [
             ClinicalTrialRecord(

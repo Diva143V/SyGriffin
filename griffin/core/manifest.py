@@ -13,6 +13,7 @@ def create_manifest(config: RunConfig, input_hash: str) -> RunManifest:
     return RunManifest(
         sample_id=config.sample_id,
         started_at=datetime.now(timezone.utc),
+        mock_mode=config.mock_mode,
         parameters=model_to_dict(config),
         input_hashes={"vcf": input_hash},
         tool_versions={"griffin": __version__, "python": platform.python_version()},

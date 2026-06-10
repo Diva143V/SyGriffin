@@ -1,7 +1,8 @@
 cache_dir: .griffin/cache
 log_level: INFO
-mock_mode: true
+mock_mode: false
 top_n_evidence: 20
 peptide_lengths: [9, 10, 11]
 use_llm: false
-
+llm_provider: none
+ollama_model: phi3

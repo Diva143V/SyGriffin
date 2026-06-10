@@ -30,14 +30,29 @@ class EvidenceAgent:
                 cancer_type, [candidate.gene, "neoantigen", "personalized vaccine", "mRNA vaccine"]
             )
             level = pubmed[0].evidence_level if pubmed else "weak_or_no_evidence"
+            first_pubmed = pubmed[0] if pubmed else None
+            query = queries[0] if queries else None
             records.append(
                 EvidenceRecord(
                     candidate_id=candidate.candidate_id,
+                    gene=candidate.gene,
+                    mutation=candidate.mutation or candidate.protein_change,
+                    query=query,
+                    source=first_pubmed.source if first_pubmed else "PubMed",
+                    pmid=first_pubmed.pmid if first_pubmed else None,
+                    title=first_pubmed.title if first_pubmed else None,
+                    year=first_pubmed.year if first_pubmed else None,
+                    journal=first_pubmed.journal if first_pubmed else None,
+                    url=first_pubmed.url if first_pubmed else None,
+                    evidence_type=level,
+                    is_mock=bool(first_pubmed.is_mock) if first_pubmed else False,
                     pubmed=pubmed,
                     clinical_trials=trials,
                     summary=(
-                        f"Evidence for {candidate.gene} is computationally summarized for "
-                        "research prioritization only."
+                        f"Evidence for {candidate.gene} {candidate.mutation or ''} is summarized "
+                        "for research prioritization only."
+                        if pubmed or trials
+                        else "No evidence records retrieved. Evidence score was computed as 0.0 or unavailable."
                     ),
                     evidence_score=evidence_level_score(level),
                     evidence_level=level,

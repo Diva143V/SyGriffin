@@ -11,13 +11,14 @@ from pydantic import BaseModel
 class Settings(BaseModel):
     cache_dir: Path = Path(".griffin/cache")
     log_level: str = "INFO"
-    mock_mode: bool = True
+    mock_mode: bool = False
     top_n_evidence: int = 20
     peptide_lengths: list[int] = [9, 10, 11]
     use_llm: bool = False
+    llm_provider: str = "none"
+    ollama_model: str = "phi3"
     ncbi_email: str | None = None
     ncbi_api_key: str | None = None
-    anthropic_api_key: str | None = None
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -46,11 +47,12 @@ def load_settings(
             "log_level": os.getenv("GRIFFIN_LOG_LEVEL", merged.get("log_level")),
             "mock_mode": _as_bool(
                 os.getenv("GRIFFIN_MOCK_MODE"),
-                bool(merged.get("mock_mode", True)),
+                bool(merged.get("mock_mode", False)),
             ),
+            "llm_provider": os.getenv("GRIFFIN_LLM_PROVIDER", merged.get("llm_provider")),
+            "ollama_model": os.getenv("GRIFFIN_OLLAMA_MODEL", merged.get("ollama_model")),
             "ncbi_email": os.getenv("NCBI_EMAIL"),
             "ncbi_api_key": os.getenv("NCBI_API_KEY"),
-            "anthropic_api_key": os.getenv("ANTHROPIC_API_KEY"),
         }
     )
     if cli_overrides:

@@ -31,17 +31,18 @@ class ResearchLeadAgent:
 
     def _label(self, candidate: ScoredCandidate) -> str:
         if candidate.binding_score >= 0.65 and candidate.composite_score >= 0.75:
-            return "high_research_priority"
+            return "high_computational_priority"
         if candidate.binding_score >= 0.35 and candidate.composite_score >= 0.55:
-            return "medium_research_priority"
+            return "moderate_computational_priority"
         if candidate.binding_score >= 0.35:
-            return "low_research_priority"
+            return "low_computational_priority"
         return "insufficient_evidence"
 
     def _rationale(self, candidate: ScoredCandidate, label: str) -> str:
         return (
-            f"{candidate.gene} {candidate.protein_change or ''} is ranked as {label} based on "
-            f"binding score {candidate.binding_score:.2f}, presentation "
+            f"This candidate is prioritized for computational research follow-up as {label} "
+            f"because {candidate.gene} {candidate.protein_change or ''} has binding score "
+            f"{candidate.binding_score:.2f}, presentation "
             f"{candidate.presentation_score:.2f}, mutation impact "
             f"{candidate.mutation_impact_score:.2f}, and evidence {candidate.evidence_score:.2f}."
         )
