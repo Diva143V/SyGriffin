@@ -1,0 +1,5 @@
+##fileformat=VCFv4.2
+##source=GriffinSyntheticFixture
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+7	140453136	.	A	T	60	PASS	GENE=BRAF;AA=V600E;IMPACT=HIGH;CSQ=missense_variant
+
