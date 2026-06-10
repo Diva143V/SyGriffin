@@ -8,9 +8,9 @@ __pycache__/
 .env
 .venv/
 venv/
+.griffin/
 runs/
 data/private/
 *.vcf.gz
 *.pdf
 *.log
-

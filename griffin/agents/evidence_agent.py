@@ -24,20 +24,20 @@ class EvidenceAgent:
                 f"{candidate.gene} immunotherapy {cancer_type}",
             ]
             pubmed = []
-            for query in queries[:2]:
-                pubmed.extend(self.pubmed.search(query, max_results=1))
+            for search_query in queries[:2]:
+                pubmed.extend(self.pubmed.search(search_query, max_results=1))
             trials = self.trials.search(
                 cancer_type, [candidate.gene, "neoantigen", "personalized vaccine", "mRNA vaccine"]
             )
             level = pubmed[0].evidence_level if pubmed else "weak_or_no_evidence"
             first_pubmed = pubmed[0] if pubmed else None
-            query = queries[0] if queries else None
+            primary_query: str | None = queries[0] if queries else None
             records.append(
                 EvidenceRecord(
                     candidate_id=candidate.candidate_id,
                     gene=candidate.gene,
                     mutation=candidate.mutation or candidate.protein_change,
-                    query=query,
+                    query=primary_query,
                     source=first_pubmed.source if first_pubmed else "PubMed",
                     pmid=first_pubmed.pmid if first_pubmed else None,
                     title=first_pubmed.title if first_pubmed else None,
@@ -52,7 +52,10 @@ class EvidenceAgent:
                         f"Evidence for {candidate.gene} {candidate.mutation or ''} is summarized "
                         "for research prioritization only."
                         if pubmed or trials
-                        else "No evidence records retrieved. Evidence score was computed as 0.0 or unavailable."
+                        else (
+                            "No evidence records retrieved. Evidence score was computed as 0.0 "
+                            "or unavailable."
+                        )
                     ),
                     evidence_score=evidence_level_score(level),
                     evidence_level=level,

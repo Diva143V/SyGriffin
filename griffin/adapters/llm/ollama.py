@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 from griffin.adapters.llm.base import EvidenceSummarizer
 from griffin.core.exceptions import GriffinError
@@ -12,10 +12,14 @@ from griffin.core.models import EvidenceRecord, model_to_dict
 DEFAULT_OLLAMA_BASE_URL = "http://127.0.0.1:11434"
 FALLBACK_OLLAMA_BASE_URLS = [DEFAULT_OLLAMA_BASE_URL, "http://localhost:11434"]
 
-OLLAMA_SYSTEM_PROMPT = """You are summarizing structured biomedical evidence records for research-use-only neoantigen prioritization.
+OLLAMA_SYSTEM_PROMPT = """You are summarizing structured biomedical evidence records for
+research-use-only neoantigen prioritization.
 
 Do not invent PMIDs, titles, years, trial IDs, genes, variants, or claims.
 Only summarize the evidence records provided.
+If evidence records are mock records, state that no real PubMed or ClinicalTrials.gov records
+were retrieved and do not call mock records papers, studies, abstracts, PMIDs, NCT IDs, or
+PubMed records.
 If evidence is weak or missing, say so clearly.
 Do not provide diagnosis, treatment recommendation, medical advice, or clinical actionability.
 Return concise research language."""

@@ -80,7 +80,7 @@ def score_candidates(
             ScoredCandidate(
                 **model_to_dict(candidate),
                 ic50_nm=pred.ic50_nm,
-                binding_percentile=pred.binding_percentile,
+                binding_percentile=pred.binding_percentile or 0.0,
                 binding_strength=pred.binding_strength,
                 binding_score=pred.binding_score,
                 evidence_score=evidence_score,

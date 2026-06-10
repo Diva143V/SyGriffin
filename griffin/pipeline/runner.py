@@ -63,7 +63,8 @@ class PipelineRunner:
         if self.config.mock_mode:
             self._warn(
                 ctx,
-                "Mock mode is enabled. Deterministic mock predictions and mock evidence are for demo/testing only.",
+                "Mock mode is enabled. Deterministic mock predictions and mock evidence are "
+                "for demo/testing only.",
             )
 
         self._stage(checkpoints, "01_input_validation", lambda: self._validate_inputs())
