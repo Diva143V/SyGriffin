@@ -186,7 +186,7 @@ def test_non_mock_run_fails_clearly_without_mhcflurry(fixture_dir: Path, tmp_pat
     assert "--mock" in output
 
 
-def test_ollama_mode_fails_clearly_when_unreachable(
+def test_ollama_mode_with_mock_evidence_uses_safe_static_summary(
     fixture_dir: Path, tmp_path: Path, monkeypatch
 ):
     def raise_connection_error(*args, **kwargs):
@@ -215,5 +215,10 @@ def test_ollama_mode_fails_clearly_when_unreachable(
             "phi3",
         ],
     )
-    assert result.exit_code != 0
-    assert "Ollama LLM unavailable" in result.stdout + result.stderr
+    assert result.exit_code == 0, result.stdout + result.stderr
+    manifest = json.loads((tmp_path / "ollama" / "manifest.json").read_text(encoding="utf-8"))
+    assert (
+        manifest["parameters"]["llm_summary"]
+        == "This run used mock evidence records for demo/testing only. No real PubMed or "
+        "ClinicalTrials.gov records were retrieved."
+    )

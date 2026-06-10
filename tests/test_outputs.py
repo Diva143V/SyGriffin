@@ -25,6 +25,16 @@ def test_mock_run_outputs_evidence_and_traceability(fixture_dir: Path, tmp_path:
     assert manifest["mock_mode"] is True
     for key in ["pmid", "title", "year", "source", "query", "url", "is_mock"]:
         assert key in evidence[0]
+    assert evidence[0]["is_mock"] is True
+    assert evidence[0]["mock_id"].startswith("mock_pubmed_")
+    assert evidence[0]["pmid"] is None
+    assert evidence[0]["url"] is None
+    assert evidence[0]["pubmed"][0]["pmid"] is None
+    assert evidence[0]["pubmed"][0]["url"] is None
+    assert evidence[0]["pubmed"][0]["mock_id"].startswith("mock_pubmed_")
+    assert evidence[0]["clinical_trials"][0]["nct_id"] is None
+    assert evidence[0]["clinical_trials"][0]["url"] is None
+    assert evidence[0]["clinical_trials"][0]["mock_id"].startswith("mock_trial_")
     for key in [
         "chromosome",
         "position",

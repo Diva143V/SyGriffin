@@ -15,17 +15,19 @@ class PubMedClient:
             return []
         if not self.mock:
             return []
+        mock_id = f"mock_pubmed_{int(stable_hash(query)[:8], 16) % 999 + 1:03d}"
         return [
             PubMedRecord(
-                pmid=str(90000000 + int(stable_hash(query)[:8], 16) % 999999),
-                title=f"Mock literature context for {query}",
-                year=2024,
-                journal="Griffin Mock Evidence",
+                pmid=None,
+                title=None,
+                year=None,
+                journal=None,
                 evidence_level=self._level_for_query(query),
-                url="https://pubmed.ncbi.nlm.nih.gov/",
+                url=None,
                 query=query,
                 source="mock",
                 is_mock=True,
+                mock_id=mock_id,
             )
         ]
 

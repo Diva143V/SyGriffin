@@ -96,19 +96,23 @@ class PubMedRecord(GriffinModel):
     year: int | None = None
     journal: str | None = None
     evidence_level: str
-    url: str
+    url: str | None = None
     query: str | None = None
     source: str = "PubMed"
     is_mock: bool = False
+    mock_id: str | None = None
 
 
 class ClinicalTrialRecord(GriffinModel):
-    nct_id: str
-    title: str
+    nct_id: str | None = None
+    title: str | None = None
     status: str | None = None
     phase: str | None = None
-    url: str
+    url: str | None = None
     query: str | None = None
+    source: str = "ClinicalTrials.gov"
+    is_mock: bool = False
+    mock_id: str | None = None
 
 
 class EvidenceRecord(GriffinModel):
@@ -124,6 +128,7 @@ class EvidenceRecord(GriffinModel):
     url: str | None = None
     evidence_type: str = "mutation_cancer_evidence"
     is_mock: bool = False
+    mock_id: str | None = None
     pubmed: list[PubMedRecord] = Field(default_factory=list)
     clinical_trials: list[ClinicalTrialRecord] = Field(default_factory=list)
     summary: str

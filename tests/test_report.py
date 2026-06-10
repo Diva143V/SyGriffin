@@ -20,3 +20,7 @@ def test_report_includes_disclaimer(fixture_dir: Path, tmp_path: Path):
     assert "Research Use Only" in report
     assert "## Scoring Formula" in report
     assert "Candidate ranking is based on computational prioritization signals" in report
+    assert "Mock evidence ID:" in report
+    assert "No real PubMed record was retrieved." in report
+    assert "Mock trial ID:" in report
+    assert "No real ClinicalTrials.gov record was retrieved." in report

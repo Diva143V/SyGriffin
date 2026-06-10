@@ -76,6 +76,11 @@ class OllamaSummarizer(EvidenceSummarizer):
             )
 
     def summarize(self, evidence: list[EvidenceRecord]) -> str:
+        if any(record.is_mock for record in evidence):
+            return (
+                "This run used mock evidence records for demo/testing only. No real PubMed or "
+                "ClinicalTrials.gov records were retrieved."
+            )
         self.ensure_available()
         payload = {
             "model": self.model,

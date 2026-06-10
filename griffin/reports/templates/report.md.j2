@@ -61,7 +61,14 @@ Limitations: {{ c.limitations | join("; ") }}
 No evidence records retrieved. Evidence score was computed as 0.0 or unavailable.
 {% endif %}
 {% for record in evidence[:10] -%}
+{% if record.is_mock -%}
+- {{ record.candidate_id }}: Mock evidence ID: {{ record.mock_id or "N/A" }}. No real PubMed record was retrieved. No real ClinicalTrials.gov record was retrieved. Query: {{ record.query or "N/A" }}.
+{% for trial in record.clinical_trials if trial.is_mock -%}
+  - Mock trial ID: {{ trial.mock_id or "N/A" }}. No real ClinicalTrials.gov record was retrieved.
+{% endfor -%}
+{% else -%}
 - {{ record.candidate_id }}: {{ record.summary }} Source: {{ record.source }}. PMID: {{ record.pmid or "N/A" }}. Title: {{ record.title or "N/A" }}. Year: {{ record.year or "N/A" }}. Query: {{ record.query or "N/A" }}. Mock: {{ record.is_mock }}.
+{% endif -%}
 {% endfor %}
 
 ## Clinical Trial Context

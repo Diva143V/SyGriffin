@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from griffin.core.hashing import stable_hash
 from griffin.core.models import ClinicalTrialRecord
 
 
@@ -11,13 +12,17 @@ class ClinicalTrialsClient:
         if not self.mock:
             return []
         query = " ".join([condition, *terms])
+        mock_id = f"mock_trial_{int(stable_hash(query)[:8], 16) % 999 + 1:03d}"
         return [
             ClinicalTrialRecord(
-                nct_id="NCT00000000",
-                title=f"Mock trial context for {query}",
-                status="RECRUITING",
-                phase="Phase 1",
-                url="https://clinicaltrials.gov/",
+                nct_id=None,
+                title=None,
+                status=None,
+                phase=None,
+                url=None,
                 query=query,
+                source="mock",
+                is_mock=True,
+                mock_id=mock_id,
             )
         ]

@@ -6,7 +6,7 @@ griffin-cli-mvp
 
 ## Latest Commit
 
-e4457d7 Fix Ollama reachability detection
+6160a43 Fix lint typing and local runtime ignores
 
 ## Current Status
 
@@ -64,8 +64,8 @@ Required Scientific MVP agents still to add or formalize:
 | MHCflurry | Partial | Adapter exists; unavailable in current Python 3.14 environment. |
 | Deterministic mock MHC | Working | Explicit `--mock` only. |
 | Ensembl VEP REST | Partial/mock | Client path exists; real Scientific MVP integration remains. |
-| PubMed E-utilities | Partial/mock | Mock path exists; real retrieval remains. |
-| ClinicalTrials.gov | Partial/mock | Mock path exists; real retrieval remains. |
+| PubMed E-utilities | Partial/mock | Mock records are visibly synthetic; real retrieval remains. |
+| ClinicalTrials.gov | Partial/mock | Mock records are visibly synthetic; real retrieval remains. |
 | Ollama | Optional | Local summarizer adapter exists with reachability detection. |
 
 ## Current Scientific Capabilities
@@ -81,7 +81,7 @@ Required Scientific MVP agents still to add or formalize:
 
 - Variant annotation for current demo outputs.
 - Peptide sequence generation for current demo outputs.
-- Evidence records for current demo outputs.
+- Evidence records for current demo outputs with explicit mock IDs and null real IDs.
 - MHC predictions when `--mock` is used.
 
 ## Current Non-Mock Capabilities
@@ -109,7 +109,6 @@ Required Scientific MVP agents still to add or formalize:
 - Real VEP annotation is not complete.
 - Real PubMed retrieval is not complete.
 - Real ClinicalTrials.gov retrieval is not complete.
-- Mock evidence and trial records need stronger non-real provenance.
 - Candidate and manifest scientific provenance needs to be expanded.
 - Python 3.14 works for demo mode but is too new for some scientific dependencies.
 
@@ -138,14 +137,18 @@ Required Scientific MVP agents still to add or formalize:
 - Avoided optional/string reassignment in Evidence Agent query handling.
 - Added mock evidence constraints to the Ollama system prompt.
 - Verified tests, lint, and type checks pass after cleanup.
+- Changed mock PubMed records to use `mock_pubmed_*` IDs, null PMIDs, and null URLs.
+- Changed mock ClinicalTrials records to use `mock_trial_*` IDs, null NCT IDs, and null URLs.
+- Updated reports to state that no real PubMed or ClinicalTrials.gov records were retrieved for mock evidence.
+- Added tests that prevent fake PMID/NCT-style mock records from returning.
 
 ## Next 5 Tasks
 
-1. Commit cleanup quality gate milestone.
-2. Make mock PubMed and ClinicalTrials records visibly non-real.
-3. Add explicit scientific provenance to candidates and manifests.
-4. Document the recommended scientific Python 3.11 environment.
-5. Add or formalize Critic and Safety Agent outputs.
+1. Commit mock evidence and trial safety milestone.
+2. Add explicit scientific provenance to candidates and manifests.
+3. Document the recommended scientific Python 3.11 environment.
+4. Add or formalize Critic and Safety Agent outputs.
+5. Begin real MHCflurry integration verification in a Python 3.11 environment.
 
 ## Important Commands
 

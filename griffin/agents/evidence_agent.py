@@ -32,6 +32,14 @@ class EvidenceAgent:
             level = pubmed[0].evidence_level if pubmed else "weak_or_no_evidence"
             first_pubmed = pubmed[0] if pubmed else None
             primary_query: str | None = queries[0] if queries else None
+            mock_records = bool(first_pubmed and first_pubmed.is_mock) or any(
+                trial.is_mock for trial in trials
+            )
+            mock_id = None
+            if first_pubmed and first_pubmed.is_mock:
+                mock_id = first_pubmed.mock_id
+            elif trials and trials[0].is_mock:
+                mock_id = trials[0].mock_id
             records.append(
                 EvidenceRecord(
                     candidate_id=candidate.candidate_id,
@@ -45,12 +53,20 @@ class EvidenceAgent:
                     journal=first_pubmed.journal if first_pubmed else None,
                     url=first_pubmed.url if first_pubmed else None,
                     evidence_type=level,
-                    is_mock=bool(first_pubmed.is_mock) if first_pubmed else False,
+                    is_mock=mock_records,
+                    mock_id=mock_id,
                     pubmed=pubmed,
                     clinical_trials=trials,
                     summary=(
-                        f"Evidence for {candidate.gene} {candidate.mutation or ''} is summarized "
-                        "for research prioritization only."
+                        (
+                            "Mock evidence records were generated for demo/testing only. No real "
+                            "PubMed or ClinicalTrials.gov records were retrieved."
+                        )
+                        if mock_records
+                        else (
+                            f"Evidence for {candidate.gene} {candidate.mutation or ''} is "
+                            "summarized for research prioritization only."
+                        )
                         if pubmed or trials
                         else (
                             "No evidence records retrieved. Evidence score was computed as 0.0 "
