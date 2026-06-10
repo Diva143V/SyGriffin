@@ -1,0 +1,41 @@
+from __future__ import annotations
+
+from griffin.core.hashing import stable_hash
+from griffin.core.models import AnnotatedVariant, PeptideCandidate
+
+AMINO_ACIDS = "ACDEFGHIKLMNPQRSTVWY"
+
+
+def _deterministic_peptide(seed: str, length: int) -> str:
+    digest = stable_hash(seed)
+    chars = []
+    for idx in range(length):
+        chars.append(AMINO_ACIDS[int(digest[idx * 2 : idx * 2 + 2], 16) % len(AMINO_ACIDS)])
+    return "".join(chars)
+
+
+def generate_peptides(
+    variants: list[AnnotatedVariant], hla_alleles: list[str], lengths: list[int]
+) -> list[PeptideCandidate]:
+    candidates: list[PeptideCandidate] = []
+    counter = 1
+    for variant in variants:
+        for hla in hla_alleles:
+            for length in lengths:
+                peptide = _deterministic_peptide(f"{variant.variant_id}:{hla}:{length}", length)
+                presentation = min(1.0, 0.35 + (variant.impact_score * 0.55) + (length == 9) * 0.05)
+                candidates.append(
+                    PeptideCandidate(
+                        candidate_id=f"cand_{counter:04d}",
+                        variant_id=variant.variant_id,
+                        gene=variant.gene,
+                        protein_change=variant.protein_change,
+                        hla=hla,
+                        peptide=peptide,
+                        peptide_length=length,
+                        presentation_score=round(presentation, 3),
+                        mutation_impact_score=variant.impact_score,
+                    )
+                )
+                counter += 1
+    return candidates
