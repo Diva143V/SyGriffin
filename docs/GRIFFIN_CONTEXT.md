@@ -6,7 +6,7 @@ griffin-cli-mvp
 
 ## Latest Commit
 
-491e759 Add explicit scientific provenance to candidates and manifest
+f82742b Document scientific environment setup
 
 ## Current Status
 
@@ -152,14 +152,15 @@ Required Scientific MVP agents still to add or formalize:
 - Added `docs/SCIENTIFIC_ENV_SETUP.md` with the recommended Windows Python 3.11 setup.
 - Added `scientific_python_recommended` and a Python 3.13+ warning to `griffin doctor`.
 - Verified tests, lint, and type checks pass after environment setup documentation.
+- Added `docs/SCIENTIFIC_MVP_STATUS.md` with the current Scientific MVP readiness state.
 
 ## Next 5 Tasks
 
-1. Commit scientific environment setup milestone.
-2. Create/update `docs/SCIENTIFIC_MVP_STATUS.md`.
-3. Add or formalize Critic and Safety Agent outputs.
-4. Begin real MHCflurry integration verification in a Python 3.11 environment.
-5. Add real Ensembl VEP REST annotation.
+1. Commit Scientific MVP status document.
+2. Add or formalize Critic and Safety Agent outputs.
+3. Begin real MHCflurry integration verification in a Python 3.11 environment.
+4. Add real Ensembl VEP REST annotation.
+5. Add biologically traceable peptide generation.
 
 ## Important Commands
 
