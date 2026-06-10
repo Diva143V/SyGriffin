@@ -1,0 +1,9 @@
+[
+  {
+    "gene": "BRAF",
+    "protein_change": "V600E",
+    "consequence": "missense_variant",
+    "impact": "HIGH"
+  }
+]
+
