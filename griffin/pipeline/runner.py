@@ -28,7 +28,7 @@ from griffin.core.exceptions import GriffinError
 from griffin.core.hashing import sha256_file
 from griffin.core.logging import configure_logging
 from griffin.core.manifest import create_manifest, load_manifest, write_manifest
-from griffin.core.models import RunConfig, model_to_dict
+from griffin.core.models import PeptideCandidate, RunConfig, model_to_dict
 from griffin.integrations.clinicaltrials_client import ClinicalTrialsClient
 from griffin.integrations.pubmed_client import PubMedClient
 from griffin.integrations.vep_client import VEPClient
@@ -58,8 +58,15 @@ class PipelineRunner:
         configure_logging(ctx.logs_dir, settings.log_level)
         checkpoints = CheckpointStore(ctx.checkpoints_dir)
         predictor = self._select_mhc_predictor()
+        predictor_version = self._predictor_version(predictor)
         ctx.manifest.parameters["mock_mode"] = self.config.mock_mode
         ctx.manifest.tool_versions["mhc_predictor"] = predictor.name
+        if predictor_version:
+            ctx.manifest.tool_versions["mhc_predictor_version"] = predictor_version
+        ctx.manifest.scientific_provenance = self._scientific_provenance(
+            predictor.name,
+            predictor_version,
+        )
         if self.config.mock_mode:
             self._warn(
                 ctx,
@@ -94,7 +101,12 @@ class PipelineRunner:
             "05_peptide_generation",
             lambda: self._write_json(
                 ctx.artifact("peptides.generated.json"),
-                neo_agent.generate(annotated, self.config.hla_alleles, self.config.peptide_lengths),
+                neo_agent.generate(
+                    annotated,
+                    self.config.hla_alleles,
+                    self.config.peptide_lengths,
+                    mock_mode=settings.mock_mode,
+                ),
             ),
         )
         predictions = self._stage(
@@ -146,6 +158,12 @@ class PipelineRunner:
                 ctx,
                 "No evidence records retrieved. Evidence score was computed as 0.0 or unavailable.",
             )
+        filtered = self._apply_candidate_provenance(
+            filtered,
+            predictor.name,
+            predictor_version,
+            "mock" if settings.mock_mode else "pubmed_ncbi_eutilities",
+        )
         ctx.manifest.api_queries = [
             {"candidate_id": record.candidate_id, "queries": record.queries} for record in evidence
         ]
@@ -200,6 +218,64 @@ class PipelineRunner:
         if predictor.available():
             return predictor
         raise GriffinError(mhc_unavailable_message())
+
+    def _predictor_version(self, predictor: Any) -> str | None:
+        version = getattr(predictor, "version", None)
+        if callable(version):
+            result = version()
+            return str(result) if result else None
+        return None
+
+    def _scientific_provenance(
+        self, predictor_name: str, predictor_version: str | None
+    ) -> dict[str, Any]:
+        mock_mode = self.config.mock_mode
+        llm_provider = self.config.llm_provider if self.config.use_llm else "none"
+        return {
+            "mock_mode": mock_mode,
+            "mhc_predictor": predictor_name,
+            "mhc_predictor_version": predictor_version,
+            "variant_annotator": "mock" if mock_mode else "ensembl_vep_rest",
+            "sequence_context_source": "mock" if mock_mode else "ensembl_or_uniprot",
+            "evidence_source": "mock" if mock_mode else "pubmed_ncbi_eutilities",
+            "trial_source": "mock" if mock_mode else "clinicaltrials_gov",
+            "llm_provider": llm_provider,
+            "llm_model": self.config.ollama_model if llm_provider == "ollama" else None,
+            "llm_summary_source": self._llm_summary_source(mock_mode, llm_provider),
+        }
+
+    def _llm_summary_source(self, mock_mode: bool, llm_provider: str) -> str:
+        if llm_provider == "none":
+            return "deterministic_non_llm"
+        if mock_mode:
+            return "mock_evidence_only"
+        return "retrieved_evidence_records"
+
+    def _apply_candidate_provenance(
+        self,
+        candidates: list[PeptideCandidate],
+        predictor_name: str,
+        predictor_version: str | None,
+        evidence_source: str,
+    ) -> list[PeptideCandidate]:
+        return [
+            PeptideCandidate(
+                **{
+                    **model_to_dict(candidate),
+                    "is_mock": self.config.mock_mode or candidate.is_mock,
+                    "predictor_name": predictor_name,
+                    "predictor_version": predictor_version,
+                    "annotation_source": "mock"
+                    if self.config.mock_mode
+                    else "ensembl_vep_rest",
+                    "sequence_context_source": "mock"
+                    if self.config.mock_mode
+                    else "ensembl_or_uniprot",
+                    "evidence_source": evidence_source,
+                }
+            )
+            for candidate in candidates
+        ]
 
     def _summarize_evidence(self, evidence: Any) -> str:
         if not self.config.use_llm:

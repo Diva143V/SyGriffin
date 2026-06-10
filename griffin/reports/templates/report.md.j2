@@ -18,6 +18,12 @@ LLM summarization: {{ "enabled (" ~ manifest.get("parameters", {}).get("llm_prov
 > Mock Mode Warning: This run used deterministic mock scientific adapters for demo/testing only. Mock predictions and mock evidence are not scientific evidence.
 {% endif %}
 
+## Scientific Provenance
+
+```json
+{{ manifest.get("scientific_provenance", {}) | tojson(indent=2) }}
+```
+
 ## Tool Versions
 
 {% for key, value in manifest.get("tool_versions", {}).items() -%}

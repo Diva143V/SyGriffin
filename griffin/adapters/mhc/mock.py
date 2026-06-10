@@ -8,9 +8,13 @@ from griffin.core.models import MHCPrediction, PeptideCandidate
 
 class DeterministicMockMHCPredictor(MHCPredictor):
     name = "deterministic_mock"
+    predictor_version = "0.1.0"
 
     def available(self) -> bool:
         return True
+
+    def version(self) -> str:
+        return self.predictor_version
 
     def predict(self, peptides: list[PeptideCandidate]) -> list[MHCPrediction]:
         return [self._predict_one(candidate) for candidate in peptides]
@@ -30,7 +34,7 @@ class DeterministicMockMHCPredictor(MHCPredictor):
             binding_score=score,
             predictor=self.name,
             predictor_name=self.name,
-            predictor_version="deterministic",
+            predictor_version=self.version(),
             raw_output={"seed": seed[:12], "is_mock": True},
             is_mock=True,
             mock=True,

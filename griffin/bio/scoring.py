@@ -76,9 +76,17 @@ def score_candidates(
             candidate.mutation_impact_score,
             evidence_score,
         )
+        candidate_data = model_to_dict(candidate)
+        candidate_data.update(
+            {
+                "is_mock": pred.is_mock or candidate.is_mock,
+                "predictor_name": pred.predictor_name,
+                "predictor_version": pred.predictor_version,
+            }
+        )
         scored.append(
             ScoredCandidate(
-                **model_to_dict(candidate),
+                **candidate_data,
                 ic50_nm=pred.ic50_nm,
                 binding_percentile=pred.binding_percentile or 0.0,
                 binding_strength=pred.binding_strength,

@@ -11,6 +11,10 @@ class NeoantigenAgent:
         self.adapter = adapter
 
     def generate(
-        self, variants: list[AnnotatedVariant], hla_alleles: list[str], lengths: list[int]
+        self,
+        variants: list[AnnotatedVariant],
+        hla_alleles: list[str],
+        lengths: list[int],
+        mock_mode: bool = True,
     ) -> list[PeptideCandidate]:
-        return generate_peptides(variants, hla_alleles, lengths)
+        return generate_peptides(variants, hla_alleles, lengths, mock_mode=mock_mode)

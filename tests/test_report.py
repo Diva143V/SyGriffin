@@ -19,6 +19,7 @@ def test_report_includes_disclaimer(fixture_dir: Path, tmp_path: Path):
     report = (run_dir / "outputs" / "report.md").read_text(encoding="utf-8")
     assert "Research Use Only" in report
     assert "## Scoring Formula" in report
+    assert "## Scientific Provenance" in report
     assert "Candidate ranking is based on computational prioritization signals" in report
     assert "Mock evidence ID:" in report
     assert "No real PubMed record was retrieved." in report

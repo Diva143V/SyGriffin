@@ -6,7 +6,7 @@ griffin-cli-mvp
 
 ## Latest Commit
 
-6160a43 Fix lint typing and local runtime ignores
+c298863 Make mock evidence and trial records scientifically safe
 
 ## Current Status
 
@@ -76,6 +76,7 @@ Required Scientific MVP agents still to add or formalize:
 - Candidate ranking with transparent weighted scoring.
 - Report generation with Research Use Only language.
 - Run manifests, checkpoints, and reproducibility artifacts.
+- Candidate-level and manifest-level scientific provenance.
 
 ## Current Mock-Only Capabilities
 
@@ -109,7 +110,6 @@ Required Scientific MVP agents still to add or formalize:
 - Real VEP annotation is not complete.
 - Real PubMed retrieval is not complete.
 - Real ClinicalTrials.gov retrieval is not complete.
-- Candidate and manifest scientific provenance needs to be expanded.
 - Python 3.14 works for demo mode but is too new for some scientific dependencies.
 
 ## Current Test Status
@@ -141,14 +141,21 @@ Required Scientific MVP agents still to add or formalize:
 - Changed mock ClinicalTrials records to use `mock_trial_*` IDs, null NCT IDs, and null URLs.
 - Updated reports to state that no real PubMed or ClinicalTrials.gov records were retrieved for mock evidence.
 - Added tests that prevent fake PMID/NCT-style mock records from returning.
+- Added candidate fields for mock status, predictor name/version, annotation source,
+  sequence context source, and evidence source.
+- Added `scientific_provenance` to run manifests.
+- Added a Scientific Provenance section to generated reports.
+- Made unfinished non-mock VEP annotation and traceable peptide generation fail clearly
+  instead of fabricating biological outputs.
+- Verified tests, lint, and type checks pass after provenance changes.
 
 ## Next 5 Tasks
 
-1. Commit mock evidence and trial safety milestone.
-2. Add explicit scientific provenance to candidates and manifests.
-3. Document the recommended scientific Python 3.11 environment.
-4. Add or formalize Critic and Safety Agent outputs.
-5. Begin real MHCflurry integration verification in a Python 3.11 environment.
+1. Commit candidate and manifest provenance milestone.
+2. Document the recommended scientific Python 3.11 environment.
+3. Add or formalize Critic and Safety Agent outputs.
+4. Begin real MHCflurry integration verification in a Python 3.11 environment.
+5. Add real Ensembl VEP REST annotation.
 
 ## Important Commands
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from griffin.core.exceptions import GriffinError
 from griffin.core.hashing import stable_hash
 from griffin.core.models import AnnotatedVariant, PeptideCandidate
 
@@ -15,8 +16,16 @@ def _deterministic_peptide(seed: str, length: int) -> str:
 
 
 def generate_peptides(
-    variants: list[AnnotatedVariant], hla_alleles: list[str], lengths: list[int]
+    variants: list[AnnotatedVariant],
+    hla_alleles: list[str],
+    lengths: list[int],
+    mock_mode: bool = True,
 ) -> list[PeptideCandidate]:
+    if not mock_mode:
+        raise GriffinError(
+            "Biologically traceable peptide generation is not implemented yet. Griffin will not "
+            "fabricate peptide sequences in non-mock mode; rerun with --mock for demos."
+        )
     candidates: list[PeptideCandidate] = []
     counter = 1
     for variant in variants:
@@ -43,6 +52,9 @@ def generate_peptides(
                         mutation_position_in_peptide=min(length, max(1, (length + 1) // 2)),
                         presentation_score=round(presentation, 3),
                         mutation_impact_score=variant.impact_score,
+                        is_mock=True,
+                        annotation_source=variant.annotation_source,
+                        sequence_context_source="mock",
                     )
                 )
                 counter += 1

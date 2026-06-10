@@ -47,11 +47,16 @@ class VariantRecord(GriffinModel):
 
 class AnnotatedVariant(VariantRecord):
     gene: str = "UNKNOWN"
+    gene_id: str | None = None
     transcript: str | None = None
     protein_change: str | None = None
+    amino_acids: str | None = None
+    codons: str | None = None
     consequence: str = "unknown"
     impact: str = "MODIFIER"
     impact_score: float = 0.1
+    annotation_source: str = "unknown"
+    raw_output: dict[str, Any] = Field(default_factory=dict)
 
 
 class PeptideCandidate(GriffinModel):
@@ -72,6 +77,12 @@ class PeptideCandidate(GriffinModel):
     mutation_position_in_peptide: int | None = None
     presentation_score: float
     mutation_impact_score: float
+    is_mock: bool = False
+    predictor_name: str | None = None
+    predictor_version: str | None = None
+    annotation_source: str | None = None
+    sequence_context_source: str | None = None
+    evidence_source: str | None = None
 
 
 class MHCPrediction(GriffinModel):
@@ -167,6 +178,7 @@ class RunManifest(GriffinModel):
     parameters: dict[str, Any] = Field(default_factory=dict)
     input_hashes: dict[str, str] = Field(default_factory=dict)
     tool_versions: dict[str, str] = Field(default_factory=dict)
+    scientific_provenance: dict[str, Any] = Field(default_factory=dict)
     api_queries: list[dict[str, Any]] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
     checkpoints: list[str] = Field(default_factory=list)
