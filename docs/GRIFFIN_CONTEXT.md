@@ -6,7 +6,9 @@ griffin-cli-mvp
 
 ## Latest Commit
 
-f82742b Document scientific environment setup
+Use `git log -1 --oneline` for the exact current commit.
+
+Last completed pushed milestone: `0d2323e Update Griffin scientific MVP status`.
 
 ## Current Status
 
