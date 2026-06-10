@@ -1,0 +1,16 @@
+STAGES = [
+    "01_input_validation",
+    "02_vcf_parsing",
+    "03_variant_annotation",
+    "04_mutation_scoring",
+    "05_peptide_generation",
+    "06_mhc_prediction",
+    "07_candidate_filtering",
+    "08_evidence_search",
+    "09_composite_scoring",
+    "10_research_lead_review",
+    "11_exports",
+    "12_markdown_report",
+    "13_pdf_report",
+    "14_manifest_finalization",
+]
