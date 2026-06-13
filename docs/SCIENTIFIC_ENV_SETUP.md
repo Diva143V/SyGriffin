@@ -50,6 +50,7 @@ uv run python -m griffin run `
   --cancer-type melanoma `
   --sample-id demo-001 `
   --out runs/demo-001 `
+  --genome-assembly GRCh37 `
   --mock
 ```
 

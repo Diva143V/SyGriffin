@@ -60,6 +60,7 @@ class PipelineRunner:
         predictor = self._select_mhc_predictor()
         predictor_version = self._predictor_version(predictor)
         ctx.manifest.parameters["mock_mode"] = self.config.mock_mode
+        ctx.manifest.parameters["genome_assembly"] = self.config.genome_assembly
         ctx.manifest.tool_versions["mhc_predictor"] = predictor.name
         if predictor_version:
             ctx.manifest.tool_versions["mhc_predictor_version"] = predictor_version
@@ -89,9 +90,14 @@ class PipelineRunner:
             "03_variant_annotation",
             lambda: self._write_json(
                 ctx.artifact("variants.annotated.json"),
-                MutationAgent(VEPClient(mock=settings.mock_mode)).vep_client.annotate_variants(
-                    raw_variants
-                ),
+                MutationAgent(
+                    VEPClient(
+                        mock=settings.mock_mode,
+                        genome_assembly=self.config.genome_assembly,
+                        cache_dir=settings.cache_dir / "vep",
+                        raw_artifact_dir=ctx.artifacts_dir,
+                    )
+                ).vep_client.annotate_variants(raw_variants),
             ),
         )
         self._stage(checkpoints, "04_mutation_scoring", lambda: annotated)
@@ -233,6 +239,7 @@ class PipelineRunner:
         llm_provider = self.config.llm_provider if self.config.use_llm else "none"
         return {
             "mock_mode": mock_mode,
+            "genome_assembly": self.config.genome_assembly,
             "mhc_predictor": predictor_name,
             "mhc_predictor_version": predictor_version,
             "variant_annotator": "mock" if mock_mode else "ensembl_vep_rest",

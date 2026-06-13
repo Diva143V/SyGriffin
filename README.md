@@ -1,6 +1,6 @@
 # Griffin CLI
 
-Griffin is a CLI-first research engine for reproducible neoantigen candidate discovery. It takes a VCF, HLA alleles, and cancer type metadata, then produces ranked candidate tables, structured evidence artifacts, a run manifest, and a Markdown report.
+Griffin is a CLI-first research engine for reproducible neoantigen candidate discovery. It takes a VCF, HLA alleles, cancer type metadata, and genome assembly metadata, then produces ranked candidate tables, structured evidence artifacts, a run manifest, and a Markdown report.
 
 Research Use Only: Griffin is a computational research acceleration tool. It does not provide clinical diagnosis, treatment recommendations, medical advice, or validated vaccine candidates. All candidates require independent wet-lab validation and expert review.
 
@@ -48,7 +48,7 @@ uv run python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A
 Mock mode is explicit and opt-in. Use it only for demos and tests:
 
 ```bash
-uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --genome-assembly GRCh37 --mock
 ```
 
 Mock outputs are deterministic and are clearly marked in the manifest, evidence records, and report.
@@ -56,10 +56,10 @@ Mock outputs are deterministic and are clearly marked in the manifest, evidence 
 ## Real Run
 
 ```bash
-uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --genome-assembly GRCh37
 ```
 
-Real runs require a configured MHC backend, currently MHCflurry. If no real predictor is available, Griffin fails clearly instead of falling back to mock predictions.
+Real runs require Ensembl VEP REST access and a configured MHC backend, currently MHCflurry. If a real integration is unavailable, Griffin fails clearly instead of falling back to mock outputs.
 
 ```bash
 uv pip install mhcflurry
@@ -78,7 +78,7 @@ ollama serve
 Then:
 
 ```bash
-uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock --use-llm --llm-provider ollama --ollama-model phi3
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --genome-assembly GRCh37 --mock --use-llm --llm-provider ollama --ollama-model phi3
 ```
 
 Phi-3 is used only for local report/evidence summarization of already retrieved structured evidence records. Griffin must not use Ollama to invent PMIDs, titles, years, trial IDs, genes, variants, or clinical claims.
@@ -93,6 +93,17 @@ export NCBI_API_KEY=
 ```
 
 When evidence APIs are unavailable in non-mock mode, Griffin does not fabricate evidence records. It writes an empty evidence list and reports that the evidence score was computed as 0.0 or unavailable.
+
+## Ensembl VEP Annotation
+
+Non-mock variant annotation uses Ensembl VEP REST for `GRCh38` or `GRCh37`, caches raw responses under `.griffin/cache/vep`, and writes raw response artifacts into each run. Transcript selection is deterministic:
+
+1. MANE Select transcript
+2. Canonical protein-coding transcript
+3. Protein-coding transcript with a protein consequence
+4. Stable deterministic fallback
+
+The selected transcript and all considered transcripts are stored in candidate provenance.
 
 ## Output Structure
 
@@ -124,7 +135,7 @@ runs/<sample-id>/
 uv run python -m griffin init
 uv run python -m griffin doctor
 uv run python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
-uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --genome-assembly GRCh37 --mock
 uv run python -m griffin resume --run-dir runs/demo-001
 uv run python -m griffin report --run-dir runs/demo-001 --pdf
 uv run python -m griffin version

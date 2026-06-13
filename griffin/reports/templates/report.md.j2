@@ -6,6 +6,7 @@
 
 - Sample ID: {{ manifest.get("sample_id", "unknown") }}
 - Cancer type: {{ manifest.get("parameters", {}).get("cancer_type", "unknown") }}
+- Genome assembly: {{ manifest.get("parameters", {}).get("genome_assembly", "unknown") }}
 - HLA alleles: {{ manifest.get("parameters", {}).get("hla_alleles", []) | join(", ") }}
 
 ## Methodology

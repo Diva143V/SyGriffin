@@ -17,8 +17,8 @@ Scientific MVP in progress
 ## Product Goal
 
 Griffin is a CLI-first, Research-Use-Only computational research tool that takes a VCF
-file, HLA alleles, and cancer type metadata, then produces ranked neoantigen candidates,
-evidence records, reproducible manifests, and scientific reports.
+file, HLA alleles, cancer type metadata, and genome assembly metadata, then produces ranked
+neoantigen candidates, evidence records, reproducible manifests, and scientific reports.
 
 ## Research Use Only Boundary
 
@@ -65,7 +65,7 @@ Required Scientific MVP agents still to add or formalize:
 |---|---|---|
 | MHCflurry | Verified in Python 3.11 | MHCflurry 2.2.1 with pan models returns real IC50 output. |
 | Deterministic mock MHC | Working | Explicit `--mock` only. |
-| Ensembl VEP REST | Partial/mock | Client path exists; real Scientific MVP integration remains. |
+| Ensembl VEP REST | Implemented, needs live smoke | Real REST client, caching, raw artifacts, parser tests, and deterministic transcript selection are in place. |
 | PubMed E-utilities | Partial/mock | Mock records are visibly synthetic; real retrieval remains. |
 | ClinicalTrials.gov | Partial/mock | Mock records are visibly synthetic; real retrieval remains. |
 | Ollama | Optional | Local summarizer adapter exists with reachability detection. |
@@ -74,6 +74,9 @@ Required Scientific MVP agents still to add or formalize:
 
 - VCF parsing and validation.
 - HLA allele validation.
+- Real Ensembl VEP REST annotation client for GRCh38/GRCh37.
+- Deterministic transcript selection with MANE, canonical, protein-coding, and stable fallback
+  rules.
 - Deterministic mock run for demo/testing.
 - Candidate ranking with transparent weighted scoring.
 - Report generation with Research Use Only language.
@@ -82,7 +85,6 @@ Required Scientific MVP agents still to add or formalize:
 
 ## Current Mock-Only Capabilities
 
-- Variant annotation for current demo outputs.
 - Peptide sequence generation for current demo outputs.
 - Evidence records for current demo outputs with explicit mock IDs and null real IDs.
 - MHC predictions when `--mock` is used.
@@ -91,6 +93,7 @@ Required Scientific MVP agents still to add or formalize:
 
 - Input validation.
 - Non-mock run fails clearly if MHCflurry is unavailable.
+- Real VEP request, parse, cache, and raw artifact path implemented for non-mock annotation.
 - Real MHCflurry prediction path verified in the Python 3.11 `.venv`.
 - Report regeneration from existing artifacts.
 - Ollama reachability checks.
@@ -110,10 +113,12 @@ Required Scientific MVP agents still to add or formalize:
 
 ## Current Known Issues
 
-- Real VEP annotation is not complete.
+- Real VEP annotation passed live Ensembl REST smoke tests for the synthetic tiny fixture as
+  GRCh37; broader live and edge-case testing remains.
 - Real PubMed retrieval is not complete.
 - Real ClinicalTrials.gov retrieval is not complete.
-- End-to-end non-mock runs still stop at VEP annotation to avoid fabricated biology.
+- End-to-end non-mock runs still stop at traceable peptide generation to avoid fabricated
+  biology.
 - Python 3.14 works for demo mode but is too new for some scientific dependencies.
 - On Windows, default `mhcflurry-downloads fetch` can fail on legacy archives with invalid
   filename characters; targeted `models_class1_pan` fetch is verified.
@@ -123,7 +128,7 @@ Required Scientific MVP agents still to add or formalize:
 
 ## Current Test Status
 
-`uv run pytest -q` passes with 20 tests and 1 Pydantic deprecation warning in the Python 3.11
+`uv run pytest -q` passes with 25 tests and 1 Pydantic deprecation warning in the Python 3.11
 `.uv-venv` environment.
 
 ## Current Lint / Type Status
@@ -145,6 +150,14 @@ Required Scientific MVP agents still to add or formalize:
 - `UV_PROJECT_ENVIRONMENT=.uv-venv uv run mypy griffin`: passed.
 - `UV_PROJECT_ENVIRONMENT=.uv-venv uv run python -m griffin doctor`: passed; Python 3.11.9,
   MHCflurry not installed in the fresh uv environment yet.
+- `UV_PROJECT_ENVIRONMENT=.uv-venv uv run pytest -q`: 25 passed, 1 warning after VEP client
+  implementation.
+- `UV_PROJECT_ENVIRONMENT=.uv-venv uv run ruff check .`: passed after VEP client implementation.
+- `UV_PROJECT_ENVIRONMENT=.uv-venv uv run mypy griffin`: passed after VEP client implementation.
+- Live VEP smoke, GRCh37 tiny fixture coordinate: returned BRAF `p.Val600Glu` with
+  `canonical_protein_coding` transcript selection.
+- Live VEP smoke, GRCh38 same coordinate: returned a different locus, confirming the synthetic
+  fixture should be run with `--genome-assembly GRCh37`.
 
 ## Recent Changes
 
@@ -182,12 +195,20 @@ Required Scientific MVP agents still to add or formalize:
 - Added `.uv-cache/` and `.uv-venv/` to `.gitignore` for local uv state.
 - Updated README and scientific environment setup documentation with `uv sync`, `uv run`, and
   locked `.venv` recovery guidance.
+- Added real Ensembl VEP REST annotation client with request hashing, cache support, retries,
+  raw response artifacts, deterministic transcript selection, and typed provenance fields.
+- Added `--genome-assembly` to `griffin run`, defaulting to `GRCh38`.
+- Verified live VEP smoke tests: the synthetic `tiny.vcf` coordinate resolves to BRAF
+  `p.Val600Glu` with GRCh37 and to a different locus with GRCh38, so examples now pass
+  `--genome-assembly GRCh37`.
+- Added VEP client tests for MANE selection, cache reuse, empty transcript failure, timeout
+  failure, and unsupported assembly failure.
 
 ## Next 5 Tasks
 
-1. Commit real MHCflurry verification milestone.
-2. Add real Ensembl VEP REST annotation.
-3. Add biologically traceable peptide generation.
+1. Add biologically traceable peptide generation.
+2. Connect real generated mutant/wild-type peptides to MHCflurry.
+3. Add formal Intake Agent output.
 4. Add PubMed and ClinicalTrials.gov retrieval.
 5. Add Critic and Safety Agent outputs.
 
@@ -200,7 +221,7 @@ uv run ruff check .
 uv run mypy griffin
 uv run python -m griffin doctor
 uv run python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
-uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --genome-assembly GRCh37 --mock
 ```
 
 ## Files to Inspect First

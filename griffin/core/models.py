@@ -19,6 +19,7 @@ class RunConfig(GriffinModel):
     hla_alleles: list[str]
     cancer_type: str
     output_dir: Path
+    genome_assembly: str = "GRCh38"
     top_n_evidence: int = 20
     peptide_lengths: list[int] = Field(default_factory=lambda: [9, 10, 11])
     use_llm: bool = False
@@ -46,16 +47,31 @@ class VariantRecord(GriffinModel):
 
 
 class AnnotatedVariant(VariantRecord):
+    source_variant_id: str | None = None
+    assembly: str | None = None
     gene: str = "UNKNOWN"
     gene_id: str | None = None
     transcript: str | None = None
+    protein_id: str | None = None
+    coding_dna_change: str | None = None
     protein_change: str | None = None
+    amino_acid_position: int | None = None
+    reference_amino_acid: str | None = None
+    alternate_amino_acid: str | None = None
     amino_acids: str | None = None
     codons: str | None = None
     consequence: str = "unknown"
     impact: str = "MODIFIER"
     impact_score: float = 0.1
+    canonical_transcript: bool = False
+    mane_transcript: bool = False
+    biotype: str | None = None
     annotation_source: str = "unknown"
+    vep_version: str | None = None
+    retrieval_timestamp: str | None = None
+    raw_response_artifact: str | None = None
+    transcript_selection_reason: str | None = None
+    considered_transcripts: list[dict[str, Any]] = Field(default_factory=list)
     raw_output: dict[str, Any] = Field(default_factory=dict)
 
 
