@@ -4,9 +4,11 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
+.uv-cache/
 .coverage
 .env
 .venv/
+.uv-venv/
 venv/
 .griffin/
 runs/

@@ -6,6 +6,20 @@ Research Use Only: Griffin is a computational research acceleration tool. It doe
 
 ## Installation
 
+Recommended with `uv`:
+
+```bash
+uv sync
+```
+
+For development:
+
+```bash
+uv sync --group dev
+```
+
+Pip remains supported:
+
 ```bash
 pip install -e .
 ```
@@ -19,14 +33,14 @@ pip install -e ".[dev]"
 ## Initialize Project
 
 ```bash
-python -m griffin init
-python -m griffin doctor
+uv run python -m griffin init
+uv run python -m griffin doctor
 ```
 
 ## Validate Input
 
 ```bash
-python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
+uv run python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
 ```
 
 ## Demo/Mock Run
@@ -34,7 +48,7 @@ python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 
 Mock mode is explicit and opt-in. Use it only for demos and tests:
 
 ```bash
-python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
 ```
 
 Mock outputs are deterministic and are clearly marked in the manifest, evidence records, and report.
@@ -42,14 +56,14 @@ Mock outputs are deterministic and are clearly marked in the manifest, evidence 
 ## Real Run
 
 ```bash
-python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001
 ```
 
 Real runs require a configured MHC backend, currently MHCflurry. If no real predictor is available, Griffin fails clearly instead of falling back to mock predictions.
 
 ```bash
-pip install mhcflurry
-mhcflurry-downloads fetch
+uv pip install mhcflurry
+uv run mhcflurry-downloads fetch models_class1_pan
 ```
 
 ## Optional Local LLM With Ollama
@@ -64,7 +78,7 @@ ollama serve
 Then:
 
 ```bash
-python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock --use-llm --llm-provider ollama --ollama-model phi3
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock --use-llm --llm-provider ollama --ollama-model phi3
 ```
 
 Phi-3 is used only for local report/evidence summarization of already retrieved structured evidence records. Griffin must not use Ollama to invent PMIDs, titles, years, trial IDs, genes, variants, or clinical claims.
@@ -107,20 +121,20 @@ runs/<sample-id>/
 ## Commands
 
 ```bash
-python -m griffin init
-python -m griffin doctor
-python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
-python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
-python -m griffin resume --run-dir runs/demo-001
-python -m griffin report --run-dir runs/demo-001 --pdf
-python -m griffin version
+uv run python -m griffin init
+uv run python -m griffin doctor
+uv run python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
+uv run python -m griffin resume --run-dir runs/demo-001
+uv run python -m griffin report --run-dir runs/demo-001 --pdf
+uv run python -m griffin version
 ```
 
 ## Tests and Quality
 
 ```bash
-pytest -q
-ruff check .
-ruff format .
-mypy griffin
+uv run pytest -q
+uv run ruff check .
+uv run ruff format .
+uv run mypy griffin
 ```

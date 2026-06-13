@@ -31,7 +31,7 @@ independent wet-lab validation and expert review.
 
 The project is a Typer-based Python CLI with deterministic core modules, agent
 orchestration, external integration adapters, pipeline checkpointing, JSON/CSV artifacts,
-and Markdown report generation.
+Markdown report generation, and `uv`-managed development environments.
 
 ## Agent Architecture
 
@@ -117,16 +117,20 @@ Required Scientific MVP agents still to add or formalize:
 - Python 3.14 works for demo mode but is too new for some scientific dependencies.
 - On Windows, default `mhcflurry-downloads fetch` can fail on legacy archives with invalid
   filename characters; targeted `models_class1_pan` fetch is verified.
+- The older `.venv` on this workstation points to a stale Python 3.11 interpreter and may be
+  locked by Windows/OneDrive. The current verified development environment uses `uv` with
+  `UV_PROJECT_ENVIRONMENT=.uv-venv`.
 
 ## Current Test Status
 
-`python -m pytest -q` passes with 20 tests and 1 Pydantic deprecation warning.
+`uv run pytest -q` passes with 20 tests and 1 Pydantic deprecation warning in the Python 3.11
+`.uv-venv` environment.
 
 ## Current Lint / Type Status
 
-`python -m ruff check .` passes.
+`uv run ruff check .` passes.
 
-`python -m mypy griffin` passes.
+`uv run mypy griffin` passes.
 
 ## Latest Quality Gate Results
 
@@ -136,6 +140,11 @@ Required Scientific MVP agents still to add or formalize:
 - `.venv\Scripts\python.exe -m pytest -q`: 20 passed, 1 warning.
 - `.venv\Scripts\python.exe -m ruff check .`: passed.
 - `.venv\Scripts\python.exe -m mypy griffin`: passed.
+- `UV_PROJECT_ENVIRONMENT=.uv-venv uv run pytest -q`: 20 passed, 1 warning.
+- `UV_PROJECT_ENVIRONMENT=.uv-venv uv run ruff check .`: passed.
+- `UV_PROJECT_ENVIRONMENT=.uv-venv uv run mypy griffin`: passed.
+- `UV_PROJECT_ENVIRONMENT=.uv-venv uv run python -m griffin doctor`: passed; Python 3.11.9,
+  MHCflurry not installed in the fresh uv environment yet.
 
 ## Recent Changes
 
@@ -168,6 +177,11 @@ Required Scientific MVP agents still to add or formalize:
 - Added `doctor` fields for MHCflurry version, downloads availability, and scientific MHC
   readiness.
 - Verified a non-mock CLI smoke test now passes MHC setup and stops at real VEP annotation.
+- Adopted `uv` as the recommended environment and command runner.
+- Added `uv.lock` and a `dev` dependency group for reproducible quality gates.
+- Added `.uv-cache/` and `.uv-venv/` to `.gitignore` for local uv state.
+- Updated README and scientific environment setup documentation with `uv sync`, `uv run`, and
+  locked `.venv` recovery guidance.
 
 ## Next 5 Tasks
 
@@ -180,12 +194,13 @@ Required Scientific MVP agents still to add or formalize:
 ## Important Commands
 
 ```bash
-python -m pytest -q
-python -m ruff check .
-python -m mypy griffin
-python -m griffin doctor
-python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
-python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
+uv sync --python 3.11 --group dev
+uv run pytest -q
+uv run ruff check .
+uv run mypy griffin
+uv run python -m griffin doctor
+uv run python -m griffin validate-input --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma
+uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --cancer-type melanoma --sample-id demo-001 --out runs/demo-001 --mock
 ```
 
 ## Files to Inspect First

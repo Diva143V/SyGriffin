@@ -5,27 +5,38 @@ scientific dependency stack should use Python 3.11 for best compatibility.
 
 ## Recommended Windows Setup
 
+Use `uv` as the project environment manager:
+
 ```powershell
-py -3.11 -m venv .venv
-.venv\Scripts\activate
-python -m pip install --upgrade pip setuptools wheel
-pip install -e .
-pip install mhcflurry
-mhcflurry-downloads fetch models_class1_pan
-mhcflurry-downloads fetch models_class1_presentation
-python -m griffin doctor
+uv sync --python 3.11
+uv pip install mhcflurry
+uv run mhcflurry-downloads fetch models_class1_pan
+uv run mhcflurry-downloads fetch models_class1_presentation
+uv run python -m griffin doctor
 ```
 
 ## Development Setup
 
 ```powershell
-py -3.11 -m venv .venv
-.venv\Scripts\activate
-python -m pip install --upgrade pip setuptools wheel
-pip install -e ".[dev]"
-python -m pytest -q
-python -m ruff check .
-python -m mypy griffin
+uv sync --python 3.11 --group dev
+uv run pytest -q
+uv run ruff check .
+uv run mypy griffin
+```
+
+If an older `.venv` points to a removed Python installation, recreate it with `uv sync --python
+3.11 --group dev`. Griffin should not depend on stale interpreter shims.
+
+If Windows or OneDrive keeps the stale `.venv` locked, use a separate uv-managed project
+environment:
+
+```powershell
+$env:UV_CACHE_DIR = ".uv-cache"
+$env:UV_PROJECT_ENVIRONMENT = ".uv-venv"
+uv sync --python 3.11 --group dev
+uv run pytest -q
+uv run ruff check .
+uv run mypy griffin
 ```
 
 ## Demo Mode on Newer Python
@@ -33,7 +44,7 @@ python -m mypy griffin
 Python 3.14 can still run the CLI demo path:
 
 ```powershell
-python -m griffin run `
+uv run python -m griffin run `
   --vcf data/examples/tiny.vcf `
   --hla HLA-A*02:01 `
   --cancer-type melanoma `

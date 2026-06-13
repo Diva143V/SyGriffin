@@ -79,6 +79,12 @@ No benchmark suite is implemented yet.
   filename characters; `models_class1_pan` was fetched and verified separately.
 - Real network integrations need retries, provenance, and caching hardening.
 - The Pydantic v1-style config emits a deprecation warning under Pydantic v2.
+- `uv` is now the recommended project environment manager. The checked `uv.lock` resolves the
+  development stack; MHCflurry still needs to be installed in the active uv environment before
+  `doctor` reports scientific MHC readiness.
+- The older `.venv` on this workstation points to a stale Python interpreter and can remain
+  locked by Windows/OneDrive. Use `.uv-venv` with `UV_PROJECT_ENVIRONMENT` if `.venv` cannot be
+  recreated immediately.
 
 ## Next Steps After MVP
 
