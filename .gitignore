@@ -1,18 +1,74 @@
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
-*.egg-info/
+*$py.class
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
-.uv-cache/
 .coverage
-.env
+coverage.xml
+htmlcov/
+
+# Packaging and build outputs
+*.egg-info/
+build/
+dist/
+site/
+
+# Virtual environments and uv local state
 .venv/
 .uv-venv/
+.uv-venv-broken/
+.venv-broken/
 venv/
+ENV/
+env/
+.uv-cache/
+.python-version
+
+# Local Griffin runtime state
 .griffin/
 runs/
+*.log
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Private or large biological data
+# Keep small synthetic fixtures under data/examples/ tracked.
 data/private/
 *.vcf.gz
+*.bcf
+*.bam
+*.bai
+*.cram
+*.crai
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.fa
+*.fasta
+*.fa.gz
+*.fasta.gz
+
+# Generated reports and exports
 *.pdf
-*.log
+*.xlsx
+*.xls
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+~$*
