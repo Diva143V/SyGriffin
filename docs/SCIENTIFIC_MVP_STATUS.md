@@ -4,6 +4,13 @@
 
 Scientific MVP partially complete
 
+## Recipe Platform Status
+
+Milestone 1 provides typed skill and recipe manifests, safe YAML loading,
+exact-version registries, and a non-scientific no-op fixture. No scientific
+pipeline behavior has been migrated; generic recipe execution begins in
+Milestone 2.
+
 ## What Works in Non-Mock Mode
 
 - CLI startup.

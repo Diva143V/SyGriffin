@@ -1,0 +1,368 @@
+{
+  "$defs": {
+    "ExecutionContract": {
+      "additionalProperties": false,
+      "properties": {
+        "deterministic": {
+          "default": false,
+          "title": "Deterministic",
+          "type": "boolean"
+        },
+        "entrypoint": {
+          "minLength": 1,
+          "title": "Entrypoint",
+          "type": "string"
+        },
+        "network_access": {
+          "default": "none",
+          "enum": [
+            "none",
+            "read_only",
+            "unrestricted"
+          ],
+          "title": "Network Access",
+          "type": "string"
+        },
+        "resumable": {
+          "default": false,
+          "title": "Resumable",
+          "type": "boolean"
+        },
+        "runtime": {
+          "enum": [
+            "python",
+            "container",
+            "command"
+          ],
+          "title": "Runtime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runtime",
+        "entrypoint"
+      ],
+      "title": "ExecutionContract",
+      "type": "object"
+    },
+    "FailurePolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "on_execution_error": {
+          "default": "fail",
+          "enum": [
+            "fail",
+            "warn",
+            "skip"
+          ],
+          "title": "On Execution Error",
+          "type": "string"
+        },
+        "on_validation_error": {
+          "const": "fail",
+          "default": "fail",
+          "title": "On Validation Error",
+          "type": "string"
+        }
+      },
+      "title": "FailurePolicy",
+      "type": "object"
+    },
+    "InputDeclaration": {
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Default"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "format": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Format"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "type": {
+          "minLength": 1,
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "title": "InputDeclaration",
+      "type": "object"
+    },
+    "MockPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed": {
+          "default": false,
+          "title": "Allowed",
+          "type": "boolean"
+        },
+        "behavior_description": {
+          "default": "Mock execution is not supported.",
+          "title": "Behavior Description",
+          "type": "string"
+        },
+        "explicit_only": {
+          "default": true,
+          "title": "Explicit Only",
+          "type": "boolean"
+        }
+      },
+      "title": "MockPolicy",
+      "type": "object"
+    },
+    "OutputDeclaration": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "format": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Format"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "type": {
+          "minLength": 1,
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "title": "OutputDeclaration",
+      "type": "object"
+    },
+    "PermissionDeclaration": {
+      "additionalProperties": false,
+      "properties": {
+        "environment_variables": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Environment Variables",
+          "type": "array"
+        },
+        "filesystem_read": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Filesystem Read",
+          "type": "array"
+        },
+        "filesystem_write": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Filesystem Write",
+          "type": "array"
+        }
+      },
+      "title": "PermissionDeclaration",
+      "type": "object"
+    },
+    "ProvenanceRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "record_environment": {
+          "default": true,
+          "title": "Record Environment",
+          "type": "boolean"
+        },
+        "record_input_hashes": {
+          "default": true,
+          "title": "Record Input Hashes",
+          "type": "boolean"
+        },
+        "record_tool_version": {
+          "default": true,
+          "title": "Record Tool Version",
+          "type": "boolean"
+        },
+        "required_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Fields",
+          "type": "array"
+        }
+      },
+      "title": "ProvenanceRequirements",
+      "type": "object"
+    },
+    "ValidationDeclaration": {
+      "additionalProperties": false,
+      "properties": {
+        "blocking": {
+          "default": true,
+          "title": "Blocking",
+          "type": "boolean"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "description"
+      ],
+      "title": "ValidationDeclaration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A versioned, independently callable scientific capability.",
+  "properties": {
+    "description": {
+      "minLength": 1,
+      "title": "Description",
+      "type": "string"
+    },
+    "domain": {
+      "minLength": 1,
+      "title": "Domain",
+      "type": "string"
+    },
+    "execution": {
+      "$ref": "#/$defs/ExecutionContract"
+    },
+    "failure_policy": {
+      "$ref": "#/$defs/FailurePolicy"
+    },
+    "id": {
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "inputs": {
+      "items": {
+        "$ref": "#/$defs/InputDeclaration"
+      },
+      "title": "Inputs",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "mock_policy": {
+      "$ref": "#/$defs/MockPolicy"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "outputs": {
+      "items": {
+        "$ref": "#/$defs/OutputDeclaration"
+      },
+      "title": "Outputs",
+      "type": "array"
+    },
+    "permissions": {
+      "$ref": "#/$defs/PermissionDeclaration"
+    },
+    "provenance": {
+      "$ref": "#/$defs/ProvenanceRequirements"
+    },
+    "research_use_only": {
+      "title": "Research Use Only",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "validations": {
+      "items": {
+        "$ref": "#/$defs/ValidationDeclaration"
+      },
+      "title": "Validations",
+      "type": "array"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "schema_version",
+    "id",
+    "name",
+    "description",
+    "domain",
+    "research_use_only",
+    "execution",
+    "permissions",
+    "limitations"
+  ],
+  "title": "SkillManifest",
+  "type": "object"
+}

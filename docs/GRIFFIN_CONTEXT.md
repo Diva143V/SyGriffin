@@ -12,7 +12,7 @@ Last completed pushed milestone: `a1627d9 docs: rewrite project readme and gitig
 
 ## Current Status
 
-Scientific MVP in progress; recipe-platform revamp Milestone 0 completed locally.
+Scientific MVP in progress; recipe-platform revamp Milestones 0 and 1 completed locally.
 
 ## Product Goal
 
@@ -33,6 +33,10 @@ independent wet-lab validation and expert review.
 The project is a Typer-based Python CLI with deterministic core modules, agent
 orchestration, external integration adapters, pipeline checkpointing, JSON/CSV artifacts,
 Markdown report generation, and `uv`-managed development environments.
+
+Milestone 1 adds versioned, YAML-defined skill and recipe contracts under
+`griffin/platform/`. The no-op recipe is an infrastructure test only. Recipe
+execution and migration of the existing neoantigen pipeline are not implemented yet.
 
 ## Current Agent Architecture
 
