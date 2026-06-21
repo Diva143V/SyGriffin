@@ -125,9 +125,8 @@ Future review responsibilities still to add or formalize:
   filename characters; targeted `models_class1_pan` fetch is verified.
 - The older `.venv` on this workstation pointed to a stale Python 3.11 interpreter and was
   recreated locally for the 2026-06-21 revamp baseline.
-- The current unconstrained dev dependency ranges resolve to a `mypy`/`pathspec` combination
-  that aborts during mypy startup with a missing `pathspec._backends.hyperscan` module. This
-  baseline records the issue without changing dependency policy.
+- The Mypy toolchain is constrained to compatible 1.x releases after the prior Mypy 2.1.0 /
+  PathSpec 1.1.1 resolution failed before source analysis. See `docs/REVAMP_BASELINE.md`.
 
 ## Current Test Status
 
@@ -138,8 +137,7 @@ Future review responsibilities still to add or formalize:
 
 `uv run ruff check .` passes.
 
-`uv run mypy griffin` is currently blocked by the dependency-level `pathspec` import failure
-recorded in `docs/REVAMP_BASELINE.md`; it does not reach Griffin source analysis.
+`uv run python -m mypy griffin` passes with Mypy 1.20.2.
 
 ## Latest Quality Gate Results
 

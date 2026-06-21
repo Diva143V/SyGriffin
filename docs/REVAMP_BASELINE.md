@@ -65,11 +65,6 @@ docs/                # Current architecture, boundaries, setup, and MVP status
   recipe-neutral, content-addressed stage records.
 - The existing Pydantic v1-style configuration emits one Pydantic v2
   deprecation warning during tests.
-- The checked development dependency ranges currently resolve to `mypy 2.1.0`
-  and `pathspec 1.1.1`; `mypy` aborts during its own import because
-  `pathspec._backends.hyperscan` is missing. This is an environment/dependency
-  compatibility failure before Griffin sources are checked, not a Griffin type
-  diagnostic. No dependency change is included in this milestone.
 
 ## Quality-gate results
 
@@ -80,11 +75,28 @@ because its previous interpreter path was stale.
 | --- | --- |
 | `uv run pytest -q` | Passed: 25 passed, 1 Pydantic deprecation warning |
 | `uv run ruff check .` | Passed: all checks passed |
-| `uv run mypy griffin` | Blocked: `ModuleNotFoundError: pathspec._backends.hyperscan` while importing mypy dependencies |
+| `uv run python -m mypy griffin` | Passed after the Mypy toolchain repair: no issues in 54 source files |
 | `uv run python -m griffin doctor` | Passed: Python 3.11.9; write permissions available; MHCflurry and its downloads not installed in this fresh environment |
 
 The MHCflurry readiness result reflects the freshly recreated local development
 environment; it does not change the codebase's existing integration status.
+
+## Mypy toolchain repair (2026-06-21)
+
+The original lockfile resolved `mypy 2.1.0` and `pathspec 1.1.1`. The
+PathSpec 1.1.1 wheel was incomplete: its import path referenced
+`pathspec._backends.hyperscan`, which was absent from the installed package.
+Constraining PathSpec to `>=1.0.0,<1.1.0` selects the complete 1.0.4 release.
+After that import issue was resolved, Mypy 2.1.0 itself raised an internal
+assertion while loading typeshed on Python 3.11. Constraining Mypy to
+`>=1.10,<2.0` selects Mypy 1.20.2, the latest compatible 1.x release.
+
+The development dependency change is deliberately narrow and applies only to
+the Mypy toolchain. The working type-check command is:
+
+```bash
+uv run python -m mypy griffin
+```
 
 ## Milestone 0 scope confirmation
 

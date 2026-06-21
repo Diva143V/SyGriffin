@@ -22,7 +22,8 @@ dependencies = [
 dev = [
   "pytest>=8.0",
   "ruff>=0.5",
-  "mypy>=1.10",
+  "mypy>=1.10,<2.0",
+  "pathspec>=1.0.0,<1.1.0",
   "types-requests>=2.31",
 ]
 pdf = ["reportlab>=4.0"]
@@ -31,7 +32,8 @@ pdf = ["reportlab>=4.0"]
 dev = [
   "pytest>=8.0",
   "ruff>=0.5",
-  "mypy>=1.10",
+  "mypy>=1.10,<2.0",
+  "pathspec>=1.0.0,<1.1.0",
   "types-requests>=2.31",
 ]
 
