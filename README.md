@@ -344,7 +344,7 @@ Remaining MVP milestones:
 9. Real ClinicalTrials.gov retrieval.
 10. Transparent scoring artifacts with per-component contributions.
 11. Benchmark suite.
-12. Aedon skill manifest.
+12. Versioned recipe and skill manifests.
 
 ## Scientific Boundaries
 
