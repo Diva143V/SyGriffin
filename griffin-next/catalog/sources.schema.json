@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["sources"],
+  "properties": {
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "repository", "revision", "license", "localPath", "skillCount", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "repository": { "type": "string", "format": "uri" },
+          "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+          "license": { "type": "string" },
+          "localPath": { "type": "string" },
+          "skillCount": { "type": "integer", "minimum": 1 },
+          "status": { "enum": ["cataloged", "normalized", "reviewed", "enabled", "rejected"] }
+        }
+      }
+    }
+  }
+}

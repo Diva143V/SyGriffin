@@ -52,9 +52,7 @@ def load_settings(
             ),
             "llm_provider": os.getenv("GRIFFIN_LLM_PROVIDER", merged.get("llm_provider")),
             "ollama_model": os.getenv("GRIFFIN_OLLAMA_MODEL", merged.get("ollama_model")),
-            "ollama_base_url": os.getenv(
-                "OLLAMA_BASE_URL", merged.get("ollama_base_url")
-            ),
+            "ollama_base_url": os.getenv("OLLAMA_BASE_URL", merged.get("ollama_base_url")),
             "ncbi_email": os.getenv("NCBI_EMAIL"),
             "ncbi_api_key": os.getenv("NCBI_API_KEY"),
         }

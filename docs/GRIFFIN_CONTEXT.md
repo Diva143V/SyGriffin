@@ -8,17 +8,18 @@ griffin-cli-mvp
 
 Use `git log -1 --oneline` for the exact current commit.
 
-Last completed pushed milestone: `0d2323e Update Griffin scientific MVP status`.
+Last completed pushed milestone: `a1627d9 docs: rewrite project readme and gitignore`.
 
 ## Current Status
 
-Scientific MVP in progress
+Scientific MVP in progress; recipe-platform revamp Milestones 0 and 1 completed locally.
 
 ## Product Goal
 
-Griffin is a CLI-first, Research-Use-Only computational research tool that takes a VCF
-file, HLA alleles, cancer type metadata, and genome assembly metadata, then produces ranked
-neoantigen candidates, evidence records, reproducible manifests, and scientific reports.
+Griffin is the AI-native computational research engine for Pegasus. It remains independently
+executable as a CLI and will evolve from the current pipeline into versioned recipes composed
+of validated scientific skills. Its outputs are Research Use Only computational prioritization,
+not clinical or veterinary decisions.
 
 ## Research Use Only Boundary
 
@@ -33,7 +34,11 @@ The project is a Typer-based Python CLI with deterministic core modules, agent
 orchestration, external integration adapters, pipeline checkpointing, JSON/CSV artifacts,
 Markdown report generation, and `uv`-managed development environments.
 
-## Agent Architecture
+Milestone 1 adds versioned, YAML-defined skill and recipe contracts under
+`griffin/platform/`. The no-op recipe is an infrastructure test only. Recipe
+execution and migration of the existing neoantigen pipeline are not implemented yet.
+
+## Current Agent Architecture
 
 Current implemented agents:
 
@@ -43,7 +48,7 @@ Current implemented agents:
 - Research Lead Agent
 - Report Agent
 
-Required Scientific MVP agents still to add or formalize:
+Future review responsibilities still to add or formalize:
 
 - Intake Agent
 - Critic Agent
@@ -122,9 +127,10 @@ Required Scientific MVP agents still to add or formalize:
 - Python 3.14 works for demo mode but is too new for some scientific dependencies.
 - On Windows, default `mhcflurry-downloads fetch` can fail on legacy archives with invalid
   filename characters; targeted `models_class1_pan` fetch is verified.
-- The older `.venv` on this workstation points to a stale Python 3.11 interpreter and may be
-  locked by Windows/OneDrive. The current verified development environment uses `uv` with
-  `UV_PROJECT_ENVIRONMENT=.uv-venv`.
+- The older `.venv` on this workstation pointed to a stale Python 3.11 interpreter and was
+  recreated locally for the 2026-06-21 revamp baseline.
+- The Mypy toolchain is constrained to compatible 1.x releases after the prior Mypy 2.1.0 /
+  PathSpec 1.1.1 resolution failed before source analysis. See `docs/REVAMP_BASELINE.md`.
 
 ## Current Test Status
 
@@ -135,7 +141,7 @@ Required Scientific MVP agents still to add or formalize:
 
 `uv run ruff check .` passes.
 
-`uv run mypy griffin` passes.
+`uv run python -m mypy griffin` passes with Mypy 1.20.2.
 
 ## Latest Quality Gate Results
 
@@ -249,8 +255,7 @@ uv run python -m griffin run --vcf data/examples/tiny.vcf --hla HLA-A*02:01 --ca
 8. Do not assert cancer type if not provided unless a real validated classifier exists.
 9. Do not use clinical recommendation language.
 10. Do not build frontend.
-11. Do not add CARBON yet.
-12. Keep Griffin Research Use Only.
-13. Update `docs/GRIFFIN_CONTEXT.md` after every meaningful change.
-14. Commit after every logical milestone.
-15. Push after every successful quality gate.
+11. Keep Griffin Research Use Only.
+12. Update `docs/GRIFFIN_CONTEXT.md` after every meaningful change.
+13. Commit after every logical milestone.
+14. Push after every successful quality gate.

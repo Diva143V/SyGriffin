@@ -193,9 +193,10 @@ class VEPClient:
             if transcript.get("mane_select"):
                 return transcript, "mane_select"
         for transcript in ordered:
-            if self._is_truthy(transcript.get("canonical")) and transcript.get(
-                "biotype"
-            ) == "protein_coding":
+            if (
+                self._is_truthy(transcript.get("canonical"))
+                and transcript.get("biotype") == "protein_coding"
+            ):
                 return transcript, "canonical_protein_coding"
         for transcript in ordered:
             if transcript.get("biotype") == "protein_coding" and self._has_protein_consequence(
@@ -283,8 +284,7 @@ class VEPClient:
         if normalized == "GRCH37":
             return ENSEMBL_REST_GRCH37
         raise GriffinError(
-            f"Unsupported genome assembly for Ensembl VEP REST: {assembly}. "
-            "Use GRCh38 or GRCh37."
+            f"Unsupported genome assembly for Ensembl VEP REST: {assembly}. Use GRCh38 or GRCh37."
         )
 
     def _mock_annotation(self, variant: VariantRecord) -> AnnotatedVariant:

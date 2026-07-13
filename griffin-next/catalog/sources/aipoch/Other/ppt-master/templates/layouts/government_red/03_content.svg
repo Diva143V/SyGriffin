@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 720">
+    <!-- : - -->
+
+    <defs>
+        
+        <linearGradient id="topGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#8B0000;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#003366;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+    
+    <rect x="0" y="0" width="1280" height="720" fill="#FFFFFF" />
+
+    
+    <rect x="0" y="0" width="1280" height="6" fill="url(#topGrad)" />
+
+    
+    
+    <rect x="60" y="30" width="50" height="50" fill="#8B0000" />
+    <text x="85" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FFFFFF">{{CHAPTER_NUM}}</text>
+
+    
+    <text x="130" y="65" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28" font-weight="bold" fill="#1A1A1A">{{PAGE_TITLE}}</text>
+
+    
+    <text x="1220" y="55" text-anchor="end" font-family="Microsoft YaHei, sans-serif" font-size="12" fill="#718096">{{ORG_SHORT}}</text>
+    <rect x="1107" y="60" width="113" height="2" fill="#8B0000" fill-opacity="0.3"/>
+
+    <!-- - ， Executor -->
+    <!-- ： - - - （ 2×2 ） - （、、） - - - -->
+    <rect x="60" y="100" width="1160" height="560" fill="none" stroke="#E4E7EB" stroke-width="2" stroke-dasharray="8,8" />
+    <text x="640" y="360" text-anchor="middle" fill="#CBD5E1" font-size="18" font-family="Microsoft YaHei, sans-serif">
+        {{CONTENT_AREA}}
+    </text>
+    <text x="640" y="395" text-anchor="middle" fill="#CBD5E1" font-size="14" font-family="Microsoft YaHei, sans-serif">
+        ([Text] Executor [Text])
+    </text>
+
+    
+    <!-- : <rect fill="#F5F7FA" rx="8"/> -->
+    <!-- : <rect fill="#8B0000"/> -->
+    <!-- : <rect fill="#003366"/> -->
+    <!-- : <circle r="5" fill="#8B0000"/> -->
+    <!-- : <line stroke="#E4E7EB" stroke-width="1"/> -->
+    <!-- : <rect fill="#DAA520"/> -->
+
+    
+    <rect x="0" y="716" width="1280" height="4" fill="#8B0000" />
+
+    
+    <text x="640" y="695" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#718096">{{PAGE_NUM}}</text>
+
+    
+    <text x="1220" y="695" text-anchor="end" font-family="Microsoft YaHei, sans-serif" font-size="12" fill="#718096" fill-opacity="0.6">{{ORG_SHORT}}</text>
+
+</svg>

@@ -1,0 +1,14 @@
+schema_version: "1.0"
+id: no-op-recipe
+name: No-op Recipe
+version: 0.1.0
+domain: platform-test
+research_use_only: true
+description: A non-scientific recipe used to verify Griffin recipe loading and validation.
+inputs: []
+stages:
+  - id: no-op-stage
+    skill: no-op
+    skill_version: 0.1.0
+    blocking: true
+outputs: []

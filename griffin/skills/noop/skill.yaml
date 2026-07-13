@@ -1,0 +1,25 @@
+schema_version: "1.0"
+id: no-op
+name: No-op Skill
+version: 0.1.0
+description: Test skill for validating the Griffin skill runtime contract.
+domain: platform-test
+research_use_only: true
+inputs: []
+outputs:
+  - id: no-op-artifact
+    type: file
+    format: json
+    description: Deterministic no-op completion artifact.
+execution:
+  runtime: python
+  entrypoint: griffin.skills.noop:NoOpSkill
+  network_access: none
+  resumable: true
+  deterministic: true
+permissions:
+  filesystem_read: []
+  filesystem_write: []
+  environment_variables: []
+limitations:
+  - Produces no scientific result.

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+    <!-- ：， -->
+    <rect width="1280" height="720" fill="#004080" />
+
+    <!-- ：， -->
+    <path d="M850 0 L1280 0 L1280 720 L650 720 Z" fill="#0066B3" fill-opacity="0.3" />
+    <rect x="1200" y="0" width="80" height="720" fill="#003366" fill-opacity="0.3" />
+
+    <!-- ： -->
+    <rect x="1050" y="280" width="120" height="30" fill="#FFFFFF" fill-opacity="0.08" rx="4" />
+    <rect x="1095" y="235" width="30" height="120" fill="#FFFFFF" fill-opacity="0.08" rx="4" />
+
+    <!-- ：DNA -->
+    <circle cx="1180" cy="550" r="40" fill="none" stroke="#00A86B" stroke-width="2" stroke-opacity="0.2" />
+    <circle cx="1180" cy="550" r="25" fill="none" stroke="#00A86B" stroke-width="2" stroke-opacity="0.15" />
+    <circle cx="1180" cy="550" r="10" fill="#00A86B" fill-opacity="0.1" />
+
+    
+    <rect x="0" y="260" width="12" height="200" fill="#FF6B35" />
+
+    <!-- ==================== ==================== -->
+    <!-- ：， -->
+    <text x="120" y="480" fill="#FFFFFF" fill-opacity="0.08" font-family="Microsoft YaHei, Arial, sans-serif"
+        font-size="280" font-weight="bold">
+        {{CHAPTER_NUM}}
+    </text>
+
+    
+    <line x1="380" y1="275" x2="520" y2="275" stroke="#FF6B35" stroke-width="6" />
+    <circle cx="530" cy="275" r="6" fill="#00A86B" />
+
+    <!-- ： -->
+    <text x="380" y="360" fill="#FFFFFF" font-family="Microsoft YaHei, Arial, sans-serif" font-size="52"
+        font-weight="bold">
+        {{CHAPTER_TITLE}}
+    </text>
+
+    <!-- /： -->
+    <text x="380" y="420" fill="#E6F3FA" font-family="Microsoft YaHei, Arial, sans-serif" font-size="22">
+        {{CHAPTER_DESC}}
+    </text>
+
+    <!-- ==================== ==================== -->
+    <line x1="40" y1="665" x2="1240" y2="665" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.1" />
+    <text x="1240" y="690" text-anchor="end" fill="#FFFFFF" fill-opacity="0.4"
+        font-family="Microsoft YaHei, Arial, sans-serif" font-size="16">
+        {{INSTITUTION}}
+    </text>
+</svg>
