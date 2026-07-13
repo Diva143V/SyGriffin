@@ -72,3 +72,27 @@ desktop.ini
 *.tmp
 *.temp
 ~$*
+
+# Local source snapshots and developer-specific configuration.
+.upstream/
+openscience.jsonc
+.tmp-runtime-smoke*/
+
+# Griffin workspace dependencies, generated assets, and local runtime state.
+griffin-next/node_modules/
+griffin-next/.openscience/
+griffin-next/.tmp/
+griffin-next/.turbo/
+griffin-next/griffin-dev*.log
+
+# Scientific Runs is source code, not the root-level generated runs directory.
+!griffin-next/backend/cli/src/science/runs/
+!griffin-next/backend/cli/src/science/runs/**
+
+# Catalog source code and manifests are tracked; bundled biological databases
+# and large fixture datasets are fetched or supplied separately.
+griffin-next/catalog/sources/**/data/
+griffin-next/catalog/sources/**/references/database/
+griffin-next/catalog/sources/**/references/string_cache/
+griffin-next/catalog/sources/**/tests/data/
+griffin-next/catalog/sources/**/assets/*.rds

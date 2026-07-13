@@ -6,7 +6,11 @@ description: Test skill for validating the Griffin skill runtime contract.
 domain: platform-test
 research_use_only: true
 inputs: []
-outputs: []
+outputs:
+  - id: no-op-artifact
+    type: file
+    format: json
+    description: Deterministic no-op completion artifact.
 execution:
   runtime: python
   entrypoint: griffin.skills.noop:NoOpSkill

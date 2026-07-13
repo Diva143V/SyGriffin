@@ -272,9 +272,7 @@ class PipelineRunner:
                     "is_mock": self.config.mock_mode or candidate.is_mock,
                     "predictor_name": predictor_name,
                     "predictor_version": predictor_version,
-                    "annotation_source": "mock"
-                    if self.config.mock_mode
-                    else "ensembl_vep_rest",
+                    "annotation_source": "mock" if self.config.mock_mode else "ensembl_vep_rest",
                     "sequence_context_source": "mock"
                     if self.config.mock_mode
                     else "ensembl_or_uniprot",

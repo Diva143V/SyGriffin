@@ -125,9 +125,7 @@ def test_real_vep_annotation_selects_mane_and_records_provenance(tmp_path: Path)
     assert annotation.raw_response_artifact is not None
     assert Path(annotation.raw_response_artifact).exists()
     assert session.calls[0]["params"]["mane"] == 1
-    assert session.calls[0]["json"]["variants"] == [
-        "7 140453136 chr7:140453136:A:T A T . . ."
-    ]
+    assert session.calls[0]["json"]["variants"] == ["7 140453136 chr7:140453136:A:T A T . . ."]
 
 
 def test_real_vep_annotation_uses_cache_without_network(tmp_path: Path):

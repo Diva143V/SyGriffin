@@ -1,0 +1,32 @@
+{
+  "$schema": "./sources.schema.json",
+  "sources": [
+    {
+      "id": "aipoch-medical-research-skills",
+      "repository": "https://github.com/aipoch/medical-research-skills",
+      "revision": "7cc568024021a3de07cbeb935691dc72c69bfe28",
+      "license": "MIT",
+      "localPath": "catalog/sources/aipoch",
+      "skillCount": 463,
+      "status": "cataloged"
+    },
+    {
+      "id": "aipoch-awesome-medical-research-skills",
+      "repository": "https://github.com/aipoch/medical-research-skills",
+      "revision": "7cc568024021a3de07cbeb935691dc72c69bfe28",
+      "license": "MIT",
+      "localPath": "catalog/sources/aipoch-awesome",
+      "skillCount": 141,
+      "status": "cataloged"
+    },
+    {
+      "id": "clawbio",
+      "repository": "https://github.com/ClawBio/ClawBio",
+      "revision": "ebaf3e03c1d952ff92a64da286d04393f9852bb2",
+      "license": "MIT",
+      "localPath": "catalog/sources/clawbio",
+      "skillCount": 96,
+      "status": "cataloged"
+    }
+  ]
+}
