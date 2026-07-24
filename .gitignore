@@ -75,12 +75,12 @@ desktop.ini
 
 # Local source snapshots and developer-specific configuration.
 .upstream/
-openscience.jsonc
+griffin.jsonc
 .tmp-runtime-smoke*/
 
 # Griffin workspace dependencies, generated assets, and local runtime state.
 griffin-next/node_modules/
-griffin-next/.openscience/
+griffin-next/.griffin/
 griffin-next/.tmp/
 griffin-next/.turbo/
 griffin-next/griffin-dev*.log

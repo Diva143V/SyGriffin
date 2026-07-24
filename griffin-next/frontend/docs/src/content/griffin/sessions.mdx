@@ -10,28 +10,28 @@ A **session** is a single agent conversation: a thread of prompts and replies, t
 
 | Entrypoint | Use |
 | --- | --- |
-| `openscience` | Open the [browser workspace](/openscience/workspace) in the current directory. |
-| `openscience run [message..]` | Send one prompt from the terminal, stream the result, and exit. Good for pipelines, CI, and git hooks. |
-| `openscience serve` | Start a headless server (no browser) for `run --attach` to target. |
+| `griffin` | Open the [browser workspace](/griffin/workspace) in the current directory. |
+| `griffin run [message..]` | Send one prompt from the terminal, stream the result, and exit. Good for pipelines, CI, and git hooks. |
+| `griffin serve` | Start a headless server (no browser) for `run --attach` to target. |
 
-The workspace is interactive; `openscience run` is the one to script. Each produces a session you can resume from either surface.
+The workspace is interactive; `griffin run` is the one to script. Each produces a session you can resume from either surface.
 
 ## One-shot runs
 
 ```bash
-openscience run "Set up a DFT optimization for this structure" -f data/sample.cif
-git diff | openscience run "Review this diff for race conditions"
+griffin run "Set up a DFT optimization for this structure" -f data/sample.cif
+git diff | griffin run "Review this diff for race conditions"
 ```
 
-Piped stdin is appended to the message. `openscience run` supports:
+Piped stdin is appended to the message. `griffin run` supports:
 
 | Flag | Use |
 | --- | --- |
 | `-c, --continue` | Continue the most recent session. |
 | `-s, --session <id>` | Continue a specific session by id. |
-| `-m, --model <provider/model>` | Model for this run, e.g. `anthropic/claude-opus-4-8`. See [Models](/openscience/models). |
+| `-m, --model <provider/model>` | Model for this run, e.g. `anthropic/claude-opus-4-8`. See [Models](/griffin/models). |
 | `--variant <tier>` | Reasoning-effort tier (`high`, `max`, `minimal`; model-dependent). |
-| `--agent <name>` | Run a specific primary agent. See [Agents](/openscience/agents). |
+| `--agent <name>` | Run a specific primary agent. See [Agents](/griffin/agents). |
 | `--command <name>` | Run a custom command, with the message as its arguments. |
 | `-f, --file <path>` | Attach a local file to the message (repeatable). |
 | `--title <text>` | Title for the session in `session list`. |
@@ -44,20 +44,20 @@ To pick up a file, always use `-f`; `--attach` targets a server, it does not fet
 ## Continue or resume
 
 ```bash
-openscience session list                       # recent sessions (-n 10 to cap, --format json)
-openscience run -c "Now add tests for the refactored module"
-openscience run -s ses_8f2ka91xk "Rerun the sweep with lr=3e-4"
+griffin session list                       # recent sessions (-n 10 to cap, --format json)
+griffin run -c "Now add tests for the refactored module"
+griffin run -s ses_8f2ka91xk "Rerun the sweep with lr=3e-4"
 ```
 
 `session list` prints a table of ids, titles, and update times (paged through `less` in a terminal). In the workspace, the same sessions appear in the session history pane, where you can also queue prompts and undo from any message.
 
 ## Attach to a running server
 
-Leave `openscience serve` (or the workspace) running and drive it from another terminal:
+Leave `griffin serve` (or the workspace) running and drive it from another terminal:
 
 ```bash
-openscience run --attach http://localhost:4096 "Summarize today's results"      # new session on the server
-openscience run --attach http://localhost:4096 -s ses_8f2ka91xk "Continue"      # a specific session (-c: latest)
+griffin run --attach http://localhost:4096 "Summarize today's results"      # new session on the server
+griffin run --attach http://localhost:4096 -s ses_8f2ka91xk "Continue"      # a specific session (-c: latest)
 ```
 
 The run shares the server's sessions, so work started in the browser continues from the terminal and vice versa.
@@ -65,8 +65,8 @@ The run shares the server's sessions, so work started in the browser continues f
 ## Export and import
 
 ```bash
-openscience export ses_8f2ka91xk > session.json   # no id: interactive picker
-openscience import session.json
+griffin export ses_8f2ka91xk > session.json   # no id: interactive picker
+griffin import session.json
 ```
 
 `export` writes the full session as JSON to stdout; `import` loads it on another machine. Useful for sharing reproductions or attaching a transcript to an issue.
@@ -74,16 +74,16 @@ openscience import session.json
 ## What's next
 
 <Columns cols={2}>
-  <Card title="Workspace" icon="app-window" href="/openscience/workspace">
+  <Card title="Workspace" icon="app-window" href="/griffin/workspace">
     The browser surface for the same sessions.
   </Card>
-  <Card title="Models" icon="package-check" href="/openscience/models">
+  <Card title="Models" icon="package-check" href="/griffin/models">
     Per-run and per-session model choice.
   </Card>
-  <Card title="Agents" icon="bot" href="/openscience/agents">
+  <Card title="Agents" icon="bot" href="/griffin/agents">
     Primary agents, specialists, and plan mode.
   </Card>
-  <Card title="Commands" icon="terminal" href="/openscience/commands">
+  <Card title="Commands" icon="terminal" href="/griffin/commands">
     The full command reference.
   </Card>
 </Columns>

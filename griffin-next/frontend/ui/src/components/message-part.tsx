@@ -109,7 +109,7 @@ export type PartComponent = Component<MessagePartProps>
 
 export const PART_MAPPING: Record<string, PartComponent | undefined> = {}
 
-// Openscience science-artifact tool renderer id. tool-renderer.tsx registers a
+// Griffin science-artifact tool renderer id. tool-renderer.tsx registers a
 // custom renderer under this name and imports it from here; re-exported so that
 // import resolves against the v1.1.116 message-part.
 export const ARTIFACT_TOOL = "__artifact__"
