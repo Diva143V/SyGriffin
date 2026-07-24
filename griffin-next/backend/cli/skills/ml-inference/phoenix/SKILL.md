@@ -470,7 +470,7 @@ phoenix serve --log-level debug
 ## Resources
 
 - **Documentation**: https://docs.arize.com/phoenix
-- **Repository**: https://github.com/Arize-ai/phoenix
+- **Repository**: 
 - **Docker Hub**: https://hub.docker.com/r/arizephoenix/phoenix
 - **Version**: 12.0.0+
 - **License**: Apache 2.0

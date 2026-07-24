@@ -86,7 +86,7 @@ export const McpListCommand = cmd({
 
         if (servers.length === 0) {
           prompts.log.warn("No MCP servers configured")
-          prompts.outro("Add servers with: openscience mcp add")
+          prompts.outro("Add servers with: griffin mcp add")
           return
         }
 
@@ -163,7 +163,7 @@ export const McpAuthCommand = cmd({
 
         if (oauthServers.length === 0) {
           prompts.log.warn("No OAuth-capable MCP servers configured")
-          prompts.log.info("Remote MCP servers support OAuth by default. Add a remote server in openscience.json:")
+          prompts.log.info("Remote MCP servers support OAuth by default. Add a remote server in griffin.json:")
           prompts.log.info(`
   "mcp": {
     "my-server": {
@@ -381,13 +381,13 @@ export const McpLogoutCommand = cmd({
 })
 
 async function resolveConfigPath(baseDir: string, global = false) {
-  // Check for existing config files (prefer .jsonc over .json, check .openscience/ subdirectory too)
-  const candidates = [path.join(baseDir, "openscience.json"), path.join(baseDir, "openscience.jsonc")]
+  // Check for existing config files (prefer .jsonc over .json, check .griffin/ subdirectory too)
+  const candidates = [path.join(baseDir, "griffin.json"), path.join(baseDir, "griffin.jsonc")]
 
   if (!global) {
     candidates.push(
-      path.join(baseDir, ".openscience", "openscience.json"),
-      path.join(baseDir, ".openscience", "openscience.jsonc"),
+      path.join(baseDir, ".griffin", "griffin.json"),
+      path.join(baseDir, ".griffin", "griffin.jsonc"),
     )
   }
 
@@ -397,7 +397,7 @@ async function resolveConfigPath(baseDir: string, global = false) {
     }
   }
 
-  // Default to openscience.json if none exist
+  // Default to griffin.json if none exist
   return candidates[0]
 }
 
@@ -723,7 +723,7 @@ export const McpDebugCommand = cmd({
               params: {
                 protocolVersion: "2024-11-05",
                 capabilities: {},
-                clientInfo: { name: "openscience-debug", version: Installation.VERSION },
+                clientInfo: { name: "griffin-debug", version: Installation.VERSION },
               },
               id: 1,
             }),
@@ -764,7 +764,7 @@ export const McpDebugCommand = cmd({
 
             try {
               const client = new Client({
-                name: "openscience-debug",
+                name: "griffin-debug",
                 version: Installation.VERSION,
               })
               await client.connect(transport)

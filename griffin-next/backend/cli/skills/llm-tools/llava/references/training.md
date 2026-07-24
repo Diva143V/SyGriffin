@@ -192,6 +192,6 @@ model = get_peft_model(base_model, lora_config)
 
 ## Resources
 
-- **Training script**: https://github.com/haotian-liu/LLaVA/tree/main/scripts
-- **Data format**: https://github.com/haotian-liu/LLaVA/blob/main/docs/Data.md
+- **Training script**: /tree/main/scripts
+- **Data format**: /blob/main/docs/Data.md
 - **Paper**: https://arxiv.org/abs/2304.08485

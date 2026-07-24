@@ -250,7 +250,7 @@ In our previous experiments on A100 40GB GPU with Qwen-2.5-3b-instruct and 8 gen
 
 ## :tada:Other optimizations
 
-We now select better compilation flags and reduce compile times by 50% or more. We also managed to dynamically patch any vLLM version to handle `gc.collect` better for backwards compatibility reasons, as inspired from this [vLLM pull request](https://github.com/vllm-project/vllm/pull/21146). This reduces compilation times from 2 minutes to under 40 seconds.
+We now select better compilation flags and reduce compile times by 50% or more. We also managed to dynamically patch any vLLM version to handle `gc.collect` better for backwards compatibility reasons, as inspired from this [vLLM pull request](/pull/21146). This reduces compilation times from 2 minutes to under 40 seconds.
 
 We also optimized `torch.compile` flags and tried turning on some flags - unfortunately `combo_kernels` and `multi_kernel` could not function correctly on vLLM 0.10 and Torch 2.8/2.9 nightly and `coordinate_descent_tuning` made autotuning all kernels dramatically slower. It used to compile in under a minute, but enabling it took over 13 minutes and more, with minimal performance gains.
 

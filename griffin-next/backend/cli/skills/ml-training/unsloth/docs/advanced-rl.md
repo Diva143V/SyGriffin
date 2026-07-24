@@ -36,7 +36,7 @@ Detailed guides on doing GRPO with Unsloth for Batching, Generation & Training P
       completion_mask = completion_mask * (~truncated_completions).unsqueeze(1).int()
   ```
 
-  This can zero out all `completion_mask` entries when many completions are truncated, making `n_mask_per_reward = 0` and causing KL to become NaN. [See](https://github.com/unslothai/unsloth-zoo/blob/e705f7cb50aa3470a0b6e36052c61b7486a39133/unsloth_zoo/rl_replacements.py#L184)
+  This can zero out all `completion_mask` entries when many completions are truncated, making `n_mask_per_reward = 0` and causing KL to become NaN. [See](/blob/e705f7cb50aa3470a0b6e36052c61b7486a39133/unsloth_zoo/rl_replacements.py#L184)
 * **`vllm_importance_sampling_correction`** *(bool, default True)*:\
   Applies **Truncated Importance Sampling (TIS)** to correct off-policy effects when generation (e.g., vLLM / fast\_inference) differs from training backend.\
   In Unsloth, this is **auto-set to True** if you’re using vLLM/fast\_inference; otherwise **False**.

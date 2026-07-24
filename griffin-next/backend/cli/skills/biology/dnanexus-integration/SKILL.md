@@ -377,6 +377,6 @@ Load these references when you need detailed information about specific operatio
 
 - Official documentation: https://documentation.dnanexus.com/
 - API reference: http://autodoc.dnanexus.com/
-- GitHub repository: https://github.com/dnanexus/dx-toolkit
+- GitHub repository: 
 - Support: support@dnanexus.com
 

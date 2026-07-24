@@ -469,8 +469,8 @@ train_ids = np.concatenate([np.array(doc['ids'], dtype=np.uint16) for doc in doc
 
 ## Resources
 
-- Data preparation scripts: https://github.com/karpathy/nanoGPT/tree/master/data
-- Tiktoken (BPE tokenizer): https://github.com/openai/tiktoken
+- Data preparation scripts: /tree/master/data
+- Tiktoken (BPE tokenizer): 
 - HuggingFace datasets: https://huggingface.co/datasets
 - OpenWebText: https://huggingface.co/datasets/Skylion007/openwebtext
 - The Stack (code): https://huggingface.co/datasets/bigcode/the-stack

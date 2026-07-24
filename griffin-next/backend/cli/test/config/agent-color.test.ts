@@ -10,7 +10,7 @@ test("agent color parsed from project config", async () => {
   await using tmp = await tmpdir({
     init: async (dir) => {
       await Bun.write(
-        path.join(dir, "openscience.json"),
+        path.join(dir, "griffin.json"),
         JSON.stringify({
           $schema: "https://syntheticsciences.ai/config.json",
           agent: {
@@ -33,7 +33,7 @@ test("Agent.get includes color from config", async () => {
   await using tmp = await tmpdir({
     init: async (dir) => {
       await Bun.write(
-        path.join(dir, "openscience.json"),
+        path.join(dir, "griffin.json"),
         JSON.stringify({
           $schema: "https://syntheticsciences.ai/config.json",
           agent: {

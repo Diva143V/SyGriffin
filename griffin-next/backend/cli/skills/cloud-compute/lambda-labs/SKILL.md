@@ -354,7 +354,7 @@ ssh -L 8888:localhost:8888 ubuntu@<IP>
 ssh ubuntu@<IP>
 
 # Clone repo
-git clone https://github.com/user/project
+git clone 
 cd project
 
 # Install dependencies
@@ -548,11 +548,11 @@ python inference.py \
 
 ## Credential Setup
 
-Credentials are auto-injected by openscience when connected via the dashboard.
+Credentials are auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$LAMBDA_API_KEY" ] && echo "LAMBDA_API_KEY set" || echo "NOT SET"
 ```
 
-If not set: connect Lambda Labs at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect Lambda Labs at https://app.syntheticsciences.ai -> Services, then restart griffin.

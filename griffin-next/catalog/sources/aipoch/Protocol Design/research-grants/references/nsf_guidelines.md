@@ -12,7 +12,7 @@
 - Supports all fields of fundamental science and engineering (except medical sciences).
 - Emphasizes education and workforce development.
 - Strong commitment to diversity, equity, and inclusion (DEI).
-- Promotes open science and data sharing.
+- Promotes griffin and data sharing.
 - Encourages collaborative research across institutions.
 
 ## NSF Directorates
@@ -492,7 +492,7 @@ NSF uses two merit review criteria, which are given equal weight:
 
 1. **Data Management and Sharing Plan**: Now required for all proposals (up to 2 pages).
 2. **Biographical Sketch Format**: Updated to include "Products" instead of "Publications."
-3. **Open Science**: Increased emphasis on open-access publications and data.
+3. **Griffin**: Increased emphasis on open-access publications and data.
 4. **Dissemination Plan**: Certain programs require explicit dissemination plans.
 5. **Mentoring Plan**: Enhanced requirements for postdoctoral mentoring plans.
 

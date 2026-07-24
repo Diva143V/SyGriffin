@@ -23,7 +23,7 @@ interface RemovalTargets {
 
 export const UninstallCommand = {
   command: "uninstall",
-  describe: "uninstall openscience and remove all related files",
+  describe: "uninstall griffin and remove all related files",
   builder: (yargs: Argv) =>
     yargs
       .option("keep-config", {
@@ -54,7 +54,7 @@ export const UninstallCommand = {
     UI.empty()
     UI.println(UI.logo("  "))
     UI.empty()
-    prompts.intro("Uninstall OpenScience")
+    prompts.intro("Uninstall Griffin")
 
     const method = await Installation.method()
     prompts.log.info(`Installation method: ${method}`)
@@ -128,13 +128,13 @@ async function showRemovalSummary(targets: RemovalTargets, method: Installation.
 
   if (method !== "curl" && method !== "unknown") {
     const cmds: Record<string, string> = {
-      npm: "npm uninstall -g @synsci/openscience",
-      pnpm: "pnpm uninstall -g @synsci/openscience",
-      bun: "bun remove -g @synsci/openscience",
-      yarn: "yarn global remove @synsci/openscience",
-      brew: "brew uninstall openscience",
-      choco: "choco uninstall openscience",
-      scoop: "scoop uninstall openscience",
+      npm: "npm uninstall -g @griffin/griffin",
+      pnpm: "pnpm uninstall -g @griffin/griffin",
+      bun: "bun remove -g @griffin/griffin",
+      yarn: "yarn global remove @griffin/griffin",
+      brew: "brew uninstall griffin",
+      choco: "choco uninstall griffin",
+      scoop: "scoop uninstall griffin",
     }
     prompts.log.info(`  ✓ Package: ${cmds[method] || method}`)
   }
@@ -179,13 +179,13 @@ async function executeUninstall(method: Installation.Method, targets: RemovalTar
 
   if (method !== "curl" && method !== "unknown") {
     const cmds: Record<string, string[]> = {
-      npm: ["npm", "uninstall", "-g", "@synsci/openscience"],
-      pnpm: ["pnpm", "uninstall", "-g", "@synsci/openscience"],
-      bun: ["bun", "remove", "-g", "@synsci/openscience"],
-      yarn: ["yarn", "global", "remove", "@synsci/openscience"],
-      brew: ["brew", "uninstall", "openscience"],
-      choco: ["choco", "uninstall", "openscience"],
-      scoop: ["scoop", "uninstall", "openscience"],
+      npm: ["npm", "uninstall", "-g", "@griffin/griffin"],
+      pnpm: ["pnpm", "uninstall", "-g", "@griffin/griffin"],
+      bun: ["bun", "remove", "-g", "@griffin/griffin"],
+      yarn: ["yarn", "global", "remove", "@griffin/griffin"],
+      brew: ["brew", "uninstall", "griffin"],
+      choco: ["choco", "uninstall", "griffin"],
+      scoop: ["scoop", "uninstall", "griffin"],
     }
 
     const cmd = cmds[method]
@@ -193,7 +193,7 @@ async function executeUninstall(method: Installation.Method, targets: RemovalTar
       spinner.start(`Running ${cmd.join(" ")}...`)
       const result =
         method === "choco"
-          ? await $`echo Y | choco uninstall openscience -y -r`.quiet().nothrow()
+          ? await $`echo Y | choco uninstall griffin -y -r`.quiet().nothrow()
           : await $`${cmd}`.quiet().nothrow()
       if (result.exitCode !== 0) {
         spinner.stop(`Package manager uninstall failed: exit code ${result.exitCode}`, 1)
@@ -217,7 +217,7 @@ async function executeUninstall(method: Installation.Method, targets: RemovalTar
     prompts.log.info(`  rm "${targets.binary}"`)
 
     const binDir = path.dirname(targets.binary)
-    if (binDir.includes(".openscience")) {
+    if (binDir.includes(".griffin")) {
       prompts.log.info(`  rmdir "${binDir}" 2>/dev/null`)
     }
   }
@@ -231,7 +231,7 @@ async function executeUninstall(method: Installation.Method, targets: RemovalTar
   }
 
   UI.empty()
-  prompts.log.success("Thank you for using OpenScience!")
+  prompts.log.success("Thank you for using Griffin!")
 }
 
 async function getShellConfigFile(): Promise<string | null> {
@@ -270,7 +270,7 @@ async function getShellConfigFile(): Promise<string | null> {
     const content = await Bun.file(file)
       .text()
       .catch(() => "")
-    if (content.includes("# openscience") || content.includes(".openscience/bin")) {
+    if (content.includes("# griffin") || content.includes(".griffin/bin")) {
       return file
     }
   }
@@ -288,21 +288,21 @@ async function cleanShellConfig(file: string) {
   for (const line of lines) {
     const trimmed = line.trim()
 
-    if (trimmed === "# openscience") {
+    if (trimmed === "# griffin") {
       skip = true
       continue
     }
 
     if (skip) {
       skip = false
-      if (trimmed.includes(".openscience/bin") || trimmed.includes("fish_add_path")) {
+      if (trimmed.includes(".griffin/bin") || trimmed.includes("fish_add_path")) {
         continue
       }
     }
 
     if (
-      (trimmed.startsWith("export PATH=") && trimmed.includes(".openscience/bin")) ||
-      (trimmed.startsWith("fish_add_path") && trimmed.includes(".openscience"))
+      (trimmed.startsWith("export PATH=") && trimmed.includes(".griffin/bin")) ||
+      (trimmed.startsWith("fish_add_path") && trimmed.includes(".griffin"))
     ) {
       continue
     }

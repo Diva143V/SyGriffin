@@ -221,5 +221,5 @@ For comprehensive coverage of specific topics, consult the reference files:
 - Codebook (tutorials): https://pennylane.ai/codebook
 - QML demonstrations: https://pennylane.ai/qml/demonstrations
 - Community forum: https://discuss.pennylane.ai
-- GitHub: https://github.com/PennyLaneAI/pennylane
+- GitHub: 
 

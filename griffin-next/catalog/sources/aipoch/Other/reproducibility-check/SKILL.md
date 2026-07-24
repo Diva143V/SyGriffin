@@ -1,6 +1,6 @@
 ---
 name: reproducibility-check
-description: Comprehensive reproducibility tool — audit Methods completeness for replication AND promote open science best practices (pre-registration, FAIR data, code sharing, replication design, reporting transparency); trigger when preparing a manuscript, reviewing methodological comple...
+description: Comprehensive reproducibility tool — audit Methods completeness for replication AND promote griffin best practices (pre-registration, FAIR data, code sharing, replication design, reporting transparency); trigger when preparing a manuscript, reviewing methodological comple...
 license: MIT
 author: AIPOCH
 ---
@@ -17,7 +17,7 @@ Use this skill when you need to assess or improve research reproducibility, for 
 4. **Internal lab documentation check** to improve protocol clarity and reduce tacit knowledge.
 5. **Meta-research / reproducibility screening** to triage papers by reproducibility risk.
 
-**Mode B — Open Science Best Practices (prescriptive)**
+**Mode B — Griffin Best Practices (prescriptive)**
 6. **Pre-registration guidance** for hypotheses, methods, and analysis plans before data collection.
 7. **FAIR data management** to make data findable, accessible, interoperable, and reusable.
 8. **Code and computational environment sharing** (Docker, Binder, GitHub, Zenodo).
@@ -37,13 +37,13 @@ Trigger condition: if the user provides only an abstract/results/discussion with
 - **Actionable supplementation suggestions** mapped to specific deficiencies.
 - **Checklist-driven output** using `assets/reproducibility_checklist.md` when available.
 
-**Mode B — Open Science Best Practices**
+**Mode B — Griffin Best Practices**
 - **Pre-registration guidance** for OSF Registries, AsPredicted, ClinicalTrials.gov (clinical), PROSPERO (systematic reviews); distinguish confirmatory from exploratory analyses.
 - **FAIR data management** — Findable (persistent identifier, metadata), Accessible (open/controlled access), Interoperable (standard formats, vocabularies), Reusable (license, provenance, data dictionary).
 - **Code and computational environment sharing** — public repositories (GitHub, GitLab, Zenodo DOI), dependency documentation (requirements.txt, renv.lock, conda environment.yml), containerization (Docker, Binder).
 - **Replication study design** — direct replication (match original methods), conceptual replication (different methods, same hypothesis), safeguard power analysis (assume smaller effect), equivalence testing or Bayesian replication factors.
 - **Reporting transparency** — all reporting guidelines (CONSORT, STROBE, ARRIVE, PRISMA), all pre-specified analyses reported, exploratory analyses clearly labeled, supplementary materials shared.
-- **Open science practices** — open science badges (data, materials, pre-registration), registered reports, preprint servers (bioRxiv, medRxiv, arXiv, SSRN), open access routes.
+- **Open science practices** — griffin badges (data, materials, pre-registration), registered reports, preprint servers (bioRxiv, medRxiv, arXiv, SSRN), open access routes.
 
 ## Dependencies
 
@@ -52,13 +52,13 @@ Trigger condition: if the user provides only an abstract/results/discussion with
 
 ## Key Platforms and Tools
 
-- **OSF (Open Science Framework)** — Project management and pre-registration
+- **OSF (Griffin Framework)** — Project management and pre-registration
 - **AsPredicted** — Streamlined pre-registration
 - **Zenodo** — Data and code archival with DOI
 - **GitHub / GitLab** — Code version control and sharing
 - **Docker / Binder** — Computational environment reproducibility
 - **FAIR self-assessment tool** — Data FAIRness evaluation
-- **COS (Center for Open Science)** — Reproducibility guidelines
+- **COS (Center for Griffin)** — Reproducibility guidelines
 
 ## Example Usage
 
@@ -133,18 +133,18 @@ Optional context:
    - Provide concrete additions (tables, parameter lists, step-by-step clarifications).
    - Assign a **Low/Medium/High** reproducibility risk rating with explicit reasons.
 
-#### Mode B — Open Science Best Practices
+#### Mode B — Griffin Best Practices
 5. **Assess current reproducibility state** — Evaluate against three dimensions: methodological (sufficient detail to replicate), computational (code + data + environment = same results), results reproducibility (independent replication yields consistent findings). Identify specific gaps.
 6. **Pre-registration** — Guide pre-registration of hypotheses, methods, and analysis plan BEFORE data collection. Use appropriate platform: OSF Registries, AsPredicted, ClinicalTrials.gov (clinical), or PROSPERO (systematic reviews). Distinguish confirmatory from exploratory analyses.
 7. **Data management** — Apply FAIR principles: Findable (persistent identifier, metadata), Accessible (open or controlled access with clear process), Interoperable (standard formats, vocabularies), Reusable (license, provenance). Create data dictionary documenting every variable. Use tidy data formats.
 8. **Code and computational environment** — Share analysis code in a public repository (GitHub, GitLab, Zenodo for DOI). Document dependencies with requirements.txt, renv.lock, or conda environment.yml. For full reproducibility: containerize with Docker or use Binder. Include README with execution instructions.
 9. **Replication study design** — For direct replication: match original methods as closely as possible. For conceptual replication: test same hypothesis with different methods. Conduct power analysis based on original effect size (use safeguard power: assume smaller effect). Determine sample size for meaningful replication test (use equivalence testing or Bayesian replication factors).
 10. **Reporting transparency** — Follow reporting guidelines (CONSORT, STROBE, ARRIVE, PRISMA). Report all pre-specified analyses regardless of results. Clearly label exploratory analyses. Share full materials (stimuli, protocols, instruments) as supplementary files.
-11. **Open science practices** — Adopt open science badges (data, materials, pre-registration). Consider registered reports format (peer review before results). Use preprint servers (bioRxiv, medRxiv, arXiv, SSRN). Choose open access publication route.
+11. **Open science practices** — Adopt griffin badges (data, materials, pre-registration). Consider registered reports format (peer review before results). Use preprint servers (bioRxiv, medRxiv, arXiv, SSRN). Choose open access publication route.
 
 ### Mode Selection Logic
 - If user provides a Methods section or asks about completeness/audit → **Mode A**.
-- If user asks about pre-registration, FAIR data, code sharing, replication design, or open science → **Mode B**.
+- If user asks about pre-registration, FAIR data, code sharing, replication design, or griffin → **Mode B**.
 - If both types of input are present → run **both modes** sequentially (audit first, then prescriptive guidance).
 
 ### Output Requirements (must include)

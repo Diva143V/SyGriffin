@@ -24,7 +24,7 @@ interface FetchPinnedParams {
  *  doesn't appear in fetchInstalledSkills, so sync never even tries.
  */
 export async function gitFetchPinned(params: FetchPinnedParams): Promise<void> {
-  const tmpDir = await mkdtemp(path.join(os.tmpdir(), "openscience-skill-sync-"))
+  const tmpDir = await mkdtemp(path.join(os.tmpdir(), "griffin-skill-sync-"))
   try {
     // Clone full repo at default branch, then checkout the pinned SHA.
     // Shallow `--depth 1` won't work because we need an arbitrary SHA.
@@ -75,12 +75,12 @@ export async function gitFetchPinned(params: FetchPinnedParams): Promise<void> {
     await mkdir(params.destDir, { recursive: true })
     await copyTree(srcSkill, params.destDir)
 
-    // Also copy the namespace's openscience-skills.json (entries manifest) if
+    // Also copy the namespace's griffin-skills.json (entries manifest) if
     // present. This is per-namespace, not per-skill — only the first sync
     // per namespace needs to write it.
     const nsDir = path.dirname(path.dirname(params.destDir))
-    const nsManifest = path.join(nsDir, "openscience-skills.json")
-    const upstreamManifest = path.join(tmpDir, "openscience-skills.json")
+    const nsManifest = path.join(nsDir, "griffin-skills.json")
+    const upstreamManifest = path.join(tmpDir, "griffin-skills.json")
     if ((await Bun.file(upstreamManifest).exists()) && !(await Bun.file(nsManifest).exists())) {
       await copyFile(upstreamManifest, nsManifest)
     }

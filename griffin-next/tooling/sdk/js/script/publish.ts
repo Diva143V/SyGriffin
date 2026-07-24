@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { Script } from "@synsci/script"
+import { Script } from "@griffin/script"
 import { $ } from "bun"
 
 const dir = new URL("..", import.meta.url).pathname

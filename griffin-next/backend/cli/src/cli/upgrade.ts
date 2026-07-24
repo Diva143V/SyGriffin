@@ -10,7 +10,7 @@ export async function upgrade() {
   if (!latest) return
   if (Installation.VERSION === latest) return
 
-  if (config.autoupdate === false || Flag.OPENSCIENCE_DISABLE_AUTOUPDATE) {
+  if (config.autoupdate === false || Flag.GRIFFIN_DISABLE_AUTOUPDATE) {
     return
   }
   if (config.autoupdate === "notify") {

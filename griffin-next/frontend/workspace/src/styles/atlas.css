@@ -23,9 +23,9 @@
 }
 
 :root {
-  /* The app's --color-* namespace is a thin ALIAS layer over the @synsci/ui
+  /* The app's --color-* namespace is a thin ALIAS layer over the @griffin/ui
      semantic tokens (theme.css statics + the runtime-injected theme, default
-     frontend/ui/src/theme/themes/openscience.json). One palette, one source of
+     frontend/ui/src/theme/themes/griffin.json). One palette, one source of
      truth — the shell, the transcript, and Settings all move together, and
      picking a different theme restyles the whole app coherently. */
   --color-bg: var(--background-base);
@@ -94,12 +94,12 @@
 
   --font-sans: "Computer Modern", "Latin Modern Roman", Georgia, "Times New Roman", serif;
   --font-serif: "Computer Modern", "Latin Modern Roman", Georgia, "Times New Roman", serif;
-  /* Code font: single source. --font-family-mono is owned by @synsci/ui theme.css
+  /* Code font: single source. --font-family-mono is owned by @griffin/ui theme.css
      and written at runtime by the Settings mono-font picker (self-hosted Nerd
      Font families) — everything code-shaped routes through it. */
   --font-code: var(--font-family-mono);
   --font-ui-sans: "Computer Modern", "Latin Modern Roman", Georgia, "Times New Roman", serif;
-  /* Bridge @synsci/ui (SessionTurn chat transcript) typography to Computer Modern */
+  /* Bridge @griffin/ui (SessionTurn chat transcript) typography to Computer Modern */
   --font-family-sans: "Computer Modern", "Latin Modern Roman", Georgia, serif;
 
   --z-header: 20;
@@ -179,7 +179,7 @@
 }
 
 /* The old light-mode "cream neutralisation" remap block is gone: the default
-   openscience theme now ships the product's neutral greys directly, so the ui
+   griffin theme now ships the product's neutral greys directly, so the ui
    semantic layer needs no app-side patching (and non-default themes render
    exactly as authored). */
 

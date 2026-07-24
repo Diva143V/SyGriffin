@@ -13,7 +13,7 @@ import { AtlasBridgeRoutes } from "./routes/atlas-bridge"
 import { RepoRoutes } from "./routes/repo"
 import z from "zod"
 import { Provider } from "../provider/provider"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { LSP } from "../lsp"
 import { Format } from "../format"
 import { Instance } from "../project/instance"
@@ -70,7 +70,7 @@ export namespace Server {
   // Per-process secret marking trusted in-process calls (Server.internalFetch).
   // Generated fresh each run, kept in memory, never sent to any client — a
   // network request cannot reproduce it.
-  const INTERNAL_HEADER = "x-openscience-internal"
+  const INTERNAL_HEADER = "x-griffin-internal"
   const INTERNAL_NONCE = crypto.randomUUID()
 
   export function url(): URL {
@@ -241,7 +241,7 @@ export namespace Server {
         // Repository tab (status/commit/push/remote) — shells out to git.
         .route("/api/repo", RepoRoutes())
         .use(async (c, next) => {
-          let directory = c.req.query("directory") || c.req.header("x-openscience-directory") || process.cwd()
+          let directory = c.req.query("directory") || c.req.header("x-griffin-directory") || process.cwd()
           try {
             directory = decodeURIComponent(directory)
           } catch {
@@ -260,9 +260,9 @@ export namespace Server {
           openAPIRouteHandler(app, {
             documentation: {
               info: {
-                title: "openscience",
+                title: "griffin",
                 version: "0.0.3",
-                description: "openscience api",
+                description: "griffin api",
               },
               openapi: "3.1.1",
             },
@@ -288,7 +288,7 @@ export namespace Server {
           "/instance/dispose",
           describeRoute({
             summary: "Dispose instance",
-            description: "Clean up and dispose the current OpenScience instance, releasing all resources.",
+            description: "Clean up and dispose the current Griffin instance, releasing all resources.",
             operationId: "instance.dispose",
             responses: {
               200: {
@@ -311,7 +311,7 @@ export namespace Server {
           describeRoute({
             summary: "Get paths",
             description:
-              "Retrieve the current working directory and related path information for the OpenScience instance.",
+              "Retrieve the current working directory and related path information for the Griffin instance.",
             operationId: "path.get",
             responses: {
               200: {
@@ -375,7 +375,7 @@ export namespace Server {
           "/command",
           describeRoute({
             summary: "List commands",
-            description: "Get a list of all available commands in the OpenScience system.",
+            description: "Get a list of all available commands in the Griffin system.",
             operationId: "command.list",
             responses: {
               200: {
@@ -449,7 +449,7 @@ export namespace Server {
           "/agent",
           describeRoute({
             summary: "List agents",
-            description: "Get a list of all available AI agents in the OpenScience system.",
+            description: "Get a list of all available AI agents in the Griffin system.",
             operationId: "app.agents",
             responses: {
               200: {
@@ -471,7 +471,7 @@ export namespace Server {
           "/skill",
           describeRoute({
             summary: "List skills",
-            description: "Get a list of all available skills in the OpenScience system.",
+            description: "Get a list of all available skills in the Griffin system.",
             operationId: "app.skills",
             responses: {
               200: {
@@ -669,9 +669,9 @@ export namespace Server {
     const result = await generateSpecs(App() as Hono, {
       documentation: {
         info: {
-          title: "openscience",
+          title: "griffin",
           version: "1.0.0",
-          description: "openscience api",
+          description: "griffin api",
         },
         openapi: "3.1.1",
       },

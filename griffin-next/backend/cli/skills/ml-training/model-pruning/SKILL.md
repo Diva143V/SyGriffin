@@ -28,12 +28,12 @@ Use Model Pruning when you need to:
 
 ```bash
 # Wanda implementation
-git clone https://github.com/locuslab/wanda
+git clone 
 cd wanda
 pip install -r requirements.txt
 
 # Optional: SparseGPT
-git clone https://github.com/IST-DASLab/sparsegpt
+git clone 
 cd sparsegpt
 pip install -e .
 
@@ -488,9 +488,9 @@ iterative_prune(model, target=0.9, steps=10)
 ## Resources
 
 - **Wanda Paper (ICLR 2024)**: https://arxiv.org/abs/2306.11695
-- **Wanda GitHub**: https://github.com/locuslab/wanda
+- **Wanda GitHub**: 
 - **SparseGPT Paper**: https://arxiv.org/abs/2301.00774
-- **SparseGPT GitHub**: https://github.com/IST-DASLab/sparsegpt
+- **SparseGPT GitHub**: 
 - **NVIDIA Sparse Tensor Cores**: https://developer.nvidia.com/blog/accelerating-inference-with-sparsity-using-ampere-and-tensorrt/
 
 

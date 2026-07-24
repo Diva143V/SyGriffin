@@ -75,7 +75,7 @@ For detailed guidance on creating schematics, refer to the scientific-schematics
 - 15-page project description limit (most programs)
 - Emphasis on education, diversity, and societal benefit
 - Collaborative research encouraged
-- Open data and open science emphasis
+- Open data and griffin emphasis
 - Merit review process with panel + ad hoc reviewers
 
 ### NIH (National Institutes of Health)

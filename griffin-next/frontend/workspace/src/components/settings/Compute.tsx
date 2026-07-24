@@ -3,13 +3,13 @@
 // model endpoints.
 //
 // Backend: routes/settings/compute.ts. Provider keys are encrypted at rest
-// under ~/.openscience/ (AES-256-GCM, machine-local key) and never returned to the
+// under ~/.griffin/ (AES-256-GCM, machine-local key) and never returned to the
 // browser — the panel only ever sees connection state + metadata.
 import { Component, For, Show, createResource, createSignal, type JSX } from "solid-js"
-import { Button } from "@synsci/ui/button"
-import { Select } from "@synsci/ui/select"
-import { Icon } from "@synsci/ui/icon"
-import { showToast } from "@synsci/ui/toast"
+import { Button } from "@griffin/ui/button"
+import { Select } from "@griffin/ui/select"
+import { Icon } from "@griffin/ui/icon"
+import { showToast } from "@griffin/ui/toast"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 import { StatusDot } from "@/atlas/shared/StatusDot"

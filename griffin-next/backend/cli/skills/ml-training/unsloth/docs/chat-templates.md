@@ -1,13 +1,13 @@
 # Chat Templates
 
-In our GitHub, we have a list of every chat template Unsloth uses including for Llama, Mistral, Phi-4 etc: [github.com/unslothai/unsloth/blob/main/unsloth/chat_templates.py](https://github.com/unslothai/unsloth/blob/main/unsloth/chat_templates.py)
+In our GitHub, we have a list of every chat template Unsloth uses including for Llama, Mistral, Phi-4 etc: [github.com/unslothai/unsloth/blob/main/unsloth/chat_templates.py](/blob/main/unsloth/chat_templates.py)
 
 ## Colab chat template notebooks
 
 * [Conversational](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3.2_(1B_and_3B)-Conversational.ipynb)
 * [ChatML](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3_(8B)-Ollama.ipynb)
 * [Ollama](https://colab.research.google.com/drive/1WZDi7APtQ9VsvOrQSSC5DDtxq159j8iZ?usp=sharing)
-* [Text Classification](https://github.com/timothelaborie/text_classification_scripts/blob/main/unsloth_classification.ipynb) by Timotheeee
+* [Text Classification](/blob/main/unsloth_classification.ipynb) by Timotheeee
 * [Multiple Datasets](https://colab.research.google.com/drive/1njCCbE1YVal9xC83hjdo2hiGItpY_D6t?usp=sharing) by Flail
 
 ## Adding new tokens

@@ -550,5 +550,5 @@ print(f"Memory allocated: {torch.cuda.memory_allocated() / 1e9:.2f} GB")
 - **Anthropic Docs**: https://docs.anthropic.com
 - **OpenAI Docs**: https://platform.openai.com/docs
 - **Hugging Face Models**: https://huggingface.co/models
-- **llama.cpp**: https://github.com/ggerganov/llama.cpp
+- **llama.cpp**: .cpp
 - **GGUF Models**: https://huggingface.co/models?library=gguf

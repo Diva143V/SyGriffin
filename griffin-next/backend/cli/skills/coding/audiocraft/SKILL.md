@@ -46,7 +46,7 @@ Comprehensive guide to using Meta's AudioCraft for text-to-music and text-to-aud
 pip install audiocraft
 
 # From GitHub (latest)
-pip install git+https://github.com/facebookresearch/audiocraft.git
+pip install git+.git
 
 # Or use HuggingFace Transformers
 pip install transformers torch torchaudio
@@ -558,7 +558,7 @@ for desc in descriptions:
 
 ## Resources
 
-- **GitHub**: https://github.com/facebookresearch/audiocraft
+- **GitHub**: 
 - **Paper (MusicGen)**: https://arxiv.org/abs/2306.05284
 - **Paper (AudioGen)**: https://arxiv.org/abs/2209.15352
 - **HuggingFace**: https://huggingface.co/facebook/musicgen-small

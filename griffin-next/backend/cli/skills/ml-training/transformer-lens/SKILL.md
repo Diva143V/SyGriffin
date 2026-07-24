@@ -13,7 +13,7 @@ dependencies: [transformer-lens>=2.0.0, torch>=2.0.0]
 
 TransformerLens is the de facto standard library for mechanistic interpretability research on GPT-style language models. Created by Neel Nanda and maintained by Bryce Meyer, it provides clean interfaces to inspect and manipulate model internals via HookPoints on every activation.
 
-**GitHub**: [TransformerLensOrg/TransformerLens](https://github.com/TransformerLensOrg/TransformerLens) (2,900+ stars)
+**GitHub**: [TransformerLensOrg/TransformerLens]() (2,900+ stars)
 
 ## When to Use TransformerLens
 
@@ -39,7 +39,7 @@ pip install transformer-lens
 
 For development version:
 ```bash
-pip install git+https://github.com/TransformerLensOrg/TransformerLens
+pip install git+
 ```
 
 ## Core Concepts

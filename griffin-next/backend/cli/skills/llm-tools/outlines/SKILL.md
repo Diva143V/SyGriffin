@@ -640,8 +640,8 @@ class Article(BaseModel):
 ## Resources
 
 - **Documentation**: https://outlines-dev.github.io/outlines
-- **GitHub**: https://github.com/outlines-dev/outlines (8k+ stars)
-- **Discord**: https://discord.gg/R9DSu34mGd
+- **GitHub**:  (8k+ stars)
+- **Discord**: 
 - **Blog**: https://blog.dottxt.co
 
 ## See Also

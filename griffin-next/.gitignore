@@ -16,14 +16,14 @@ ts-dist
 /result
 refs
 Session.vim
-/openscience.json
+/griffin.json
 a.out
 target
 .scripts
 .direnv/
 
 # Local dev files
-openscience-dev
+griffin-dev
 logs/
 *.bun-build
 __pycache__/
@@ -35,8 +35,8 @@ __pycache__/
 
 # Local runtime / tooling artifacts (never commit)
 .playwright-mcp/
-.openscience/node_modules/
-.openscience/bun.lock
+.griffin/node_modules/
+.griffin/bun.lock
 .superpowers/
 # Internal planning docs (specs/plans) stay local, not in the repo
 docs/superpowers/

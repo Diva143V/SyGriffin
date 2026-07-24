@@ -613,5 +613,5 @@ print(result.stdout)
 - **Data API Redoc:** https://data.rcsb.org/redoc/index.html
 - **GraphQL Schema:** https://data.rcsb.org/graphql
 - **Python Package Docs:** https://rcsbapi.readthedocs.io/
-- **GitHub Issues:** https://github.com/rcsb/py-rcsb-api/issues
+- **GitHub Issues:** /issues
 - **Community Forum:** https://www.rcsb.org/help

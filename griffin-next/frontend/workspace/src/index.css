@@ -1,8 +1,8 @@
-@import "@synsci/ui/styles/tailwind";
+@import "@griffin/ui/styles/tailwind";
 @import "./styles/atlas.css";
 
 /*
-  OpenScience editorial typography.
+  Griffin editorial typography.
 
   A research-workbench voice: Computer Modern (Latin Modern Roman) is the single
   UI typeface — headings and body both resolve to it via --font-family-serif /

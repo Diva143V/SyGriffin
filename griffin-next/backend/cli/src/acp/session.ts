@@ -1,15 +1,15 @@
 import { RequestError, type McpServer } from "@agentclientprotocol/sdk"
 import type { ACPSessionState } from "./types"
 import { Log } from "@/util/log"
-import type { OpenScienceClient } from "@synsci/sdk/v2"
+import type { GriffinClient } from "@griffin/sdk/v2"
 
 const log = Log.create({ service: "acp-session-manager" })
 
 export class ACPSessionManager {
   private sessions = new Map<string, ACPSessionState>()
-  private sdk: OpenScienceClient
+  private sdk: GriffinClient
 
-  constructor(sdk: OpenScienceClient) {
+  constructor(sdk: GriffinClient) {
     this.sdk = sdk
   }
 

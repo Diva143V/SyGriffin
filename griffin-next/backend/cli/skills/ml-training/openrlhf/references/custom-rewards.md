@@ -525,6 +525,6 @@ Check `extra_logs` in W&B dashboard.
 
 ## References
 
-- OpenRLHF: https://github.com/OpenRLHF/OpenRLHF
+- OpenRLHF: 
 - Agent API: `openrlhf/utils/agent.py`
 - Remote RM: `openrlhf/utils/remote_rm_utils.py`

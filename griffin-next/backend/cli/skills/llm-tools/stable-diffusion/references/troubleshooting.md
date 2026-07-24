@@ -28,7 +28,7 @@ nvcc --version
 pip install xformers --index-url https://download.pytorch.org/whl/cu121  # For CUDA 12.1
 
 # Or build from source
-pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
+pip install -v -U git+.git@main#egg=xformers
 ```
 
 ### Torch/CUDA mismatch
@@ -539,8 +539,8 @@ image = pipe(
 ## Getting Help
 
 1. **Documentation**: https://huggingface.co/docs/diffusers
-2. **GitHub Issues**: https://github.com/huggingface/diffusers/issues
-3. **Discord**: https://discord.gg/diffusers
+2. **GitHub Issues**: /issues
+3. **Discord**: 
 4. **Forum**: https://discuss.huggingface.co
 
 ### Reporting Issues

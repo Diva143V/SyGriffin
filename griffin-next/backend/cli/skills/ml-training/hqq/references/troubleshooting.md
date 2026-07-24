@@ -488,7 +488,7 @@ profile_memory()
 
 ## Getting Help
 
-1. **GitHub Issues**: https://github.com/mobiusml/hqq/issues
+1. **GitHub Issues**: /issues
 2. **HuggingFace Forums**: https://discuss.huggingface.co
 3. **Discord**: Check HQQ community channels
 

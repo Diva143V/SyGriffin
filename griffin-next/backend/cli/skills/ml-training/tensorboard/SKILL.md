@@ -618,7 +618,7 @@ with profiler.profile(
 
 - **Documentation**: https://www.tensorflow.org/tensorboard
 - **PyTorch Integration**: https://pytorch.org/docs/stable/tensorboard.html
-- **GitHub**: https://github.com/tensorflow/tensorboard (27k+ stars)
+- **GitHub**:  (27k+ stars)
 - **TensorBoard.dev**: https://tensorboard.dev (share experiments publicly)
 
 ## See Also

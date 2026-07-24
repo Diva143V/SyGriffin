@@ -38,14 +38,14 @@ Fastest open-model inference platform with serverless and on-demand GPU deployme
 
 ## Credential Setup
 
-Credentials are auto-injected by openscience when connected via the dashboard.
+Credentials are auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$FIREWORKS_API_KEY" ] && echo "FIREWORKS_API_KEY set" || echo "NOT SET"
 ```
 
-If not set: connect Fireworks AI at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect Fireworks AI at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Quick Start
 
@@ -674,5 +674,5 @@ print(f"Status: {batch_status.status}")
 - **firectl CLI**: https://docs.fireworks.ai/tools-sdks/firectl/firectl
 - **OpenAI Compatibility**: https://docs.fireworks.ai/tools-sdks/openai-compatibility
 - **Fine-Tuning Guide**: https://docs.fireworks.ai/fine-tuning/fine-tuning-models
-- **Cookbook (GitHub)**: https://github.com/fw-ai/cookbook
+- **Cookbook (GitHub)**: 
 - **Status Page**: https://status.fireworks.ai

@@ -9,6 +9,7 @@ import type {
   AccountDeviceRevokeResponses,
   AccountDevicesResponses,
   AccountGetResponses,
+  AccountLoginKeyResponses,
   AccountLogoutResponses,
   AgentPartInput,
   AppAgentsResponses,
@@ -85,6 +86,9 @@ import type {
   PermissionRespondErrors,
   PermissionRespondResponses,
   PermissionRuleset,
+  PostSettingsLocalModelsResponses,
+  PostSettingsLocalResponses,
+  PostSettingsLocalStartResponses,
   ProjectCurrentResponses,
   ProjectListResponses,
   ProjectUpdateErrors,
@@ -106,12 +110,21 @@ import type {
   PtyRemoveResponses,
   PtyUpdateErrors,
   PtyUpdateResponses,
+  PutSettingsSandboxResponses,
   QuestionAnswer,
   QuestionListResponses,
   QuestionRejectErrors,
   QuestionRejectResponses,
   QuestionReplyErrors,
   QuestionReplyResponses,
+  ResearchRunApproveResponses,
+  ResearchRunCancelResponses,
+  ResearchRunCreateResponses,
+  ResearchRunGetResponses,
+  ResearchRunListResponses,
+  ResearchRunRetryResponses,
+  ResearchRunValidateResponses,
+  ResearchRunWorkflowsResponses,
   SessionAbortErrors,
   SessionAbortResponses,
   SessionChildrenErrors,
@@ -183,6 +196,7 @@ import type {
   SettingsStorageResetLocationResponses,
   SettingsStorageUsageResponses,
   SettingsUsageGetResponses,
+  SettingsWalletGetResponses,
   SubtaskPartInput,
   TextPartInput,
   ToolIdsErrors,
@@ -235,7 +249,7 @@ class HeyApiRegistry<T> {
   get(key?: string): T {
     const instance = this.instances.get(key ?? this.defaultKey)
     if (!instance) {
-      throw new Error(`No SDK client found. Create one with "new OpenScienceClient()" to fix this error.`)
+      throw new Error(`No SDK client found. Create one with "new GriffinClient()" to fix this error.`)
     }
     return instance
   }
@@ -249,7 +263,7 @@ export class Config extends HeyApiClient {
   /**
    * Get global configuration
    *
-   * Retrieve the current global OpenScience configuration settings and preferences.
+   * Retrieve the current global Griffin configuration settings and preferences.
    */
   public get<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<GlobalConfigGetResponses, unknown, ThrowOnError>({
@@ -261,7 +275,7 @@ export class Config extends HeyApiClient {
   /**
    * Update global configuration
    *
-   * Update global OpenScience configuration settings and preferences.
+   * Update global Griffin configuration settings and preferences.
    */
   public update<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -287,7 +301,7 @@ export class Global extends HeyApiClient {
   /**
    * Get health
    *
-   * Get health information about the OpenScience server.
+   * Get health information about the Griffin server.
    */
   public health<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<GlobalHealthResponses, unknown, ThrowOnError>({
@@ -299,7 +313,7 @@ export class Global extends HeyApiClient {
   /**
    * Get global events
    *
-   * Subscribe to global events from the OpenScience system using server-sent events.
+   * Subscribe to global events from the Griffin system using server-sent events.
    */
   public event<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).sse.get<GlobalEventResponses, unknown, ThrowOnError>({
@@ -371,7 +385,7 @@ export class Global extends HeyApiClient {
   /**
    * Dispose instance
    *
-   * Clean up and dispose all OpenScience instances, releasing all resources.
+   * Clean up and dispose all Griffin instances, releasing all resources.
    */
   public dispose<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).post<GlobalDisposeResponses, unknown, ThrowOnError>({
@@ -383,7 +397,7 @@ export class Global extends HeyApiClient {
   /**
    * Sync account services
    *
-   * Refresh OpenScience account services and reload local provider/config state.
+   * Refresh Griffin account services and reload local provider/config state.
    */
   public sync<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).post<GlobalSyncResponses, unknown, ThrowOnError>({
@@ -455,7 +469,7 @@ export class Account extends HeyApiClient {
   /**
    * Get account
    *
-   * Get synced OpenScience account and billing summary.
+   * Get synced Griffin account and billing summary.
    */
   public get<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<AccountGetResponses, unknown, ThrowOnError>({
@@ -481,6 +495,28 @@ export class Account extends HeyApiClient {
     return (options?.client ?? this.client).get<AccountDevicesResponses, unknown, ThrowOnError>({
       url: "/account/devices",
       ...options,
+    })
+  }
+
+  /**
+   * Sign in with an Atlas API key
+   */
+  public loginKey<ThrowOnError extends boolean = false>(
+    parameters?: {
+      key?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams([parameters], [{ args: [{ in: "body", key: "key" }] }])
+    return (options?.client ?? this.client).post<AccountLoginKeyResponses, unknown, ThrowOnError>({
+      url: "/account/login-key",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
     })
   }
 
@@ -581,7 +617,7 @@ export class Storage extends HeyApiClient {
   /**
    * Get storage usage
    *
-   * Real on-disk sizes for the OpenScience data directory and its top-level entries.
+   * Real on-disk sizes for the Griffin data directory and its top-level entries.
    */
   public usage<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<SettingsStorageUsageResponses, unknown, ThrowOnError>({
@@ -995,6 +1031,18 @@ export class Billing extends HeyApiClient {
   }
 }
 
+export class Wallet extends HeyApiClient {
+  /**
+   * Get Atlas wallet balance, plan mode, and recent transactions
+   */
+  public get<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
+    return (options?.client ?? this.client).get<SettingsWalletGetResponses, unknown, ThrowOnError>({
+      url: "/settings/wallet",
+      ...options,
+    })
+  }
+}
+
 export class Skills extends HeyApiClient {
   /**
    * Install skill from git
@@ -1227,6 +1275,11 @@ export class Settings extends HeyApiClient {
     return (this._billing ??= new Billing({ client: this.client }))
   }
 
+  private _wallet?: Wallet
+  get wallet(): Wallet {
+    return (this._wallet ??= new Wallet({ client: this.client }))
+  }
+
   private _skills?: Skills
   get skills(): Skills {
     return (this._skills ??= new Skills({ client: this.client }))
@@ -1308,7 +1361,7 @@ export class Project extends HeyApiClient {
   /**
    * List all projects
    *
-   * Get a list of projects that have been opened with OpenScience.
+   * Get a list of projects that have been opened with Griffin.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1327,7 +1380,7 @@ export class Project extends HeyApiClient {
   /**
    * Get current project
    *
-   * Retrieve the currently active project that OpenScience is working with.
+   * Retrieve the currently active project that Griffin is working with.
    */
   public current<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1398,7 +1451,7 @@ export class Pty extends HeyApiClient {
   /**
    * List PTY sessions
    *
-   * Get a list of all active pseudo-terminal (PTY) sessions managed by OpenScience.
+   * Get a list of all active pseudo-terminal (PTY) sessions managed by Griffin.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1596,7 +1649,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Get configuration
    *
-   * Retrieve the current OpenScience configuration settings and preferences.
+   * Retrieve the current Griffin configuration settings and preferences.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1615,7 +1668,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Update configuration
    *
-   * Update OpenScience configuration settings and preferences.
+   * Update Griffin configuration settings and preferences.
    */
   public update<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1878,7 +1931,7 @@ export class Session extends HeyApiClient {
   /**
    * List sessions
    *
-   * Get a list of all OpenScience sessions, sorted by most recently updated.
+   * Get a list of all Griffin sessions, sorted by most recently updated.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1914,7 +1967,7 @@ export class Session extends HeyApiClient {
   /**
    * Create session
    *
-   * Create a new OpenScience session for interacting with AI assistants and managing conversations.
+   * Create a new Griffin session for interacting with AI assistants and managing conversations.
    */
   public create<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -2002,7 +2055,7 @@ export class Session extends HeyApiClient {
   /**
    * Get session
    *
-   * Retrieve detailed information about a specific OpenScience session.
+   * Retrieve detailed information about a specific Griffin session.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters: {
@@ -2365,7 +2418,6 @@ export class Session extends HeyApiClient {
       system?: string
       variant?: string
       tier?: "fast" | "pro" | "ultra"
-      fast?: boolean
       parts?: Array<TextPartInput | FilePartInput | AgentPartInput | SubtaskPartInput>
     },
     options?: Options<never, ThrowOnError>,
@@ -2385,7 +2437,6 @@ export class Session extends HeyApiClient {
             { in: "body", key: "system" },
             { in: "body", key: "variant" },
             { in: "body", key: "tier" },
-            { in: "body", key: "fast" },
             { in: "body", key: "parts" },
           ],
         },
@@ -2457,7 +2508,6 @@ export class Session extends HeyApiClient {
       system?: string
       variant?: string
       tier?: "fast" | "pro" | "ultra"
-      fast?: boolean
       parts?: Array<TextPartInput | FilePartInput | AgentPartInput | SubtaskPartInput>
     },
     options?: Options<never, ThrowOnError>,
@@ -2477,7 +2527,6 @@ export class Session extends HeyApiClient {
             { in: "body", key: "system" },
             { in: "body", key: "variant" },
             { in: "body", key: "tier" },
-            { in: "body", key: "fast" },
             { in: "body", key: "parts" },
           ],
         },
@@ -2833,6 +2882,263 @@ export class Permission extends HeyApiClient {
     const params = buildClientParams([parameters], [{ args: [{ in: "query", key: "directory" }] }])
     return (options?.client ?? this.client).get<PermissionListResponses, unknown, ThrowOnError>({
       url: "/permission",
+      ...options,
+      ...params,
+    })
+  }
+}
+
+export class ResearchRun extends HeyApiClient {
+  /**
+   * List scientific workflows
+   */
+  public workflows<ThrowOnError extends boolean = false>(
+    parameters?: {
+      directory?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams([parameters], [{ args: [{ in: "query", key: "directory" }] }])
+    return (options?.client ?? this.client).get<ResearchRunWorkflowsResponses, unknown, ThrowOnError>({
+      url: "/research-runs/workflows",
+      ...options,
+      ...params,
+    })
+  }
+
+  /**
+   * Validate workflow inputs
+   */
+  public validate<ThrowOnError extends boolean = false>(
+    parameters?: {
+      directory?: string
+      workflowID?: "rna-seq-differential-expression"
+      sessionID?: string
+      inputs?: {
+        count_matrix: string
+        metadata: string
+      }
+      parameters?: {
+        organism?: string
+        reference?: string
+        sampleColumn?: string
+        conditionColumn?: string
+        control: string
+        treatment: string
+        batchColumn?: string
+        adjustedPValue?: number
+      }
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "query", key: "directory" },
+            { in: "body", key: "workflowID" },
+            { in: "body", key: "sessionID" },
+            { in: "body", key: "inputs" },
+            { in: "body", key: "parameters" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).post<ResearchRunValidateResponses, unknown, ThrowOnError>({
+      url: "/research-runs/validate",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
+    })
+  }
+
+  /**
+   * List scientific runs
+   */
+  public list<ThrowOnError extends boolean = false>(
+    parameters?: {
+      directory?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams([parameters], [{ args: [{ in: "query", key: "directory" }] }])
+    return (options?.client ?? this.client).get<ResearchRunListResponses, unknown, ThrowOnError>({
+      url: "/research-runs",
+      ...options,
+      ...params,
+    })
+  }
+
+  /**
+   * Create a scientific run
+   */
+  public create<ThrowOnError extends boolean = false>(
+    parameters?: {
+      directory?: string
+      workflowID?: "rna-seq-differential-expression"
+      sessionID?: string
+      inputs?: {
+        count_matrix: string
+        metadata: string
+      }
+      parameters?: {
+        organism?: string
+        reference?: string
+        sampleColumn?: string
+        conditionColumn?: string
+        control: string
+        treatment: string
+        batchColumn?: string
+        adjustedPValue?: number
+      }
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "query", key: "directory" },
+            { in: "body", key: "workflowID" },
+            { in: "body", key: "sessionID" },
+            { in: "body", key: "inputs" },
+            { in: "body", key: "parameters" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).post<ResearchRunCreateResponses, unknown, ThrowOnError>({
+      url: "/research-runs",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
+    })
+  }
+
+  /**
+   * Get a scientific run
+   */
+  public get<ThrowOnError extends boolean = false>(
+    parameters: {
+      runID: string
+      directory?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "path", key: "runID" },
+            { in: "query", key: "directory" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).get<ResearchRunGetResponses, unknown, ThrowOnError>({
+      url: "/research-runs/{runID}",
+      ...options,
+      ...params,
+    })
+  }
+
+  /**
+   * Approve a scientific run plan
+   */
+  public approve<ThrowOnError extends boolean = false>(
+    parameters: {
+      runID: string
+      directory?: string
+      note?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "path", key: "runID" },
+            { in: "query", key: "directory" },
+            { in: "body", key: "note" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).post<ResearchRunApproveResponses, unknown, ThrowOnError>({
+      url: "/research-runs/{runID}/approve",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
+    })
+  }
+
+  /**
+   * Cancel a scientific run
+   */
+  public cancel<ThrowOnError extends boolean = false>(
+    parameters: {
+      runID: string
+      directory?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "path", key: "runID" },
+            { in: "query", key: "directory" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).post<ResearchRunCancelResponses, unknown, ThrowOnError>({
+      url: "/research-runs/{runID}/cancel",
+      ...options,
+      ...params,
+    })
+  }
+
+  /**
+   * Retry a scientific run
+   */
+  public retry<ThrowOnError extends boolean = false>(
+    parameters: {
+      runID: string
+      directory?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "path", key: "runID" },
+            { in: "query", key: "directory" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).post<ResearchRunRetryResponses, unknown, ThrowOnError>({
+      url: "/research-runs/{runID}/retry",
       ...options,
       ...params,
     })
@@ -3606,7 +3912,7 @@ export class Instance extends HeyApiClient {
   /**
    * Dispose instance
    *
-   * Clean up and dispose the current OpenScience instance, releasing all resources.
+   * Clean up and dispose the current Griffin instance, releasing all resources.
    */
   public dispose<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3627,7 +3933,7 @@ export class Path extends HeyApiClient {
   /**
    * Get paths
    *
-   * Retrieve the current working directory and related path information for the OpenScience instance.
+   * Retrieve the current working directory and related path information for the Griffin instance.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3669,7 +3975,7 @@ export class Command extends HeyApiClient {
   /**
    * List commands
    *
-   * Get a list of all available commands in the OpenScience system.
+   * Get a list of all available commands in the Griffin system.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3802,7 +4108,7 @@ export class App extends HeyApiClient {
   /**
    * List agents
    *
-   * Get a list of all available AI agents in the OpenScience system.
+   * Get a list of all available AI agents in the Griffin system.
    */
   public agents<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3821,7 +4127,7 @@ export class App extends HeyApiClient {
   /**
    * List skills
    *
-   * Get a list of all available skills in the OpenScience system.
+   * Get a list of all available skills in the Griffin system.
    */
   public skills<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3906,12 +4212,133 @@ export class Event extends HeyApiClient {
   }
 }
 
-export class OpenScienceClient extends HeyApiClient {
-  public static readonly __registry = new HeyApiRegistry<OpenScienceClient>()
+export class GriffinClient extends HeyApiClient {
+  public static readonly __registry = new HeyApiRegistry<GriffinClient>()
 
   constructor(args?: { client?: Client; key?: string }) {
     super(args)
-    OpenScienceClient.__registry.set(this, args?.key)
+    GriffinClient.__registry.set(this, args?.key)
+  }
+
+  public postSettingsLocalStart<ThrowOnError extends boolean = false>(
+    parameters?: {
+      id?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams([parameters], [{ args: [{ in: "body", key: "id" }] }])
+    return (options?.client ?? this.client).post<PostSettingsLocalStartResponses, unknown, ThrowOnError>({
+      url: "/settings/local/start",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
+    })
+  }
+
+  public postSettingsLocalModels<ThrowOnError extends boolean = false>(
+    parameters?: {
+      url?: string
+      key?: string
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "body", key: "url" },
+            { in: "body", key: "key" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).post<PostSettingsLocalModelsResponses, unknown, ThrowOnError>({
+      url: "/settings/local/models",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
+    })
+  }
+
+  public postSettingsLocal<ThrowOnError extends boolean = false>(
+    parameters?: {
+      url?: string
+      id?: string
+      name?: string
+      key?: string
+      models?: Array<string>
+      setDefault?: boolean
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "body", key: "url" },
+            { in: "body", key: "id" },
+            { in: "body", key: "name" },
+            { in: "body", key: "key" },
+            { in: "body", key: "models" },
+            { in: "body", key: "setDefault" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).post<PostSettingsLocalResponses, unknown, ThrowOnError>({
+      url: "/settings/local",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
+    })
+  }
+
+  public putSettingsSandbox<ThrowOnError extends boolean = false>(
+    parameters?: {
+      enabled?: boolean
+      network?: "allow" | "deny"
+      allowWrite?: Array<string>
+      onUnavailable?: "warn" | "error" | "allow"
+    },
+    options?: Options<never, ThrowOnError>,
+  ) {
+    const params = buildClientParams(
+      [parameters],
+      [
+        {
+          args: [
+            { in: "body", key: "enabled" },
+            { in: "body", key: "network" },
+            { in: "body", key: "allowWrite" },
+            { in: "body", key: "onUnavailable" },
+          ],
+        },
+      ],
+    )
+    return (options?.client ?? this.client).put<PutSettingsSandboxResponses, unknown, ThrowOnError>({
+      url: "/settings/sandbox",
+      ...options,
+      ...params,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+        ...params.headers,
+      },
+    })
   }
 
   private _global?: Global
@@ -3977,6 +4404,11 @@ export class OpenScienceClient extends HeyApiClient {
   private _permission?: Permission
   get permission(): Permission {
     return (this._permission ??= new Permission({ client: this.client }))
+  }
+
+  private _researchRun?: ResearchRun
+  get researchRun(): ResearchRun {
+    return (this._researchRun ??= new ResearchRun({ client: this.client }))
   }
 
   private _question?: Question

@@ -124,4 +124,4 @@ Search results return items ranked by similarity in the joint embedding space:
 
 ## Requirements
 
-BEDspace requires StarSpace to be installed separately. Download from: https://github.com/facebookresearch/StarSpace
+BEDspace requires StarSpace to be installed separately. Download from: 

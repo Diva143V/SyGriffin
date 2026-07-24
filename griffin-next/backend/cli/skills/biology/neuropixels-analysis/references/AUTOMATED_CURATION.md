@@ -37,7 +37,7 @@ Bombcell classifies units into 4 categories:
 pip install bombcell
 
 # Or development version
-git clone https://github.com/Julie-Fabre/bombcell.git
+git clone .git
 cd bombcell/py_bombcell
 pip install -e .
 ```
@@ -191,7 +191,7 @@ Track the same neurons across recording days.
 ```bash
 pip install unitmatch
 # Or from source
-git clone https://github.com/EnnyvanBeest/UnitMatch.git
+git clone .git
 ```
 
 ### Usage
@@ -351,8 +351,8 @@ sorting_curated, labels = curate_sorting(sorting, recording, 'output/')
 
 ## References
 
-- [Bombcell GitHub](https://github.com/Julie-Fabre/bombcell)
-- [UnitMatch GitHub](https://github.com/EnnyvanBeest/UnitMatch)
+- [Bombcell GitHub]()
+- [UnitMatch GitHub]()
 - [SpikeInterface Curation](https://spikeinterface.readthedocs.io/en/stable/modules/curation.html)
 - Fabre et al. (2023) "Bombcell: automated curation and cell classification"
 - van Beest et al. (2024) "UnitMatch: tracking neurons across days with high-density probes"

@@ -382,7 +382,7 @@ export namespace File {
         if (err?.code === "EACCES" || err?.code === "EPERM") {
           const macHint =
             process.platform === "darwin"
-              ? " — grant Full Disk Access to the openscience binary in System Settings → Privacy & Security"
+              ? " — grant Full Disk Access to the griffin binary in System Settings → Privacy & Security"
               : ""
           throw new HTTPException(403, {
             message: `permission denied reading ${resolved}${macHint}`,

@@ -37,7 +37,7 @@ def check_env_file() -> Optional[str]:
 
 
 def synced_env() -> dict:
-    """Read OpenScience's managed synced env written by `openscience connect sync`.
+    """Read Griffin's managed synced env written by `griffin connect sync`.
 
     In managed mode this holds OPENROUTER_API_KEY (the managed thk_ token) and
     OPENROUTER_BASE_URL (the Atlas proxy). Reading it here lets image generation
@@ -48,7 +48,7 @@ def synced_env() -> dict:
     """
     base = os.environ.get("XDG_CONFIG_HOME") or os.path.join(os.path.expanduser("~"), ".config")
     try:
-        with open(os.path.join(base, "openscience", "synced-env.json"), encoding="utf-8") as f:
+        with open(os.path.join(base, "griffin", "synced-env.json"), encoding="utf-8") as f:
             data = json.load(f)
         return data if isinstance(data, dict) else {}
     except Exception:
@@ -118,7 +118,7 @@ def generate_image(
         print("Error: 'requests' library not found. Install with: pip install requests")
         sys.exit(1)
 
-    # Resolve the key: explicit arg → env var → .env → OpenScience managed credential.
+    # Resolve the key: explicit arg → env var → .env → Griffin managed credential.
     # The env var path matters most: the CLI injects OPENROUTER_API_KEY into the
     # subprocess env, so reading only .env (the old behavior) made the key invisible.
     # The managed fallback lets nano-banana work through the Atlas proxy with no
@@ -129,7 +129,7 @@ def generate_image(
 
     if not api_key:
         print("❌ Error: OPENROUTER_API_KEY not found!")
-        print("\nConnect OpenRouter via `openscience login` or at https://app.syntheticsciences.ai → Services,")
+        print("\nConnect OpenRouter via `griffin login` or at https://app.syntheticsciences.ai → Services,")
         print("or set it for this run: export OPENROUTER_API_KEY=your-api-key-here")
         print("\nGet your own API key from: https://openrouter.ai/keys")
         sys.exit(1)

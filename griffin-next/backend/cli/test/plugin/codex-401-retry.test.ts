@@ -77,7 +77,7 @@ test("a fatal refresh error propagates to the caller", async () => {
       async () => new Response(null, { status: 401 }),
       "stale",
       async () => {
-        throw new Error("Codex sign-in expired. Reconnect it with `openscience keys signin`.")
+        throw new Error("Codex sign-in expired. Reconnect it with `griffin keys signin`.")
       },
     ),
   ).rejects.toThrow("Reconnect it with")

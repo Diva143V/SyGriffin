@@ -30,7 +30,7 @@ uv uv pip install 'geniml[ml]'
 Development version from GitHub:
 
 ```bash
-uv uv pip install git+https://github.com/databio/geniml.git
+uv uv pip install git+.git
 ```
 
 ## Core Capabilities
@@ -288,7 +288,7 @@ Geniml is part of the BEDbase ecosystem:
 ## Additional Resources
 
 - **Documentation**: https://docs.bedbase.org/geniml/
-- **GitHub**: https://github.com/databio/geniml
+- **GitHub**: 
 - **Pre-trained models**: Available on Hugging Face (databio organization)
 - **Publications**: Cited in documentation for methodological details
 
@@ -310,7 +310,7 @@ Geniml is part of the BEDbase ecosystem:
 - Use pre-tokenization for single-cell data
 
 **"StarSpace not found" (BEDspace):**
-- Install StarSpace separately: https://github.com/facebookresearch/StarSpace
+- Install StarSpace separately: 
 - Set `--path-to-starspace` parameter correctly
 
 For detailed troubleshooting and method-specific issues, consult the appropriate reference file.

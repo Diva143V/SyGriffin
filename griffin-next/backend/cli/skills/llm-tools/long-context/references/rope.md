@@ -398,5 +398,5 @@ class RoPEAttention(nn.Module):
 
 - **RoFormer Paper**: https://arxiv.org/abs/2104.09864
 - **YaRN Paper**: https://arxiv.org/abs/2309.00071
-- **HuggingFace RoPE Utils**: https://github.com/huggingface/transformers/blob/main/src/transformers/modeling_rope_utils.py
-- **Rotary Embeddings PyTorch**: https://github.com/lucidrains/rotary-embedding-torch
+- **HuggingFace RoPE Utils**: /blob/main/src/transformers/modeling_rope_utils.py
+- **Rotary Embeddings PyTorch**: 

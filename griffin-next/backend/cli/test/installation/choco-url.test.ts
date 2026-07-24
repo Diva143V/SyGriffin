@@ -2,9 +2,9 @@ import { describe, expect, test } from "bun:test"
 import { Installation } from "../../src/installation"
 
 describe("Installation.chocoLatestVersionUrl", () => {
-  test("queries the openscience package, not the pre-rename synsc id", () => {
+  test("queries the griffin package, not the pre-rename synsc id", () => {
     const url = Installation.chocoLatestVersionUrl()
-    expect(url).toContain(encodeURIComponent("Id eq 'openscience'"))
+    expect(url).toContain(encodeURIComponent("Id eq 'griffin'"))
     expect(url).not.toContain("synsc")
   })
 

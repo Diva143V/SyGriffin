@@ -41,7 +41,7 @@ Unsupervised tokenizer that works on raw text without language-specific preproce
 pip install sentencepiece
 
 # C++ (requires CMake)
-git clone https://github.com/google/sentencepiece.git
+git clone .git
 cd sentencepiece
 mkdir build && cd build
 cmake .. && make -j $(nproc)
@@ -229,7 +229,7 @@ inputs = tokenizer('translate English to French: Hello', return_tensors='pt')
 
 ## Resources
 
-- **GitHub**: https://github.com/google/sentencepiece ⭐ 10,000+
+- **GitHub**:  ⭐ 10,000+
 - **Paper**: https://arxiv.org/abs/1808.06226 (EMNLP 2018)
 - **Version**: 0.2.0+
 

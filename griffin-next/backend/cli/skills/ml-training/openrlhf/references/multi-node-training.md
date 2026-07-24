@@ -450,5 +450,5 @@ ray job submit --address="http://10.0.0.1:8265" \
 ## References
 
 - Ray Docs: https://docs.ray.io/
-- OpenRLHF: https://github.com/OpenRLHF/OpenRLHF
+- OpenRLHF: 
 - DeepSpeed ZeRO: https://www.deepspeed.ai/tutorials/zero/

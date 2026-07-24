@@ -206,7 +206,7 @@ For datasets that usually follow the common chatml format, the process of prepar
 
 <mark style="color:green;">**Q:**</mark> What if my template is not currently supported by Unsloth?
 
-<mark style="color:green;">**A:**</mark> Submit a feature request on the unsloth github issues [forum](https://github.com/unslothai/unsloth). As a temporary workaround, you could also use the tokenizer's own apply\_chat\_template function until your feature request is approved and merged.
+<mark style="color:green;">**A:**</mark> Submit a feature request on the unsloth github issues [forum](). As a temporary workaround, you could also use the tokenizer's own apply\_chat\_template function until your feature request is approved and merged.
 
 ## Synthetic Data Generation
 

@@ -331,6 +331,6 @@ litgpt download meta-llama/Llama-3.1-405B
 
 ## References
 
-- LitGPT GitHub: https://github.com/Lightning-AI/litgpt
+- LitGPT GitHub: 
 - Model configs: `litgpt/config.py`
 - Download tutorial: `tutorials/download_model_weights.md`

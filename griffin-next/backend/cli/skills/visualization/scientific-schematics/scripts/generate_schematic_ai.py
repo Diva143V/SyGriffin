@@ -79,7 +79,7 @@ def _load_env_file():
 
 
 def _synced_env() -> dict:
-    """Read OpenScience's managed synced env (written by `openscience connect sync`).
+    """Read Griffin's managed synced env (written by `griffin connect sync`).
 
     In managed mode this holds OPENROUTER_API_KEY (the managed thk_ token) and
     OPENROUTER_BASE_URL (the Atlas proxy), so generation can route through the
@@ -89,7 +89,7 @@ def _synced_env() -> dict:
     """
     base = os.environ.get("XDG_CONFIG_HOME") or os.path.join(os.path.expanduser("~"), ".config")
     try:
-        with open(os.path.join(base, "openscience", "synced-env.json"), encoding="utf-8") as f:
+        with open(os.path.join(base, "griffin", "synced-env.json"), encoding="utf-8") as f:
             data = json.load(f)
         return data if isinstance(data, dict) else {}
     except Exception:
@@ -166,7 +166,7 @@ LAYOUT:
             api_key: OpenRouter API key (or use OPENROUTER_API_KEY env var)
             verbose: Print detailed progress information
         """
-        # Priority: 1) explicit param, 2) env var, 3) .env file, 4) OpenScience managed credential
+        # Priority: 1) explicit param, 2) env var, 3) .env file, 4) Griffin managed credential
         synced = _synced_env()
         self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
 
@@ -175,7 +175,7 @@ LAYOUT:
             _load_env_file()
             self.api_key = os.getenv("OPENROUTER_API_KEY")
 
-        # Fall back to the OpenScience managed credential (routes through the Atlas
+        # Fall back to the Griffin managed credential (routes through the Atlas
         # proxy, billed to the user's wallet) so generation works without a
         # user-provided key.
         if not self.api_key:
@@ -183,7 +183,7 @@ LAYOUT:
 
         if not self.api_key:
             raise ValueError(
-                "OPENROUTER_API_KEY not found. Connect OpenRouter via `openscience login` or at\n"
+                "OPENROUTER_API_KEY not found. Connect OpenRouter via `griffin login` or at\n"
                 "https://app.syntheticsciences.ai → Services, or set OPENROUTER_API_KEY for this run.\n"
                 "Get your own key from: https://openrouter.ai/keys"
             )

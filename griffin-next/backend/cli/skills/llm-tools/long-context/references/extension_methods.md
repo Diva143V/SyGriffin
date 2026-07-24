@@ -463,6 +463,6 @@ else:
 - **YaRN Paper**: https://arxiv.org/abs/2309.00071
 - **ALiBi Paper**: https://arxiv.org/abs/2108.12409
 - **Position Interpolation Paper**: https://arxiv.org/abs/2306.15595
-- **YaRN Implementation**: https://github.com/jquesnelle/yarn
-- **ALiBi Implementation**: https://github.com/ofirpress/attention_with_linear_biases
+- **YaRN Implementation**: 
+- **ALiBi Implementation**: 
 - **Together AI Blog**: https://www.together.ai/blog/llama-2-7b-32k

@@ -43,7 +43,7 @@ Comprehensive guide to using Meta AI's Segment Anything Model for zero-shot imag
 
 ```bash
 # From GitHub
-pip install git+https://github.com/facebookresearch/segment-anything.git
+pip install git+.git
 
 # Optional dependencies
 pip install opencv-python pycocotools matplotlib
@@ -494,8 +494,8 @@ mask_generator = SamAutomaticMaskGenerator(
 
 ## Resources
 
-- **GitHub**: https://github.com/facebookresearch/segment-anything
+- **GitHub**: 
 - **Paper**: https://arxiv.org/abs/2304.02643
 - **Demo**: https://segment-anything.com
-- **SAM 2 (Video)**: https://github.com/facebookresearch/segment-anything-2
+- **SAM 2 (Video)**: 
 - **HuggingFace**: https://huggingface.co/facebook/sam-vit-huge

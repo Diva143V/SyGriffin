@@ -27,14 +27,14 @@ Use Weights & Biases (W&B) when you need to:
 
 ## Credential Setup
 
-Credentials are auto-injected by openscience when connected via the dashboard.
+Credentials are auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$WANDB_API_KEY" ] && echo "WANDB_API_KEY set" || echo "NOT SET"
 ```
 
-If not set: connect Weights & Biases at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect Weights & Biases at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Installation
 
@@ -589,8 +589,8 @@ print(f"Share this URL: {run.url}")
 ## Resources
 
 - **Documentation**: https://docs.wandb.ai
-- **GitHub**: https://github.com/wandb/wandb (10.5k+ stars)
-- **Examples**: https://github.com/wandb/examples
+- **GitHub**:  (10.5k+ stars)
+- **Examples**: 
 - **Community**: https://wandb.ai/community
 - **Discord**: https://wandb.me/discord
 

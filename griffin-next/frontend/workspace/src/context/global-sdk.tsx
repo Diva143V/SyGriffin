@@ -1,5 +1,5 @@
-import { createOpenScienceClient, type Event } from "@synsci/sdk/v2/client"
-import { createSimpleContext } from "@synsci/ui/context"
+import { createGriffinClient, type Event } from "@griffin/sdk/v2/client"
+import { createSimpleContext } from "@griffin/ui/context"
 import { createGlobalEmitter } from "@solid-primitives/event-bus"
 import { batch, onCleanup } from "solid-js"
 import { usePlatform } from "./platform"
@@ -12,7 +12,7 @@ export const { use: useGlobalSDK, provider: GlobalSDKProvider } = createSimpleCo
     const platform = usePlatform()
     const abort = new AbortController()
 
-    const eventSdk = createOpenScienceClient({
+    const eventSdk = createGriffinClient({
       baseUrl: server.url,
       signal: abort.signal,
       fetch: platform.fetch,
@@ -51,9 +51,11 @@ export const { use: useGlobalSDK, provider: GlobalSDKProvider } = createSimpleCo
       coalesced.clear()
 
       last = Date.now()
+      console.log("[Global SDK] Flushing", events.filter(e => e).length, "events")
       batch(() => {
         for (const event of events) {
           if (!event) continue
+          console.log("[Global SDK] Emitting to directory:", event.directory, "payload type:", event.payload.type)
           emitter.emit(event.directory, event.payload)
         }
       })
@@ -71,7 +73,10 @@ export const { use: useGlobalSDK, provider: GlobalSDKProvider } = createSimpleCo
       const events = await eventSdk.global.event()
       let yielded = Date.now()
       for await (const event of events.stream) {
-        const directory = event.directory ?? "global"
+        let directory = event.directory ?? "global"
+        if (directory !== "global") {
+          directory = directory.replaceAll("\\", "/").toLowerCase()
+        }
         const payload = event.payload
         const k = key(directory, payload)
         if (k) {
@@ -90,14 +95,14 @@ export const { use: useGlobalSDK, provider: GlobalSDKProvider } = createSimpleCo
       }
     })()
       .finally(flush)
-      .catch(() => undefined)
+      .catch((err) => console.error("[Global SDK] SSE Error:", err))
 
     onCleanup(() => {
       abort.abort()
       flush()
     })
 
-    const sdk = createOpenScienceClient({
+    const sdk = createGriffinClient({
       baseUrl: server.url,
       fetch: platform.fetch,
       throwOnError: true,

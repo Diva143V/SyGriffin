@@ -130,7 +130,7 @@ Creates print-ready academic posters with professional layouts and visual design
 
 1. **Install Paper2All**:
    ```bash
-   git clone https://github.com/YuhangChen1/Paper2All.git
+   git clone .git
    cd Paper2All
    conda create -n paper2all python=3.11
    conda activate paper2all
@@ -463,7 +463,7 @@ This skill includes comprehensive reference documentation:
 - **`references/usage_examples.md`**: Real-world examples and workflow patterns
 
 **External Resources**:
-- GitHub Repository: https://github.com/YuhangChen1/Paper2All
+- GitHub Repository: 
 - Curated Dataset: Available on Hugging Face (13 research categories)
 - Benchmark Suite: Reference websites and evaluation metrics
 

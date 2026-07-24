@@ -5,7 +5,7 @@ import path from "path"
 import os from "os"
 import { unlinkSync } from "fs"
 import { Instance } from "@/project/instance"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { Config } from "@/config/config"
 import { Sandbox } from "@/sandbox/sandbox"
 import type {
@@ -69,14 +69,14 @@ except Exception:
 
 _exec_count = 0
 
-_real_out.write("__OPENSCIENCE_KERNEL_READY__\\n")
+_real_out.write("__GRIFFIN_KERNEL_READY__\\n")
 _real_out.flush()
 
 while True:
     lines = []
     got_end = False
     for line in sys.stdin:
-        if line.rstrip("\\n") == "__OPENSCIENCE_CODE_END__":
+        if line.rstrip("\\n") == "__GRIFFIN_CODE_END__":
             got_end = True
             break
         lines.append(line)
@@ -156,13 +156,13 @@ while True:
         "execution_count": _exec_count,
     }
     r = json.dumps(payload)
-    _real_out.write("__OPENSCIENCE_RESULT_START__\\n" + r + "\\n__OPENSCIENCE_RESULT_END__\\n")
+    _real_out.write("__GRIFFIN_RESULT_START__\\n" + r + "\\n__GRIFFIN_RESULT_END__\\n")
     _real_out.flush()
 `.trim()
 
-const READY = "__OPENSCIENCE_KERNEL_READY__"
-const START = "__OPENSCIENCE_RESULT_START__\n"
-const END = "\n__OPENSCIENCE_RESULT_END__"
+const READY = "__GRIFFIN_KERNEL_READY__"
+const START = "__GRIFFIN_RESULT_START__\n"
+const END = "\n__GRIFFIN_RESULT_END__"
 const IDLE_MS = 30 * 60 * 1000 // reap kernels idle for 30 min
 
 interface RawPayload {
@@ -231,7 +231,7 @@ class PythonKernel implements Kernel {
 
   async start(opts?: KernelStartOptions): Promise<void> {
     if (this.ready) return
-    const scriptPath = path.join(os.tmpdir(), `openscience-pykernel-${this.id.slice(0, 8)}-${Date.now()}.py`)
+    const scriptPath = path.join(os.tmpdir(), `griffin-pykernel-${this.id.slice(0, 8)}-${Date.now()}.py`)
     await Bun.write(scriptPath, KERNEL_SCRIPT)
     this.scriptPath = scriptPath
 
@@ -249,8 +249,8 @@ class PythonKernel implements Kernel {
     const proc = spawn(sandboxed.file, sandboxed.args, {
       cwd: opts?.cwd ?? Instance.directory,
       env: {
-        ...(await OpenScience.subprocessEnv(process.env)),
-        ...OpenScience.pythonThreadCapEnv(process.env),
+        ...(await Griffin.subprocessEnv(process.env)),
+        ...Griffin.pythonThreadCapEnv(process.env),
         ...(opts?.env ?? {}),
         PYTHONUNBUFFERED: "1",
       },
@@ -352,7 +352,7 @@ class PythonKernel implements Kernel {
       opts?.signal?.addEventListener("abort", onAbort, { once: true })
       proc.stdout?.on("data", onData)
       proc.once("exit", onExit)
-      proc.stdin?.write(code + "\n__OPENSCIENCE_CODE_END__\n")
+      proc.stdin?.write(code + "\n__GRIFFIN_CODE_END__\n")
     })
 
     return payloadToResult(payload)

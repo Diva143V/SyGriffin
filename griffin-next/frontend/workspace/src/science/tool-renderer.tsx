@@ -2,7 +2,7 @@
  * App-side inline artifact mount.
  *
  * Backend science tools attach a `metadata.artifact = { kind, data }` envelope to
- * their tool result. `@synsci/ui`'s message-part render path falls back to the
+ * their tool result. `@griffin/ui`'s message-part render path falls back to the
  * renderer registered under `ARTIFACT_TOOL` whenever a tool part carries such an
  * envelope but has no tool-specific renderer. This module registers that
  * renderer, mounting `ScienceArtifact` (which lazily resolves the concrete
@@ -13,8 +13,8 @@
  * before the first artifact is dispatched.
  */
 import { Show } from "solid-js"
-import { ARTIFACT_TOOL, ToolRegistry } from "@synsci/ui/message-part"
-import { BasicTool } from "@synsci/ui/basic-tool"
+import { ARTIFACT_TOOL, ToolRegistry } from "@griffin/ui/message-part"
+import { BasicTool } from "@griffin/ui/basic-tool"
 import stripAnsi from "strip-ansi"
 import { ScienceArtifact } from "./ScienceArtifact"
 import type { ArtifactKind } from "./renderers"

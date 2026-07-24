@@ -430,6 +430,6 @@ uv pip install pufferlib
 ## Documentation
 
 - Official docs: https://puffer.ai/docs.html
-- GitHub: https://github.com/PufferAI/PufferLib
+- GitHub: 
 - Discord: Community support available
 

@@ -1,8 +1,8 @@
 import { createMemo, createSignal, For, Show, type JSX } from "solid-js"
 import { useNavigate } from "@solidjs/router"
-import { base64Encode } from "@synsci/util/encode"
+import { base64Encode } from "@griffin/util/encode"
 import { DateTime } from "luxon"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { FolderPicker } from "@/atlas/FolderPicker"
 import { FdaBanner } from "@/atlas/FdaBanner"
 import { DialogSelectServer } from "@/components/dialog-select-server"
@@ -11,7 +11,7 @@ import { useGlobalSync } from "@/context/global-sync"
 import { useLayout } from "@/context/layout"
 import { usePlatform } from "@/context/platform"
 import { useLanguage } from "@/context/language"
-import { useTheme } from "@synsci/ui/theme"
+import { useTheme } from "@griffin/ui/theme"
 import { Wordmark } from "@/atlas/Wordmark"
 import { AppHeader, HeaderIconButton } from "@/atlas/AppHeader"
 import { AgentIcon } from "@/atlas/shared/AgentIcon"
@@ -54,9 +54,9 @@ const ACTION_BUTTON: JSX.CSSProperties = {
 }
 
 /**
- * Home page — Conductor-style project grid backed by openscience's GlobalSync.
+ * Home page — Conductor-style project grid backed by griffin's GlobalSync.
  *
- * The new visual identity (OpenScience atom + Synthetic Sciences serif wordmark,
+ * The new visual identity (Griffin atom + Synthetic Sciences serif wordmark,
  * gradient mesh background, hover-lift cards, blue CTA) sits on top of the
  * unchanged data + navigation flow:
  *  - useGlobalSync.data.project for the recent projects list
@@ -93,7 +93,7 @@ export default function Home(): JSX.Element {
 
   // Favorites bubble to the top, hidden projects drop out, the rest sort by
   // last-updated. The sort is stable so within each band order is preserved.
-  // OpenScience occasionally registers two project entries for the same worktree
+  // Griffin occasionally registers two project entries for the same worktree
   // (different IDs, same path); collapse those to the most-recently-updated
   // entry per worktree so each card shows once.
   const projects = createMemo(() => {
@@ -148,7 +148,7 @@ export default function Home(): JSX.Element {
    *      walks the user's home dirs on the dev server side and returns
    *      the matching absolute path. Disambiguation hint = the first
    *      child entry name we read from the picked directory handle.
-   *   3. fallback — our in-app FolderPicker (openscience /file backed).
+   *   3. fallback — our in-app FolderPicker (griffin /file backed).
    */
   async function chooseProject() {
     function resolveResult(result: string | string[] | null) {

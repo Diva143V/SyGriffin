@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { APICallError } from "ai"
 import { SessionRetry } from "../../src/session/retry"
 import { MessageV2 } from "../../src/session/message-v2"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 
 function apiError(headers?: Record<string, string>): MessageV2.APIError {
   return new MessageV2.APIError({

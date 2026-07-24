@@ -4,7 +4,7 @@
  * Runs BEFORE any provider SDK construction (Anthropic, OpenAI,
  * @ai-sdk/google) so those SDKs see the correct ANTHROPIC_BASE_URL /
  * ANTHROPIC_API_KEY / etc. on their own startup, without waiting for
- * the asynchronous `openscience sync` call later in CLI boot.
+ * the asynchronous `griffin sync` call later in CLI boot.
  *
  * Without this, the first invocation after a fresh terminal session
  * would race: sync sets process.env in-process, but the SDK had
@@ -23,7 +23,7 @@ import { loadProjectDotenv } from "./dotenv"
 
 function syncedEnvPath(): string {
   const xdg = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), ".config")
-  return path.join(xdg, "openscience", "synced-env.json")
+  return path.join(xdg, "griffin", "synced-env.json")
 }
 
 // The shipped binary disables Bun's ambient .env auto-load (autoloadDotenv:false)

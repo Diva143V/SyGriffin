@@ -454,6 +454,6 @@ This skill includes bundled resources for common TDC workflows:
 
 - **Official Website**: https://tdcommons.ai
 - **Documentation**: https://tdc.readthedocs.io
-- **GitHub**: https://github.com/mims-harvard/TDC
+- **GitHub**: 
 - **Paper**: NeurIPS 2021 - "Therapeutics Data Commons: Machine Learning Datasets and Tasks for Drug Discovery and Development"
 

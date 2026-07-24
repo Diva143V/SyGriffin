@@ -3,7 +3,7 @@
 // @ai-sdk/google) see ANTHROPIC_BASE_URL / ANTHROPIC_API_KEY / etc. at
 // their own module-init time. Without this, the SDK constructs at
 // import time with empty env (sync only catches up later in middleware).
-import "./openscience/preload-env"
+import "./griffin/preload-env"
 
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
@@ -18,7 +18,7 @@ import { ModelsCommand } from "./cli/cmd/models"
 import { SkillCommand } from "./cli/cmd/skill"
 import { UI } from "./cli/ui"
 import { Installation } from "./installation"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { FormatError } from "./cli/error"
 import { ServeCommand } from "./cli/cmd/serve"
 import { DebugCommand } from "./cli/cmd/debug"
@@ -39,7 +39,7 @@ import { KeysCommand, ConnectCommand, DisconnectCommand } from "./cli/cmd/auth"
 import { LocalCommand } from "./cli/cmd/local"
 import { SandboxCommand } from "./cli/cmd/sandbox"
 import { InitCommand, DoctorCommand } from "./cli/onboard"
-import { OpenScience } from "./openscience"
+import { Griffin } from "./griffin"
 
 process.on("unhandledRejection", (e) => {
   Log.Default.error("rejection", {
@@ -82,7 +82,7 @@ const cli = yargs(hideBin(process.argv))
     })
 
     process.env.AGENT = "1"
-    process.env.OPENSCIENCE = "1"
+    process.env.GRIFFIN = "1"
 
     Log.Default.info("griffin", {
       version: Installation.VERSION,
@@ -94,7 +94,7 @@ const cli = yargs(hideBin(process.argv))
     // env applies to the NEXT command — the current one uses whatever is
     // already cached on disk. Replaces a blocking 5s Promise.race that
     // ran on every invocation regardless of staleness.
-    await OpenScience.refreshIfStale().catch(() => {})
+    await Griffin.refreshIfStale().catch(() => {})
 
     // Inject decrypted service credentials (settings ▸ Credentials) into the
     // process env so skills/tools/connectors actually use them. Dynamic import
@@ -106,7 +106,7 @@ const cli = yargs(hideBin(process.argv))
     await import("./server/routes/settings/compute").then((m) => m.ComputeSettings.applyComputeEnv()).catch(() => {})
 
     // Retry any failed usage reports from previous sessions
-    OpenScience.flushPendingUsage().catch(() => {})
+    Griffin.flushPendingUsage().catch(() => {})
   })
   .usage("\n" + UI.logo())
   .completion("completion", "generate shell completion script")

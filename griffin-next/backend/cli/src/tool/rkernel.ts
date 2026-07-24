@@ -5,7 +5,7 @@ import path from "path"
 import os from "os"
 import { unlinkSync } from "fs"
 import { Instance } from "@/project/instance"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { Config } from "@/config/config"
 import { Sandbox } from "@/sandbox/sandbox"
 import type {
@@ -92,20 +92,20 @@ run_cell <- function(code) {
   }
   out_text <- paste(out, collapse = "\\n")
 
-  cat("__OPENSCIENCE_R_RESULT_START__\\n")
+  cat("__GRIFFIN_R_RESULT_START__\\n")
   cat("OK:", if (ok) "1" else "0", "\\n", sep = "")
   cat("IMG:", imgpath, "\\n", sep = "")
-  cat("__OPENSCIENCE_R_OUT__\\n")
+  cat("__GRIFFIN_R_OUT__\\n")
   cat(out_text)
-  cat("\\n__OPENSCIENCE_R_MSG__\\n")
+  cat("\\n__GRIFFIN_R_MSG__\\n")
   cat(msg_text)
-  cat("\\n__OPENSCIENCE_R_END__\\n")
+  cat("\\n__GRIFFIN_R_END__\\n")
   flush(stdout())
 }
 
 con <- file("stdin")
 open(con, blocking = TRUE)
-cat("__OPENSCIENCE_KERNEL_READY__\\n")
+cat("__GRIFFIN_KERNEL_READY__\\n")
 flush(stdout())
 
 repeat {
@@ -114,21 +114,21 @@ repeat {
   repeat {
     l <- readLines(con, n = 1L)
     if (length(l) == 0L) break
-    if (identical(l, "__OPENSCIENCE_CODE_END__")) { got_end <- TRUE; break }
+    if (identical(l, "__GRIFFIN_CODE_END__")) { got_end <- TRUE; break }
     lines <- c(lines, l)
   }
   if (!isTRUE(got_end)) break
   code <- paste(lines, collapse = "\\n")
   tryCatch(run_cell(code), error = function(e) {
-    cat("__OPENSCIENCE_R_RESULT_START__\\nOK:0\\nIMG:\\n__OPENSCIENCE_R_OUT__\\n\\n__OPENSCIENCE_R_MSG__\\nError: ", conditionMessage(e), "\\n__OPENSCIENCE_R_END__\\n", sep = "")
+    cat("__GRIFFIN_R_RESULT_START__\\nOK:0\\nIMG:\\n__GRIFFIN_R_OUT__\\n\\n__GRIFFIN_R_MSG__\\nError: ", conditionMessage(e), "\\n__GRIFFIN_R_END__\\n", sep = "")
     flush(stdout())
   })
 }
 `.trim()
 
-const READY = "__OPENSCIENCE_KERNEL_READY__"
-const START = "__OPENSCIENCE_R_RESULT_START__\n"
-const END = "\n__OPENSCIENCE_R_END__"
+const READY = "__GRIFFIN_KERNEL_READY__"
+const START = "__GRIFFIN_R_RESULT_START__\n"
+const END = "\n__GRIFFIN_R_END__"
 const IDLE_MS = 30 * 60 * 1000
 
 async function findRscript(override?: string): Promise<string | null> {
@@ -151,8 +151,8 @@ interface RawResult {
 }
 
 function parseFrame(block: string): RawResult {
-  const outMarker = "__OPENSCIENCE_R_OUT__\n"
-  const msgMarker = "\n__OPENSCIENCE_R_MSG__\n"
+  const outMarker = "__GRIFFIN_R_OUT__\n"
+  const msgMarker = "\n__GRIFFIN_R_MSG__\n"
   const outIdx = block.indexOf(outMarker)
   const header = outIdx === -1 ? block : block.slice(0, outIdx)
   const rest = outIdx === -1 ? "" : block.slice(outIdx + outMarker.length)
@@ -217,7 +217,7 @@ class RKernel implements Kernel {
       )
     }
 
-    const scriptPath = path.join(os.tmpdir(), `openscience-rkernel-${this.id.slice(0, 8)}-${Date.now()}.R`)
+    const scriptPath = path.join(os.tmpdir(), `griffin-rkernel-${this.id.slice(0, 8)}-${Date.now()}.R`)
     await Bun.write(scriptPath, KERNEL_SCRIPT)
     this.scriptPath = scriptPath
 
@@ -233,7 +233,7 @@ class RKernel implements Kernel {
     })
     const proc = spawn(sandboxed.file, sandboxed.args, {
       cwd: opts?.cwd ?? Instance.directory,
-      env: { ...(await OpenScience.subprocessEnv(process.env)), ...(opts?.env ?? {}) },
+      env: { ...(await Griffin.subprocessEnv(process.env)), ...(opts?.env ?? {}) },
       stdio: ["pipe", "pipe", "pipe"],
     })
     this.proc = proc
@@ -318,7 +318,7 @@ class RKernel implements Kernel {
       opts?.signal?.addEventListener("abort", onAbort, { once: true })
       proc.stdout?.on("data", onData)
       proc.once("exit", onExit)
-      proc.stdin?.write(code + "\n__OPENSCIENCE_CODE_END__\n")
+      proc.stdin?.write(code + "\n__GRIFFIN_CODE_END__\n")
     })
 
     return frameToResult(raw)

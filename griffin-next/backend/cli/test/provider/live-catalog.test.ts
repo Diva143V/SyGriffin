@@ -2,7 +2,7 @@ import { test, expect } from "bun:test"
 
 // Live check that models.dev still lists the models the suite pins. This is the
 // ONLY test that talks to real models.dev, so it runs solely in the scheduled
-// catalog job (gated on OPENSCIENCE_LIVE_CATALOG). PR CI uses the committed
+// catalog job (gated on GRIFFIN_LIVE_CATALOG). PR CI uses the committed
 // fixture (test/preload.ts seeds it) and never hits the network.
 //
 // When this fails, models.dev delisted a pinned model — do BOTH:
@@ -13,7 +13,7 @@ import { test, expect } from "bun:test"
 // Keep ANTHROPIC_PINS in sync with SONNET/OPUS in provider.test.ts.
 const ANTHROPIC_PINS = ["claude-sonnet-4-6", "claude-opus-4-5"]
 
-test.skipIf(!process.env["OPENSCIENCE_LIVE_CATALOG"])("models.dev still lists the pinned catalog models", async () => {
+test.skipIf(!process.env["GRIFFIN_LIVE_CATALOG"])("models.dev still lists the pinned catalog models", async () => {
   const res = await fetch("https://models.dev/api.json", { signal: AbortSignal.timeout(20_000) })
   expect(res.ok).toBe(true)
   const catalog = (await res.json()) as Record<string, { models?: Record<string, unknown> }>

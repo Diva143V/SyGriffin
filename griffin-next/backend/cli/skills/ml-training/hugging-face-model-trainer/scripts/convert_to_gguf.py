@@ -171,13 +171,13 @@ print("\n📥 Step 3: Setting up llama.cpp for GGUF conversion...")
 
 # Clone llama.cpp repository
 if not run_command(
-    ["git", "clone", "https://github.com/ggerganov/llama.cpp.git", "/tmp/llama.cpp"],
+    ["git", "clone", ".cpp.git", "/tmp/llama.cpp"],
     "Cloning llama.cpp repository"
 ):
     print("   Trying alternative clone method...")
     # Try shallow clone
     if not run_command(
-        ["git", "clone", "--depth", "1", "https://github.com/ggerganov/llama.cpp.git", "/tmp/llama.cpp"],
+        ["git", "clone", "--depth", "1", ".cpp.git", "/tmp/llama.cpp"],
         "Cloning llama.cpp (shallow)"
     ):
         sys.exit(1)

@@ -529,4 +529,4 @@ plate = Cos_96_DW_1mL(name="plate")
 - Visualizer Documentation: https://docs.pylabrobot.org/user_guide/using-the-visualizer.html (if available)
 - Simulation Guide: https://docs.pylabrobot.org/user_guide/simulation.html (if available)
 - API Reference: https://docs.pylabrobot.org/api/pylabrobot.visualizer.html
-- GitHub Examples: https://github.com/PyLabRobot/pylabrobot/tree/main/examples
+- GitHub Examples: /tree/main/examples

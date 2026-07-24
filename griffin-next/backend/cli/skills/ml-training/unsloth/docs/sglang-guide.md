@@ -1,6 +1,6 @@
 # SGLang Deployment & Inference Guide
 
-You can serve any LLM or fine-tuned model via [SGLang](https://github.com/sgl-project/sglang) for low-latency, high-throughput inference. SGLang supports text, image/video model inference on any GPU setup, with support for some GGUFs.
+You can serve any LLM or fine-tuned model via [SGLang]() for low-latency, high-throughput inference. SGLang supports text, image/video model inference on any GPU setup, with support for some GGUFs.
 
 ### Installing SGLang
 
@@ -237,7 +237,7 @@ SGLang also interestingly supports GGUFs! **Qwen3 MoE is still under constructio
 First install the latest gguf python package via:
 
 ```bash
-pip install -e "git+https://github.com/ggml-org/llama.cpp.git#egg=gguf&subdirectory=gguf-py"
+pip install -e "git+.cpp.git#egg=gguf&subdirectory=gguf-py"
 ```
 
 Then for example in offline mode SGLang, you can do:

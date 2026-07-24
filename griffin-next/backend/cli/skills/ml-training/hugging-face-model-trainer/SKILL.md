@@ -124,14 +124,14 @@ The job is running in the background. Ask me to check status/logs when ready!
 
 ## Credential Setup
 
-HuggingFace token is auto-injected by openscience when connected via the dashboard.
+HuggingFace token is auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$HF_TOKEN" ] && echo "HF_TOKEN set" || echo "NOT SET"
 ```
 
-If not set: connect HuggingFace at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect HuggingFace at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Quick Start: Three Approaches
 
@@ -256,7 +256,7 @@ TRL provides battle-tested scripts for all methods. Can be run from URLs:
 
 ```python
 hf_jobs("uv", {
-    "script": "https://github.com/huggingface/trl/blob/main/trl/scripts/sft.py",
+    "script": "/blob/main/trl/scripts/sft.py",
     "script_args": [
         "--model_name_or_path", "Qwen/Qwen2.5-0.5B",
         "--dataset_name", "trl-lib/Capybara",
@@ -272,7 +272,7 @@ hf_jobs("uv", {
 
 **Benefits:** No code to write, maintained by TRL team, production-tested
 **When to use:** Standard TRL training, quick experiments, don't need custom code
-**Available:** Scripts are available from https://github.com/huggingface/trl/tree/main/examples/scripts
+**Available:** Scripts are available from /tree/main/examples/scripts
 
 ### Finding More UV Scripts on Hub
 
@@ -347,7 +347,7 @@ trl-jobs sft \
 
 **Benefits:** Pre-configured settings, automatic Trackio integration, automatic Hub push, one-line commands
 **When to use:** User working in terminal directly (not Claude Code context), quick local experimentation
-**Repository:** https://github.com/huggingface/trl-jobs
+**Repository:** 
 
 ⚠️ **In Claude Code context, prefer using `hf_jobs()` MCP tool (Approach 1) when available.**
 
@@ -703,9 +703,9 @@ Add to PEP 723 header:
 ### External Links
 - [TRL Documentation](https://huggingface.co/docs/trl)
 - [TRL Jobs Training Guide](https://huggingface.co/docs/trl/en/jobs_training)
-- [TRL Jobs Package](https://github.com/huggingface/trl-jobs)
+- [TRL Jobs Package]()
 - [HF Jobs Documentation](https://huggingface.co/docs/huggingface_hub/guides/jobs)
-- [TRL Example Scripts](https://github.com/huggingface/trl/tree/main/examples/scripts)
+- [TRL Example Scripts](/tree/main/examples/scripts)
 - [UV Scripts Guide](https://docs.astral.sh/uv/guides/scripts/)
 - [UV Scripts Organization](https://huggingface.co/uv-scripts)
 

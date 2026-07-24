@@ -40,7 +40,7 @@ For development or customization:
 
 ```bash
 # Clone the repository
-git clone https://github.com/AstroPilot-AI/Denario.git
+git clone .git
 cd Denario
 
 # Create virtual environment

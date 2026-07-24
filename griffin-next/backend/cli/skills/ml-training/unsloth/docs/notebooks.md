@@ -4,7 +4,7 @@ Train your own model with our notebooks, powered by free GPU compute. Click Run 
 
 <a href="#grpo-reasoning-rl" class="button secondary">GRPO (RL)</a><a href="#text-to-speech-tts" class="button secondary">Text-to-speech</a><a href="#vision-multimodal" class="button secondary">Vision</a><a href="#embedding-models" class="button secondary">Embedding</a><a href="#kaggle-notebooks" class="button secondary">Kaggle</a>
 
-Also see our GitHub repo for our notebooks: [github.com/unslothai/notebooks](https://github.com/unslothai/notebooks/)
+Also see our GitHub repo for our notebooks: [github.com/unslothai/notebooks](/)
 
 ## Colab notebooks
 
@@ -162,10 +162,10 @@ Colab subscription or credits are required. We **don't** earn anything from thes
 
 #### Standard notebooks:
 
-* [**gpt-oss (20B)**](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-gpt-oss-\(20B\)-Fine-tuning.ipynb\&accelerator=nvidiaTeslaT4) **- new**
+* [**gpt-oss (20B)**](https://www.kaggle.com/notebooks/welcome?src=/blob/main/nb/Kaggle-gpt-oss-\(20B\)-Fine-tuning.ipynb\&accelerator=nvidiaTeslaT4) **- new**
 * [Gemma 3n (E4B)](https://www.kaggle.com/code/danielhanchen/gemma-3n-4b-multimodal-finetuning-inference)
 * [Qwen3 (14B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Qwen3_\(14B\).ipynb)
-* [Magistral-2509 (24B)](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Magistral_\(24B\)-Reasoning-Conversational.ipynb\&accelerator=nvidiaTeslaT4) - new
+* [Magistral-2509 (24B)](https://www.kaggle.com/notebooks/welcome?src=/blob/main/nb/Kaggle-Magistral_\(24B\)-Reasoning-Conversational.ipynb\&accelerator=nvidiaTeslaT4) - new
 * [Gemma 3 (4B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Gemma3_\(4B\).ipynb)
 * [Phi-4 (14B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Phi_4-Conversational.ipynb)
 * [Llama 3.1 (8B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Llama3.1_\(8B\)-Alpaca.ipynb)
@@ -174,8 +174,8 @@ Colab subscription or credits are required. We **don't** earn anything from thes
 
 #### GRPO (Reasoning) notebooks:
 
-* [**Qwen2.5-VL**](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Qwen2_5_7B_VL_GRPO.ipynb\&accelerator=nvidiaTeslaT4) - Vision GRPO - new
-* [Qwen3 (4B)](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Qwen3_\(4B\)-GRPO.ipynb\&accelerator=nvidiaTeslaT4)
+* [**Qwen2.5-VL**](https://www.kaggle.com/notebooks/welcome?src=/blob/main/nb/Kaggle-Qwen2_5_7B_VL_GRPO.ipynb\&accelerator=nvidiaTeslaT4) - Vision GRPO - new
+* [Qwen3 (4B)](https://www.kaggle.com/notebooks/welcome?src=/blob/main/nb/Kaggle-Qwen3_\(4B\)-GRPO.ipynb\&accelerator=nvidiaTeslaT4)
 * [Gemma 3 (1B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Gemma3_\(1B\)-GRPO.ipynb)
 * [Llama 3.1 (8B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Llama3.1_\(8B\)-GRPO.ipynb)
 * [Phi-4 (14B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Phi_4_\(14B\)-GRPO.ipynb)
@@ -198,7 +198,7 @@ Colab subscription or credits are required. We **don't** earn anything from thes
 
 #### Specific use-case notebooks:
 
-* [Tool Calling](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Qwen2.5_Coder_\(1.5B\)-Tool_Calling.ipynb\&accelerator=nvidiaTeslaT4)
+* [Tool Calling](https://www.kaggle.com/notebooks/welcome?src=/blob/main/nb/Kaggle-Qwen2.5_Coder_\(1.5B\)-Tool_Calling.ipynb\&accelerator=nvidiaTeslaT4)
 * [ORPO](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Llama3_\(8B\)-ORPO.ipynb)
 * [Continued Pretraining](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Mistral_v0.3_\(7B\)-CPT.ipynb)
 * [DPO Zephyr](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Zephyr_\(7B\)-DPO.ipynb)
@@ -217,7 +217,7 @@ Colab subscription or credits are required. We **don't** earn anything from thes
 * [Mistral Small (22B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-Mistral_Small_\(22B\)-Alpaca.ipynb)
 * [TinyLlama (1.1B)](https://www.kaggle.com/notebooks/welcome?src=https%3A%2F%2Fgithub.com%2Funslothai/notebooks/blob/main/nb/Kaggle-TinyLlama_\(1.1B\)-Alpaca.ipynb)
 
-To view a complete list of all our Kaggle notebooks, [click here](https://github.com/unslothai/notebooks#-kaggle-notebooks).
+To view a complete list of all our Kaggle notebooks, [click here](#-kaggle-notebooks).
 
 {% hint style="info" %}
-Feel free to contribute to the notebooks by visiting our [repo](https://github.com/unslothai/notebooks)!
+Feel free to contribute to the notebooks by visiting our [repo]()!

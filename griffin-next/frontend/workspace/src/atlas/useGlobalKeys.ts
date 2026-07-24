@@ -1,5 +1,5 @@
 import { onCleanup, onMount } from "solid-js"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { uiStore } from "@/atlas/store/ui"
 
 function isTypingTarget(target: EventTarget | null) {

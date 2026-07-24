@@ -679,7 +679,7 @@ Comprehensive requirements and formatting guidelines for major federal and priva
 - **Single-Cell Biology**: Tools and resources
 
 **Emphasis**:
-- Open science (data sharing, open-source)
+- griffin (data sharing, open-source)
 - Collaboration across institutions
 - Technology development
 - Diversity and inclusion

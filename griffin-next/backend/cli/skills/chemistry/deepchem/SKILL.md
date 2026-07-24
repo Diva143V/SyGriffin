@@ -594,7 +594,7 @@ If import errors occur, the user may need specific dependencies. Check the DeepC
 ## Additional Resources
 
 - Official documentation: https://deepchem.readthedocs.io/
-- GitHub repository: https://github.com/deepchem/deepchem
+- GitHub repository: 
 - Tutorials: https://deepchem.readthedocs.io/en/latest/get_started/tutorials.html
 - Paper: "MoleculeNet: A Benchmark for Molecular Machine Learning"
 

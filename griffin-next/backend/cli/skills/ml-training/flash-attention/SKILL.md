@@ -366,7 +366,7 @@ Flash Attention uses float16/bfloat16 for speed. Float32 not supported.
 - Paper: "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness" (NeurIPS 2022)
 - Paper: "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning" (ICLR 2024)
 - Blog: https://tridao.me/blog/2024/flash3/
-- GitHub: https://github.com/Dao-AILab/flash-attention
+- GitHub: 
 - PyTorch docs: https://pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html
 
 

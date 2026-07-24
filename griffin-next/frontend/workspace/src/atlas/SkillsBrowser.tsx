@@ -5,8 +5,8 @@
  * prompt — the same invoke convention as the inline slash autocomplete.
  */
 import { createSignal, createMemo, onMount, onCleanup, For, Show, type JSX } from "solid-js"
-import { Dialog } from "@synsci/ui/dialog"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { Dialog } from "@griffin/ui/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useSync } from "@/context/sync"
 import { FONT_MONO, FONT_SANS } from "@/styles/tokens"
 import { IconSearch } from "@/atlas/shared/Icon"

@@ -21,7 +21,7 @@ Complete training guide based on DeepSpeed official documentation and production
 pip install deepspeed>=0.6.0
 
 # Clone Megatron-DeepSpeed
-git clone https://github.com/microsoft/Megatron-DeepSpeed
+git clone 
 cd Megatron-DeepSpeed
 pip install -r requirements.txt
 ```
@@ -421,5 +421,5 @@ drop_rate = dropped_tokens / total_tokens
 ## Resources
 
 - **DeepSpeed MoE Tutorial**: https://www.deepspeed.ai/tutorials/mixture-of-experts-nlg/
-- **Megatron-DeepSpeed**: https://github.com/microsoft/Megatron-DeepSpeed
+- **Megatron-DeepSpeed**: 
 - **Example Scripts**: `examples_deepspeed/MoE/`

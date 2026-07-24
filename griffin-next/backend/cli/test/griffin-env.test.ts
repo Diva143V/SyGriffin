@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test"
-import { OpenScience } from "../src/openscience"
+import { Griffin } from "../src/griffin"
 
 test("subprocess env filtering never passes managed Atlas provider keys", () => {
-  const filtered = OpenScience.filterEnvForSubprocess({
+  const filtered = Griffin.filterEnvForSubprocess({
     PATH: "/usr/bin",
     OPENROUTER_API_KEY: "thk_managed_openrouter",
     OPENAI_API_KEY: "thk_managed_openai",
@@ -16,7 +16,7 @@ test("subprocess env filtering never passes managed Atlas provider keys", () => 
 })
 
 test("subprocess env filtering still passes BYOK OpenRouter keys", () => {
-  const filtered = OpenScience.filterEnvForSubprocess({
+  const filtered = Griffin.filterEnvForSubprocess({
     OPENROUTER_API_KEY: "sk-or-user-owned",
   })
 
@@ -24,7 +24,7 @@ test("subprocess env filtering still passes BYOK OpenRouter keys", () => {
 })
 
 test("mergeByokEnv injects a locally-connected OpenRouter key + pins public base url", () => {
-  const merged = OpenScience.mergeByokEnv(
+  const merged = Griffin.mergeByokEnv(
     { PATH: "/usr/bin", OPENROUTER_BASE_URL: "https://atlas.test/api/llm/proxy/openrouter/v1" },
     { openrouter: { type: "api", key: "sk-or-user-owned" } },
   )
@@ -35,12 +35,12 @@ test("mergeByokEnv injects a locally-connected OpenRouter key + pins public base
 })
 
 test("mergeByokEnv never injects a managed thk_ key", () => {
-  const merged = OpenScience.mergeByokEnv({}, { openrouter: { type: "api", key: "thk_managed" } })
+  const merged = Griffin.mergeByokEnv({}, { openrouter: { type: "api", key: "thk_managed" } })
   expect(merged.OPENROUTER_API_KEY).toBeUndefined()
 })
 
 test("mergeByokEnv does not override an existing value", () => {
-  const merged = OpenScience.mergeByokEnv(
+  const merged = Griffin.mergeByokEnv(
     { OPENROUTER_API_KEY: "sk-or-from-shell" },
     { openrouter: { type: "api", key: "sk-or-from-auth" } },
   )
@@ -48,6 +48,6 @@ test("mergeByokEnv does not override an existing value", () => {
 })
 
 test("mergeByokEnv ignores providers that are not subprocess-safe", () => {
-  const merged = OpenScience.mergeByokEnv({}, { anthropic: { type: "api", key: "sk-ant-user" } })
+  const merged = Griffin.mergeByokEnv({}, { anthropic: { type: "api", key: "sk-ant-user" } })
   expect(merged.ANTHROPIC_API_KEY).toBeUndefined()
 })

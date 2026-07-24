@@ -107,7 +107,7 @@ describe("initProjectDetailed", () => {
   // and defeats the no-session assertion below (it fails "unreachable" instead
   // of "unauthenticated"). Clear it first so this test is order-independent.
   beforeEach(async () => {
-    await fs.unlink(path.join(Global.Path.data, "openscience-session.json")).catch(() => {})
+    await fs.unlink(path.join(Global.Path.data, "griffin-session.json")).catch(() => {})
   })
 
   test("fails fast as unauthenticated with no managed session (no network)", async () => {

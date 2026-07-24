@@ -10,7 +10,7 @@ async function fetchJSON(url: string, init?: RequestInit): Promise<any> {
     const res = await fetch(url, {
       ...init,
       signal: controller.signal,
-      headers: { Accept: "application/json", "User-Agent": "openscience/biology", ...init?.headers },
+      headers: { Accept: "application/json", "User-Agent": "griffin/biology", ...init?.headers },
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text().catch(() => res.statusText)}`)
     return res.json()
@@ -25,7 +25,7 @@ async function fetchText(url: string): Promise<string> {
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { "User-Agent": "openscience/biology" },
+      headers: { "User-Agent": "griffin/biology" },
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text().catch(() => res.statusText)}`)
     return res.text()

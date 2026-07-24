@@ -1,11 +1,13 @@
 import { describe, expect, test } from "bun:test"
 import os from "os"
+import path from "path"
 import { Sandbox } from "../../src/sandbox/sandbox"
 
 const shell = "/bin/sh"
+const isWin = process.platform === "win32"
 
 describe("Sandbox.seatbeltProfile", () => {
-  test("denies writes by default and re-allows the workspace", () => {
+  test.skipIf(isWin)("denies writes by default and re-allows the workspace", () => {
     const profile = Sandbox.seatbeltProfile({ writable: ["/work/project"], network: true })
     expect(profile).toContain("(version 1)")
     expect(profile).toContain("(allow default)")
@@ -18,26 +20,26 @@ describe("Sandbox.seatbeltProfile", () => {
     expect(Sandbox.seatbeltProfile({ writable: ["/w"], network: true })).not.toContain("(deny network*)")
   })
 
-  test("a path outside the allowlist is not granted write access", () => {
+  test.skipIf(isWin)("a path outside the allowlist is not granted write access", () => {
     const profile = Sandbox.seatbeltProfile({ writable: ["/work/project"], network: true })
     expect(profile).not.toContain('(subpath "/etc/passwd")')
     expect(profile).not.toContain(process.env.HOME + "/.ssh")
   })
 
-  test("adds the macOS /private firmlink alias for /tmp", () => {
+  test.skipIf(isWin)("adds the macOS /private firmlink alias for /tmp", () => {
     const profile = Sandbox.seatbeltProfile({ writable: ["/tmp"], network: true })
     expect(profile).toContain('(subpath "/tmp")')
     expect(profile).toContain('(subpath "/private/tmp")')
   })
 
-  test("escapes quotes in paths so the profile cannot be broken out of", () => {
+  test.skipIf(isWin)("escapes quotes in paths so the profile cannot be broken out of", () => {
     const profile = Sandbox.seatbeltProfile({ writable: ['/weird/pa"th'], network: true })
     expect(profile).toContain('/weird/pa\\"th')
   })
 })
 
 describe("Sandbox.bubblewrapArgs", () => {
-  test("mounts the fs read-only then re-binds the workspace writable", () => {
+  test.skipIf(isWin)("mounts the fs read-only then re-binds the workspace writable", () => {
     const args = Sandbox.bubblewrapArgs({ writable: ["/work/project"], network: true })
     expect(args.slice(0, 3)).toEqual(["--ro-bind", "/", "/"]) // whole fs read-only first
     expect(args).toContain("--die-with-parent")
@@ -52,7 +54,7 @@ describe("Sandbox.bubblewrapArgs", () => {
     expect(Sandbox.bubblewrapArgs({ writable: ["/w"], network: true })).not.toContain("--unshare-net")
   })
 
-  test("skips the /tmp tmpfs root but binds workspace paths under it", () => {
+  test.skipIf(isWin)("skips the /tmp tmpfs root but binds workspace paths under it", () => {
     const args = Sandbox.bubblewrapArgs({ writable: ["/tmp", "/tmp/sub"], network: true })
     expect(args).toContain("--tmpfs")
     const binds = args.flatMap((a, n) => (a === "--bind-try" ? [args[n + 1]!] : []))
@@ -114,7 +116,7 @@ describe("Sandbox.plan", () => {
     expect(() => Sandbox.plan({ ...base, options: { enabled: true, onUnavailable: "error" } })).toThrow()
   })
 
-  test("makes the workspace writable but not an out-of-workspace cwd", () => {
+  test.skipIf(isWin)("makes the workspace writable but not an out-of-workspace cwd", () => {
     if (!Sandbox.available()) return
     const p = Sandbox.plan({
       command: "true",
@@ -130,7 +132,7 @@ describe("Sandbox.plan", () => {
     expect(argv).not.toContain("/work/elsewhere")
   })
 
-  test("drops over-broad writable roots (worktree='/', $HOME) from the policy", () => {
+  test.skipIf(isWin)("drops over-broad writable roots (worktree='/', $HOME) from the policy", () => {
     if (!Sandbox.available()) return
     const p = Sandbox.plan({
       command: "true",

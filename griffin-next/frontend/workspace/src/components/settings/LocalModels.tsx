@@ -3,10 +3,10 @@
 // the localhost probing/listing the browser can't do cross-origin, and writes
 // the provider config block.
 import { Component, For, Show, createResource, createSignal } from "solid-js"
-import { Button } from "@synsci/ui/button"
-import { Icon } from "@synsci/ui/icon"
-import { showToast } from "@synsci/ui/toast"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { Button } from "@griffin/ui/button"
+import { Icon } from "@griffin/ui/icon"
+import { showToast } from "@griffin/ui/toast"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 import { uiStore } from "@/atlas/store/ui"

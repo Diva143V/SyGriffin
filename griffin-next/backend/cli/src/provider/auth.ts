@@ -3,8 +3,8 @@ import { Plugin } from "../plugin"
 import { map, filter, pipe, fromEntries, mapValues } from "remeda"
 import z from "zod"
 import { fn } from "@/util/fn"
-import type { AuthOuathResult } from "@synsci/plugin"
-import { NamedError } from "@synsci/util/error"
+import type { AuthOuathResult } from "@griffin/plugin"
+import { NamedError } from "@griffin/util/error"
 import { Auth } from "@/auth"
 
 export namespace ProviderAuth {

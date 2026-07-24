@@ -2,9 +2,9 @@ import { test, expect, afterEach } from "bun:test"
 import path from "path"
 import fs from "fs/promises"
 import { Global } from "../src/global"
-import { OpenScience } from "../src/openscience"
+import { Griffin } from "../src/griffin"
 
-const file = path.join(Global.Path.data, "openscience-session.json")
+const file = path.join(Global.Path.data, "griffin-session.json")
 
 afterEach(async () => {
   await fs.rm(file, { force: true }).catch(() => {})
@@ -23,7 +23,7 @@ test("getSession carries the sync bookkeeping fields", async () => {
     }),
   )
 
-  const session = await OpenScience.getSession()
+  const session = await Griffin.getSession()
   expect(session).not.toBeNull()
   expect(session!.cached_v).toBe(7)
   expect(session!.last_check_ts).toBe(1751700000000)

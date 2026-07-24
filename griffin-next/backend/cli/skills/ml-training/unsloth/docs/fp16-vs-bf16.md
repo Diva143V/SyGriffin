@@ -10,7 +10,7 @@ In fact the longer the generation, the worse it gets when using bfloat16:
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2FWs7ioB2lraTbDbUCOAnn%2Fimage.png?alt=media&#x26;token=ac2b4f8e-210f-4bcc-bcbb-6e68f80781a6" alt=""><figcaption></figcaption></figure>
 
-We did an investigation, and **DO find float16 to be more stable** than bfloat16 with much smaller gradient norms see <https://x.com/danielhanchen/status/1985557028295827482> and <https://x.com/danielhanchen/status/1985562902531850472>
+We did an investigation, and **DO find float16 to be more stable** than bfloat16 with much smaller gradient norms see </status/1985557028295827482> and </status/1985562902531850472>
 
 {% columns %}
 {% column width="50%" %}
@@ -28,7 +28,7 @@ We did an investigation, and **DO find float16 to be more stable** than bfloat16
 
 ### :exploding\_head:A100 Cascade Attention Bug
 
-As per <https://x.com/RichardYRLi/status/1984858850143715759> and <https://yingru.notion.site/When-Speed-Kills-Stability-Demystifying-RL-Collapse-from-the-Training-Inference-Mismatch-271211a558b7808d8b12d403fd15edda>, older vLLM versions (before 0.11.0) had broken attention mechanisms for A100 and similar GPUs. Please update vLLM! We also by default disable cascade attention in vLLM during Unsloth reinforcement learning if we detect an older vLLM version.
+As per </status/1984858850143715759> and <https://yingru.notion.site/When-Speed-Kills-Stability-Demystifying-RL-Collapse-from-the-Training-Inference-Mismatch-271211a558b7808d8b12d403fd15edda>, older vLLM versions (before 0.11.0) had broken attention mechanisms for A100 and similar GPUs. Please update vLLM! We also by default disable cascade attention in vLLM during Unsloth reinforcement learning if we detect an older vLLM version.
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2FnkCLRVIIGLADXBSCe58e%2Fimage.png?alt=media&#x26;token=6669642f-8690-44bf-b2de-6aa89acf2332" alt=""><figcaption></figcaption></figure>
 

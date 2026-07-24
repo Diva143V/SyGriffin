@@ -4,7 +4,7 @@ import { spawn, type ChildProcess } from "child_process"
 import path from "path"
 import os from "os"
 import { Instance } from "@/project/instance"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { Config } from "@/config/config"
 import { Sandbox } from "@/sandbox/sandbox"
 
@@ -25,14 +25,14 @@ for pkg, alias in [("numpy", "np"), ("pandas", "pd"), ("scipy", "scipy")]:
     except ImportError:
         pass
 
-_out.write("__OPENSCIENCE_KERNEL_READY__\\n")
+_out.write("__GRIFFIN_KERNEL_READY__\\n")
 _out.flush()
 
 while True:
     lines = []
     try:
         for line in sys.stdin:
-            if line.rstrip("\\n") == "__OPENSCIENCE_CODE_END__":
+            if line.rstrip("\\n") == "__GRIFFIN_CODE_END__":
                 break
             lines.append(line)
     except EOFError:
@@ -68,7 +68,7 @@ while True:
         sys.stderr = _err
 
     r = json.dumps({"ok": ok, "stdout": stdout_buf.getvalue(), "stderr": stderr_buf.getvalue()})
-    _out.write("__OPENSCIENCE_RESULT_START__\\n" + r + "\\n__OPENSCIENCE_RESULT_END__\\n")
+    _out.write("__GRIFFIN_RESULT_START__\\n" + r + "\\n__GRIFFIN_RESULT_END__\\n")
     _out.flush()
 `.trim()
 
@@ -132,7 +132,7 @@ async function getKernel(sessionID: string): Promise<Kernel> {
   }
 
   // Start new kernel
-  const scriptPath = path.join(os.tmpdir(), `openscience-kernel-${sessionID.slice(0, 8)}-${Date.now()}.py`)
+  const scriptPath = path.join(os.tmpdir(), `griffin-kernel-${sessionID.slice(0, 8)}-${Date.now()}.py`)
   await Bun.write(scriptPath, KERNEL_SCRIPT)
 
   const pythonBin = await findPython()
@@ -148,8 +148,8 @@ async function getKernel(sessionID: string): Promise<Kernel> {
   const proc = spawn(sandboxed.file, sandboxed.args, {
     cwd: Instance.directory,
     env: {
-      ...(await OpenScience.subprocessEnv(process.env)),
-      ...OpenScience.pythonThreadCapEnv(process.env),
+      ...(await Griffin.subprocessEnv(process.env)),
+      ...Griffin.pythonThreadCapEnv(process.env),
       PYTHONUNBUFFERED: "1",
     },
     stdio: ["pipe", "pipe", "pipe"],
@@ -173,7 +173,7 @@ async function getKernel(sessionID: string): Promise<Kernel> {
     let buf = ""
     const handler = (data: Buffer) => {
       buf += data.toString()
-      if (buf.includes("__OPENSCIENCE_KERNEL_READY__")) {
+      if (buf.includes("__GRIFFIN_KERNEL_READY__")) {
         clearTimeout(timeout)
         proc.stdout?.off("data", handler)
         resolve()
@@ -212,8 +212,8 @@ function executeInKernel(
     let buffer = ""
     const handler = (data: Buffer) => {
       buffer += data.toString()
-      const startMarker = "__OPENSCIENCE_RESULT_START__\n"
-      const endMarker = "\n__OPENSCIENCE_RESULT_END__"
+      const startMarker = "__GRIFFIN_RESULT_START__\n"
+      const endMarker = "\n__GRIFFIN_RESULT_END__"
       const startIdx = buffer.indexOf(startMarker)
       const endIdx = buffer.indexOf(endMarker)
 
@@ -237,7 +237,7 @@ function executeInKernel(
 
     kernel.process.stdout?.on("data", handler)
     kernel.process.once("exit", exitHandler)
-    kernel.process.stdin?.write(code + "\n__OPENSCIENCE_CODE_END__\n")
+    kernel.process.stdin?.write(code + "\n__GRIFFIN_CODE_END__\n")
   })
 }
 

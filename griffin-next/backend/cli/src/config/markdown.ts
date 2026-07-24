@@ -1,4 +1,4 @@
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import matter from "gray-matter"
 import { z } from "zod"
 

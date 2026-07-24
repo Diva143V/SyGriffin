@@ -788,6 +788,6 @@ download_summary_statistics("GCST001234", output_dir="./sumstats")
 
 - **Interactive API Documentation**: https://www.ebi.ac.uk/gwas/rest/docs/api
 - **Summary Statistics API Docs**: https://www.ebi.ac.uk/gwas/summary-statistics/docs/
-- **Workshop Materials**: https://github.com/EBISPOT/GWAS_Catalog-workshop
+- **Workshop Materials**: 
 - **Blog Post on API v2**: https://ebispot.github.io/gwas-blog/rest-api-v2-release/
 - **R Package (gwasrapidd)**: https://cran.r-project.org/package=gwasrapidd

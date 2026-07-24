@@ -17,7 +17,7 @@ import { readdir } from "fs/promises"
 
 const SUBSCRIBE_TIMEOUT_MS = 10_000
 
-declare const OPENSCIENCE_LIBC: string | undefined
+declare const GRIFFIN_LIBC: string | undefined
 
 export namespace FileWatcher {
   const log = Log.create({ service: "file.watcher" })
@@ -35,7 +35,7 @@ export namespace FileWatcher {
   const watcher = lazy((): typeof import("@parcel/watcher") | undefined => {
     try {
       const binding = require(
-        `@parcel/watcher-${process.platform}-${process.arch}${process.platform === "linux" ? `-${OPENSCIENCE_LIBC || "glibc"}` : ""}`,
+        `@parcel/watcher-${process.platform}-${process.arch}${process.platform === "linux" ? `-${GRIFFIN_LIBC || "glibc"}` : ""}`,
       )
       return createWrapper(binding) as typeof import("@parcel/watcher")
     } catch (error) {
@@ -75,7 +75,7 @@ export namespace FileWatcher {
       const subs: ParcelWatcher.AsyncSubscription[] = []
       const cfgIgnores = cfg.watcher?.ignore ?? []
 
-      if (Flag.OPENSCIENCE_EXPERIMENTAL_FILEWATCHER) {
+      if (Flag.GRIFFIN_EXPERIMENTAL_FILEWATCHER) {
         const pending = w.subscribe(Instance.directory, subscribe, {
           ignore: [...FileIgnore.PATTERNS, ...cfgIgnores],
           backend,
@@ -119,7 +119,7 @@ export namespace FileWatcher {
   )
 
   export function init() {
-    if (Flag.OPENSCIENCE_EXPERIMENTAL_DISABLE_FILEWATCHER) {
+    if (Flag.GRIFFIN_EXPERIMENTAL_DISABLE_FILEWATCHER) {
       return
     }
     state()

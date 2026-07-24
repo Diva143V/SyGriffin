@@ -1,7 +1,7 @@
 {
   "meta": {
     "skill_name": "reproducibility-check",
-    "description": "Comprehensive reproducibility tool — audit Methods completeness for replication AND promote open science best practices (pre-registration, FAIR data, code sharing, replication design, reporting transparency); trigger when preparing a manuscript, revi",
+    "description": "Comprehensive reproducibility tool — audit Methods completeness for replication AND promote griffin best practices (pre-registration, FAIR data, code sharing, replication design, reporting transparency); trigger when preparing a manuscript, revi",
     "evaluated_on": "2026-06-15",
     "evaluator_version": "skill-auditor@1.0",
     "category": "Evidence Insight",

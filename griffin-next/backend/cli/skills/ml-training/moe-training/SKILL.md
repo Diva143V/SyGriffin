@@ -30,7 +30,7 @@ Use MoE Training when you need to:
 pip install deepspeed>=0.6.0
 
 # Megatron-DeepSpeed for large-scale training
-git clone https://github.com/microsoft/Megatron-DeepSpeed
+git clone 
 cd Megatron-DeepSpeed
 pip install -r requirements.txt
 

@@ -304,5 +304,5 @@ Use this reference when you need in-depth information about API capabilities, co
 - **API Documentation:** https://www.rcsb.org/docs/programmatic-access/web-apis-overview
 - **Python Package Docs:** https://rcsbapi.readthedocs.io/
 - **Data API Documentation:** https://data.rcsb.org/
-- **GitHub Repository:** https://github.com/rcsb/py-rcsb-api
+- **GitHub Repository:** 
 

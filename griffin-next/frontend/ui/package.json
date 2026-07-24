@@ -1,5 +1,5 @@
 {
-  "name": "@synsci/ui",
+  "name": "@griffin/ui",
   "version": "1.2.2",
   "type": "module",
   "license": "Apache-2.0",
@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@kobalte/core": "catalog:",
-    "@synsci/sdk": "workspace:*",
-    "@synsci/util": "workspace:*",
+    "@griffin/sdk": "workspace:*",
+    "@griffin/util": "workspace:*",
     "@pierre/diffs": "catalog:",
     "@shikijs/transformers": "3.9.2",
     "@solid-primitives/bounds": "0.1.3",

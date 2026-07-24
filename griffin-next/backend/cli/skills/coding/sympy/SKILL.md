@@ -2,7 +2,7 @@
 name: sympy
 description: Use this skill when working with symbolic mathematics in Python. This skill should be used for symbolic computation tasks including solving equations algebraically, performing calculus operations (derivatives, integrals, limits), manipulating algebraic expressions, working with matrices symbolically, physics calculations, number theory problems, geometry computations, and generating executable code from mathematical expressions. Apply this skill when the user needs exact symbolic results rather than numerical approximations, or when working with mathematical formulas that contain variables and parameters.
 category: coding
-license: https://github.com/sympy/sympy/blob/master/LICENSE
+license: /blob/master/LICENSE
 metadata:
     skill-author: Synthetic Sciences
 ---
@@ -495,5 +495,5 @@ f(np.array([1, 2, 3]))
 - Official Documentation: https://docs.sympy.org/
 - Tutorial: https://docs.sympy.org/latest/tutorials/intro-tutorial/index.html
 - API Reference: https://docs.sympy.org/latest/reference/index.html
-- Examples: https://github.com/sympy/sympy/tree/master/examples
+- Examples: /tree/master/examples
 

@@ -3,7 +3,7 @@ import workspaceShot from "@/assets/workspace.png"
 import modelPickerShot from "@/assets/model-picker.png"
 import heroPlate from "@/assets/hero.webp"
 
-/* OpenScience. CMU Concrete, warm dark, coral accents.
+/* Griffin. CMU Concrete, warm dark, coral accents.
    Same design family as the Atlas landing page.
 
    Type system, used consistently:
@@ -26,10 +26,10 @@ const CAPTION = "text-[13px] leading-[1.6] text-foreground/50"
 const MONO_N = "font-terminal text-[11px] tracking-[0.08em] text-foreground/40"
 const LABEL = "text-[14px] text-muted-foreground"
 
-const GITHUB = "https://github.com/synthetic-sciences/openscience"
-const DOCS = "https://openscience.sh/docs"
-const NPM_CMD = "npm i -g @synsci/openscience"
-const CURL_CMD = "curl -fsSL https://openscience.sh/install | bash"
+const GITHUB = "https://github.com/synthetic-sciences/griffin"
+const DOCS = "https://griffin.sh/docs"
+const NPM_CMD = "npm i -g @griffin/griffin"
+const CURL_CMD = "curl -fsSL https://griffin.sh/install | bash"
 
 /* Eyebrow, the quiet label above every section heading. */
 function Eyebrow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -143,7 +143,7 @@ function CopyChip({ cmd, className = "" }: { cmd: string; className?: string }) 
   )
 }
 
-/* OsMark, the OpenScience mark. A thin ring with an orbiting coral node. */
+/* OsMark, the Griffin mark. A thin ring with an orbiting coral node. */
 function OsMark({ size = 15 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden className="text-foreground/85">
@@ -344,7 +344,7 @@ function Hero() {
 
       <div className="absolute inset-0 z-10 mx-auto flex h-full max-w-[1400px] flex-col px-6 sm:px-10">
         <div className="hero-text rise self-start mt-[9vh]" style={{ animationDelay: "120ms" }}>
-          <div className="text-[clamp(40px,6.4vw,96px)] leading-[0.9] tracking-[-0.04em]">openscience</div>
+          <div className="text-[clamp(40px,6.4vw,96px)] leading-[0.9] tracking-[-0.04em]">griffin</div>
           <a
             href="https://syntheticsciences.ai"
             target="_blank"
@@ -365,7 +365,7 @@ function Hero() {
             className="rise mt-9 flex flex-wrap items-center justify-end gap-3 [text-shadow:none]"
             style={{ animationDelay: "420ms" }}
           >
-            <Cta href="#install">Install OpenScience</Cta>
+            <Cta href="#install">Install Griffin</Cta>
             <Cta href={GITHUB} variant="ghost" arrow={false} external>
               <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
@@ -391,7 +391,7 @@ function ProductShot() {
           <div className="border border-border/50 bg-[hsl(28,14%,6%)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]">
             <img
               src={workspaceShot}
-              alt="The OpenScience workspace: a research session with agent selector, model picker, files, terminal, and the research graph"
+              alt="The Griffin workspace: a research session with agent selector, model picker, files, terminal, and the research graph"
               className="block w-full h-auto select-none"
               draggable={false}
               decoding="async"
@@ -648,7 +648,7 @@ export default function Landing() {
             </Reveal>
             <Reveal delay={150}>
               <p className={`mt-5 max-w-[44ch] ${P_BIG}`}>
-                Install with npm or the script, then run <span className="text-foreground">openscience</span>. A short
+                Install with npm or the script, then run <span className="text-foreground">griffin</span>. A short
                 setup asks how you want to power the models — Atlas managed models, your own provider keys, or the free
                 demo models — and the workspace opens in your browser.
               </p>
@@ -801,7 +801,7 @@ export default function Landing() {
               <div className="border border-border/50 bg-[hsl(28,14%,6%)] shadow-[0_30px_90px_-30px_rgba(0,0,0,0.75)]">
                 <img
                   src={modelPickerShot}
-                  alt="The OpenScience model selector: Anthropic, OpenAI, and Google models with live pricing and an effort control"
+                  alt="The Griffin model selector: Anthropic, OpenAI, and Google models with live pricing and an effort control"
                   className="block w-full h-auto select-none"
                   draggable={false}
                   loading="lazy"
@@ -836,7 +836,7 @@ export default function Landing() {
                   Star on GitHub
                 </Cta>
                 <span className="font-terminal text-[12.5px] text-foreground/60">
-                  github.com/synthetic-sciences/openscience
+                  github.com/synthetic-sciences/griffin
                 </span>
               </div>
             </Reveal>
@@ -861,7 +861,7 @@ export default function Landing() {
             <FaqList
               items={[
                 {
-                  q: "What is OpenScience?",
+                  q: "What is Griffin?",
                   a: "An open-source AI workbench for scientific research. You give it a goal and it works the loop: literature, hypothesis, code, experiments, write-up. It runs as a local workspace in your browser and does real work in ML, biology, physics, and chemistry.",
                 },
                 {
@@ -886,7 +886,7 @@ export default function Landing() {
                 },
                 {
                   q: "What is Atlas?",
-                  a: "Synthetic Sciences' managed platform: curated frontier models billed from one wallet, a persistent research graph, and cloud compute. OpenScience works with Atlas but never requires it.",
+                  a: "Synthetic Sciences' managed platform: curated frontier models billed from one wallet, a persistent research graph, and cloud compute. Griffin works with Atlas but never requires it.",
                 },
               ]}
             />
@@ -912,7 +912,7 @@ export default function Landing() {
                     Free and open source. The whole loop, on your keys.
                   </p>
                   <div className="mt-8 flex flex-wrap items-center gap-3">
-                    <Cta href="#install">Install OpenScience</Cta>
+                    <Cta href="#install">Install Griffin</Cta>
                     <CopyChip cmd={NPM_CMD} />
                   </div>
                 </Reveal>
@@ -929,7 +929,7 @@ export default function Landing() {
             <div className="col-span-12 md:col-span-5">
               <div className="flex items-center gap-2.5 text-foreground">
                 <OsMark size={15} />
-                <span className="font-display text-[22px] tracking-tight leading-none">openscience</span>
+                <span className="font-display text-[22px] tracking-tight leading-none">griffin</span>
               </div>
               <p className="mt-4 max-w-[36ch] text-[13.5px] leading-[1.7] text-foreground/55">
                 The open-source AI workbench for scientific research, by Synthetic Sciences.
@@ -950,7 +950,7 @@ export default function Landing() {
                 </li>
                 <li>
                   <a
-                    href="https://www.npmjs.com/package/@synsci/openscience"
+                    href="https://www.npmjs.com/package/@griffin/griffin"
                     target="_blank"
                     rel="noreferrer"
                     className="link-underline text-foreground/70 hover:text-foreground"
@@ -1031,7 +1031,7 @@ export default function Landing() {
                 </li>
                 <li>
                   <a
-                    href="https://x.com/SynScience"
+                    href="#"
                     target="_blank"
                     rel="noreferrer"
                     className="link-underline text-foreground/70 hover:text-foreground"
@@ -1057,7 +1057,7 @@ export default function Landing() {
         {/* Giant clipped wordmark, the closing brand moment. */}
         <div className="relative h-[13vw] min-h-[90px] max-h-[200px] overflow-hidden" aria-hidden>
           <div className="footer-watermark absolute left-1/2 -translate-x-1/2 top-[0.04em] text-center">
-            openscience
+            griffin
           </div>
         </div>
       </footer>

@@ -1,7 +1,7 @@
 import { For, Show, type JSX, type ParentComponent, type Component } from "solid-js"
-import { Icon } from "@synsci/ui/icon"
-import type { IconProps } from "@synsci/ui/icon"
-import { DropdownMenu } from "@synsci/ui/dropdown-menu"
+import { Icon } from "@griffin/ui/icon"
+import type { IconProps } from "@griffin/ui/icon"
+import { DropdownMenu } from "@griffin/ui/dropdown-menu"
 
 // Shared visual language for the Griffin settings panels. Matches the
 // reference (rounded cards, muted subheaders, filter/search/add toolbar) while

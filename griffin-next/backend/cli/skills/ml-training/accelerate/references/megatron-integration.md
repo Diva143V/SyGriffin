@@ -16,12 +16,12 @@ Accelerate supports Megatron-LM for massive model training with tensor paralleli
 
 ```bash
 # Clone Megatron-LM repository
-git clone https://github.com/NVIDIA/Megatron-LM.git
+git clone .git
 cd Megatron-LM
 pip install -e .
 
 # Install Apex (NVIDIA optimizations)
-git clone https://github.com/NVIDIA/apex
+git clone 
 cd apex
 pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation \
   --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
@@ -483,7 +483,7 @@ nvidia-smi nvlink -s
 
 ## Resources
 
-- Megatron-LM: https://github.com/NVIDIA/Megatron-LM
+- Megatron-LM: 
 - Accelerate Megatron docs: https://huggingface.co/docs/accelerate/usage_guides/megatron_lm
 - Paper: "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism"
-- NVIDIA Apex: https://github.com/NVIDIA/apex
+- NVIDIA Apex: 

@@ -2,7 +2,7 @@ import { test, expect } from "bun:test"
 import * as fs from "node:fs"
 import * as os from "node:os"
 import * as path from "node:path"
-import { parseDotenv, loadProjectDotenv } from "../../src/openscience/dotenv"
+import { parseDotenv, loadProjectDotenv } from "../../src/griffin/dotenv"
 
 test("parseDotenv handles export prefix, quotes, comments, blanks, and embedded =", () => {
   const raw = [
@@ -44,7 +44,7 @@ test("parseDotenv strips inline comments on unquoted values but keeps # inside q
 })
 
 test("loadProjectDotenv skips execution-affecting vars and empty values", () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openscience-dotenv-"))
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "griffin-dotenv-"))
   fs.writeFileSync(
     path.join(dir, ".env"),
     "NODE_OPTIONS=--require /tmp/evil.js\nLD_PRELOAD=/tmp/evil.so\nEMPTY=\nANTHROPIC_API_KEY=sk-ant-ok\n",
@@ -60,7 +60,7 @@ test("loadProjectDotenv skips execution-affecting vars and empty values", () => 
 })
 
 test("loadProjectDotenv applies only unset vars (shell export wins) and returns applied names", () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openscience-dotenv-"))
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "griffin-dotenv-"))
   fs.writeFileSync(path.join(dir, ".env"), "ANTHROPIC_API_KEY=from-dotenv\nGROQ_API_KEY=gsk-dotenv\n")
   const env: NodeJS.ProcessEnv = { ANTHROPIC_API_KEY: "from-shell" }
   const applied = loadProjectDotenv(dir, env)
@@ -71,7 +71,7 @@ test("loadProjectDotenv applies only unset vars (shell export wins) and returns 
 })
 
 test("loadProjectDotenv: .env.local takes precedence over .env", () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openscience-dotenv-"))
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "griffin-dotenv-"))
   fs.writeFileSync(path.join(dir, ".env"), "OPENROUTER_API_KEY=from-env\n")
   fs.writeFileSync(path.join(dir, ".env.local"), "OPENROUTER_API_KEY=from-env-local\n")
   const env: NodeJS.ProcessEnv = {}
@@ -81,7 +81,7 @@ test("loadProjectDotenv: .env.local takes precedence over .env", () => {
 })
 
 test("loadProjectDotenv on a dir with no .env is a no-op", () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openscience-dotenv-"))
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "griffin-dotenv-"))
   const env: NodeJS.ProcessEnv = {}
   expect(loadProjectDotenv(dir, env)).toEqual([])
   fs.rmSync(dir, { recursive: true, force: true })

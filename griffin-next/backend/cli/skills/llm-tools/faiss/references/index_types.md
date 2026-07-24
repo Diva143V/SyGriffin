@@ -276,5 +276,5 @@ index.add(vectors)
 
 ## Resources
 
-- **Wiki**: https://github.com/facebookresearch/faiss/wiki
+- **Wiki**: /wiki
 - **Paper**: https://arxiv.org/abs/1702.08734

@@ -1,6 +1,6 @@
 ---
 name: colab-finetuning
-description: Fine-tune LLMs on Google Colab GPUs directly from openscience. Connects to Colab runtimes via WebSocket bridge for remote training with Unsloth. Supports SFT, GRPO, DPO, vision, and TTS workflows on free T4 to Pro A100 GPUs.
+description: Fine-tune LLMs on Google Colab GPUs directly from griffin. Connects to Colab runtimes via WebSocket bridge for remote training with Unsloth. Supports SFT, GRPO, DPO, vision, and TTS workflows on free T4 to Pro A100 GPUs.
 category: ml-training
 version: 1.0.0
 author: Synthetic Sciences
@@ -11,7 +11,7 @@ dependencies: [unsloth, torch, transformers, trl, datasets]
 
 # Google Colab Fine-Tuning
 
-Fine-tune LLMs using Google Colab GPUs directly from the openscience CLI. Connect to free or paid Colab runtimes and run Unsloth training workflows remotely.
+Fine-tune LLMs using Google Colab GPUs directly from the griffin CLI. Connect to free or paid Colab runtimes and run Unsloth training workflows remotely.
 
 ## When to Use Colab Fine-Tuning
 
@@ -46,7 +46,7 @@ Fine-tune LLMs using Google Colab GPUs directly from the openscience CLI. Connec
 Use colab_notebook tool with workflow="bridge"
 ```
 
-This creates a `openscience-bridge.ipynb` file that establishes a WebSocket tunnel between openscience and the Colab GPU.
+This creates a `griffin-bridge.ipynb` file that establishes a WebSocket tunnel between griffin and the Colab GPU.
 
 ### Step 2: Open in Colab
 
@@ -56,7 +56,7 @@ This creates a `openscience-bridge.ipynb` file that establishes a WebSocket tunn
 4. Run all cells
 5. Copy the WebSocket URL that appears
 
-### Step 3: Connect from openscience
+### Step 3: Connect from griffin
 
 ```
 Use colab_connect tool with connection_url="wss://..."

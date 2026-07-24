@@ -398,7 +398,7 @@ dataloader = DataLoader(dataset, num_workers=8)
 ## Resources
 
 - Docs: https://docs.ray.io/en/latest/train/train.html
-- GitHub: https://github.com/ray-project/ray ⭐ 36,000+
+- GitHub:  ⭐ 36,000+
 - Version: 2.40.0+
 - Examples: https://docs.ray.io/en/latest/train/examples.html
 - Slack: https://forms.gle/9TSdDYUgxYs8SA9e8

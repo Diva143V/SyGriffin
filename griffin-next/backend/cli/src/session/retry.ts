@@ -1,4 +1,4 @@
-import type { NamedError } from "@synsci/util/error"
+import type { NamedError } from "@griffin/util/error"
 import { MessageV2 } from "./message-v2"
 import { iife } from "@/util/iife"
 

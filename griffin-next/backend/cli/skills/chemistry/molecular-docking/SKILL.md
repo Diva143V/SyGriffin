@@ -72,7 +72,7 @@ pip install rdkit-pypi
 pip install meeko vina
 
 # Docking -- DiffDock pathway (optional, GPU recommended)
-# See https://github.com/gcorso/DiffDock for installation
+# See  for installation
 
 # Interaction analysis
 pip install prolif

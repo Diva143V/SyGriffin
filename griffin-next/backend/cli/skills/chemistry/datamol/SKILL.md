@@ -705,5 +705,5 @@ predictions = model.predict(X_test)
 
 - **Datamol Documentation**: https://docs.datamol.io/
 - **RDKit Documentation**: https://www.rdkit.org/docs/
-- **GitHub Repository**: https://github.com/datamol-io/datamol
+- **GitHub Repository**: 
 

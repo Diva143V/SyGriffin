@@ -17,30 +17,30 @@ if (!semver.satisfies(process.versions.bun, expectedBunVersionRange)) {
 }
 
 const env = {
-  OPENSCIENCE_CHANNEL: process.env["OPENSCIENCE_CHANNEL"],
-  OPENSCIENCE_BUMP: process.env["OPENSCIENCE_BUMP"],
-  OPENSCIENCE_VERSION: process.env["OPENSCIENCE_VERSION"],
-  OPENSCIENCE_RELEASE: process.env["OPENSCIENCE_RELEASE"],
+  GRIFFIN_CHANNEL: process.env["GRIFFIN_CHANNEL"],
+  GRIFFIN_BUMP: process.env["GRIFFIN_BUMP"],
+  GRIFFIN_VERSION: process.env["GRIFFIN_VERSION"],
+  GRIFFIN_RELEASE: process.env["GRIFFIN_RELEASE"],
 }
 const CHANNEL = await (async () => {
-  if (env.OPENSCIENCE_CHANNEL) return env.OPENSCIENCE_CHANNEL
-  if (env.OPENSCIENCE_BUMP) return "latest"
-  if (env.OPENSCIENCE_VERSION && !env.OPENSCIENCE_VERSION.startsWith("0.0.0-")) return "latest"
+  if (env.GRIFFIN_CHANNEL) return env.GRIFFIN_CHANNEL
+  if (env.GRIFFIN_BUMP) return "latest"
+  if (env.GRIFFIN_VERSION && !env.GRIFFIN_VERSION.startsWith("0.0.0-")) return "latest"
   return await $`git branch --show-current`.text().then((x) => x.trim())
 })()
 const IS_PREVIEW = CHANNEL !== "latest"
 
 const VERSION = await (async () => {
-  if (env.OPENSCIENCE_VERSION) return env.OPENSCIENCE_VERSION
+  if (env.GRIFFIN_VERSION) return env.GRIFFIN_VERSION
   if (IS_PREVIEW) return `0.0.0-${CHANNEL}-${new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "")}`
-  const version = await fetch("https://registry.npmjs.org/@synsci/openscience/latest")
+  const version = await fetch("https://registry.npmjs.org/@griffin/griffin/latest")
     .then((res) => {
       if (!res.ok) throw new Error(res.statusText)
       return res.json()
     })
     .then((data: any) => data.version)
   const [major, minor, patch] = version.split(".").map((x: string) => Number(x) || 0)
-  const t = env.OPENSCIENCE_BUMP?.toLowerCase()
+  const t = env.GRIFFIN_BUMP?.toLowerCase()
   if (t === "major") return `${major + 1}.0.0`
   if (t === "minor") return `${major}.${minor + 1}.0`
   return `${major}.${minor}.${patch + 1}`
@@ -57,7 +57,7 @@ export const Script = {
     return IS_PREVIEW
   },
   get release() {
-    return env.OPENSCIENCE_RELEASE
+    return env.GRIFFIN_RELEASE
   },
 }
-console.log(`openscience script`, JSON.stringify(Script, null, 2))
+console.log(`griffin script`, JSON.stringify(Script, null, 2))

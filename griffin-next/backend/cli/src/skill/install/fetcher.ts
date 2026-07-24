@@ -23,7 +23,7 @@ export interface FetchResult {
   sha: string
   tmpDir: string
   manifest: SkillEntry[]
-  /** Repo's declared user-facing entry points (from `openscience-skills.json` at
+  /** Repo's declared user-facing entry points (from `griffin-skills.json` at
    *  repo root). Null means the repo didn't declare a manifest — caller
    *  should treat every skill as an entry (backwards-compat). */
   entries: string[] | null
@@ -37,7 +37,7 @@ export interface FetchResult {
  *  `rm(..., { recursive: true })`.
  */
 export async function fetchManifest(parsed: ParsedSkillUrl): Promise<FetchResult> {
-  const tmpDir = await mkdtemp(path.join(os.tmpdir(), "openscience-skill-"))
+  const tmpDir = await mkdtemp(path.join(os.tmpdir(), "griffin-skill-"))
 
   const cloneArgs = parsed.ref
     ? ["clone", "--depth", "1", "--branch", parsed.ref, parsed.cloneUrl, tmpDir]
@@ -103,11 +103,11 @@ export async function fetchManifest(parsed: ParsedSkillUrl): Promise<FetchResult
     })
   }
 
-  // Optional manifest: `openscience-skills.json` at repo root listing entries.
+  // Optional manifest: `griffin-skills.json` at repo root listing entries.
   // Tolerate malformed JSON (treat as absent rather than failing the install).
   let entries: string[] | null = null
   try {
-    const manifestPath = path.join(tmpDir, "openscience-skills.json")
+    const manifestPath = path.join(tmpDir, "griffin-skills.json")
     await stat(manifestPath)
     const raw = await readFile(manifestPath, "utf-8")
     const parsedManifest = JSON.parse(raw) as { entries?: unknown }

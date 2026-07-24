@@ -22,7 +22,7 @@ Get started with Hypogenic in minutes:
 uv pip install hypogenic
 
 # Clone example datasets
-git clone https://github.com/ChicagoHAI/HypoGeniC-datasets.git ./data
+git clone .git ./data
 
 # Run basic hypothesis generation
 hypogenic_generation --config ./data/your_task/config.yaml --method hypogenic --num_hypotheses 20
@@ -133,10 +133,10 @@ uv pip install hypogenic
 **Clone example datasets:**
 ```bash
 # For HypoGeniC examples
-git clone https://github.com/ChicagoHAI/HypoGeniC-datasets.git ./data
+git clone .git ./data
 
 # For HypoRefine/Union examples
-git clone https://github.com/ChicagoHAI/Hypothesis-agent-datasets.git ./data
+git clone .git ./data
 ```
 
 ## Dataset Format
@@ -288,7 +288,7 @@ For programmatic control and custom workflows, use Hypogenic directly in your Py
 from hypogenic import BaseTask
 
 # Clone example datasets first
-# git clone https://github.com/ChicagoHAI/HypoGeniC-datasets.git ./data
+# git clone .git ./data
 
 # Load your task with custom extract_label function
 task = BaseTask(
@@ -314,7 +314,7 @@ results = task.inference(
 
 ```python
 # For literature-integrated approaches
-# git clone https://github.com/ChicagoHAI/Hypothesis-agent-datasets.git ./data
+# git clone .git ./data
 
 # Generate with HypoRefine
 task.generate_hypotheses(
@@ -563,7 +563,7 @@ Liu, H., Huang, S., Hu, J., Zhou, Y., & Tan, C. (2025). HypoBench: Towards Syste
 Liu, H., Zhou, Y., Li, M., Yuan, C., & Tan, C. (2024). Literature Meets Data: A Synergistic Approach to Hypothesis Generation. arXiv preprint arXiv:2410.17309.
 
 - **Paper:** https://arxiv.org/abs/2410.17309
-- **Code:** https://github.com/ChicagoHAI/hypothesis-generation
+- **Code:** 
 - **Description:** Introduces HypoRefine and demonstrates synergistic combination of literature-based and data-driven hypothesis generation
 
 **BibTeX:**
@@ -601,10 +601,10 @@ Zhou, Y., Liu, H., Srivastava, T., Mei, H., & Tan, C. (2024). Hypothesis Generat
 
 ### Official Links
 
-- **GitHub Repository:** https://github.com/ChicagoHAI/hypothesis-generation
+- **GitHub Repository:** 
 - **PyPI Package:** https://pypi.org/project/hypogenic/
 - **License:** MIT License
-- **Issues & Support:** https://github.com/ChicagoHAI/hypothesis-generation/issues
+- **Issues & Support:** /issues
 
 ### Example Datasets
 
@@ -612,10 +612,10 @@ Clone these repositories for ready-to-use examples:
 
 ```bash
 # HypoGeniC examples (data-driven only)
-git clone https://github.com/ChicagoHAI/HypoGeniC-datasets.git ./data
+git clone .git ./data
 
 # HypoRefine/Union examples (literature + data)
-git clone https://github.com/ChicagoHAI/Hypothesis-agent-datasets.git ./data
+git clone .git ./data
 ```
 
 ### Community & Contributions

@@ -133,7 +133,7 @@ aws s3 cp --no-sign-request --recursive \
 ```bash
 # Install s5cmd
 # macOS: brew install s5cmd
-# Linux: download from https://github.com/peak/s5cmd/releases
+# Linux: download from /releases
 
 # Download specific series
 s5cmd --no-sign-request cp 's3://idc-open-data/7a6b2389-53c6-4c5b-b07f-6d1ed4a3eed9/*' ./local_folder/
@@ -319,7 +319,7 @@ Since `crdc_series_uuid` identifies an immutable version of each series, saving 
 
 **AWS Resources:**
 - [NCI IDC on AWS Open Data Registry](https://registry.opendata.aws/nci-imaging-data-commons/) - Bucket ARNs and access info
-- [s5cmd](https://github.com/peak/s5cmd) - High-performance S3 client (used internally by idc-index)
+- [s5cmd]() - High-performance S3 client (used internally by idc-index)
 - [AWS CLI S3 commands](https://docs.aws.amazon.com/cli/latest/reference/s3/) - Standard AWS command-line interface
 - [Boto3 S3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html) - AWS SDK for Python
 

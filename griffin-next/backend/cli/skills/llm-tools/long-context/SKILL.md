@@ -376,7 +376,7 @@ trainer.train()
 
 ```bash
 # Clone YaRN implementation
-git clone https://github.com/jquesnelle/yarn
+git clone 
 cd yarn
 
 # Fine-tune LLaMA with YaRN
@@ -524,8 +524,8 @@ llm = LLM(
 - **YaRN Paper**: https://arxiv.org/abs/2309.00071
 - **ALiBi Paper**: https://arxiv.org/abs/2108.12409 (Train Short, Test Long)
 - **Position Interpolation**: https://arxiv.org/abs/2306.15595
-- **HuggingFace RoPE Utils**: https://github.com/huggingface/transformers/blob/main/src/transformers/modeling_rope_utils.py
-- **YaRN Implementation**: https://github.com/jquesnelle/yarn
+- **HuggingFace RoPE Utils**: /blob/main/src/transformers/modeling_rope_utils.py
+- **YaRN Implementation**: 
 - **Together AI Blog**: https://www.together.ai/blog/llama-2-7b-32k
 
 ## See Also

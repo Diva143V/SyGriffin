@@ -13,9 +13,9 @@ import { Auth } from "../auth"
 import { isSyncedEnvAllowed, BYOK_LLM_ENV_KEYS } from "./synced-env-policy"
 import { DEFAULT_MANAGED_API_BASE, MANAGED_API_BASE } from "../endpoints"
 
-const log = Log.create({ service: "openscience" })
+const log = Log.create({ service: "griffin" })
 
-// Atlas is the unified backend for openscience-cli auth, BYOK, and billing. The
+// Atlas is the unified backend for griffin-cli auth, BYOK, and billing. The
 // base URL resolves through the shared endpoints module (neutral public
 // default + SYNSC_API_BASE / MANAGED_API_BASE / ATLAS_BASE_URL override), so
 // self-hosters and dev stacks can repoint the client without code changes.
@@ -29,16 +29,16 @@ export const API_BASE = MANAGED_API_BASE
 // renders when both stdout AND stderr are TTYs. Piping to a log file
 // no longer drops a one-line dev banner into structured output.
 if (API_BASE !== DEFAULT_API_BASE) {
-  log.info("openscience.api_base.override", { api_base: API_BASE })
+  log.info("griffin.api_base.override", { api_base: API_BASE })
   if (process.stderr.isTTY) {
     const { UI } = require("../cli/ui") as typeof import("../cli/ui")
     process.stderr.write(
-      `${UI.Style.TEXT_DIM}[openscience] API base: ${API_BASE} (override via SYNSC_API_BASE)${UI.Style.TEXT_NORMAL}\n`,
+      `${UI.Style.TEXT_DIM}[griffin] API base: ${API_BASE} (override via SYNSC_API_BASE)${UI.Style.TEXT_NORMAL}\n`,
     )
   }
 }
 
-// User-facing URL the CLI prints during `openscience login`. Defaults
+// User-facing URL the CLI prints during `griffin login`. Defaults
 // to the unified Atlas frontend's /cli route — Plan tab, key management,
 // and billing all live there. SYNSC_AUTH_URL overrides (e.g. point at a
 // staging frontend or the old auth.syntheticsciences.ai surface).
@@ -59,7 +59,7 @@ function getSyncedConfigDir(): string {
   // Use XDG config dir (user-writable) for synced config from dashboard
   // This avoids needing root/admin permissions unlike /Library/Application Support
   const xdg = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), ".config")
-  return path.join(xdg, "openscience")
+  return path.join(xdg, "griffin")
 }
 
 // Seed the synced-secret set from the on-disk snapshot at import. preload-env.ts
@@ -118,7 +118,7 @@ const SAFE_SYNCED_KEYS = new Set([
   "FIREWORKS_API_KEY",
   "OPENROUTER_API_KEY",
   // Misc CLI runtime markers
-  "OPENSCIENCE_RUNTIME",
+  "GRIFFIN_RUNTIME",
 ])
 
 /**
@@ -129,7 +129,7 @@ const SAFE_SYNCED_KEYS = new Set([
  * rather than expiry, so we don't track refresh tokens or expiry locally
  * — a 401 on any request signals "key revoked or expired, re-auth".
  */
-interface OpenScienceSession {
+interface GriffinSession {
   /** Atlas-issued ``thk_<uuid>.<secret>`` Bearer token. */
   api_key: string
   /** Atlas user_id (UUID). Stored for diagnostics; not used for auth. */
@@ -218,12 +218,12 @@ export class InsufficientCreditsError extends Error {
 }
 
 // ── Bundled atlas CLI resolution ─────────────────────────────────────────
-// The @synsci/atlas package ships as a dependency; its `atlas` binary lives in
+// The @griffin/atlas package ships as a dependency; its `atlas` binary lives in
 // node_modules. The agent shells out to native `atlas` commands (the research
 // prompts drive the map + managed-compute path through it), so the
 // binary must be on the subprocess PATH without requiring a separate global
 // install. We resolve the package, prefer the npm-generated `.bin/atlas` shim,
-// and otherwise synthesize a tiny launcher in the openscience data dir that runs the
+// and otherwise synthesize a tiny launcher in the griffin data dir that runs the
 // package's declared bin entry via node. Result is cached; every step is
 // best-effort and never throws — if atlas can't be found the agent's
 // `atlas doctor` gate degrades gracefully.
@@ -232,7 +232,7 @@ let atlasBinDirCache: string | null | undefined
 function resolveAtlasPackageDir(): string | null {
   try {
     const req = createRequire(import.meta.url)
-    return path.dirname(req.resolve("@synsci/atlas/package.json"))
+    return path.dirname(req.resolve("@griffin/atlas/package.json"))
   } catch {}
   const starts = [
     (() => {
@@ -247,7 +247,7 @@ function resolveAtlasPackageDir(): string | null {
   for (const start of starts) {
     let dir = start
     while (true) {
-      const candidate = path.join(dir, "node_modules", "@synsci", "atlas", "package.json")
+      const candidate = path.join(dir, "node_modules", "@griffin", "atlas", "package.json")
       if (existsSync(candidate)) return path.dirname(candidate)
       const parent = path.dirname(dir)
       if (parent === dir) break
@@ -309,8 +309,8 @@ function withAtlasOnPath(env: Record<string, string>): Record<string, string> {
   return { ...env, [key]: [dir, ...parts].join(sep) }
 }
 
-export namespace OpenScience {
-  const filepath = path.join(Global.Path.data, "openscience-session.json")
+export namespace Griffin {
+  const filepath = path.join(Global.Path.data, "griffin-session.json")
 
   /** Friendly device label sent to the backend. Surfaced in the
    *  user's Devices list so they can identify which machine each row
@@ -323,20 +323,20 @@ export namespace OpenScience {
         return "device"
       }
     })()
-    return `openscience · ${process.platform} · ${host}`
+    return `griffin · ${process.platform} · ${host}`
   }
 
   // Bound every Atlas client call. A slow/unresponsive backend must never hang
-  // the caller: the per-command sync-version probe and `openscience project init`
+  // the caller: the per-command sync-version probe and `griffin project init`
   // both go through Atlas fetches, and with the agent's bash tool also unbounded a
-  // hang wedged whole sessions for >60 min. Overridable via OPENSCIENCE_ATLAS_TIMEOUT_MS.
-  const ATLAS_FETCH_TIMEOUT_MS = Number(process.env["OPENSCIENCE_ATLAS_TIMEOUT_MS"]) || 60_000
+  // hang wedged whole sessions for >60 min. Overridable via GRIFFIN_ATLAS_TIMEOUT_MS.
+  const ATLAS_FETCH_TIMEOUT_MS = Number(process.env["GRIFFIN_ATLAS_TIMEOUT_MS"]) || 60_000
   // Skill index/content fetches run on the GET /skill request path, and each only
   // *enriches* a list that also comes from disk cache + bundled skills. A slow or
   // unreachable backend must degrade fast (fall back to cached/empty) instead of
   // wedging the request for the full Atlas timeout — the reporter in #138 saw a
   // single /skill take 62s because these inherited the 60s default. Bound tighter.
-  const SKILL_FETCH_TIMEOUT_MS = Number(process.env["OPENSCIENCE_SKILL_TIMEOUT_MS"]) || 8_000
+  const SKILL_FETCH_TIMEOUT_MS = Number(process.env["GRIFFIN_SKILL_TIMEOUT_MS"]) || 8_000
   function atlasFetch(input: string, init: RequestInit = {}, timeoutMs = ATLAS_FETCH_TIMEOUT_MS): Promise<Response> {
     // Combine (don't replace) a caller's signal with the timeout, so passing an
     // abort signal never silently drops the hang guard this function exists for.
@@ -345,7 +345,7 @@ export namespace OpenScience {
     return fetch(input, { ...init, signal })
   }
 
-  export async function getSession(): Promise<OpenScienceSession | null> {
+  export async function getSession(): Promise<GriffinSession | null> {
     // A missing file is a genuine logout → null, silently. Distinguish it from a
     // read/parse error below so a torn file / EMFILE / permission blip isn't
     // silently mis-read as "signed out" (which flips the billing gate to BYOK
@@ -353,7 +353,7 @@ export namespace OpenScience {
     if (!existsSync(filepath)) return null
     try {
       const file = Bun.file(filepath)
-      const data = (await file.json()) as Partial<OpenScienceSession> & { access_token?: string }
+      const data = (await file.json()) as Partial<GriffinSession> & { access_token?: string }
       // Forward-compat: pre-atlas sessions stored the token under
       // ``access_token``. Those tokens are no longer valid against the
       // new backend — drop them so the next request triggers re-auth.
@@ -385,7 +385,7 @@ export namespace OpenScience {
     }
   }
 
-  export async function saveSession(session: OpenScienceSession) {
+  export async function saveSession(session: GriffinSession) {
     // Atomic temp+rename so a crash or a concurrent reader never sees a torn
     // session file (which getSession would mis-read as a logout).
     await atomicWrite(filepath, JSON.stringify(session, null, 2), { mode: 0o600 })
@@ -394,13 +394,13 @@ export namespace OpenScience {
 
   /**
    * Seed the bundled `atlas` CLI's own config (`~/.config/atlas-cli/config.json`)
-   * from the OpenScience session so the agent can run native `atlas` commands. The
-   * key lives in atlas's on-disk config (file-based auth, like the OpenScience
+   * from the Griffin session so the agent can run native `atlas` commands. The
+   * key lives in atlas's on-disk config (file-based auth, like the Griffin
    * session file itself) — it is never put in the agent's shell env, so the
    * `thk_`-stripping boundary in filterEnvForSubprocess stays intact. Pinned to
-   * the same backend the OpenScience key is issued for. Best-effort; never throws.
+   * the same backend the Griffin key is issued for. Best-effort; never throws.
    */
-  export async function ensureAtlasCliConfig(session?: OpenScienceSession | null): Promise<void> {
+  export async function ensureAtlasCliConfig(session?: GriffinSession | null): Promise<void> {
     const active = session ?? (await getSession())
     if (!active?.api_key) return
     try {
@@ -429,7 +429,7 @@ export namespace OpenScience {
    *  under a lock so two concurrent patches (e.g. an interactive last_check_ts
    *  update racing a background cached_v update) can't lose each other's field
    *  in the read-modify-write. */
-  async function updateSession(patch: Partial<OpenScienceSession>): Promise<void> {
+  async function updateSession(patch: Partial<GriffinSession>): Promise<void> {
     using _ = await Lock.write(filepath)
     const session = await getSession()
     if (!session) return
@@ -523,7 +523,7 @@ export namespace OpenScience {
    *  (see ensureAtlasCliConfig). Only removes the key when it is the one the
    *  session seeded (or, with no readable session, when the profile points at
    *  our backend), so a hand-configured atlas profile survives. Best-effort. */
-  async function clearAtlasCliConfig(session: OpenScienceSession | null): Promise<void> {
+  async function clearAtlasCliConfig(session: GriffinSession | null): Promise<void> {
     try {
       const configPath =
         process.env.ATLAS_CLI_CONFIG_PATH || path.join(os.homedir(), ".config", "atlas-cli", "config.json")
@@ -577,7 +577,7 @@ export namespace OpenScience {
     // a fresh `logout` process has only the latter.
     const synced = await readSyncedSnapshot()
     for (const [key, value] of syncedSecretValues.entries()) synced.set(key, value)
-    for (const name of ["synced-env.json", "openscience-synced.json"]) {
+    for (const name of ["synced-env.json", "griffin-synced.json"]) {
       try {
         await fs.unlink(path.join(getSyncedConfigDir(), name))
       } catch {}
@@ -629,21 +629,21 @@ export namespace OpenScience {
   /** Minimal pages shown in the browser after it redirects back to our
    *  loopback callback. Inlined so login carries no asset dependencies. */
   const CALLBACK_SUCCESS_HTML =
-    "<!doctype html><meta charset=utf-8><title>OpenScience</title>" +
+    "<!doctype html><meta charset=utf-8><title>Griffin</title>" +
     '<body style="font-family:system-ui,sans-serif;background:#0b0b12;color:#eee;display:grid;place-items:center;height:100vh;margin:0">' +
     "<div style=text-align:center><h1 style=color:#4ade80>Login complete</h1>" +
-    "<p style=color:#9aa>You're signed in to the OpenScience CLI. You can close this tab.</p></div>" +
+    "<p style=color:#9aa>You're signed in to the Griffin CLI. You can close this tab.</p></div>" +
     "<script>setTimeout(()=>window.close(),1500)</script>"
 
   const CALLBACK_ERROR_HTML =
-    "<!doctype html><meta charset=utf-8><title>OpenScience</title>" +
+    "<!doctype html><meta charset=utf-8><title>Griffin</title>" +
     '<body style="font-family:system-ui,sans-serif;background:#0b0b12;color:#eee;display:grid;place-items:center;height:100vh;margin:0">' +
     "<div style=text-align:center><h1 style=color:#f87171>Login failed</h1>" +
     "<p style=color:#9aa>The callback could not be verified. Return to your terminal and try again.</p></div>"
 
   /** Spin up an ephemeral loopback server that waits for the browser to
    *  redirect back with the approved exchange token. Mirrors the
-   *  @synsci/atlas reference client: random port, ``/callback`` path, and
+   *  @griffin/atlas reference client: random port, ``/callback`` path, and
    *  a strict ``state`` check to defeat CSRF. */
   function startCallbackServer(expectedState: string): {
     port: number
@@ -684,7 +684,7 @@ export namespace OpenScience {
    *  endpoints answer 426 — translate that into an upgrade nudge. */
   async function loginError(res: Response, phase: string): Promise<string> {
     if (res.status === 426) {
-      return "This OpenScience version is out of date. Run `openscience upgrade` (or `npm i -g @synsci/openscience@latest`) and try again."
+      return "This Griffin version is out of date. Run `griffin upgrade` (or `npm i -g @griffin/griffin@latest`) and try again."
     }
     const detail = await res.text().catch(() => "")
     const trimmed = detail.trim().slice(0, 200)
@@ -697,7 +697,7 @@ export namespace OpenScience {
   export async function browserLogin(opts?: {
     onApprovalUrl?: (url: string) => void
     timeoutMs?: number
-  }): Promise<OpenScienceSession> {
+  }): Promise<GriffinSession> {
     const state = randomUUID()
     const name = deviceName()
     const callback = startCallbackServer(state)
@@ -739,7 +739,7 @@ export namespace OpenScience {
       const key = redeemed.api_key || redeemed.key
       if (!key) throw new Error("Login did not return an API key.")
 
-      const session: OpenScienceSession = {
+      const session: GriffinSession = {
         api_key: key,
         user_id: redeemed.user?.id || redeemed.user_id || "",
         device_name: name,
@@ -754,7 +754,7 @@ export namespace OpenScience {
 
   /** Headless / CI login: validate a pasted ``thk_`` key and persist it.
    *  Used when no local browser + loopback callback is available. */
-  export async function loginWithKey(rawKey: string): Promise<OpenScienceSession> {
+  export async function loginWithKey(rawKey: string): Promise<GriffinSession> {
     const key = rawKey.trim()
     if (!key.startsWith("thk_")) {
       throw new Error("Expected an API key starting with `thk_`.")
@@ -768,7 +768,7 @@ export namespace OpenScience {
     if (!res.ok) {
       throw new Error(`Could not validate key: HTTP ${res.status}`)
     }
-    const session: OpenScienceSession = {
+    const session: GriffinSession = {
       api_key: key,
       user_id: "",
       device_name: deviceName(),
@@ -779,7 +779,7 @@ export namespace OpenScience {
 
   /** Write a file atomically (temp + rename) so a crash mid-write can never
    *  leave a torn file — a torn synced-env.json silently drops managed keys, and
-   *  a torn openscience-synced.json throws during config load and bricks the CLI
+   *  a torn griffin-synced.json throws during config load and bricks the CLI
    *  until it's removed by hand. */
   async function atomicWrite(filepath: string, content: string, options?: { mode?: number }): Promise<void> {
     // Unique per call (not just per PID): two concurrent syncs in the SAME
@@ -851,7 +851,7 @@ export namespace OpenScience {
         }
       }
 
-      // OpenScience honours only OpenRouter (the sole managed LLM route) plus
+      // Griffin honours only OpenRouter (the sole managed LLM route) plus
       // compute / ML-service credentials from Atlas sync; every other model
       // provider is BYOK-local-only. Drop the rest before they are applied or
       // persisted — and the unset pass below removes any a previous sync wrote,
@@ -909,7 +909,7 @@ export namespace OpenScience {
           const managedDir = getSyncedConfigDir()
           await fs.mkdir(managedDir, { recursive: true })
           await atomicWrite(
-            path.join(managedDir, "openscience-synced.json"),
+            path.join(managedDir, "griffin-synced.json"),
             JSON.stringify({ $schema: "https://syntheticsciences.ai/config.json", ...data.config }, null, 2),
             { mode: 0o600 },
           )
@@ -1054,7 +1054,7 @@ export namespace OpenScience {
 
   /** Provider IDs (as stored in auth.json) whose user-owned BYOK keys are safe
    *  to expose to skill subprocesses, mapped to the env var(s) the scripts
-   *  read. These are keys the user explicitly added with `openscience login` —
+   *  read. These are keys the user explicitly added with `griffin login` —
    *  unlike the shared managed keys, which stay stripped. */
   const BYOK_SUBPROCESS_PROVIDERS: Record<string, { key: string; baseUrl?: string; publicBaseUrl?: string }> = {
     openrouter: {
@@ -1089,7 +1089,7 @@ export namespace OpenScience {
 
   /** Subprocess env = sanitized base env + any user-owned BYOK provider keys
    *  from auth.json. Lets skill scripts (e.g. nano-banana image generation)
-   *  use a key the user connected with `openscience login`, without leaking the
+   *  use a key the user connected with `griffin login`, without leaking the
    *  shared managed keys. */
   export async function subprocessEnv(env: NodeJS.ProcessEnv = process.env): Promise<Record<string, string>> {
     const base = filterEnvForSubprocess(env)
@@ -1176,7 +1176,7 @@ export namespace OpenScience {
   }
 
   /** Fetch full skill content from dashboard API.
-   *  Writes SKILL.md + supporting files (scripts, assets, etc.) to ~/.cache/openscience/skills/{name}/. Returns content or null. */
+   *  Writes SKILL.md + supporting files (scripts, assets, etc.) to ~/.cache/griffin/skills/{name}/. Returns content or null. */
   export async function fetchSkillContent(name: string): Promise<string | null> {
     const session = await getSession()
     if (!session) return null
@@ -1290,7 +1290,7 @@ export namespace OpenScience {
   /** Stable per-account tag stored with a queued usage row so a later flush can't
    *  bill a DIFFERENT account for it. user_id when known, else a short hash of the
    *  api_key (never the raw key, which must not sit in the queue file). */
-  function accountTag(session: OpenScienceSession): string {
+  function accountTag(session: GriffinSession): string {
     if (session.user_id) return session.user_id
     return "k:" + createHash("sha256").update(session.api_key).digest("hex").slice(0, 16)
   }
@@ -1318,7 +1318,7 @@ export namespace OpenScience {
 
   async function sendReport(
     params: UsageParams,
-    session: OpenScienceSession,
+    session: GriffinSession,
   ): Promise<{ ok: boolean; permanent: boolean; data?: any; modelBlocked?: boolean }> {
     try {
       const res = await atlasFetch(`${API_BASE}/api/cli/usage`, {
@@ -1648,7 +1648,7 @@ export namespace OpenScience {
    *
    * Atlas `/api/credits` also returns `unified_balance_cents` — the sum of every
    * pool: the CLI wallet + the Atlas-web wallet + the subscription cycle pool +
-   * gifted credits. But OpenScience managed mode debits ONLY the CLI wallet
+   * gifted credits. But Griffin managed mode debits ONLY the CLI wallet
    * (Atlas `cli.py`: `category="cli"`; an Atlas plan grants BYOK + library quota,
    * not CLI spending credits). Showing the unified pool made the wallet read
    * e.g. $160 when the CLI could actually spend far less. Prefer the CLI wallet;
@@ -1723,7 +1723,7 @@ export namespace OpenScience {
     }
   }
 
-  /** Version of the bundled @synsci/atlas companion CLI, or null if unresolved. */
+  /** Version of the bundled @griffin/atlas companion CLI, or null if unresolved. */
   export async function atlasCliVersion(): Promise<string | null> {
     const dir = resolveAtlasPackageDir()
     if (!dir) return null

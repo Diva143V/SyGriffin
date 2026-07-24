@@ -2,44 +2,44 @@ import { test, expect } from "bun:test"
 import { parseGitHubRemote } from "../../src/cli/cmd/github"
 
 test("parses https URL with .git suffix", () => {
-  expect(parseGitHubRemote("https://github.com/synthetic-sciences/OpenScience.git")).toEqual({
+  expect(parseGitHubRemote("https://github.com/synthetic-sciences/Griffin.git")).toEqual({
     owner: "synthetic-sciences",
-    repo: "OpenScience",
+    repo: "Griffin",
   })
 })
 
 test("parses https URL without .git suffix", () => {
-  expect(parseGitHubRemote("https://github.com/synthetic-sciences/OpenScience")).toEqual({
+  expect(parseGitHubRemote("https://github.com/synthetic-sciences/Griffin")).toEqual({
     owner: "synthetic-sciences",
-    repo: "OpenScience",
+    repo: "Griffin",
   })
 })
 
 test("parses git@ URL with .git suffix", () => {
-  expect(parseGitHubRemote("git@github.com:synthetic-sciences/OpenScience.git")).toEqual({
+  expect(parseGitHubRemote("git@github.com:synthetic-sciences/Griffin.git")).toEqual({
     owner: "synthetic-sciences",
-    repo: "OpenScience",
+    repo: "Griffin",
   })
 })
 
 test("parses git@ URL without .git suffix", () => {
-  expect(parseGitHubRemote("git@github.com:synthetic-sciences/OpenScience")).toEqual({
+  expect(parseGitHubRemote("git@github.com:synthetic-sciences/Griffin")).toEqual({
     owner: "synthetic-sciences",
-    repo: "OpenScience",
+    repo: "Griffin",
   })
 })
 
 test("parses ssh:// URL with .git suffix", () => {
-  expect(parseGitHubRemote("ssh://git@github.com/synthetic-sciences/OpenScience.git")).toEqual({
+  expect(parseGitHubRemote("ssh://git@github.com/synthetic-sciences/Griffin.git")).toEqual({
     owner: "synthetic-sciences",
-    repo: "OpenScience",
+    repo: "Griffin",
   })
 })
 
 test("parses ssh:// URL without .git suffix", () => {
-  expect(parseGitHubRemote("ssh://git@github.com/synthetic-sciences/OpenScience")).toEqual({
+  expect(parseGitHubRemote("ssh://git@github.com/synthetic-sciences/Griffin")).toEqual({
     owner: "synthetic-sciences",
-    repo: "OpenScience",
+    repo: "Griffin",
   })
 })
 

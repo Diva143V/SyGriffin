@@ -46,7 +46,7 @@ Always use versioned datasets for reproducible research!
 ## Key Tables
 
 ### dicom_all
-Primary table joining complete DICOM metadata with IDC-specific columns (collection_id, gcs_url, license). Contains all DICOM tags from `dicom_metadata` plus collection and administrative metadata. See [dicom_all.sql](https://github.com/ImagingDataCommons/etl_flow/blob/master/bq/generate_tables_and_views/derived_tables/BQ_Table_Building/derived_data_views/sql/dicom_all.sql) for the exact derivation.
+Primary table joining complete DICOM metadata with IDC-specific columns (collection_id, gcs_url, license). Contains all DICOM tags from `dicom_metadata` plus collection and administrative metadata. See [dicom_all.sql](/blob/master/bq/generate_tables_and_views/derived_tables/BQ_Table_Building/derived_data_views/sql/dicom_all.sql) for the exact derivation.
 
 ```sql
 SELECT 
@@ -347,7 +347,7 @@ ORDER BY collection_id
 
 **Community Resources:**
 - [NAMIC Wiki: DWI/DTI DICOM](https://www.na-mic.org/wiki/NAMIC_Wiki:DTI:DICOM_for_DWI_and_DTI) - comprehensive vendor comparison for diffusion imaging
-- [StandardizeBValue](https://github.com/nslay/StandardizeBValue) - tool to extract vendor b-values to standard tags
+- [StandardizeBValue]() - tool to extract vendor b-values to standard tags
 
 ## Using Query Results with idc-index
 
@@ -553,4 +553,4 @@ See `references/clinical_data_guide.md` for detailed workflows using `idc-index`
 - [Understanding the BigQuery DICOM schema](https://docs.cloud.google.com/healthcare-api/docs/how-tos/dicom-bigquery-schema)
 - [BigQuery Query Syntax](https://docs.cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax)
 - [Kaggle Intro to SQL](https://www.kaggle.com/learn/intro-to-sql)
-- [Sample BigQuery queries of IDC data](https://github.com/ImagingDataCommons/idc-bigquery-cookbook)
+- [Sample BigQuery queries of IDC data]()

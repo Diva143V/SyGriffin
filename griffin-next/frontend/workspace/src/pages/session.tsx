@@ -13,12 +13,12 @@ import {
   type JSX,
 } from "solid-js"
 import { useNavigate, useParams } from "@solidjs/router"
-import { SessionTurn } from "@synsci/ui/session-turn"
-import { createAutoScroll } from "@synsci/ui/hooks"
+import { SessionTurn } from "@griffin/ui/session-turn"
+import { createAutoScroll } from "@griffin/ui/hooks"
 import { useSync } from "@/context/sync"
 import { useSDK } from "@/context/sdk"
 import { useLayout } from "@/context/layout"
-import { useTheme } from "@synsci/ui/theme"
+import { useTheme } from "@griffin/ui/theme"
 import { PromptInput } from "@/components/prompt-input"
 import { NewSessionView } from "@/components/session/session-new-view"
 import { AsciiSpinner } from "@/atlas/shared/AsciiSpinner"
@@ -33,7 +33,7 @@ import { centerTabs } from "@/atlas/store/centerTabs"
 import { FONT_MONO, FONT_SANS } from "@/styles/tokens"
 import { uiStore } from "@/atlas/store/ui"
 import { useGlobalKeys } from "@/atlas/useGlobalKeys"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useCommand, type CommandOption } from "@/context/command"
 import { useLanguage } from "@/context/language"
 import { confirmDialog } from "@/atlas/dialogs"
@@ -68,7 +68,7 @@ type SyncSession = ReturnType<typeof useSync>["data"]["session"][number]
 /**
  * Session page — new visual identity (Synthetic Sciences wordmark + sessions
  * sidebar + chat + canvas/agents/skills/files right pane) wrapping the
- * unchanged openscience backend chat (SessionTurn rendering, PromptInput, real
+ * unchanged griffin backend chat (SessionTurn rendering, PromptInput, real
  * SSE streaming, sub-task delegation, tool calls, TODOs, diff cards).
  */
 export default function Page(): JSX.Element {
@@ -220,8 +220,8 @@ export default function Page(): JSX.Element {
       const rel = dir && path.startsWith(dir + "/") ? path.slice(dir.length + 1) : path
       centerTabs.openFile(dir, rel)
     }
-    document.addEventListener("openscience:open-file", onOpenFile)
-    onCleanup(() => document.removeEventListener("openscience:open-file", onOpenFile))
+    document.addEventListener("griffin:open-file", onOpenFile)
+    onCleanup(() => document.removeEventListener("griffin:open-file", onOpenFile))
 
     // "Open in Shell tab" on a bash tool card → reveal the right pane's terminal
     // and re-run the command there (the RightPane picks up terminalCommand).

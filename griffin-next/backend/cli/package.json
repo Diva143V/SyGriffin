@@ -14,7 +14,7 @@
     "dev": "bun run --conditions=browser ./src/index.ts"
   },
   "bin": {
-    "griffin": "./bin/openscience"
+    "griffin": "./bin/griffin"
   },
   "files": [
     "bin",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "@babel/core": "7.28.4",
     "@octokit/webhooks-types": "7.6.1",
-    "@synsci/script": "workspace:*",
+    "@griffin/script": "workspace:*",
     "@parcel/watcher-darwin-arm64": "2.5.1",
     "@parcel/watcher-darwin-x64": "2.5.1",
     "@parcel/watcher-linux-arm64-glibc": "2.5.1",
@@ -84,10 +84,10 @@
     "@solid-primitives/event-bus": "1.1.2",
     "@solid-primitives/scheduled": "1.5.2",
     "@standard-schema/spec": "1.0.0",
-    "@synsci/plugin": "workspace:*",
-    "@synsci/script": "workspace:*",
-    "@synsci/sdk": "workspace:*",
-    "@synsci/util": "workspace:*",
+    "@griffin/plugin": "workspace:*",
+    "@griffin/script": "workspace:*",
+    "@griffin/sdk": "workspace:*",
+    "@griffin/util": "workspace:*",
     "@zip.js/zip.js": "2.7.62",
     "ai": "catalog:",
     "bonjour-service": "1.3.0",
@@ -120,6 +120,6 @@
     "zod-to-json-schema": "3.24.5"
   },
   "optionalDependencies": {
-    "@synsci/atlas": "^0.13.2"
+    "@griffin/atlas": "^0.13.2"
   }
 }

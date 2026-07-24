@@ -327,7 +327,7 @@ Approximate expected performance (mean reward) on common benchmarks:
 
 ## Additional Resources
 
-- **RL Baselines3 Zoo**: Collection of pre-trained agents and hyperparameters: https://github.com/DLR-RM/rl-baselines3-zoo
+- **RL Baselines3 Zoo**: Collection of pre-trained agents and hyperparameters: 
 - **Hyperparameter Tuning**: Use Optuna for systematic tuning
 - **Custom Policies**: Extend base policies for custom network architectures
 - **Contribution Repo**: SB3-Contrib for experimental algorithms (QR-DQN, TQC, etc.)

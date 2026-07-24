@@ -15,12 +15,12 @@ import { Shell } from "@/shell/shell"
 
 import { BashArity } from "@/permission/arity"
 import { Truncate } from "./truncation"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { Sandbox } from "@/sandbox/sandbox"
 import { Config } from "@/config/config"
 
 const MAX_METADATA_LENGTH = 30_000
-const DEFAULT_TIMEOUT = Flag.OPENSCIENCE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS || 0
+const DEFAULT_TIMEOUT = Flag.GRIFFIN_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS || 0
 
 export const log = Log.create({ service: "bash-tool" })
 
@@ -164,9 +164,9 @@ export const BashTool = Tool.define("bash", async () => {
 
       // Seed the BYOK secret cache so redact() below masks the user's own
       // provider keys (auth.json + shell env), not just synced managed ones.
-      await OpenScience.refreshByokSecrets(process.env).catch(() => {})
+      await Griffin.refreshByokSecrets(process.env).catch(() => {})
 
-      const env = await OpenScience.subprocessEnv(process.env)
+      const env = await Griffin.subprocessEnv(process.env)
 
       // Wrap the command in an OS sandbox when configured. The permission checks
       // above decide *whether* to run; this decides *with what authority*. When
@@ -206,7 +206,7 @@ export const BashTool = Tool.define("bash", async () => {
 
       const redact = (text: string) => {
         try {
-          return OpenScience.redactSecrets(text)
+          return Griffin.redactSecrets(text)
         } catch {
           return text
         }

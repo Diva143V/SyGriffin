@@ -1,6 +1,6 @@
 # Saving to Ollama
 
-See our [Tutorial: How to Finetune Llama-3 and Use in Ollama](tutorial-llama3-ollama.md) for the complete process on how to save to [Ollama](https://github.com/ollama/ollama).
+See our [Tutorial: How to Finetune Llama-3 and Use in Ollama](tutorial-llama3-ollama.md) for the complete process on how to save to [Ollama]().
 
 ### Saving on Google Colab
 
@@ -16,7 +16,7 @@ Then we export the finetuned model we have to llama.cpp's GGUF formats.
 
 Reminder to convert `False` to `True` for 1 row, and not change every row to `True`, or else you'll be waiting for a very long time! We normally suggest the first row getting set to `True`, so we can export the finetuned model quickly to `Q8_0` format (8 bit quantization). We also allow you to export to a whole list of quantization methods as well, with a popular one being `q4_k_m`.
 
-Head over to <https://github.com/ggerganov/llama.cpp> to learn more about GGUF. We also have some manual instructions of how to export to GGUF if you want here: <https://github.com/unslothai/unsloth/wiki#manually-saving-to-gguf>
+Head over to <.cpp> to learn more about GGUF. We also have some manual instructions of how to export to GGUF if you want here: </wiki#manually-saving-to-gguf>
 
 You will see a long list of text - please wait 5 to 10 minutes!
 

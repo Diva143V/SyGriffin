@@ -1,14 +1,14 @@
-# CLAUDE.md: OpenScience
+# CLAUDE.md: Griffin
 
 ## Project Overview
 
-**OpenScience (`openscience`)** is an open-source, model-agnostic AI research agent for ML engineering and scientific work. Built with Bun and TypeScript, it ships as native binaries for Linux, macOS, and Windows.
+**Griffin (`griffin`)** is an open-source, model-agnostic AI research agent for ML engineering and scientific work. Built with Bun and TypeScript, it ships as native binaries for Linux, macOS, and Windows.
 
-- **npm package**: `@synsci/openscience`
-- **Binary name**: `openscience`
-- **Config dir**: `~/.config/openscience/` (also `~/.openscience/`; legacy `~/.synsc` auto-migrates)
-- **Config file**: `openscience.json`
-- **Provider ID**: `synsci` (Atlas wire contract, do not rename)
+- **npm package**: `@griffin/griffin`
+- **Binary name**: `griffin`
+- **Config dir**: `~/.config/griffin/` (also `~/.griffin/`; legacy `~/.synsc` auto-migrates)
+- **Config file**: `griffin.json`
+- **Provider ID**: `griffin` (Atlas wire contract, do not rename)
 
 ## Repository Structure
 
@@ -95,7 +95,7 @@ Defines built-in agents with `Agent.Info` schema: `name`, `mode` (primary/subage
 **Subagents** (hidden from users): `task`, `explore`, `literature-review`, `critique`, `reviewer`, `physics-critique`, `write`
 **System agents**: `compaction`, `title`
 
-Custom agents can be added via config file (`openscience.json` → `agent` key). See `src/cli/cmd/agent.ts` for the creation CLI.
+Custom agents can be added via config file (`griffin.json` → `agent` key). See `src/cli/cmd/agent.ts` for the creation CLI.
 
 ## RCA & Debugging Guide
 
@@ -110,11 +110,11 @@ Custom agents can be added via config file (`openscience.json` → `agent` key).
 | Symptom                    | Likely cause                                     | Where to look                                                       |
 | -------------------------- | ------------------------------------------------ | ------------------------------------------------------------------- |
 | Agent ignores skills       | Skill catalog missing/truncated in prompt        | `src/agent/prompt/{agent}.txt`, check toolkit section               |
-| Wrong model used           | Agent/model config incorrect                     | `src/agent/agent.ts` + `openscience.json` `agent` config            |
+| Wrong model used           | Agent/model config incorrect                     | `src/agent/agent.ts` + `griffin.json` `agent` config            |
 | Agent skips stages         | Stage gates not mandatory in prompt              | `src/agent/prompt/{agent}.txt`, check BLOCKING vs advisory language |
 | Critique not triggered     | Critique is advisory, not mandatory              | `src/agent/prompt/critique.txt` + parent prompt's critique section  |
 | Sub-agent returns empty    | Context window exhaustion or bad prompt          | `src/agent/agent.ts`, check subagent's `steps` limit                |
-| Custom agent not appearing | Config not in `openscience.json` or wrong `mode` | Config file `agent` key → `src/agent/agent.ts`                      |
+| Custom agent not appearing | Config not in `griffin.json` or wrong `mode` | Config file `agent` key → `src/agent/agent.ts`                      |
 
 ### Key files for prompt debugging (read these first):
 

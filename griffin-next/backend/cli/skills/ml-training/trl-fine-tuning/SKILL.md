@@ -445,12 +445,12 @@ config = PPOConfig(
 ## Resources
 
 - Docs: https://huggingface.co/docs/trl/
-- GitHub: https://github.com/huggingface/trl
+- GitHub: 
 - Papers:
   - "Training language models to follow instructions with human feedback" (InstructGPT, 2022)
   - "Direct Preference Optimization: Your Language Model is Secretly a Reward Model" (DPO, 2023)
   - "Group Relative Policy Optimization" (GRPO, 2024)
-- Examples: https://github.com/huggingface/trl/tree/main/examples/scripts
+- Examples: /tree/main/examples/scripts
 
 
 

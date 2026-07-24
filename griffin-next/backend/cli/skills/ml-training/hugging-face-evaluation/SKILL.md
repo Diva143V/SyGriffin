@@ -313,7 +313,7 @@ Tasks use the format `suite|task|num_fewshot`:
 
 **Finding Available Tasks:**
 The complete list of available lighteval tasks can be found at:
-https://github.com/huggingface/lighteval/blob/main/examples/tasks/all_tasks.txt
+/blob/main/examples/tasks/all_tasks.txt
 
 This file contains all supported tasks in the format `suite|task|num_fewshot|0` (the trailing `0` is a version flag and can be ignored). Common suites include:
 - `leaderboard` - Open LLM Leaderboard tasks (MMLU, GSM8K, ARC, HellaSwag, etc.)

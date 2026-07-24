@@ -367,7 +367,7 @@ Detailed information available in `references/`:
 ## Additional Resources
 
 - Documentation: https://www.aeon-toolkit.org/
-- GitHub: https://github.com/aeon-toolkit/aeon
+- GitHub: 
 - Examples: https://www.aeon-toolkit.org/en/stable/examples.html
 - API Reference: https://www.aeon-toolkit.org/en/stable/api_reference.html
 

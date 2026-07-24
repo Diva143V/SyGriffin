@@ -45,14 +45,14 @@ Instructions to run in llama.cpp (note we will be using 4-bit to fit most device
 
 {% stepper %}
 {% step %}
-Obtain the latest `llama.cpp` on [GitHub here](https://github.com/ggml-org/llama.cpp). You can follow the build instructions below as well. Change `-DGGML_CUDA=ON` to `-DGGML_CUDA=OFF` if you don't have a GPU or just want CPU inference.
+Obtain the latest `llama.cpp` on [GitHub here](.cpp). You can follow the build instructions below as well. Change `-DGGML_CUDA=ON` to `-DGGML_CUDA=OFF` if you don't have a GPU or just want CPU inference.
 
 {% code overflow="wrap" %}
 
 ```bash
 apt-get update
 apt-get install pciutils build-essential cmake curl libcurl4-openssl-dev -y
-git clone https://github.com/ggml-org/llama.cpp
+git clone .cpp
 cmake llama.cpp -B llama.cpp/build \
     -DBUILD_SHARED_LIBS=OFF -DGGML_CUDA=ON
 cmake --build llama.cpp/build --config Release -j --clean-first --target llama-cli llama-mtmd-cli llama-server llama-gguf-split
@@ -587,7 +587,7 @@ uv venv unsloth_fp8 --python 3.12 --seed
 source unsloth_fp8/bin/activate
 
 uv pip install --upgrade --force-reinstall vm --torch-backend=auto --extra-index-url https://wheels.vllm.ai/nightly/cu130
-uv pip install --upgrade --force-reinstall git+https://github.com/huggingface/transformers.git
+uv pip install --upgrade --force-reinstall git+.git
 uv pip install --force-reinstall numba
 ```
 
@@ -875,7 +875,7 @@ Try `-ot ".ffn_(up)_exps.=CPU"` if you have even more GPU memory. This offloads 
 
 You can also customize the regex, for example `-ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU"` means to offload gate, up and down MoE layers but only from the 6th layer onwards.
 
-The [latest llama.cpp release](httpsithub.com/ggml-org/llama.cpp/pull/14363) also introduces high throughput mode. Use `llama-parallel`. Read more about it [here](https://github.com/ggml-org/llama.cpp/tree/master/examples/parallel). You can also **quantize the KV cache to 4bits** for example to reduce VRAM / RAM movement, which can also make the generation process faster. The [next section](#how-to-fit-long-context-256k-to-1m) talks about KV cache quantization.
+The [latest llama.cpp release](httpsithub.com/ggml-org/llama.cpp/pull/14363) also introduces high throughput mode. Use `llama-parallel`. Read more about it [here](.cpp/tree/master/examples/parallel). You can also **quantize the KV cache to 4bits** for example to reduce VRAM / RAM movement, which can also make the generation process faster. The [next section](#how-to-fit-long-context-256k-to-1m) talks about KV cache quantization.
 
 ### 📐How to fit long context <a href="#how-to-fit-long-context-256k-to-1m" id="how-to-fit-long-context-256k-to-1m"></a>
 

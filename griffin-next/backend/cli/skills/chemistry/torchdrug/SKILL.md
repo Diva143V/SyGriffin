@@ -429,7 +429,7 @@ For deep dives into TorchDrug's architecture:
 ## Resources
 
 **Official Documentation:** https://torchdrug.ai/docs/
-**GitHub:** https://github.com/DeepGraphLearning/torchdrug
+**GitHub:** 
 **Paper:** TorchDrug: A Powerful and Flexible Machine Learning Platform for Drug Discovery
 
 ## Summary

@@ -10,7 +10,7 @@ This directory contains comprehensive reference materials for nnsight.
 ## Quick Links
 
 - **Official Documentation**: https://nnsight.net/
-- **GitHub Repository**: https://github.com/ndif-team/nnsight
+- **GitHub Repository**: 
 - **NDIF (Remote Execution)**: https://ndif.us/
 - **Community Forum**: https://discuss.ndif.us/
 - **Paper**: https://arxiv.org/abs/2407.14561 (ICLR 2025)

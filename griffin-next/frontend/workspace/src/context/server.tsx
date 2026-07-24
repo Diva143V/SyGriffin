@@ -1,5 +1,5 @@
-import { createOpenScienceClient } from "@synsci/sdk/v2/client"
-import { createSimpleContext } from "@synsci/ui/context"
+import { createGriffinClient } from "@griffin/sdk/v2/client"
+import { createSimpleContext } from "@griffin/ui/context"
 import { batch, createEffect, createMemo, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
 import { usePlatform } from "@/context/platform"
@@ -96,7 +96,7 @@ export const { use: useServer, provider: ServerProvider } = createSimpleContext(
 
     const check = (url: string) => {
       const signal = (AbortSignal as unknown as { timeout?: (ms: number) => AbortSignal }).timeout?.(3000)
-      const sdk = createOpenScienceClient({
+      const sdk = createGriffinClient({
         baseUrl: url,
         fetch: platform.fetch,
         signal,

@@ -208,5 +208,5 @@ PEDS data can be combined with other USPTO APIs:
 
 - **Library Documentation**: https://docs.ip-tools.org/uspto-opendata-python/
 - **PyPI Package**: https://pypi.org/project/uspto-opendata-python/
-- **GitHub Repository**: https://github.com/ip-tools/uspto-opendata-python
+- **GitHub Repository**: 
 - **USPTO PEDS Portal**: https://ped.uspto.gov/

@@ -30,7 +30,7 @@ Use DSPy when you need to:
 pip install dspy
 
 # Latest development version
-pip install git+https://github.com/stanfordnlp/dspy.git
+pip install git+.git
 
 # With specific LM providers
 pip install dspy[openai]        # OpenAI
@@ -577,8 +577,8 @@ for call in dspy.settings.trace:
 ## Resources
 
 - **Documentation**: https://dspy.ai
-- **GitHub**: https://github.com/stanfordnlp/dspy (22k+ stars)
-- **Discord**: https://discord.gg/XCGy2WDCQB
+- **GitHub**:  (22k+ stars)
+- **Discord**: 
 - **Twitter**: @DSPyOSS
 - **Paper**: "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines"
 

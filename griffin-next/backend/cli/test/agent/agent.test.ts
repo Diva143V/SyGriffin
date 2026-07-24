@@ -42,7 +42,7 @@ test("research agent has correct default properties", async () => {
   })
 })
 
-test("plan agent denies edits except .openscience/plans/*", async () => {
+test("plan agent denies edits except .griffin/plans/*", async () => {
   await using tmp = await tmpdir()
   await Instance.provide({
     directory: tmp.path,
@@ -52,7 +52,7 @@ test("plan agent denies edits except .openscience/plans/*", async () => {
       // Wildcard is denied
       expect(evalPerm(plan, "edit")).toBe("deny")
       // But specific path is allowed
-      expect(PermissionNext.evaluate("edit", ".openscience/plans/foo.md", plan!.permission).action).toBe("allow")
+      expect(PermissionNext.evaluate("edit", require("path").join(".griffin", "plans", "foo.md"), plan!.permission).action).toBe("allow")
     },
   })
 })

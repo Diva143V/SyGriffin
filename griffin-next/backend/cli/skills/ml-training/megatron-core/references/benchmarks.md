@@ -243,7 +243,7 @@ torchrun pretrain_gpt.py \
 
 ## References
 
-- NVIDIA Megatron-LM GitHub: https://github.com/NVIDIA/Megatron-LM
+- NVIDIA Megatron-LM GitHub: 
 - Performance Docs: https://docs.nvidia.com/megatron-core/
 - LLaMA 3 Paper: Meta AI
 - DeepSeek-V3 Technical Report

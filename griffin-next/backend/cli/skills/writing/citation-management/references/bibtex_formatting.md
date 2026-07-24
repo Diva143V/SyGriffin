@@ -314,7 +314,7 @@ This guide covers all common entry types and formatting rules.
   title        = {Software Name},
   year         = {2024},
   howpublished = {GitHub},
-  url          = {https://github.com/user/repo},
+  url          = {},
   note         = {Version 2.0}
 }
 ```

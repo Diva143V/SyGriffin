@@ -298,7 +298,7 @@ config = AwqConfig(bits=4, version="exllama")
 ## Deprecation notice
 
 AutoAWQ is officially deprecated. For new projects, consider:
-- **vLLM llm-compressor**: https://github.com/vllm-project/llm-compressor
+- **vLLM llm-compressor**: 
 - **MLX-LM**: For Mac devices with Apple Silicon
 
 Existing quantized models remain usable.
@@ -306,6 +306,6 @@ Existing quantized models remain usable.
 ## References
 
 - **Paper**: AWQ: Activation-aware Weight Quantization (arXiv:2306.00978) - MLSys 2024 Best Paper
-- **GitHub**: https://github.com/casper-hansen/AutoAWQ
-- **MIT Han Lab**: https://github.com/mit-han-lab/llm-awq
+- **GitHub**: 
+- **MIT Han Lab**: 
 - **Models**: https://huggingface.co/models?library=awq

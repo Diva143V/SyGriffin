@@ -28,10 +28,10 @@ sam.to("cuda")  # Explicitly move to GPU
 **Solutions**:
 ```bash
 # Install from GitHub
-pip install git+https://github.com/facebookresearch/segment-anything.git
+pip install git+.git
 
 # Or clone and install
-git clone https://github.com/facebookresearch/segment-anything.git
+git clone .git
 cd segment-anything
 pip install -e .
 
@@ -469,7 +469,7 @@ for point in points:
 
 ## Getting Help
 
-1. **GitHub Issues**: https://github.com/facebookresearch/segment-anything/issues
+1. **GitHub Issues**: /issues
 2. **HuggingFace Forums**: https://discuss.huggingface.co
 3. **Paper**: https://arxiv.org/abs/2304.02643
 

@@ -11,7 +11,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js"
 import { Config } from "../config/config"
 import { Log } from "../util/log"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import z from "zod/v4"
 import { Instance } from "../project/instance"
 import { Installation } from "../installation"
@@ -346,7 +346,7 @@ export namespace MCP {
       for (const { name, transport } of transports) {
         try {
           const client = new Client({
-            name: "openscience",
+            name: "griffin",
             version: Installation.VERSION,
           })
           await withTimeout(client.connect(transport), connectTimeout)
@@ -373,7 +373,7 @@ export namespace MCP {
               // Store transport for later finishAuth call
               pendingOAuthTransports.set(key, transport)
               status = { status: "needs_auth" as const }
-              log.warn("MCP server requires authentication", { server: key, hint: `openscience mcp auth ${key}` })
+              log.warn("MCP server requires authentication", { server: key, hint: `griffin mcp auth ${key}` })
             }
             break
           }
@@ -402,7 +402,7 @@ export namespace MCP {
         cwd,
         env: {
           ...process.env,
-          ...(cmd === "openscience" ? { BUN_BE_BUN: "1" } : {}),
+          ...(cmd === "griffin" ? { BUN_BE_BUN: "1" } : {}),
           ...mcp.environment,
         },
       })
@@ -413,7 +413,7 @@ export namespace MCP {
       const connectTimeout = mcp.timeout ?? DEFAULT_TIMEOUT
       try {
         const client = new Client({
-          name: "openscience",
+          name: "griffin",
           version: Installation.VERSION,
         })
         await withTimeout(client.connect(transport), connectTimeout)
@@ -761,7 +761,7 @@ export namespace MCP {
     // Try to connect - this will trigger the OAuth flow
     try {
       const client = new Client({
-        name: "openscience",
+        name: "griffin",
         version: Installation.VERSION,
       })
       await client.connect(transport)

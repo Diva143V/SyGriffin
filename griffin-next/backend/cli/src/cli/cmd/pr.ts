@@ -5,7 +5,7 @@ import { $ } from "bun"
 
 export const PrCommand = cmd({
   command: "pr <number>",
-  describe: "fetch and checkout a GitHub PR branch, then run openscience",
+  describe: "fetch and checkout a GitHub PR branch, then run griffin",
   builder: (yargs) =>
     yargs.positional("number", {
       type: "number",
@@ -65,21 +65,21 @@ export const PrCommand = cmd({
 
         UI.println(`Successfully checked out PR #${prNumber} as branch '${localBranchName}'`)
         UI.println()
-        UI.println("Starting openscience...")
+        UI.println("Starting griffin...")
         UI.println()
 
         const { spawn } = await import("child_process")
-        const openscienceProcess = spawn("openscience", [], {
+        const griffinProcess = spawn("griffin", [], {
           stdio: "inherit",
           cwd: process.cwd(),
         })
 
         await new Promise<void>((resolve, reject) => {
-          openscienceProcess.on("exit", (code) => {
+          griffinProcess.on("exit", (code) => {
             if (code === 0) resolve()
-            else reject(new Error(`openscience exited with code ${code}`))
+            else reject(new Error(`griffin exited with code ${code}`))
           })
-          openscienceProcess.on("error", reject)
+          griffinProcess.on("error", reject)
         })
       },
     })

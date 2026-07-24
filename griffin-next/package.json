@@ -74,14 +74,14 @@
     "turbo": "2.5.6"
   },
   "dependencies": {
-    "@synsci/plugin": "workspace:*",
-    "@synsci/script": "workspace:*",
-    "@synsci/sdk": "workspace:*",
+    "@griffin/plugin": "workspace:*",
+    "@griffin/script": "workspace:*",
+    "@griffin/sdk": "workspace:*",
     "typescript": "catalog:"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/synthetic-sciences/openscience"
+    "url": "https://github.com/synthetic-sciences/griffin"
   },
   "license": "Apache-2.0",
   "prettier": {

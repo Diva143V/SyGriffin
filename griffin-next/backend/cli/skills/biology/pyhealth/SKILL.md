@@ -381,7 +381,7 @@ uv pip install pyhealth
 ### Getting Help
 
 - **Documentation**: https://pyhealth.readthedocs.io/
-- **GitHub Issues**: https://github.com/sunlabuiuc/PyHealth/issues
+- **GitHub Issues**: /issues
 - **Tutorials**: 7 core tutorials + 5 practical pipelines available online
 
 ## Example: Complete Workflow

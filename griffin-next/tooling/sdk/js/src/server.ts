@@ -9,7 +9,7 @@ export type ServerOptions = {
   config?: Config
 }
 
-export async function createOpenScienceServer(options?: ServerOptions) {
+export async function createGriffinServer(options?: ServerOptions) {
   options = Object.assign(
     {
       hostname: "127.0.0.1",
@@ -22,11 +22,11 @@ export async function createOpenScienceServer(options?: ServerOptions) {
   const args = [`serve`, `--hostname=${options.hostname}`, `--port=${options.port}`]
   if (options.config?.logLevel) args.push(`--log-level=${options.config.logLevel}`)
 
-  const proc = spawn(`openscience`, args, {
+  const proc = spawn(`griffin`, args, {
     signal: options.signal,
     env: {
       ...process.env,
-      OPENSCIENCE_CONFIG_CONTENT: JSON.stringify(options.config ?? {}),
+      GRIFFIN_CONFIG_CONTENT: JSON.stringify(options.config ?? {}),
     },
   })
 
@@ -39,7 +39,7 @@ export async function createOpenScienceServer(options?: ServerOptions) {
       output += chunk.toString()
       const lines = output.split("\n")
       for (const line of lines) {
-        if (line.startsWith("openscience server listening")) {
+        if (line.startsWith("griffin server listening")) {
           const match = line.match(/on\s+(https?:\/\/[^\s]+)/)
           if (!match) {
             throw new Error(`Failed to parse server url from output: ${line}`)

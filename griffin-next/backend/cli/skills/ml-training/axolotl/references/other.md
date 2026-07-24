@@ -147,7 +147,7 @@ A: We currently recommend torch 2.6.0 for use with vllm. Please ensure you use t
 
 Q: FA2 2.8.0 undefined symbol runtime error on CUDA 12.4
 
-A: There seems to be a wheel issue with FA2 2.8.0 on CUDA 12.4. Try CUDA 12.6 instead or downgrade to FA2 2.7.4. Please refer to the upstream issue: https://github.com/Dao-AILab/flash-attention/issues/1717.
+A: There seems to be a wheel issue with FA2 2.8.0 on CUDA 12.4. Try CUDA 12.6 instead or downgrade to FA2 2.7.4. Please refer to the upstream issue: /issues/1717.
 
 Q: Can we mix text and text+image datasets for VLM training?
 
@@ -1471,7 +1471,7 @@ To enable them, please check the respective documentations.
 
 Cut Cross Entropy (CCE) reduces VRAM usage through optimization on the cross-entropy operation during loss calculation.
 
-See https://github.com/apple/ml-cross-entropy
+See 
 
 Run the following command to install cut_cross_entropy[transformers] if you don’t have it already.
 
@@ -1517,7 +1517,7 @@ The plugin adds (or modifies) several metrics to track diffusion training:
 
 Please see reference here
 
-See https://github.com/ironjr/grokfast
+See 
 
 Please see reference here
 
@@ -1543,7 +1543,7 @@ This plugin does not apply pruning or sparsification itself — it is intended f
 
 Pre-sparsified checkpoints can be: - Generated using LLMCompressor - Downloaded from Neural Magic’s Hugging Face page - Any custom LLM with compatible sparsity patterns that you’ve created yourself
 
-To learn more about writing and customizing LLMCompressor recipes, refer to the official documentation: https://github.com/vllm-project/llm-compressor/blob/main/README.md
+To learn more about writing and customizing LLMCompressor recipes, refer to the official documentation: /blob/main/README.md
 
 Setting save_compressed: true in your configuration enables saving models in a compressed format, which: - Reduces disk space usage by approximately 40% - Maintains compatibility with vLLM for accelerated inference - Maintains compatibility with llmcompressor for further optimization (example: quantization)
 
@@ -1557,19 +1557,19 @@ For more details on vLLM’s capabilities and advanced configuration options, se
 
 For details on available sparsity and quantization schemes, fine-tuning recipes, and usage examples, visit the official LLMCompressor repository:
 
-https://github.com/vllm-project/llm-compressor
+
 
 Please see reference here
 
 Run evaluation on model using the popular lm-evaluation-harness library.
 
-See https://github.com/EleutherAI/lm-evaluation-harness
+See 
 
 Please see reference here
 
 Liger Kernel provides efficient Triton kernels for LLM training, offering:
 
-See https://github.com/linkedin/Liger-Kernel
+See 
 
 Please see reference here
 
@@ -1577,7 +1577,7 @@ by Eric Hartford, Lucas Atkins, Fernando Fernandes, David Golchinfar
 
 This plugin contains code to freeze the bottom fraction of modules in a model, based on the Signal-to-Noise Ratio (SNR).
 
-See https://github.com/cognitivecomputations/spectrum
+See 
 
 Spectrum is a tool for scanning and evaluating the Signal-to-Noise Ratio (SNR) of layers in large language models. By identifying the top n% of layers with the highest SNR, you can optimize training efficiency.
 
@@ -1595,7 +1595,7 @@ and correctly spelled the integration name in the config file.
 
 It is not necessary to place your integration in the integrations folder. It can be in any location, so long as it’s installed in a package in your python env.
 
-See this repo for an example: https://github.com/axolotl-ai-cloud/diff-transformer
+See this repo for an example: 
 
 **Examples:**
 
@@ -1606,7 +1606,7 @@ python scripts/cutcrossentropy_install.py | sh
 
 Example 2 (bash):
 ```bash
-pip3 uninstall -y cut-cross-entropy && pip3 install "cut-cross-entropy[transformers] @ git+https://github.com/axolotl-ai-cloud/ml-cross-entropy.git@8a1a0ec"
+pip3 uninstall -y cut-cross-entropy && pip3 install "cut-cross-entropy[transformers] @ git+.git@8a1a0ec"
 ```
 
 Example 3 (yaml):
@@ -2422,7 +2422,7 @@ streaming: bool | None
 # Buffer size for multipack streaming datasets
 streaming_multipack_buffer_size: int | None = 10000
 
-# Whether to use xformers attention patch https://github.com/facebookresearch/xformers
+# Whether to use xformers attention patch 
 xformers_attention: bool | None
 # Whether to use scaled-dot-product attention https://pytorch.org/docs/stable/generated/
 # torch.nn.functional.scaled_dot_product_attention.html
@@ -2431,7 +2431,7 @@ sdp_attention: bool | None
 s2_attention: bool | None
 flex_attention: bool | None
 flex_attn_compile_kwargs: dict[str, Any] | None
-# Whether to use flash attention patch https://github.com/Dao-AILab/flash-attention
+# Whether to use flash attention patch 
 flash_attention: bool | None
 # Whether to use flash-attention cross entropy implementation - advanced use only
 flash_attn_cross_entropy: bool | None
@@ -3099,7 +3099,7 @@ Example 4 (unknown):
 @software{axolotl,
   title = {Axolotl: Open Source LLM Post-Training},
   author = {{Axolotl maintainers and contributors}},
-  url = {https://github.com/axolotl-ai-cloud/axolotl},
+  url = {},
   license = {Apache-2.0},
   year = {2023}
 }

@@ -17,7 +17,7 @@ import { Tool } from "./tool"
 import { Instance } from "../project/instance"
 import { Config } from "../config/config"
 import path from "path"
-import { type ToolContext as PluginToolContext, type ToolDefinition } from "@synsci/plugin"
+import { type ToolContext as PluginToolContext, type ToolDefinition } from "@griffin/plugin"
 import z from "zod"
 import { Plugin } from "../plugin"
 import { WebSearchTool } from "./websearch"
@@ -108,7 +108,7 @@ export namespace ToolRegistry {
 
     return [
       InvalidTool,
-      ...(["app", "cli", "desktop"].includes(Flag.OPENSCIENCE_CLIENT) ? [QuestionTool] : []),
+      ...(["app", "cli", "desktop"].includes(Flag.GRIFFIN_CLIENT) ? [QuestionTool] : []),
       BashTool,
       ReadTool,
       GlobTool,
@@ -123,9 +123,9 @@ export namespace ToolRegistry {
       CodeSearchTool,
       SkillTool,
       ApplyPatchTool,
-      ...(Flag.OPENSCIENCE_EXPERIMENTAL_LSP_TOOL ? [LspTool] : []),
+      ...(Flag.GRIFFIN_EXPERIMENTAL_LSP_TOOL ? [LspTool] : []),
       ...(config.experimental?.batch_tool === true ? [BatchTool] : []),
-      ...(Flag.OPENSCIENCE_EXPERIMENTAL_PLAN_MODE && Flag.OPENSCIENCE_CLIENT === "cli"
+      ...(Flag.GRIFFIN_EXPERIMENTAL_PLAN_MODE && Flag.GRIFFIN_CLIENT === "cli"
         ? [PlanExitTool, PlanEnterTool]
         : []),
       ...BiologyTools,
@@ -169,7 +169,7 @@ export namespace ToolRegistry {
 
           // Enable websearch/codesearch for zen users OR via enable flag
           if (t.id === "codesearch" || t.id === "websearch") {
-            return model.providerID === "synsci" || Flag.OPENSCIENCE_ENABLE_EXA
+            return model.providerID === "griffin" || Flag.GRIFFIN_ENABLE_EXA
           }
 
           // use apply tool in same format as codex

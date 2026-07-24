@@ -41,8 +41,8 @@ jobs:
       - uses: ./.github/actions/setup-bun
       - name: Configure git for tests
         run: |
-          git config --global user.email "ci@openscience.dev"
-          git config --global user.name "OpenScience CI"
+          git config --global user.email "ci@griffin.dev"
+          git config --global user.name "Griffin CI"
           git config --global init.defaultBranch main
       - run: bun run --cwd backend/cli test
 
@@ -87,9 +87,9 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: ./.github/actions/setup-bun
       - name: Launcher parses
-        run: node --check tooling/launcher/bin/synsci.mjs
+        run: node --check tooling/launcher/bin/griffin.mjs
       - name: npm bin wrapper parses
-        run: node --check backend/cli/bin/openscience
+        run: node --check backend/cli/bin/griffin
       - name: Install script parses
         run: bash -n install && bash -n frontend/landing/public/install
       - name: Install script copies are in sync

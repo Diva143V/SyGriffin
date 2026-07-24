@@ -7,13 +7,13 @@ import { Log } from "../util/log"
 import { BunProc } from "../bun"
 import { Plugin } from "../plugin"
 import { ModelsDev } from "./models"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { Auth } from "../auth"
 import { Env } from "../env"
 import { Instance } from "../project/instance"
 import { Flag } from "../flag/flag"
 import { iife } from "@/util/iife"
-import { OpenScience } from "../openscience"
+import { Griffin } from "../griffin"
 
 // Direct imports for bundled providers
 import { createAmazonBedrock, type AmazonBedrockProviderSettings } from "@ai-sdk/amazon-bedrock"
@@ -101,9 +101,9 @@ export namespace Provider {
     // thk_ token to a first-party proxy (anthropic / openai / google). Those
     // providers are also dropped from availability (see isProviderAllowed), so
     // this is belt-and-suspenders — a managed token can only ever reach the
-    // sanctioned OpenRouter (or hosted synsci) route.
+    // sanctioned OpenRouter (or hosted griffin) route.
     if (!managedProviderAllowed(providerID)) return {}
-    const session = await OpenScience.getSession().catch(() => null)
+    const session = await Griffin.getSession().catch(() => null)
     return session?.api_key ? { apiKey: session.api_key } : {}
   }
 
@@ -117,12 +117,12 @@ export namespace Provider {
     if (isAtlasProxyBaseURL(options["baseURL"])) return
     throw new Error(
       `${provider.id} is using a managed Atlas key without an Atlas proxy URL. ` +
-        "Run `openscience sync` and try again.",
+        "Run `griffin sync` and try again.",
     )
   }
 
   /** A user-owned (BYOK) key: a real, non-managed credential. Excludes the
-   *  "public" sentinel used for the zero-cost openscience demo models. */
+   *  "public" sentinel used for the zero-cost griffin demo models. */
   function isByokKey(key: unknown): key is string {
     return typeof key === "string" && key.length > 0 && key !== "public" && !isAtlasApiKey(key)
   }
@@ -152,7 +152,7 @@ export namespace Provider {
    *  single, unified reasoning format (`reasoning` / `reasoning_details`). The
    *  first-party managed proxies (anthropic / openai / google), each with a
    *  different reasoning shape, are taken out of the managed path entirely; the
-   *  hosted zero-cost `synsci` demo provider is kept. BYOK and the legacy
+   *  hosted zero-cost `griffin` demo provider is kept. BYOK and the legacy
    *  auto-detect path (`billing.llm` unset / null / "byok") are UNTOUCHED —
    *  this only fires on an explicit managed-wallet opt-in. Pure + sync. */
   export function managedRoutesOpenRouterOnly(config: Config.Info): boolean {
@@ -160,9 +160,9 @@ export namespace Provider {
   }
 
   /** Providers a managed (OpenRouter-only) wallet session may load: OpenRouter
-   *  for all real inference, plus the hosted `synsci` demo. Pure + sync. */
+   *  for all real inference, plus the hosted `griffin` demo. Pure + sync. */
   export function managedProviderAllowed(providerID: string): boolean {
-    return providerID === "openrouter" || providerID.startsWith("synsci")
+    return providerID === "openrouter" || providerID.startsWith("griffin")
   }
 
   /** True when a base URL points at the local machine (localhost / loopback).
@@ -222,13 +222,13 @@ export namespace Provider {
         },
       }
     },
-    // Keyed on the catalog provider id `synsci` (the Atlas wire-contract id) — a
-    // stale `openscience` key here never matched database["openscience"], so the
-    // loop logged "Provider does not exist in model list openscience" and this
+    // Keyed on the catalog provider id `griffin` (the Atlas wire-contract id) — a
+    // stale `griffin` key here never matched database["griffin"], so the
+    // loop logged "Provider does not exist in model list griffin" and this
     // loader never ran: the zero-cost demo's `apiKey: "public"` sentinel was
     // never set (new keyless users couldn't use the demo at all) and the
     // "drop paid models when no key" gating was skipped.
-    async synsci(input) {
+    async griffin(input) {
       const hasKey = await (async () => {
         const env = Env.all()
         if (input.env.some((item) => env[item])) return true
@@ -372,7 +372,7 @@ export namespace Provider {
           }
 
           // Region resolution precedence (highest to lowest):
-          // 1. options.region from openscience.json provider config
+          // 1. options.region from griffin.json provider config
           // 2. defaultRegion from AWS_REGION environment variable
           // 3. Default "us-east-1" (baked into defaultRegion)
           const region = options?.region ?? defaultRegion
@@ -453,7 +453,7 @@ export namespace Provider {
     openrouter: async () => {
       const headers = {
         "HTTP-Referer": "https://syntheticsciences.ai/",
-        "X-Title": "synsci",
+        "X-Title": "griffin",
       }
       // OpenRouter is the ONE provider with both a managed and a BYOK route, and
       // resolution is deterministic by key presence (mirrors the Atlas server's
@@ -481,7 +481,7 @@ export namespace Provider {
       // the session file is momentarily unreadable.
       const proxyBase = Env.get("OPENROUTER_BASE_URL")
       if (isAtlasProxyBaseURL(proxyBase)) {
-        const session = await OpenScience.getSession().catch(() => null)
+        const session = await Griffin.getSession().catch(() => null)
         const managedKey = session?.api_key ?? (isAtlasApiKey(envKey) ? envKey : undefined)
         if (managedKey) return { autoload: false, options: { apiKey: managedKey, baseURL: proxyBase, headers } }
       }
@@ -495,7 +495,7 @@ export namespace Provider {
         options: {
           headers: {
             "http-referer": "https://syntheticsciences.ai/",
-            "x-title": "synsci",
+            "x-title": "griffin",
           },
         },
       }
@@ -562,7 +562,7 @@ export namespace Provider {
         options: {
           headers: {
             "HTTP-Referer": "https://syntheticsciences.ai/",
-            "X-Title": "synsci",
+            "X-Title": "griffin",
           },
         },
       }
@@ -629,7 +629,7 @@ export namespace Provider {
             // This enables Unified Billing where Cloudflare handles upstream provider auth
             ...(apiToken ? { "cf-aig-authorization": `Bearer ${apiToken}` } : {}),
             "HTTP-Referer": "https://syntheticsciences.ai/",
-            "X-Title": "synsci",
+            "X-Title": "griffin",
           },
           // Custom fetch to handle parameter transformation and auth
           fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -661,7 +661,7 @@ export namespace Provider {
         autoload: false,
         options: {
           headers: {
-            "X-Cerebras-3rd-Party-Integration": "synsci",
+            "X-Cerebras-3rd-Party-Integration": "griffin",
           },
         },
       }
@@ -930,7 +930,7 @@ export namespace Provider {
     // plus the hosted zero-cost demo. Gated on the explicit toggle, so BYOK and
     // legacy auto-detect sessions see every provider exactly as before. This is
     // the single seam that makes defaultModel()/getSmallModel() managed-safe:
-    // both read the filtered state, so they can only resolve openrouter/synsci.
+    // both read the filtered state, so they can only resolve openrouter/griffin.
     const managedOpenRouterOnly = managedRoutesOpenRouterOnly(config)
     // Config-registered providers pointing at the local machine (Ollama, LM
     // Studio, any OpenAI-compatible localhost endpoint). They're free and run on
@@ -1254,7 +1254,7 @@ export namespace Provider {
         model.api.id = model.api.id ?? model.id ?? modelID
         if (modelID === "gpt-5-chat-latest" || (providerID === "openrouter" && modelID === "openai/gpt-5-chat"))
           delete provider.models[modelID]
-        if (model.status === "alpha" && !Flag.OPENSCIENCE_ENABLE_EXPERIMENTAL_MODELS) delete provider.models[modelID]
+        if (model.status === "alpha" && !Flag.GRIFFIN_ENABLE_EXPERIMENTAL_MODELS) delete provider.models[modelID]
         if (model.status === "deprecated") delete provider.models[modelID]
         if (
           (configProvider?.blacklist && configProvider.blacklist.includes(modelID)) ||
@@ -1455,7 +1455,7 @@ export namespace Provider {
 
         return fetchFn(input, {
           ...opts,
-          // @ts-ignore see here: https://github.com/oven-sh/bun/issues/16682
+          // @ts-ignore see here: /issues/16682
           timeout: false,
         })
       }
@@ -1563,11 +1563,11 @@ export namespace Provider {
   }
 
   /** Whether a managed (Atlas) session is active. Only then should the hosted
-   *  `openscience` provider participate in DEFAULT model selection — a fresh
+   *  `griffin` provider participate in DEFAULT model selection — a fresh
    *  BYOK/OAuth clone must default to the user's own provider. */
   async function hasManagedSession(): Promise<boolean> {
     try {
-      const session = await OpenScience.getSession()
+      const session = await Griffin.getSession()
       return !!session?.api_key
     } catch {
       return false
@@ -1593,7 +1593,7 @@ export namespace Provider {
         "gemini-2.5-flash",
         "gpt-5-nano",
       ]
-      if (providerID.startsWith("synsci")) {
+      if (providerID.startsWith("griffin")) {
         priority = ["gpt-5-nano"]
       }
       if (providerID.startsWith("github-copilot")) {
@@ -1607,13 +1607,13 @@ export namespace Provider {
       }
     }
 
-    // Only fall back to the hosted openscience demo small-model when a managed
+    // Only fall back to the hosted griffin demo small-model when a managed
     // session is active — a BYOK/OAuth clone shouldn't silently route summaries
     // through the hosted endpoint.
     if (await hasManagedSession()) {
-      const openscienceProvider = await state().then((state) => state.providers["synsci"])
-      if (openscienceProvider && openscienceProvider.models["gpt-5-nano"]) {
-        return getModel("synsci", "gpt-5-nano")
+      const griffinProvider = await state().then((state) => state.providers["griffin"])
+      if (griffinProvider && griffinProvider.models["gpt-5-nano"]) {
+        return getModel("griffin", "gpt-5-nano")
       }
     }
 
@@ -1621,7 +1621,7 @@ export namespace Provider {
   }
 
   export const NO_PROVIDER_HINT =
-    "No model providers are available. Add your own API key (`openscience keys add`) or connect a managed account (`openscience login`), then choose a model."
+    "No model providers are available. Add your own API key (`griffin keys add`) or connect a managed account (`griffin login`), then choose a model."
 
   const priority = ["claude-sonnet-4", "claude-opus-4", "gpt-5", "gemini-3-pro"]
   export function sort(models: Model[]) {
@@ -1655,11 +1655,11 @@ export namespace Provider {
     const managed = await hasManagedSession()
     const providers = Object.values(available)
     const configured = (p: Info) => !cfg.provider || Object.keys(cfg.provider).includes(p.id)
-    // Drop the hosted `openscience` provider from DEFAULT priority unless a managed
+    // Drop the hosted `griffin` provider from DEFAULT priority unless a managed
     // session is active, then pick the first provider that actually has models.
-    // Fall back to the raw configured list so a openscience-only, unmanaged clone
+    // Fall back to the raw configured list so a griffin-only, unmanaged clone
     // still resolves a default rather than throwing.
-    const candidates = providers.filter((p) => configured(p) && (managed || !p.id.startsWith("synsci")))
+    const candidates = providers.filter((p) => configured(p) && (managed || !p.id.startsWith("griffin")))
     const provider =
       candidates.find((p) => Object.keys(p.models).length > 0) ?? candidates[0] ?? providers.find(configured)
     if (!provider) throw new Error(NO_PROVIDER_HINT)

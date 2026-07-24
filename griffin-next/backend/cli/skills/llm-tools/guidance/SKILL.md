@@ -560,8 +560,8 @@ lm += gen("name", regex=r"^(John|Jane)$", max_tokens=10)
 ## Resources
 
 - **Documentation**: https://guidance.readthedocs.io
-- **GitHub**: https://github.com/guidance-ai/guidance (18k+ stars)
-- **Notebooks**: https://github.com/guidance-ai/guidance/tree/main/notebooks
+- **GitHub**:  (18k+ stars)
+- **Notebooks**: /tree/main/notebooks
 - **Discord**: Community support available
 
 ## See Also

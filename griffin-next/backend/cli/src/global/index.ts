@@ -4,9 +4,9 @@ import { xdgData, xdgCache, xdgConfig, xdgState } from "xdg-basedir"
 import path from "path"
 import os from "os"
 
-const app = "openscience"
+const app = "griffin"
 
-// Migration shim: installs created before the OpenScience rename kept their
+// Migration shim: installs created before the Griffin rename kept their
 // state under the legacy "synsc" XDG dirs. On boot, if the new dir does not
 // exist yet and the legacy one does, move it into place; if the move fails
 // (permissions, cross-device), keep reading the legacy dir so nothing is lost.
@@ -26,7 +26,7 @@ function migrateDir(base: string): string {
   // after the new dir was created. It will never be read or migrated — say
   // so instead of silently stranding whatever auth/config lives in it.
   if (existsSync(next) && existsSync(old)) {
-    console.error(`openscience: ignoring legacy config at ${old} (${next} already exists) — merge or remove it`)
+    console.error(`griffin: ignoring legacy config at ${old} (${next} already exists) — merge or remove it`)
   }
   return next
 }
@@ -62,16 +62,16 @@ function resolveDataDir(): string {
 const data = resolveDataDir()
 
 // Legacy file names inside the migrated dirs (pre-rename releases).
-migrateFile(data, "synsci-session.json", "openscience-session.json")
-migrateFile(config, "synsc-synced.json", "openscience-synced.json")
-migrateFile(config, "synsc.jsonc", "openscience.jsonc")
-migrateFile(config, "synsc.json", "openscience.json")
+migrateFile(data, "griffin-session.json", "griffin-session.json")
+migrateFile(config, "synsc-synced.json", "griffin-synced.json")
+migrateFile(config, "synsc.jsonc", "griffin.jsonc")
+migrateFile(config, "synsc.json", "griffin.json")
 
 export namespace Global {
   export const Path = {
-    // Allow override via OPENSCIENCE_TEST_HOME for test isolation
+    // Allow override via GRIFFIN_TEST_HOME for test isolation
     get home() {
-      return process.env.OPENSCIENCE_TEST_HOME || os.homedir()
+      return process.env.GRIFFIN_TEST_HOME || os.homedir()
     },
     data,
     bin: path.join(data, "bin"),

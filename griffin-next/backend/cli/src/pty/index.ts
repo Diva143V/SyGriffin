@@ -6,7 +6,7 @@ import { Identifier } from "../id/id"
 import { Log } from "../util/log"
 import type { WSContext } from "hono/ws"
 import { Instance } from "../project/instance"
-import { lazy } from "@synsci/util/lazy"
+import { lazy } from "@griffin/util/lazy"
 import { Shell } from "@/shell/shell"
 
 export namespace Pty {
@@ -106,7 +106,7 @@ export namespace Pty {
       ...process.env,
       ...input.env,
       TERM: "xterm-256color",
-      OPENSCIENCE_TERMINAL: "1",
+      GRIFFIN_TERMINAL: "1",
     } as Record<string, string>
     log.info("creating session", { id, cmd: command, args, cwd })
 

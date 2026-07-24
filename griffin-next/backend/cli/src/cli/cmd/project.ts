@@ -3,12 +3,12 @@ import * as prompts from "@clack/prompts"
 import { mkdirSync, writeFileSync } from "fs"
 import { basename, join } from "path"
 import { UI } from "../ui"
-import { OpenScience, API_BASE } from "../../openscience"
+import { Griffin, API_BASE } from "../../griffin"
 import { computeDedupeKey, initProjectDetailed } from "../../server/routes/atlas-bridge"
 import type { InitProjectFailure } from "../../server/routes/atlas-bridge"
 
 /**
- * `openscience project` — manage the Atlas project root for a folder.
+ * `griffin project` — manage the Atlas project root for a folder.
  *
  * `init` (find-or-create) links this repo to an Atlas research graph — the same
  * dedupe-safe path the web "Initialize" button uses. Agent-runnable, so a skill
@@ -16,7 +16,7 @@ import type { InitProjectFailure } from "../../server/routes/atlas-bridge"
  *
  * `merge` (alias `pick`) collapses pre-existing duplicate roots created before
  * server-side dedupe: it lists candidate roots, lets the user pick the
- * canonical one, and writes it to `.openscience/project.json` so future syncs from
+ * canonical one, and writes it to `.griffin/project.json` so future syncs from
  * this folder reuse it. It never auto-merges.
  */
 export const ProjectCommand = cmd({
@@ -35,7 +35,7 @@ const ProjectInitCommand = cmd({
       .option("format", { choices: ["text", "json"] as const, default: "text", describe: "output format" }),
   async handler(args) {
     const json = args.format === "json"
-    const session = await OpenScience.getSession()
+    const session = await Griffin.getSession()
     if (!session) {
       // Fail fast: without a managed session no request can succeed, so don't
       // let this surface later as a network error.
@@ -44,7 +44,7 @@ const ProjectInitCommand = cmd({
         return
       }
       UI.empty()
-      prompts.log.error("Not connected to Atlas. Run `openscience login` first.")
+      prompts.log.error("Not connected to Atlas. Run `griffin login` first.")
       return
     }
     const opened = (args.dir as string | undefined) || process.cwd()
@@ -65,7 +65,7 @@ const ProjectInitCommand = cmd({
     UI.empty()
     if (result.projectId) {
       prompts.log.success(`Atlas research graph ready — project ${result.projectId}`)
-      prompts.log.info("Pinned to .openscience/project.json; the canvas will show it on next open.")
+      prompts.log.info("Pinned to .griffin/project.json; the canvas will show it on next open.")
       return
     }
     reportInitFailure(result.failure)
@@ -81,8 +81,8 @@ function reportInitFailure(failure: InitProjectFailure | undefined) {
     case "unauthenticated":
       prompts.log.error(
         f.status
-          ? `${f.host} rejected your saved session (HTTP ${f.status})${detail}. Run \`openscience login\` to re-authenticate.`
-          : "Not connected to Atlas. Run `openscience login` first.",
+          ? `${f.host} rejected your saved session (HTTP ${f.status})${detail}. Run \`griffin login\` to re-authenticate.`
+          : "Not connected to Atlas. Run `griffin login` first.",
       )
       break
     case "unreachable":
@@ -90,7 +90,7 @@ function reportInitFailure(failure: InitProjectFailure | undefined) {
         `Could not reach the Atlas backend at ${f.host}${f.status ? ` (HTTP ${f.status})` : ""}${detail}.`,
       )
       prompts.log.info(
-        "You are logged in — this is a network/service issue, not an auth issue. Check connectivity (and any OPENSCIENCE_API_BASE/SYNSC_API_BASE override), then retry.",
+        "You are logged in — this is a network/service issue, not an auth issue. Check connectivity (and any GRIFFIN_API_BASE/SYNSC_API_BASE override), then retry.",
       )
       break
     case "plan":
@@ -146,11 +146,11 @@ const ProjectMergeCommand = cmd({
     }),
   async handler(args) {
     UI.empty()
-    prompts.intro("OpenScience — project merge")
+    prompts.intro("Griffin — project merge")
 
-    const session = await OpenScience.getSession()
+    const session = await Griffin.getSession()
     if (!session) {
-      prompts.log.error("Not authenticated. Run `openscience login` first.")
+      prompts.log.error("Not authenticated. Run `griffin login` first.")
       prompts.outro("Aborted")
       return
     }
@@ -217,18 +217,18 @@ const ProjectMergeCommand = cmd({
     // Pin locally: PR-B's find-or-create reads this marker first, so every
     // future sync from this folder collapses onto the chosen root.
     try {
-      mkdirSync(join(directory, ".openscience"), { recursive: true })
+      mkdirSync(join(directory, ".griffin"), { recursive: true })
       writeFileSync(
-        join(directory, ".openscience", "project.json"),
+        join(directory, ".griffin", "project.json"),
         JSON.stringify({ project_id: chosen, dedupe_key: key, resolved_at: new Date().toISOString() }, null, 2) + "\n",
       )
     } catch (e) {
-      prompts.log.error(`Could not write .openscience/project.json: ${e instanceof Error ? e.message : String(e)}`)
+      prompts.log.error(`Could not write .griffin/project.json: ${e instanceof Error ? e.message : String(e)}`)
       prompts.outro("Aborted")
       return
     }
 
-    prompts.log.success(`Pinned ${chosen} for this folder (.openscience/project.json).`)
+    prompts.log.success(`Pinned ${chosen} for this folder (.griffin/project.json).`)
     const others = pool.filter((r) => r.node_id !== chosen)
     if (others.length > 0) {
       prompts.note(

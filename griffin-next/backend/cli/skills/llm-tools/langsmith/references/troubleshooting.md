@@ -523,8 +523,8 @@ print("Check LangSmith UI for trace")
 ## Getting Help
 
 1. **Documentation**: https://docs.smith.langchain.com
-2. **GitHub Issues**: https://github.com/langchain-ai/langsmith-sdk/issues
-3. **Discord**: https://discord.gg/langchain
+2. **GitHub Issues**: /issues
+3. **Discord**: 
 4. **Stack Overflow**: Tag `langsmith`
 
 ### Reporting Issues

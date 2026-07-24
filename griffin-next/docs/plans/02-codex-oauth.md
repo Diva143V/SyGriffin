@@ -1,6 +1,6 @@
 # 02 — Codex OAuth login (Sign in with ChatGPT)
 
-Workstream: make "Sign in with ChatGPT / Codex" smooth and reliable end to end — initiate → callback → token storage → refresh → logout, clear errors on every unhappy path, no dead ends. OpenScience under `backend/cli/`; Atlas under `backend/app/` (cloned reference).
+Workstream: make "Sign in with ChatGPT / Codex" smooth and reliable end to end — initiate → callback → token storage → refresh → logout, clear errors on every unhappy path, no dead ends. Griffin under `backend/cli/`; Atlas under `backend/app/` (cloned reference).
 
 ## Current state
 
@@ -44,11 +44,11 @@ Hot-path fragility (refresh lives in the codex request `fetch` — a bug locks o
 
 ## Acceptance criteria
 
-1. **First-try success** — new user runs `openscience keys signin`, approves once, lands on "Login successful" with codex models usable, no second command (with and without an Atlas session).
+1. **First-try success** — new user runs `griffin keys signin`, approves once, lands on "Login successful" with codex models usable, no second command (with and without an Atlas session).
 2. **Graceful failures** — denied consent / closed browser / timeout / port-1455-in-use / network failure each give a clear one-line message, leave no half-written `auth.json` or dangling server, allow immediate retry.
 3. **Headless/CI** — `keys signin --device` (or auto-detected) prints code+URL, polls with a bounded timeout, succeeds with no browser.
 4. **Refresh** — expired token refreshes transparently; the rotated token is persisted to every store that holds it; two concurrent processes never lock each other out; a transient 5xx recovers.
 5. **No silent drift** — backend `connected && is_valid` ⇔ a working CLI provider, or the divergence is surfaced; web disconnect reconciles on next `keys signin`; logout revokes at OpenAI (or says it couldn't) and clears both stores.
 6. **No dead ends** — the web card either actually connects (and yields a CLI-usable session) or is removed.
 
-**Atlas-side involvement:** P0(a) (managed proxy) and the web-flow decision are cross-repo — flagged for the owner. **Key files:** OpenScience `plugin/codex.ts`, `cli/cmd/auth.ts`, `auth/index.ts`, `provider/provider.ts:955-998`, `openscience/index.ts:708-747`. Atlas `routes/{codex_oauth,keys,cli}.py`, `services/{openai_codex_service,user_provider_key_service}.py`, `jobs/codex_oauth_sweeper.py`, `frontend/src/components/settings/CodexProviderCard.tsx`.
+**Atlas-side involvement:** P0(a) (managed proxy) and the web-flow decision are cross-repo — flagged for the owner. **Key files:** Griffin `plugin/codex.ts`, `cli/cmd/auth.ts`, `auth/index.ts`, `provider/provider.ts:955-998`, `griffin/index.ts:708-747`. Atlas `routes/{codex_oauth,keys,cli}.py`, `services/{openai_codex_service,user_provider_key_service}.py`, `jobs/codex_oauth_sweeper.py`, `frontend/src/components/settings/CodexProviderCard.tsx`.

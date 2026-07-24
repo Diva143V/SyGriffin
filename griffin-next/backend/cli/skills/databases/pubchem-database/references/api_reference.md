@@ -436,5 +436,5 @@ if response.status_code == 200:
 - PUG-REST Documentation: https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest
 - PUG-REST Tutorial: https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest-tutorial
 - PubChemPy Documentation: https://pubchempy.readthedocs.io/
-- PubChemPy GitHub: https://github.com/mcs07/PubChemPy
+- PubChemPy GitHub: 
 - IUPAC Tutorial: https://iupac.github.io/WFChemCookbook/datasources/pubchem_pugrest.html

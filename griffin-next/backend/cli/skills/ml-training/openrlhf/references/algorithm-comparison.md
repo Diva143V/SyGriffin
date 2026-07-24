@@ -400,5 +400,5 @@ Experimenting with normalization?
 
 - PPO paper: https://arxiv.org/abs/1707.06347
 - GRPO paper: https://arxiv.org/abs/2402.03300
-- OpenRLHF: https://github.com/OpenRLHF/OpenRLHF
+- OpenRLHF: 
 - OpenRLHF paper: https://arxiv.org/abs/2405.11143

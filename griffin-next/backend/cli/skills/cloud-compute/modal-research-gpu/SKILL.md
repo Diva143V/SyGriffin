@@ -30,12 +30,12 @@ Run GPU-accelerated scientific research workloads on Modal. This skill covers si
 ## Credential Setup
 
 ```bash
-# Verify Modal credentials (auto-injected by openscience)
+# Verify Modal credentials (auto-injected by griffin)
 [ -n "$MODAL_TOKEN_ID" ] && echo "MODAL_TOKEN_ID set" || echo "NOT SET"
 [ -n "$MODAL_TOKEN_SECRET" ] && echo "MODAL_TOKEN_SECRET set" || echo "NOT SET"
 ```
 
-If not set: connect Modal at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect Modal at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## GPU Selection Guide
 

@@ -5,9 +5,9 @@ import path from "path"
 // Tripwire for the bundled `atlas` CLI the agent shells out to (atlas doctor,
 // nodes:create, evidence:add). If node_modules drifts from the declared pin, the
 // agent runs a different CLI surface than we ship — which silently degrades graph
-// population even when `openscience project init` succeeds. Mirrors the model-pin
+// population even when `griffin project init` succeeds. Mirrors the model-pin
 // delisting tripwire.
-describe("@synsci/atlas dependency", () => {
+describe("@griffin/atlas dependency", () => {
   const root = path.join(import.meta.dir, "..", "..")
   const req = createRequire(import.meta.url)
 
@@ -19,7 +19,7 @@ describe("@synsci/atlas dependency", () => {
 
   async function installedAtlas(): Promise<{ version: string; bin?: unknown } | null> {
     try {
-      const p = req.resolve("@synsci/atlas/package.json")
+      const p = req.resolve("@griffin/atlas/package.json")
       const j = (await Bun.file(p).json()) as { version: string; bin?: Record<string, string> }
       return { version: j.version, bin: j.bin?.atlas }
     } catch {
@@ -29,14 +29,14 @@ describe("@synsci/atlas dependency", () => {
     }
   }
 
-  test("declares @synsci/atlas with a concrete version range", async () => {
-    const range = (await pkgJson()).optionalDependencies?.["@synsci/atlas"]
+  test("declares @griffin/atlas with a concrete version range", async () => {
+    const range = (await pkgJson()).optionalDependencies?.["@griffin/atlas"]
     expect(range).toBeTruthy()
     expect(range).toMatch(/\d+\.\d+\.\d+/)
   })
 
-  test("the installed @synsci/atlas satisfies the declared range (no drift)", async () => {
-    const range = (await pkgJson()).optionalDependencies!["@synsci/atlas"]
+  test("the installed @griffin/atlas satisfies the declared range (no drift)", async () => {
+    const range = (await pkgJson()).optionalDependencies!["@griffin/atlas"]
     const atlas = await installedAtlas()
     if (!atlas) return // not installed in this build — nothing to check
     expect(Bun.semver.satisfies(atlas.version, range)).toBe(true)

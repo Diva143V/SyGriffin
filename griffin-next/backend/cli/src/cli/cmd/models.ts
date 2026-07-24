@@ -15,7 +15,7 @@ const PROVIDER_LABELS: Record<string, string> = {
   openrouter: "OpenRouter",
 }
 
-/** Classify a provider as BYOK, openscience-managed, OAuth, or unknown.
+/** Classify a provider as BYOK, griffin-managed, OAuth, or unknown.
  *
  *  Detection rules:
  *  - openai-codex routes via OAuth (Sign in with ChatGPT), neither.
@@ -126,8 +126,8 @@ export const ModelsCommand = cmd({
         }
 
         const providerIDs = Object.keys(providers).sort((a, b) => {
-          const aIsManaged = a.startsWith("synsci")
-          const bIsManaged = b.startsWith("synsci")
+          const aIsManaged = a.startsWith("griffin")
+          const bIsManaged = b.startsWith("griffin")
           if (aIsManaged && !bIsManaged) return -1
           if (!aIsManaged && bIsManaged) return 1
           return a.localeCompare(b)

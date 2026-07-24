@@ -10,7 +10,7 @@ This directory contains comprehensive reference materials for pyvene.
 ## Quick Links
 
 - **Official Documentation**: https://stanfordnlp.github.io/pyvene/
-- **GitHub Repository**: https://github.com/stanfordnlp/pyvene
+- **GitHub Repository**: 
 - **Paper**: https://arxiv.org/abs/2403.07809 (NAACL 2024)
 
 ## Installation

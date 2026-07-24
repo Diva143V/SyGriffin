@@ -20,7 +20,7 @@ model.push_to_hub_gguf("hf_username/directory", tokenizer, quantization_method =
 All supported quantization options for `quantization_method` are listed below:
 
 ```python
-# https://github.com/ggerganov/llama.cpp/blob/master/examples/quantize/quantize.cpp#L19
+# .cpp/blob/master/examples/quantize/quantize.cpp#L19
 # From https://mlabonne.github.io/blog/posts/Quantize_Llama_2_models_using_ggml.html
 ALLOWED_QUANTS = \
 {
@@ -65,7 +65,7 @@ Then use the terminal and do:
 ```bash
 apt-get update
 apt-get install pciutils build-essential cmake curl libcurl4-openssl-dev -y
-git clone https://github.com/ggml-org/llama.cpp
+git clone .cpp
 cmake llama.cpp -B llama.cpp/build \
     -DBUILD_SHARED_LIBS=OFF -DGGML_CUDA=ON -DLLAMA_CURL=ON
 cmake --build llama.cpp/build --config Release -j --clean-first --target llama-cli llama-mtmd-cli llama-server llama-gguf-split
@@ -110,7 +110,7 @@ Compile llama.cpp from source like below:
 ```bash
 apt-get update
 apt-get install pciutils build-essential cmake curl libcurl4-openssl-dev -y
-git clone https://github.com/ggml-org/llama.cpp
+git clone .cpp
 cmake llama.cpp -B llama.cpp/build \
     -DBUILD_SHARED_LIBS=OFF -DGGML_CUDA=ON -DLLAMA_CURL=ON
 cmake --build llama.cpp/build --config Release -j --clean-first --target llama-cli llama-mtmd-cli llama-server llama-gguf-split

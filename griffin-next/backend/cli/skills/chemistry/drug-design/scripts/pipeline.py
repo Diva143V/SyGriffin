@@ -37,11 +37,11 @@ import time
 def resolve_skills_dir():
     """
     Find the skills directory. Priority:
-    1. OPENSCIENCE_SKILLS_DIR environment variable
+    1. GRIFFIN_SKILLS_DIR environment variable
     2. Relative to this script (../../ from drug-design/scripts/)
-    3. ~/.cache/openscience/skills/
+    3. ~/.cache/griffin/skills/
     """
-    env_dir = os.environ.get("OPENSCIENCE_SKILLS_DIR")
+    env_dir = os.environ.get("GRIFFIN_SKILLS_DIR")
     if env_dir and os.path.isdir(env_dir):
         return env_dir
 
@@ -52,7 +52,7 @@ def resolve_skills_dir():
     if os.path.isdir(os.path.join(relative_root, "pocket-detection")):
         return os.path.realpath(relative_root)
 
-    cache_dir = os.path.expanduser("~/.cache/openscience/skills")
+    cache_dir = os.path.expanduser("~/.cache/griffin/skills")
     if os.path.isdir(cache_dir):
         return cache_dir
 
@@ -784,7 +784,7 @@ Examples:
     skills_dir = resolve_skills_dir()
     if skills_dir is None:
         print("ERROR: Cannot find skills directory.", file=sys.stderr)
-        print("  Set OPENSCIENCE_SKILLS_DIR or ensure this script is within the skills tree.",
+        print("  Set GRIFFIN_SKILLS_DIR or ensure this script is within the skills tree.",
               file=sys.stderr)
         sys.exit(1)
 

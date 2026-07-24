@@ -44,13 +44,13 @@ This generates/edits an image and saves it as `generated_image.png` in the curre
 
 **CRITICAL**: The script requires an OpenRouter API key. It resolves the key in
 this order: `--api-key` flag → `OPENROUTER_API_KEY` environment variable →
-`.env` file. If the user connected an OpenRouter key (`openscience login` or the
+`.env` file. If the user connected an OpenRouter key (`griffin login` or the
 dashboard), it is already exported into the environment and the script will pick
 it up automatically. If the user pastes their own key in chat, pass it inline:
 `OPENROUTER_API_KEY="<key>" python scripts/generate_image.py "..."`.
 
 If no key is found, inform the user they can:
-- Connect OpenRouter via `openscience login` or at https://app.syntheticsciences.ai → Services
+- Connect OpenRouter via `griffin login` or at https://app.syntheticsciences.ai → Services
 - Or set it for the run: `export OPENROUTER_API_KEY=your-api-key-here`
 - Get an API key from: https://openrouter.ai/keys
 

@@ -1,9 +1,9 @@
 import { For, Show, createMemo, createResource, createSignal } from "solid-js"
-import { IconButton } from "@synsci/ui/icon-button"
-import { showToast } from "@synsci/ui/toast"
+import { IconButton } from "@griffin/ui/icon-button"
+import { showToast } from "@griffin/ui/toast"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { useGlobalSync } from "@/context/global-sync"
-import type { Agent, Config } from "@synsci/sdk/v2/client"
+import type { Agent, Config } from "@griffin/sdk/v2/client"
 import {
   PanelScroll,
   PanelHeader,

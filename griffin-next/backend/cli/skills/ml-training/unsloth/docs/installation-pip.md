@@ -27,7 +27,7 @@ To install the **latest main branch** of Unsloth, do:
 
 ```bash
 pip install unsloth
-pip uninstall unsloth unsloth_zoo -y && pip install --no-deps git+https://github.com/unslothai/unsloth_zoo.git && pip install --no-deps git+https://github.com/unslothai/unsloth.git
+pip uninstall unsloth unsloth_zoo -y && pip install --no-deps git+.git && pip install --no-deps git+.git
 ```
 
 {% endcode %}
@@ -81,29 +81,29 @@ For example, if you have `torch 2.4` and `CUDA 12.1`, use:
 
 ```bash
 pip install --upgrade pip
-pip install "unsloth[cu121-torch240] @ git+https://github.com/unslothai/unsloth.git"
+pip install "unsloth[cu121-torch240] @ git+.git"
 ```
 
 Another example, if you have `torch 2.5` and `CUDA 12.4`, use:
 
 ```bash
 pip install --upgrade pip
-pip install "unsloth[cu124-torch250] @ git+https://github.com/unslothai/unsloth.git"
+pip install "unsloth[cu124-torch250] @ git+.git"
 ```
 
 And other examples:
 
 ```bash
-pip install "unsloth[cu121-ampere-torch240] @ git+https://github.com/unslothai/unsloth.git"
-pip install "unsloth[cu118-ampere-torch240] @ git+https://github.com/unslothai/unsloth.git"
-pip install "unsloth[cu121-torch240] @ git+https://github.com/unslothai/unsloth.git"
-pip install "unsloth[cu118-torch240] @ git+https://github.com/unslothai/unsloth.git"
+pip install "unsloth[cu121-ampere-torch240] @ git+.git"
+pip install "unsloth[cu118-ampere-torch240] @ git+.git"
+pip install "unsloth[cu121-torch240] @ git+.git"
+pip install "unsloth[cu118-torch240] @ git+.git"
 
-pip install "unsloth[cu121-torch230] @ git+https://github.com/unslothai/unsloth.git"
-pip install "unsloth[cu121-ampere-torch230] @ git+https://github.com/unslothai/unsloth.git"
+pip install "unsloth[cu121-torch230] @ git+.git"
+pip install "unsloth[cu121-ampere-torch230] @ git+.git"
 
-pip install "unsloth[cu121-torch250] @ git+https://github.com/unslothai/unsloth.git"
-pip install "unsloth[cu124-ampere-torch250] @ git+https://github.com/unslothai/unsloth.git"
+pip install "unsloth[cu121-torch250] @ git+.git"
+pip install "unsloth[cu124-ampere-torch250] @ git+.git"
 ```
 
 Or, run the below in a terminal to get the **optimal** pip installation command:
@@ -144,5 +144,5 @@ elif v  < V('2.9.2'): x = 'cu{}{}-torch291'
 else: raise RuntimeError(f"Torch = {v} too new!")
 if v > V('2.6.9') and cuda not in ("11.8", "12.6", "12.8", "13.0"): raise RuntimeError(f"CUDA = {cuda} not supported!")
 x = x.format(cuda.replace(".", ""), "-ampere" if False else "") # is_ampere is broken due to flash-attn
-print(f'pip install --upgrade pip && pip install --no-deps git+https://github.com/unslothai/unsloth-zoo.git && pip install "unsloth[{x}] @ git+https://github.com/unslothai/unsloth.git" --no-build-isolation')
+print(f'pip install --upgrade pip && pip install --no-deps git+.git && pip install "unsloth[{x}] @ git+.git" --no-build-isolation')
 ```

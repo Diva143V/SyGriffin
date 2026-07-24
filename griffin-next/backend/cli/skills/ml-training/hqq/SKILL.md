@@ -439,7 +439,7 @@ config = BaseQuantizeConfig(
 
 ## Resources
 
-- **Repository**: https://github.com/mobiusml/hqq
+- **Repository**: 
 - **Paper**: Half-Quadratic Quantization
 - **HuggingFace Models**: https://huggingface.co/mobiuslabsgmbh
 - **Version**: 0.2.0+

@@ -26,7 +26,7 @@ async function configuredLocals() {
  * Local-model management for the workspace GUI. The SPA can't probe
  * `localhost:11434` itself (cross-origin), so the server — which CAN reach local
  * endpoints — does detection and listing on its behalf, and writes the provider
- * config block. Mirrors the `openscience local` CLI wizard.
+ * config block. Mirrors the `griffin local` CLI wizard.
  */
 export const LocalModelsRoutes = lazy(() =>
   new Hono()
@@ -72,7 +72,7 @@ export const LocalModelsRoutes = lazy(() =>
 
       try {
         // Detached background server — unref so it outlives / doesn't block this
-        // request and never keeps the openscience server alive on shutdown.
+        // request and never keeps the griffin server alive on shutdown.
         const proc = Bun.spawn([cmd.bin, ...cmd.serve], { stdout: "ignore", stderr: "ignore", stdin: "ignore" })
         proc.unref?.()
         log.info("started local runtime", { id, bin: cmd.bin })

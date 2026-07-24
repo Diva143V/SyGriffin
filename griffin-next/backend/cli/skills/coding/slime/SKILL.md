@@ -77,7 +77,7 @@ cd /root/slime && pip install -e . --no-deps
 ### From Source
 
 ```bash
-git clone https://github.com/THUDM/slime.git
+git clone .git
 cd slime
 pip install -r requirements.txt
 pip install -e .
@@ -470,7 +470,7 @@ class CustomRewardModel:
 ## Resources
 
 - **Documentation**: https://thudm.github.io/slime/
-- **GitHub**: https://github.com/THUDM/slime
+- **GitHub**: 
 - **Blog**: https://lmsys.org/blog/2025-07-09-slime/
 - **Examples**: See `examples/` directory for 14+ worked examples
 

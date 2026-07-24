@@ -22,11 +22,11 @@ This skill is loaded from the global home directory.
   )
 }
 
-test("discovers skills from .openscience/skill/ directory", async () => {
+test("discovers skills from .griffin/skill/ directory", async () => {
   await using tmp = await tmpdir({
     git: true,
     init: async (dir) => {
-      const skillDir = path.join(dir, ".openscience", "skill", "test-skill")
+      const skillDir = path.join(dir, ".griffin", "skill", "test-skill")
       await Bun.write(
         path.join(skillDir, "SKILL.md"),
         `---
@@ -50,17 +50,17 @@ Instructions here.
       const testSkill = skills.find((s) => s.name === "test-skill")
       expect(testSkill).toBeDefined()
       expect(testSkill!.description).toBe("A test skill for verification.")
-      expect(testSkill!.location).toContain("skill/test-skill/SKILL.md")
+      expect(testSkill!.location).toContain(require("path").join("skill", "test-skill", "SKILL.md"))
     },
   })
 })
 
-test("discovers multiple skills from .openscience/skill/ directory", async () => {
+test("discovers multiple skills from .griffin/skill/ directory", async () => {
   await using tmp = await tmpdir({
     git: true,
     init: async (dir) => {
-      const skillDir1 = path.join(dir, ".openscience", "skill", "skill-one")
-      const skillDir2 = path.join(dir, ".openscience", "skill", "skill-two")
+      const skillDir1 = path.join(dir, ".griffin", "skill", "skill-one")
+      const skillDir2 = path.join(dir, ".griffin", "skill", "skill-two")
       await Bun.write(
         path.join(skillDir1, "SKILL.md"),
         `---
@@ -99,7 +99,7 @@ test("skips skills with missing frontmatter", async () => {
   await using tmp = await tmpdir({
     git: true,
     init: async (dir) => {
-      const skillDir = path.join(dir, ".openscience", "skill", "no-frontmatter")
+      const skillDir = path.join(dir, ".griffin", "skill", "no-frontmatter")
       await Bun.write(
         path.join(skillDir, "SKILL.md"),
         `# No Frontmatter
@@ -144,7 +144,7 @@ description: A skill in the .claude/skills directory.
       expect(skills.length).toBe(1)
       const claudeSkill = skills.find((s) => s.name === "claude-skill")
       expect(claudeSkill).toBeDefined()
-      expect(claudeSkill!.location).toContain(".claude/skills/claude-skill/SKILL.md")
+      expect(claudeSkill!.location).toContain(require("path").join(".claude", "skills", "claude-skill", "SKILL.md"))
     },
   })
 })
@@ -152,8 +152,8 @@ description: A skill in the .claude/skills directory.
 test("discovers global skills from ~/.claude/skills/ directory", async () => {
   await using tmp = await tmpdir({ git: true })
 
-  const originalHome = process.env.OPENSCIENCE_TEST_HOME
-  process.env.OPENSCIENCE_TEST_HOME = tmp.path
+  const originalHome = process.env.GRIFFIN_TEST_HOME
+  process.env.GRIFFIN_TEST_HOME = tmp.path
 
   try {
     await createGlobalSkill(tmp.path)
@@ -164,11 +164,11 @@ test("discovers global skills from ~/.claude/skills/ directory", async () => {
         expect(skills.length).toBe(1)
         expect(skills[0].name).toBe("global-test-skill")
         expect(skills[0].description).toBe("A global skill from ~/.claude/skills for testing.")
-        expect(skills[0].location).toContain(".claude/skills/global-test-skill/SKILL.md")
+        expect(skills[0].location).toContain(require("path").join(".claude", "skills", "global-test-skill", "SKILL.md"))
       },
     })
   } finally {
-    process.env.OPENSCIENCE_TEST_HOME = originalHome
+    process.env.GRIFFIN_TEST_HOME = originalHome
   }
 })
 

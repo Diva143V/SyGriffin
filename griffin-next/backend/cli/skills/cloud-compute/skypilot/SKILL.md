@@ -505,6 +505,6 @@ sky jobs logs my-job
 ## Resources
 
 - **Documentation**: https://docs.skypilot.co
-- **GitHub**: https://github.com/skypilot-org/skypilot
+- **GitHub**: 
 - **Slack**: https://slack.skypilot.co
-- **Examples**: https://github.com/skypilot-org/skypilot/tree/master/examples
+- **Examples**: /tree/master/examples

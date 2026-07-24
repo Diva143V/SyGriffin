@@ -81,7 +81,7 @@ export namespace ModelsDev {
   export type Provider = z.infer<typeof Provider>
 
   function url() {
-    return Flag.OPENSCIENCE_MODELS_URL || "https://models.dev"
+    return Flag.GRIFFIN_MODELS_URL || "https://models.dev"
   }
 
   function hasCurrentFrontier(data: Record<string, any> | undefined) {
@@ -114,14 +114,14 @@ export namespace ModelsDev {
   export const Data = lazy(async () => {
     const file = Bun.file(filepath)
     const result = await file.json().catch(() => {})
-    if (result && (Flag.OPENSCIENCE_DISABLE_MODELS_FETCH || hasCurrentFrontier(result))) return result
+    if (result && (Flag.GRIFFIN_DISABLE_MODELS_FETCH || hasCurrentFrontier(result))) return result
     // @ts-ignore
     const snapshot = await import("./models-snapshot")
       .then((m) => m.snapshot as Record<string, unknown>)
       .catch(() => undefined)
-    if (snapshot && (Flag.OPENSCIENCE_DISABLE_MODELS_FETCH || hasCurrentFrontier(snapshot as Record<string, any>)))
+    if (snapshot && (Flag.GRIFFIN_DISABLE_MODELS_FETCH || hasCurrentFrontier(snapshot as Record<string, any>)))
       return snapshot
-    if (Flag.OPENSCIENCE_DISABLE_MODELS_FETCH) return {}
+    if (Flag.GRIFFIN_DISABLE_MODELS_FETCH) return {}
     const live = await fetchLive()
     if (live) {
       await Bun.write(file, JSON.stringify(live))
@@ -153,7 +153,7 @@ export namespace ModelsDev {
   }
 }
 
-if (!Flag.OPENSCIENCE_DISABLE_MODELS_FETCH) {
+if (!Flag.GRIFFIN_DISABLE_MODELS_FETCH) {
   ModelsDev.refresh()
   setInterval(
     async () => {

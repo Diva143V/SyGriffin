@@ -339,6 +339,6 @@ def benchmark_model(model, tokenizer, prompt, n_runs=5):
 ## Getting Help
 
 1. **Check deprecation notice**: AutoAWQ is deprecated, use llm-compressor for new projects
-2. **GitHub Issues**: https://github.com/casper-hansen/AutoAWQ/issues
+2. **GitHub Issues**: /issues
 3. **HuggingFace Forums**: https://discuss.huggingface.co/
 4. **vLLM Discord**: For vLLM integration issues

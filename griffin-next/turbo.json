@@ -6,11 +6,11 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "@synsci/openscience#test": {
+    "@griffin/griffin#test": {
       "dependsOn": ["^build"],
       "outputs": []
     },
-    "@synsci/workspace#test": {
+    "@griffin/workspace#test": {
       "dependsOn": ["^build"],
       "outputs": []
     }

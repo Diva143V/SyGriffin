@@ -4,7 +4,7 @@ import { cmd } from "./cmd"
 import { AgentSideConnection, ndJsonStream } from "@agentclientprotocol/sdk"
 import { ACP } from "@/acp/agent"
 import { Server } from "@/server/server"
-import { createOpenScienceClient } from "@synsci/sdk/v2"
+import { createGriffinClient } from "@griffin/sdk/v2"
 import { withNetworkOptions, resolveNetworkOptions } from "../network"
 
 const log = Log.create({ service: "acp-command" })
@@ -24,7 +24,7 @@ export const AcpCommand = cmd({
       const opts = await resolveNetworkOptions(args)
       const server = Server.listen(opts)
 
-      const sdk = createOpenScienceClient({
+      const sdk = createGriffinClient({
         baseUrl: `http://${server.hostname}:${server.port}`,
       })
 

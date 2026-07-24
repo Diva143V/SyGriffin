@@ -8,7 +8,7 @@ Settings panels follow one contract (`components/settings/registry.ts:14-50`): a
 
 Three money/usage-adjacent panels exist:
 
-- **Spend** (`Spend.tsx`, id `spend`) — a Wallet card (signed-in state, balance, `buy credits`), LLM spend mode cards (Managed/BYOK/Auto), Compute spend mode cards. Data: `sdk.client.settings.billing.get()` → `routes/settings/billing.ts` → `OpenScience.getSession()` + `getBalance()` → Atlas `GET /api/cli/balance` (`openscience/index.ts:1118-1142`). `buy credits` → `platform.openLink(URLS.dashboardCli)` = `https://app.syntheticsciences.ai/cli` (`Spend.tsx:124`, `config/urls.ts:22`). Only the **aggregate scalar balance** reaches the UI.
+- **Spend** (`Spend.tsx`, id `spend`) — a Wallet card (signed-in state, balance, `buy credits`), LLM spend mode cards (Managed/BYOK/Auto), Compute spend mode cards. Data: `sdk.client.settings.billing.get()` → `routes/settings/billing.ts` → `Griffin.getSession()` + `getBalance()` → Atlas `GET /api/cli/balance` (`griffin/index.ts:1118-1142`). `buy credits` → `platform.openLink(URLS.dashboardCli)` = `https://app.syntheticsciences.ai/cli` (`Spend.tsx:124`, `config/urls.ts:22`). Only the **aggregate scalar balance** reaches the UI.
 - **Usage** (`Usage.tsx`, id `usage`) — the richest surface. Pulls from three sources: `sdk.client.account.get()` (`routes/account.ts:37-76`; session + balance + billing_mode) → Plan & wallet card; `settingsApi(.../settings/usage)` → `routes/settings/usage.ts`, **fully local** (aggregates `Session.list()` + `Session.messages()`, summing assistant `info.cost`/`info.tokens` by model and by day, `usage.ts:51-122`) → weekly bar chart + per-model breakdown; `/settings/preferences` → the extra-budget ceiling. Refetches on window focus (`Usage.tsx:81-88`). `buy credits` → same redirect.
 - **Storage** (`Storage.tsx`) — unrelated to money; the cleanest raw-fetch + card/size-bar template to reuse.
 
@@ -21,7 +21,7 @@ Three money/usage-adjacent panels exist:
 | Auto-topup status             | —                                                          | —                                                        | **no — does not exist**                                                                                                             |
 | Proactive low-balance warning | —                                                          | —                                                        | **no** (only at call time: `InsufficientCreditsError` `index.ts:186-193`, billing-gate preflight `session/billing-gate.ts:106-108`) |
 
-Confirmed by grep: `/api/credits` and `/api/credits/transactions` are never fetched anywhere; no transaction UI exists. The just-shipped `openscience wallet` CLI (`cli/cmd/billing.ts`) is the visual counterpart.
+Confirmed by grep: `/api/credits` and `/api/credits/transactions` are never fetched anywhere; no transaction UI exists. The just-shipped `griffin wallet` CLI (`cli/cmd/billing.ts`) is the visual counterpart.
 
 ## What's broken / missing (for a real wallet view)
 
@@ -43,7 +43,7 @@ Confirmed by grep: `/api/credits` and `/api/credits/transactions` are never fetc
 
 Ownership decision (up front): Wallet = balance + credits + auto-topup + Atlas usage; **Spend** = mode toggles only; keep local per-model analytics in **Usage**. Avoids three panels showing balance.
 
-**B. New local-server route(s) proxying Atlas.** Add `OpenScience.getCredits()` → `GET ${API_BASE}/api/credits` and `getTransactions()` → `GET ${API_BASE}/api/credits/transactions` (mirror `getBalance`/`getBillingMode`: `getSession()` + `Bearer` + `API_BASE`). New `server/routes/settings/wallet.ts` mounted in the **account-global block** (`server.ts:154-161`, before the `Instance.provide` wrapper — it's project-independent), not with `/settings/usage`. Frontend consumes via the existing raw-fetch `settingsApi()` — no SDK regeneration. (`/api/cli/usage` is POST-only for reporting today, `index.ts:1176`; a GET usage-history variant must be verified on Atlas.)
+**B. New local-server route(s) proxying Atlas.** Add `Griffin.getCredits()` → `GET ${API_BASE}/api/credits` and `getTransactions()` → `GET ${API_BASE}/api/credits/transactions` (mirror `getBalance`/`getBillingMode`: `getSession()` + `Bearer` + `API_BASE`). New `server/routes/settings/wallet.ts` mounted in the **account-global block** (`server.ts:154-161`, before the `Instance.provide` wrapper — it's project-independent), not with `/settings/usage`. Frontend consumes via the existing raw-fetch `settingsApi()` — no SDK regeneration. (`/api/cli/usage` is POST-only for reporting today, `index.ts:1176`; a GET usage-history variant must be verified on Atlas.)
 
 **C. Redirect, payment stays out.** Every "Add funds" / "Manage auto top-up" = `platform.openLink(URLS.dashboardCli)` (already `https://app.syntheticsciences.ai/cli`). No checkout/amount UI in-app. Keep the focus-refetch so a dashboard top-up reflects on return.
 
@@ -53,7 +53,7 @@ Ownership decision (up front): Wallet = balance + credits + auto-topup + Atlas u
 - **Semantic mismatch / double-counting** — local usage (BYOK+OAuth, per-device) vs Atlas credits (managed debits, cross-device). Label each source.
 - **Balance staleness** — 30s cache; use `invalidateBalance()` (`index.ts:1110`) + focus refetch.
 - **Unknown-balance `-1`** — must be handled in route + UI.
-- **Hard constraints** — loopback origin guard; no in-app payment; registry no-dead-controls rule; don't rename provider id `synsci`.
+- **Hard constraints** — loopback origin guard; no in-app payment; registry no-dead-controls rule; don't rename provider id `griffin`.
 
 ## Acceptance criteria
 
@@ -64,4 +64,4 @@ Ownership decision (up front): Wallet = balance + credits + auto-topup + Atlas u
 - If Atlas endpoints wired: auto-topup read-only + redirect, transactions list, low-balance banner. If not: those sections omitted (no dead controls).
 - `/settings/wallet*` returns a signed-out state (not 500) with no session; mounted account-global; typecheck + format clean.
 
-**Depends on:** the Atlas contract questions above (workstream 3/7 overlap). **Key files:** `components/settings/{Spend,Usage,_shared,registry,api}.tsx/.ts`, `server/routes/{account,settings/billing,settings/usage}.ts`, mount `server/server.ts:154-161`, `openscience/index.ts` (getBalance 1118, getBillingMode 1487), `config/urls.ts:22`, `cli/cmd/billing.ts`.
+**Depends on:** the Atlas contract questions above (workstream 3/7 overlap). **Key files:** `components/settings/{Spend,Usage,_shared,registry,api}.tsx/.ts`, `server/routes/{account,settings/billing,settings/usage}.ts`, mount `server/server.ts:154-161`, `griffin/index.ts` (getBalance 1118, getBillingMode 1487), `config/urls.ts:22`, `cli/cmd/billing.ts`.

@@ -340,6 +340,6 @@ results = npa.batch_visual_curation(
 
 ## References
 
-- [SpikeAgent](https://github.com/SpikeAgent/SpikeAgent) - AI-powered spike sorting assistant
+- [SpikeAgent]() - AI-powered spike sorting assistant
 - [Anthropic Vision API](https://docs.anthropic.com/en/docs/vision)
 - [GPT-4 Vision](https://platform.openai.com/docs/guides/vision)

@@ -176,7 +176,7 @@ def print_installation_instructions():
 If DiffDock is not installed, follow these steps:
 
 1. Clone the repository:
-   git clone https://github.com/gcorso/DiffDock.git
+   git clone .git
    cd DiffDock
 
 2. Create conda environment:
@@ -191,7 +191,7 @@ For Docker installation:
    docker run -it --gpus all --entrypoint /bin/bash rbgcsail/diffdock
    micromamba activate diffdock
 
-For more information, visit: https://github.com/gcorso/DiffDock
+For more information, visit: 
     """)
 
 

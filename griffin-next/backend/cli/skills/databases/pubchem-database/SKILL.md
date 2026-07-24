@@ -569,5 +569,5 @@ For detailed API documentation, including complete property lists, URL patterns,
 - PUG-REST Documentation: https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest
 - PUG-REST Tutorial: https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest-tutorial
 - PubChemPy Documentation: https://pubchempy.readthedocs.io/
-- PubChemPy GitHub: https://github.com/mcs07/PubChemPy
+- PubChemPy GitHub: 
 

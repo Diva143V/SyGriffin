@@ -19,7 +19,7 @@ describe("isAllowedHost", () => {
   })
 
   test("rejects the synthetic internal host (in-process calls use the nonce, not Host)", () => {
-    expect(isAllowedHost("openscience.internal")).toBe(false)
+    expect(isAllowedHost("griffin.internal")).toBe(false)
   })
 
   test("rejects an arbitrary external host (DNS rebinding)", () => {

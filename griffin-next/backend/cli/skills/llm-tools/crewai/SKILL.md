@@ -491,9 +491,9 @@ os.environ["CREWAI_STORAGE_DIR"] = "./my_storage"
 
 ## Resources
 
-- **GitHub**: https://github.com/crewAIInc/crewAI (25k+ stars)
+- **GitHub**:  (25k+ stars)
 - **Docs**: https://docs.crewai.com
-- **Tools**: https://github.com/crewAIInc/crewAI-tools
-- **Examples**: https://github.com/crewAIInc/crewAI-examples
+- **Tools**: 
+- **Examples**: 
 - **Version**: 1.2.0+
 - **License**: MIT

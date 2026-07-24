@@ -1,4 +1,4 @@
-// The local openscience server only ever binds to loopback. Two independent checks
+// The local griffin server only ever binds to loopback. Two independent checks
 // gate every NETWORK request (in-process callers bypass both via a per-process
 // nonce header — see Server.internalFetch):
 //
@@ -20,12 +20,12 @@ const ALLOWED_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"])
 
 // Apex domains whose https subdomains are trusted for CORS/WebSocket origins.
 // The hosted web UI lives on <subdomain>.syntheticsciences.ai; forks and
-// self-hosters add their own via OPENSCIENCE_CORS_DOMAINS (comma-separated apexes,
+// self-hosters add their own via GRIFFIN_CORS_DOMAINS (comma-separated apexes,
 // e.g. "example.org,foo.dev"). Loopback + tauri stay auto-trusted regardless.
 const DEFAULT_CORS_DOMAINS = ["syntheticsciences.ai"]
 
 function allowedApexDomains(): string[] {
-  const configured = (process.env["OPENSCIENCE_CORS_DOMAINS"] ?? "")
+  const configured = (process.env["GRIFFIN_CORS_DOMAINS"] ?? "")
     .split(",")
     .map((domain) => domain.trim().toLowerCase())
     .filter(Boolean)
@@ -56,7 +56,7 @@ export function isAllowedOrigin(origin: string, extraWhitelist: string[] = []): 
   if (origin.startsWith("http://127.0.0.1:") || origin === "http://127.0.0.1") return true
   if (origin === "tauri://localhost" || origin === "http://tauri.localhost") return true
   // Trusted hosted-UI subdomains (default syntheticsciences.ai, extended via
-  // OPENSCIENCE_CORS_DOMAINS). See matchesAllowedSubdomain.
+  // GRIFFIN_CORS_DOMAINS). See matchesAllowedSubdomain.
   if (matchesAllowedSubdomain(origin)) return true
   return extraWhitelist.includes(origin)
 }

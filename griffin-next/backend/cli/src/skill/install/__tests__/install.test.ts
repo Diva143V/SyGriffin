@@ -4,21 +4,21 @@ import path from "node:path"
 import os from "node:os"
 import { $ } from "bun"
 import { Install } from "../install"
-import { OpenScience } from "../../../openscience"
+import { Griffin } from "../../../griffin"
 
 let tmpHome: string
 let fixtureRepo: string
 
 // Save originals to restore in afterEach
 const orig = {
-  requestSkillReview: OpenScience.requestSkillReview,
-  postInstalledSkill: OpenScience.postInstalledSkill,
-  deleteInstalledNamespace: OpenScience.deleteInstalledNamespace,
-  deleteInstalledSkill: OpenScience.deleteInstalledSkill,
+  requestSkillReview: Griffin.requestSkillReview,
+  postInstalledSkill: Griffin.postInstalledSkill,
+  deleteInstalledNamespace: Griffin.deleteInstalledNamespace,
+  deleteInstalledSkill: Griffin.deleteInstalledSkill,
 }
 
 async function makeFixtureRepo(): Promise<string> {
-  const dir = await mkdtemp(path.join(os.tmpdir(), "openscience-fixture-install-"))
+  const dir = await mkdtemp(path.join(os.tmpdir(), "griffin-fixture-install-"))
   await mkdir(path.join(dir, "skills/good"), { recursive: true })
   await mkdir(path.join(dir, "skills/evil"), { recursive: true })
   await writeFile(path.join(dir, "skills/good/SKILL.md"), "---\nname: good\ndescription: clean\n---\n# good\n")
@@ -37,23 +37,23 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  tmpHome = await mkdtemp(path.join(os.tmpdir(), "openscience-home-"))
-  process.env.OPENSCIENCE_DATA_DIR = tmpHome
+  tmpHome = await mkdtemp(path.join(os.tmpdir(), "griffin-home-"))
+  process.env.GRIFFIN_DATA_DIR = tmpHome
 })
 
 afterEach(async () => {
   await rm(tmpHome, { recursive: true, force: true })
-  delete process.env.OPENSCIENCE_DATA_DIR
-  ;(OpenScience as any).requestSkillReview = orig.requestSkillReview
-  ;(OpenScience as any).postInstalledSkill = orig.postInstalledSkill
-  ;(OpenScience as any).deleteInstalledNamespace = orig.deleteInstalledNamespace
-  ;(OpenScience as any).deleteInstalledSkill = orig.deleteInstalledSkill
+  delete process.env.GRIFFIN_DATA_DIR
+  ;(Griffin as any).requestSkillReview = orig.requestSkillReview
+  ;(Griffin as any).postInstalledSkill = orig.postInstalledSkill
+  ;(Griffin as any).deleteInstalledNamespace = orig.deleteInstalledNamespace
+  ;(Griffin as any).deleteInstalledSkill = orig.deleteInstalledSkill
 })
 
 describe("Install.add", () => {
   it("Layer-1 hit rejects skill, others continue", async () => {
     // Stub classifier (Layer 3) — survives skills get a pass verdict
-    ;(OpenScience as any).requestSkillReview = async (manifest: any[]) => ({
+    ;(Griffin as any).requestSkillReview = async (manifest: any[]) => ({
       verdict: "pass",
       per_skill: manifest.map((s: any) => ({
         name: s.name,
@@ -64,7 +64,7 @@ describe("Install.add", () => {
       })),
     })
     const uploaded: any[] = []
-    ;(OpenScience as any).postInstalledSkill = async (b: any) => {
+    ;(Griffin as any).postInstalledSkill = async (b: any) => {
       uploaded.push(b)
       return { id: "1", ...b }
     }
@@ -88,11 +88,11 @@ describe("Install.add — skipClassifier", () => {
   it("skips Layer 3 and cloud upload when skipClassifier=true", async () => {
     let classifierCalled = false
     let uploadCalled = false
-    ;(OpenScience as any).requestSkillReview = async () => {
+    ;(Griffin as any).requestSkillReview = async () => {
       classifierCalled = true
       return null
     }
-    ;(OpenScience as any).postInstalledSkill = async () => {
+    ;(Griffin as any).postInstalledSkill = async () => {
       uploadCalled = true
       return { id: "x" }
     }
@@ -115,7 +115,7 @@ describe("Install.remove", () => {
     const skillDir = path.join(tmpHome, "installed-skills/superpowers/skills/brainstorming")
     await mkdir(skillDir, { recursive: true })
     await writeFile(path.join(skillDir, "SKILL.md"), "# x")
-    ;(OpenScience as any).deleteInstalledNamespace = async () => ({ archived: 1 })
+    ;(Griffin as any).deleteInstalledNamespace = async () => ({ archived: 1 })
 
     const result = await Install.remove("superpowers")
     expect(result.archived).toBe(1)
@@ -126,7 +126,7 @@ describe("Install.remove", () => {
     const skillDir = path.join(tmpHome, "installed-skills/superpowers/skills/brainstorming")
     await mkdir(skillDir, { recursive: true })
     await writeFile(path.join(skillDir, "SKILL.md"), "# x")
-    ;(OpenScience as any).deleteInstalledNamespace = async () => null // backend down
+    ;(Griffin as any).deleteInstalledNamespace = async () => null // backend down
 
     const result = await Install.remove("superpowers")
     expect(result.archived).toBe(1) // counted from local
@@ -137,7 +137,7 @@ describe("Install.remove", () => {
     const skillDir = path.join(tmpHome, "installed-skills/superpowers/skills/brainstorming")
     await mkdir(skillDir, { recursive: true })
     await writeFile(path.join(skillDir, "SKILL.md"), "# x")
-    ;(OpenScience as any).deleteInstalledSkill = async () => false // backend down
+    ;(Griffin as any).deleteInstalledSkill = async () => false // backend down
 
     const result = await Install.remove("superpowers/brainstorming")
     expect(result.archived).toBe(1)
@@ -151,7 +151,7 @@ describe("Install.remove", () => {
     await mkdir(sibling, { recursive: true })
     await writeFile(path.join(skillDir, "SKILL.md"), "# x")
     await writeFile(path.join(sibling, "SKILL.md"), "# y")
-    ;(OpenScience as any).deleteInstalledSkill = async () => true
+    ;(Griffin as any).deleteInstalledSkill = async () => true
 
     const result = await Install.remove("superpowers/brainstorming")
     expect(result.archived).toBe(1)

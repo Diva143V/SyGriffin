@@ -11,7 +11,7 @@ import {
   Match,
 } from "solid-js"
 import { Portal } from "solid-js/web"
-import { Markdown } from "@synsci/ui/markdown"
+import { Markdown } from "@griffin/ui/markdown"
 import { useSDK } from "@/context/sdk"
 import { useSync } from "@/context/sync"
 import { usePlatform } from "@/context/platform"
@@ -24,7 +24,7 @@ import { IconFile, IconX, IconCopy, IconDownload, IconBookOpen, IconBraces, Icon
  * Slide-in SIDE PREVIEW pane for opening a file from the Files tree.
  *
  * A file's extension picks the renderer:
- *   .md / .markdown  → formatted markdown (@synsci/ui Markdown)
+ *   .md / .markdown  → formatted markdown (@griffin/ui Markdown)
  *   .pdf             → PdfViewer (pdfjs page rasterizer)
  *   .tex / .latex    → highlighted LaTeX source (a .tex is a source FILE, not a
  *                      math expression — the KaTeX LatexView is reserved for

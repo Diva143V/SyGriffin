@@ -559,11 +559,11 @@ while True:
 
 ## Resources
 
-- **GitHub**: https://github.com/run-llama/llama_index ⭐ 45,100+
+- **GitHub**:  ⭐ 45,100+
 - **Docs**: https://developers.llamaindex.ai/python/framework/
 - **LlamaHub**: https://llamahub.ai (data connectors)
 - **LlamaCloud**: https://cloud.llamaindex.ai (enterprise)
-- **Discord**: https://discord.gg/dGcwcsnxhU
+- **Discord**: 
 - **Version**: 0.14.7+
 - **License**: MIT
 

@@ -19,7 +19,7 @@ _ = model.generate(**inputs, streamer = text_streamer, max_new_tokens = 64)
 
 #### NotImplementedError: A UTF-8 locale is required. Got ANSI
 
-Sometimes when you execute a cell [this error](https://github.com/googlecolab/colabtools/issues/3409) can appear. To solve this, in a new cell, run the below:
+Sometimes when you execute a cell [this error](/issues/3409) can appear. To solve this, in a new cell, run the below:
 
 ```python
 import locale

@@ -1,12 +1,12 @@
 /**
  * Which Atlas-synced env vars the CLI is allowed to apply.
  *
- * OpenScience routes every *managed* LLM call through OpenRouter — that is the
+ * Griffin routes every *managed* LLM call through OpenRouter — that is the
  * one provider the Atlas wallet pays for, via the proxy `OPENROUTER_BASE_URL` +
  * a `thk_*` `OPENROUTER_API_KEY`. Every other model provider (Anthropic, OpenAI,
  * Gemini, Together, Groq, Fireworks, xAI, Mistral, DeepSeek, Cerebras, and
  * Codex) is BYOK-only, configured locally with a shell `export`,
- * `openscience keys add`, or Codex OAuth.
+ * `griffin keys add`, or Codex OAuth.
  *
  * Atlas still emits per-provider LLM credentials over `/api/cli/sync` for the
  * hosted web agents, so the CLI must drop them on its side. Without this a
@@ -19,7 +19,7 @@
  */
 
 /** The model-provider LLM env vars whose values are the user's OWN (BYOK)
- *  credential. Single source of truth — openscience/index.ts imports this for
+ *  credential. Single source of truth — griffin/index.ts imports this for
  *  its subprocess-redaction set, and the sync blocklist below derives from it,
  *  so the two can never drift. OpenRouter is included (its own key is BYOK too)
  *  but kept OUT of the blocklist since it is the one managed-capable provider. */

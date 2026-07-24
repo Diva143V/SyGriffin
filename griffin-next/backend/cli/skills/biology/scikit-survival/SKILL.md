@@ -356,7 +356,7 @@ Load these reference files when detailed information is needed for specific task
 ## Additional Resources
 
 - **Official Documentation**: https://scikit-survival.readthedocs.io/
-- **GitHub Repository**: https://github.com/sebp/scikit-survival
+- **GitHub Repository**: 
 - **Built-in Datasets**: Use `sksurv.datasets` for practice datasets (GBSG2, WHAS500, veterans lung cancer, etc.)
 - **API Reference**: Complete list of classes and functions at https://scikit-survival.readthedocs.io/en/stable/api/index.html
 

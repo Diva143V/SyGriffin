@@ -3,19 +3,19 @@ import os from "os"
 import path from "path"
 import fs from "fs/promises"
 import { Global } from "../src/global"
-import { OpenScience, API_BASE } from "../src/openscience"
+import { Griffin, API_BASE } from "../src/griffin"
 
 // XDG dirs are isolated per test run by test/preload.ts, so these paths all
 // live under the throwaway temp tree — never the developer's real config.
-const session = path.join(Global.Path.data, "openscience-session.json")
-const synced = path.join(process.env.XDG_CONFIG_HOME!, "openscience")
+const session = path.join(Global.Path.data, "griffin-session.json")
+const synced = path.join(process.env.XDG_CONFIG_HOME!, "griffin")
 const snapshot = path.join(synced, "synced-env.json")
-const managed = path.join(synced, "openscience-synced.json")
+const managed = path.join(synced, "griffin-synced.json")
 const queue = path.join(Global.Path.data, "usage-queue.jsonl")
-const atlas = path.join(os.tmpdir(), `openscience-test-atlas-${process.pid}`, "config.json")
+const atlas = path.join(os.tmpdir(), `griffin-test-atlas-${process.pid}`, "config.json")
 
-const INJECTED = "OPENSCIENCE_TEST_SYNCED_VAR"
-const EXPORTED = "OPENSCIENCE_TEST_EXPORTED_VAR"
+const INJECTED = "GRIFFIN_TEST_SYNCED_VAR"
+const EXPORTED = "GRIFFIN_TEST_EXPORTED_VAR"
 
 afterEach(async () => {
   delete process.env[INJECTED]
@@ -34,7 +34,7 @@ test("clearSession removes every synced credential artifact", async () => {
   await Bun.write(session, JSON.stringify({ api_key: "thk_test.secret", user_id: "user-1" }))
   // The persisted snapshot preload-env.ts replays into process.env at boot.
   await Bun.write(snapshot, JSON.stringify({ [INJECTED]: "thk_injected_value", [EXPORTED]: "thk_synced_value" }))
-  await Bun.write(managed, JSON.stringify({ model: "synsci/some-model" }))
+  await Bun.write(managed, JSON.stringify({ model: "griffin/some-model" }))
   await Bun.write(queue, JSON.stringify({ service: "llm", event_type: "chat", tokens_used: 10 }) + "\n")
 
   process.env.ATLAS_CLI_CONFIG_PATH = atlas
@@ -54,7 +54,7 @@ test("clearSession removes every synced credential artifact", async () => {
   // …and a key the user exported in their own shell with a different value.
   process.env[EXPORTED] = "user-exported-value"
 
-  await OpenScience.clearSession()
+  await Griffin.clearSession()
 
   expect(await Bun.file(session).exists()).toBe(false)
   expect(await Bun.file(snapshot).exists()).toBe(false)
@@ -83,7 +83,7 @@ test("clearSession without a session still clears the seeded atlas profile by ba
     }),
   )
 
-  await OpenScience.clearSession()
+  await Griffin.clearSession()
 
   const config = JSON.parse(await Bun.file(atlas).text())
   expect(config.profiles.default.api_key).toBeUndefined()
@@ -100,7 +100,7 @@ test("clearSession leaves a hand-configured atlas profile alone", async () => {
     }),
   )
 
-  await OpenScience.clearSession()
+  await Griffin.clearSession()
 
   const config = JSON.parse(await Bun.file(atlas).text())
   expect(config.profiles.default.api_key).toBe("thk_mine.secret")

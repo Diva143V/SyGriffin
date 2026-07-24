@@ -13,15 +13,15 @@ either an owner/Atlas-team decision or a follow-up sprint. Updated 2026-07-06.
 | **3**  | Atlas sync correctness                   | ✅ shell-export precedence (no billing flip), atomic writes, torn-file tolerance + test |
 | **4**  | Browser onboarding                       | ✅ browser Atlas login (`/account/login-key` + SetupDialog) + no-model dead-end killed  |
 | **5**  | UX polish                                | ✅ transition typos + real file error states (retry on read/permission/listing failure) |
-| **6**  | Compute / atlas version                  | ✅ `@synsci/atlas` `^0.5.12` → `^0.13.2` (managed compute resolves)                     |
-| **7**  | Atlas experience — **A1 unified status** | ✅ `openscience status` = connection + plan + wallet + usage + compute + companion      |
+| **6**  | Compute / atlas version                  | ✅ `@griffin/atlas` `^0.5.12` → `^0.13.2` (managed compute resolves)                     |
+| **7**  | Atlas experience — **A1 unified status** | ✅ `griffin status` = connection + plan + wallet + usage + compute + companion      |
 | **8**  | Wallet (backend + panel)                 | ✅ `/settings/wallet` + Wallet panel; routes verified live, UI typecheck-only           |
 | **9**  | arXiv retrieval                          | ✅ throttle, PDF/error parsing, graceful degrade, 20 tests (merged)                     |
 | **11** | Reviewer gate                            | ✅ Level 0 annotate-only, code-level, flag-gated (`experimental.reviewGate`)            |
 | —      | Atlas repo rebrand + sync-hash parity    | ✅ draft PR `synthetic-sciences/atlas#188`                                              |
 | —      | >60-min hang fix                         | ✅ all Atlas calls timeout-bounded; verified fail-fast e2e                              |
 
-WS4/WS5/WS8 are now merged into `sprint/openscience-atlas-polish` (PR #94). The WS8
+WS4/WS5/WS8 are now merged into `sprint/griffin-atlas-polish` (PR #94). The WS8
 `/settings/wallet` and WS4 `/account/login-key` routes are runtime-verified against
 the live backend; the WS4/WS8 **frontend UI** (Wallet panel render, SetupDialog
 click-through) is typecheck-verified but not yet exercised in a live browser
@@ -50,10 +50,10 @@ the source-of-truth rule before code moves keys around.
 
 ### WS7 A6 — name/brand pass
 
-One platform still shows three user-facing names ("Atlas" / "Thesis" / "synsci").
-The wire identifiers (`synsci` provider id, `thk_`, `THESIS_*`) are contract and
+One platform still shows three user-facing names ("Atlas" / "Thesis" / "griffin").
+The wire identifiers (`griffin` provider id, `thk_`, `THESIS_*`) are contract and
 **must stay**, but the internal names leak into copy — e.g. `status` prints
-`Device: synsci · …` (the device name is stamped at login). This is a broad,
+`Device: griffin · …` (the device name is stamped at login). This is a broad,
 low-risk copy sweep, batched separately to keep the wire contract untouched.
 The Atlas-side `/cli` page rebrand already shipped in PR #188.
 

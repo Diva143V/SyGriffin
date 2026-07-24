@@ -823,11 +823,11 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
   })
 
   test("preserves metadata using providerID key when store is false", () => {
-    const openscienceModel = {
+    const griffinModel = {
       ...openaiModel,
-      providerID: "synsci",
+      providerID: "griffin",
       api: {
-        id: "openscience-test",
+        id: "griffin-test",
         url: "https://api.syntheticsciences.ai",
         npm: "@ai-sdk/openai-compatible",
       },
@@ -840,7 +840,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
             type: "text",
             text: "Hello",
             providerOptions: {
-              synsci: {
+              griffin: {
                 itemId: "msg_123",
                 otherOption: "value",
               },
@@ -850,18 +850,18 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
       },
     ] as any[]
 
-    const result = ProviderTransform.message(msgs, openscienceModel, { store: false }) as any[]
+    const result = ProviderTransform.message(msgs, griffinModel, { store: false }) as any[]
 
-    expect(result[0].content[0].providerOptions?.synsci?.itemId).toBe("msg_123")
-    expect(result[0].content[0].providerOptions?.synsci?.otherOption).toBe("value")
+    expect(result[0].content[0].providerOptions?.griffin?.itemId).toBe("msg_123")
+    expect(result[0].content[0].providerOptions?.griffin?.otherOption).toBe("value")
   })
 
   test("preserves itemId across all providerOptions keys", () => {
-    const openscienceModel = {
+    const griffinModel = {
       ...openaiModel,
-      providerID: "synsci",
+      providerID: "griffin",
       api: {
-        id: "openscience-test",
+        id: "griffin-test",
         url: "https://api.syntheticsciences.ai",
         npm: "@ai-sdk/openai-compatible",
       },
@@ -871,7 +871,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
         role: "assistant",
         providerOptions: {
           openai: { itemId: "msg_root" },
-          synsci: { itemId: "msg_synsci" },
+          griffin: { itemId: "msg_griffin" },
           extra: { itemId: "msg_extra" },
         },
         content: [
@@ -880,7 +880,7 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
             text: "Hello",
             providerOptions: {
               openai: { itemId: "msg_openai_part" },
-              synsci: { itemId: "msg_synsci_part" },
+              griffin: { itemId: "msg_griffin_part" },
               extra: { itemId: "msg_extra_part" },
             },
           },
@@ -888,13 +888,13 @@ describe("ProviderTransform.message - strip openai metadata when store=false", (
       },
     ] as any[]
 
-    const result = ProviderTransform.message(msgs, openscienceModel, { store: false }) as any[]
+    const result = ProviderTransform.message(msgs, griffinModel, { store: false }) as any[]
 
     expect(result[0].providerOptions?.openai?.itemId).toBe("msg_root")
-    expect(result[0].providerOptions?.synsci?.itemId).toBe("msg_synsci")
+    expect(result[0].providerOptions?.griffin?.itemId).toBe("msg_griffin")
     expect(result[0].providerOptions?.extra?.itemId).toBe("msg_extra")
     expect(result[0].content[0].providerOptions?.openai?.itemId).toBe("msg_openai_part")
-    expect(result[0].content[0].providerOptions?.synsci?.itemId).toBe("msg_synsci_part")
+    expect(result[0].content[0].providerOptions?.griffin?.itemId).toBe("msg_griffin_part")
     expect(result[0].content[0].providerOptions?.extra?.itemId).toBe("msg_extra_part")
   })
 

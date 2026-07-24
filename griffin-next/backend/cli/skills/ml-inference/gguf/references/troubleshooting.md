@@ -426,8 +426,8 @@ validate_gguf("model.gguf")
 
 ## Getting Help
 
-1. **GitHub Issues**: https://github.com/ggml-org/llama.cpp/issues
-2. **Discussions**: https://github.com/ggml-org/llama.cpp/discussions
+1. **GitHub Issues**: .cpp/issues
+2. **Discussions**: .cpp/discussions
 3. **Reddit**: r/LocalLLaMA
 
 ### Reporting Issues

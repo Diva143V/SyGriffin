@@ -5,7 +5,7 @@ const options = {
   port: {
     type: "number" as const,
     describe: "port to listen on",
-    default: 0,
+    default: 2307,
   },
   cors: {
     type: "string" as const,
@@ -22,13 +22,13 @@ export function withNetworkOptions<T>(yargs: Argv<T>) {
 }
 
 // The server is loopback-only by design — there is no hostname/mDNS option.
-// Existing openscience.json files may still carry server.hostname/server.mdns; those
+// Existing griffin.json files may still carry server.hostname/server.mdns; those
 // keys are parsed by the config schema but intentionally ignored here.
 export async function resolveNetworkOptions(args: NetworkOptions) {
   const config = await Config.global()
   if (config?.server?.hostname || config?.server?.mdns) {
     console.warn(
-      "openscience: server.hostname / server.mdns in your config are no longer supported — the server always binds to localhost (127.0.0.1).",
+      "griffin: server.hostname / server.mdns in your config are no longer supported — the server always binds to localhost (127.0.0.1).",
     )
   }
   const portExplicitlySet = process.argv.includes("--port")

@@ -409,5 +409,5 @@ download_with_progress(
 
 - API Documentation: https://www.uniprot.org/help/api
 - Interactive API Explorer: https://www.uniprot.org/api-documentation
-- Python client (Unipressed): https://github.com/multimeric/Unipressed
+- Python client (Unipressed): 
 - Bioservices package: https://bioservices.readthedocs.io/

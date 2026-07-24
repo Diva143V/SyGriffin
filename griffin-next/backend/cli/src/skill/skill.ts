@@ -6,7 +6,7 @@ import { Config } from "../config/config"
 import { Instance } from "../project/instance"
 import { State } from "../project/state"
 import { runtimeRegexPass, classifierInjectionRegexPass } from "./install/review"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { ConfigMarkdown } from "../config/markdown"
 import INITIALIZE_ATLAS_GRAPH_MD from "./system/initialize-atlas-graph.txt"
 import { Log } from "../util/log"
@@ -16,7 +16,7 @@ import { Flag } from "@/flag/flag"
 import { Bus } from "@/bus"
 import { BusEvent } from "@/bus/bus-event"
 import { Session } from "@/session"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { Installation } from "@/installation"
 
 // System skills the product invokes directly (e.g. the canvas prefills
@@ -38,7 +38,7 @@ export namespace Skill {
     tags: z.array(z.string()).optional(),
     /** Whether the skill is user-facing (shows in / autocomplete) or an
      *  internal helper used transitively by other skills. Defaults to true.
-     *  Driven by `openscience-skills.json` `entries[]` for URL-installed skills;
+     *  Driven by `griffin-skills.json` `entries[]` for URL-installed skills;
      *  bundled / learned skills omit this and are always entries. */
     entry: z.boolean().optional(),
   })
@@ -66,7 +66,7 @@ export namespace Skill {
     }),
   )
 
-  const OPENSCIENCE_SKILL_GLOB = new Bun.Glob("{skill,skills}/**/SKILL.md")
+  const GRIFFIN_SKILL_GLOB = new Bun.Glob("{skill,skills}/**/SKILL.md")
   const CLAUDE_SKILL_GLOB = new Bun.Glob("skills/**/SKILL.md")
   const SKILL_GLOB = new Bun.Glob("**/SKILL.md")
   const USER_SKILL_DIR = path.join(Global.Path.data, "user-skills")
@@ -135,7 +135,7 @@ export namespace Skill {
       claudeDirs.push(globalClaude)
     }
 
-    if (!Flag.OPENSCIENCE_DISABLE_CLAUDE_CODE_SKILLS) {
+    if (!Flag.GRIFFIN_DISABLE_CLAUDE_CODE_SKILLS) {
       for (const dir of claudeDirs) {
         const matches = await Array.fromAsync(
           CLAUDE_SKILL_GLOB.scan({
@@ -156,9 +156,9 @@ export namespace Skill {
       }
     }
 
-    // Scan .openscience/skill/ directories
+    // Scan .griffin/skill/ directories
     for (const dir of await Config.directories()) {
-      for await (const match of OPENSCIENCE_SKILL_GLOB.scan({
+      for await (const match of GRIFFIN_SKILL_GLOB.scan({
         cwd: dir,
         absolute: true,
         onlyFiles: true,
@@ -169,11 +169,11 @@ export namespace Skill {
     }
 
     // === Server-side Skills: fetched from API, cached locally ===
-    if (!Flag.OPENSCIENCE_DISABLE_BUNDLED_SKILLS) {
+    if (!Flag.GRIFFIN_DISABLE_BUNDLED_SKILLS) {
       const cacheDir = Global.Path.cache
 
       // Try fetching skill index from dashboard API
-      const index = await OpenScience.fetchSkillIndex()
+      const index = await Griffin.fetchSkillIndex()
       if (index) {
         for (const skill of index) {
           if (!skills[skill.name]) {
@@ -241,16 +241,16 @@ export namespace Skill {
     // blocking on a slow/unreachable backend (#138) and makes it deterministic
     // in tests (preload sets the flag). The local learned-skills scan below still
     // runs regardless.
-    const cloudLearned = Flag.OPENSCIENCE_DISABLE_BUNDLED_SKILLS
+    const cloudLearned = Flag.GRIFFIN_DISABLE_BUNDLED_SKILLS
       ? null
-      : await OpenScience.fetchLearnedSkills().catch(() => null)
+      : await Griffin.fetchLearnedSkills().catch(() => null)
     if (cloudLearned) {
       for (const entry of cloudLearned) {
         const skillDir = path.join(learnedDir, entry.name)
         const skillPath = path.join(skillDir, "SKILL.md")
         const exists = await Bun.file(skillPath).exists()
         if (!exists) {
-          const content = await OpenScience.fetchLearnedSkillContent(entry.name).catch(() => null)
+          const content = await Griffin.fetchLearnedSkillContent(entry.name).catch(() => null)
           if (content) {
             await fs.mkdir(skillDir, { recursive: true })
             await Bun.write(skillPath, content)
@@ -277,7 +277,7 @@ export namespace Skill {
       }
     }
 
-    // === User Skills: authored locally via openscience/web, private by default ===
+    // === User Skills: authored locally via griffin/web, private by default ===
     if (await Filesystem.isDir(USER_SKILL_DIR)) {
       let userCount = 0
       for await (const match of SKILL_GLOB.scan({
@@ -296,7 +296,7 @@ export namespace Skill {
 
     // === Installed Skills: URL-installed third-party skills ===
     // Local-first store at:
-    //   ~/.openscience/installed-skills/<ns>/skills/<name>/SKILL.md
+    //   ~/.griffin/installed-skills/<ns>/skills/<name>/SKILL.md
     // mirroring the upstream plugin convention. Cloud sync via
     // /api/cli/installed-skills returns install pointers (repo_url + sha);
     // each machine re-fetches from git on first sync. The DB row is just
@@ -340,9 +340,9 @@ export namespace Skill {
     // Same gate as the learned + index fetches above: a slow/unreachable backend
     // must not wedge skill discovery, and tests stay network-independent. The
     // local installed-skills scan below still runs regardless.
-    const cloudInstalled = Flag.OPENSCIENCE_DISABLE_BUNDLED_SKILLS
+    const cloudInstalled = Flag.GRIFFIN_DISABLE_BUNDLED_SKILLS
       ? null
-      : await OpenScience.fetchInstalledSkills().catch(() => null)
+      : await Griffin.fetchInstalledSkills().catch(() => null)
     if (cloudInstalled) {
       for (const entry of cloudInstalled) {
         const skillDir = path.join(installedDir, entry.namespace, "skills", entry.name)
@@ -385,7 +385,7 @@ export namespace Skill {
         const nsDirs = await fs.readdir(installedDir, { withFileTypes: true })
         for (const ns of nsDirs) {
           if (!ns.isDirectory()) continue
-          const manifestPath = path.join(installedDir, ns.name, "openscience-skills.json")
+          const manifestPath = path.join(installedDir, ns.name, "griffin-skills.json")
           try {
             const raw = await Bun.file(manifestPath).text()
             const parsed = JSON.parse(raw) as { entries?: unknown }
@@ -451,7 +451,7 @@ export namespace Skill {
     // server catalog and the shipping binary omit them. Materialize to the cache
     // only when not already loaded (dev/source and API entries take precedence).
     // Respects the bundled-skills opt-out, same as the catalog.
-    if (!Flag.OPENSCIENCE_DISABLE_BUNDLED_SKILLS) {
+    if (!Flag.GRIFFIN_DISABLE_BUNDLED_SKILLS) {
       for (const sys of SYSTEM_SKILLS) {
         if (skills[sys.name]) continue
         const file = path.join(Global.Path.cache, "system-skills", sys.name, "SKILL.md")

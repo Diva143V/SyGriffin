@@ -10,7 +10,7 @@ Workstream: smoother first-run→setup **in the browser workspace** (the termina
 - **The dead-end:** with nothing configured, `providers.connected()` is empty → `models.list()` empty → the default-model effect never resolves → `model()` stays `undefined` (`Composer.tsx:251-269`, `hooks/use-providers.ts:22`). The model button shows faint "connect a model" (`Composer.tsx:1188-1191`); submitting fires a **transient** `toast.error("no model selected", …${BYOK_URL})` where `BYOK_URL = URLS.dashboard` = the **external** `app.syntheticsciences.ai` (`Composer.tsx:719-727`). `ChatWelcome` (`session.tsx:958-1053`) offers suggested prompts that lead straight into this dead-end, with no model/credential awareness.
 - **Settings** opens on the **Skills** panel (`registry.ts:127`), with Credentials/Spend below the fold — not surfaced on first run.
 - **BYOK is fully self-serve in the browser, no account:** `Credentials.tsx:184-186` → `sdk.client.auth.set({...})` + `global.sync()`; copy "Stored on this machine … free and unmetered here."
-- **Managed/Atlas is view-toggle-logout only, with NO in-browser login:** `Spend.tsx:130-133` literally says "run **openscience login**"; `Usage.tsx:191` says "run `openscience connect login` in a terminal"; `General.tsx` has sign-out but no sign-in. **`OpenScience.browserLogin` (loopback device flow, `openscience/index.ts:624-680`) exists but is not wrapped in any HTTP route** — `server/routes/account.ts` exposes `GET /account`, balance, devices, billing-mode, and **`POST /account/logout`**, but **no login route**. This is why every managed surface punts to a terminal.
+- **Managed/Atlas is view-toggle-logout only, with NO in-browser login:** `Spend.tsx:130-133` literally says "run **griffin login**"; `Usage.tsx:191` says "run `griffin connect login` in a terminal"; `General.tsx` has sign-out but no sign-in. **`Griffin.browserLogin` (loopback device flow, `griffin/index.ts:624-680`) exists but is not wrapped in any HTTP route** — `server/routes/account.ts` exposes `GET /account`, balance, devices, billing-mode, and **`POST /account/logout`**, but **no login route**. This is why every managed surface punts to a terminal.
 
 The terminal `cli/onboard.ts` is the fork to mirror: `needsOnboarding()` (`onboard.ts:72-79`) + a 3-option select (managed ★ / BYOK / skip, `onboard.ts:164-172`).
 
@@ -30,7 +30,7 @@ The terminal `cli/onboard.ts` is the fork to mirror: `needsOnboarding()` (`onboa
 
 **Where to hook (three coordinated surfaces):**
 
-- **Primary — a `SetupDialog` modal** on the `@synsci/ui` `Dialog` kit, using `components/dialog-select-server.tsx` as the polished reference (health dots, `TextField`, `Button`, `List`). Auto-shown on first unconfigured load; dismissible; re-openable from settings + the Composer.
+- **Primary — a `SetupDialog` modal** on the `@griffin/ui` `Dialog` kit, using `components/dialog-select-server.tsx` as the polished reference (health dots, `TextField`, `Button`, `List`). Auto-shown on first unconfigured load; dismissible; re-openable from settings + the Composer.
 - **`ChatWelcome`** — when `model()` is undefined, a single primary "Set up models" CTA that opens `SetupDialog` (`session.tsx:958`).
 - **`DisconnectedPanel` pattern** — a sibling **non-error** banner "No model configured — finish setup" for the unconfigured-but-connected state, so the affordance is persistent, not a transient toast. Rewire the Composer "connect a model" button and no-model submit (`Composer.tsx:719-727,1188-1191`) to open `SetupDialog` instead of toasting an external URL.
 
@@ -49,7 +49,7 @@ The terminal `cli/onboard.ts` is the fork to mirror: `needsOnboarding()` (`onboa
 - **Skip/demo may be empty signed-out** (`provider.ts:1403-1411`) — verify; else make "skip" require a signed-out demo provider or steer to BYOK.
 - **Managed credential-injection timing** — managed mode relies on `syncServices()` injecting proxy creds; the wizard must resync before the first send (ties to WS3).
 - **Health-probe race** — gate strictly on `healthy()===true`.
-- **Brand/URL split** — login/top-up land on `app.syntheticsciences.ai` while the app is "openscience" (ties to WS5 copy).
+- **Brand/URL split** — login/top-up land on `app.syntheticsciences.ai` while the app is "griffin" (ties to WS5 copy).
 
 ## Acceptance criteria
 
@@ -59,4 +59,4 @@ The terminal `cli/onboard.ts` is the fork to mirror: `needsOnboarding()` (`onboa
 - Setup is re-openable from settings; the marker prevents re-prompting once configured/dismissed.
 - Signed-in state is reflected consistently across `Spend`/`Usage`/`General` without terminal instructions.
 
-**Depends on:** WS3 (sync must be reliable before managed login is smooth). **Feeds:** WS5 item 2 (kill the no-model dead-end). **Key files:** `app.tsx`, `context/server.tsx`, `thesis/{DisconnectedPanel,Composer}.tsx`, `pages/{home,session}.tsx`, `components/settings/{Credentials,Spend,Usage,General}.tsx`, `components/dialog-select-server.tsx`, `server/routes/account.ts`, `openscience/index.ts:624-680`, `provider.ts:108-110,1403-1411`.
+**Depends on:** WS3 (sync must be reliable before managed login is smooth). **Feeds:** WS5 item 2 (kill the no-model dead-end). **Key files:** `app.tsx`, `context/server.tsx`, `thesis/{DisconnectedPanel,Composer}.tsx`, `pages/{home,session}.tsx`, `components/settings/{Credentials,Spend,Usage,General}.tsx`, `components/dialog-select-server.tsx`, `server/routes/account.ts`, `griffin/index.ts:624-680`, `provider.ts:108-110,1403-1411`.

@@ -375,8 +375,8 @@ text = enc.decode(tokens)  # "Hello world"
 
 ## Resources
 
-- **GitHub**: https://github.com/karpathy/nanoGPT ⭐ 48,000+
+- **GitHub**:  ⭐ 48,000+
 - **Video**: "Let's build GPT" by Andrej Karpathy
 - **Paper**: "Attention is All You Need" (Vaswani et al.)
 - **Paper**: "Language Models are Unsupervised Multitask Learners" (GPT-2)
-- **Code walkthrough**: https://github.com/karpathy/nanoGPT/blob/master/ARCHITECTURE.md
+- **Code walkthrough**: /blob/master/ARCHITECTURE.md

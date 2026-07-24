@@ -26,7 +26,7 @@ import {
   QuestionRequest,
   QuestionAnswer,
   QuestionInfo,
-} from "@synsci/sdk/v2"
+} from "@griffin/sdk/v2"
 import { createStore } from "solid-js/store"
 import { useData } from "../context"
 import { useDiffComponent } from "../context/diff"
@@ -44,9 +44,9 @@ import { DiffChanges } from "./diff-changes"
 import { Spinner } from "./spinner"
 import { Markdown } from "./markdown"
 import { ImagePreview } from "./image-preview"
-import { findLast } from "@synsci/util/array"
-import { getDirectory as _getDirectory, getFilename } from "@synsci/util/path"
-import { checksum } from "@synsci/util/encode"
+import { findLast } from "@griffin/util/array"
+import { getDirectory as _getDirectory, getFilename } from "@griffin/util/path"
+import { checksum } from "@griffin/util/encode"
 import { Tooltip } from "./tooltip"
 import { IconButton } from "./icon-button"
 import { createAutoScroll } from "../hooks"

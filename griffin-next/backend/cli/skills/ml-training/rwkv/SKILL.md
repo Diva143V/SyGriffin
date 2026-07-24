@@ -252,7 +252,7 @@ out2, state = model.forward(tokens2, state)  # Has context from tokens1
 
 - Paper (RWKV): https://arxiv.org/abs/2305.13048 (May 2023)
 - Paper (RWKV-7): https://arxiv.org/abs/2503.14456 (March 2025)
-- GitHub: https://github.com/BlinkDL/RWKV-LM ⭐ 12,000+
+- GitHub:  ⭐ 12,000+
 - Docs: https://wiki.rwkv.com/
 - Models: https://huggingface.co/BlinkDL
 - Linux Foundation AI: Official project

@@ -277,7 +277,7 @@ uv pip install neurokit2
 
 For development version:
 ```bash
-uv pip install https://github.com/neuropsychology/NeuroKit/zipball/dev
+uv pip install /zipball/dev
 ```
 
 ## Common Workflows
@@ -350,6 +350,6 @@ Load specific reference files as needed using the Read tool to access detailed f
 ## Additional Resources
 
 - Official Documentation: https://neuropsychology.github.io/NeuroKit/
-- GitHub Repository: https://github.com/neuropsychology/NeuroKit
+- GitHub Repository: 
 - Publication: Makowski et al. (2021). NeuroKit2: A Python toolbox for neurophysiological signal processing. Behavior Research Methods. https://doi.org/10.3758/s13428-020-01516-y
 

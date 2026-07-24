@@ -15,9 +15,9 @@ mock.module("../../src/bun/index", () => ({
   },
 }))
 const mockPlugin = () => ({})
-mock.module("openscience-copilot-auth", () => ({ default: mockPlugin }))
-mock.module("openscience-anthropic-auth", () => ({ default: mockPlugin }))
-mock.module("@gitlab/openscience-gitlab-auth", () => ({ default: mockPlugin }))
+mock.module("griffin-copilot-auth", () => ({ default: mockPlugin }))
+mock.module("griffin-anthropic-auth", () => ({ default: mockPlugin }))
+mock.module("@gitlab/griffin-gitlab-auth", () => ({ default: mockPlugin }))
 
 import path from "path"
 import { generateText } from "ai"
@@ -51,7 +51,7 @@ function echoServer() {
 
 async function provider(dir: string, options: Record<string, unknown>) {
   await Bun.write(
-    path.join(dir, "openscience.json"),
+    path.join(dir, "griffin.json"),
     JSON.stringify({
       $schema: "https://syntheticsciences.ai/config.json",
       provider: {

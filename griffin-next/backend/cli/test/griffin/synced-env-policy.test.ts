@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test"
-import { isSyncedEnvAllowed, BLOCKED_SYNCED_ENV } from "../../src/openscience/synced-env-policy"
+import { isSyncedEnvAllowed, BLOCKED_SYNCED_ENV } from "../../src/griffin/synced-env-policy"
 
 test("blocks every non-OpenRouter model-provider LLM credential (key + *_BASE_URL)", () => {
   const blocked = [

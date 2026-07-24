@@ -1,5 +1,5 @@
 import z from "zod"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 
 export namespace Message {
   export const OutputLengthError = NamedError.create("MessageOutputLengthError", z.object({}))

@@ -60,7 +60,7 @@ function sortNodes(nodes: FileNode[]): FileNode[] {
  * uses). Folders fetch lazily on expand. Filter shrinks to matches as the
  * user types.
  */
-export function OpenScienceFileTree(props: { onOpen?: (path: string) => void }): JSX.Element {
+export function GriffinFileTree(props: { onOpen?: (path: string) => void }): JSX.Element {
   const sdk = useSDK()
   const sync = useSync()
   const directory = () => sync.project?.worktree || sync.data.path.directory || sdk.directory

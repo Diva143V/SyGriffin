@@ -1,9 +1,9 @@
 import { createMemo, createEffect, on, For, Show } from "solid-js"
 import { useParams } from "@solidjs/router"
 import { useSync } from "@/context/sync"
-import { Icon } from "@synsci/ui/icon"
+import { Icon } from "@griffin/ui/icon"
 import stripAnsi from "strip-ansi"
-import type { Message, Part, ToolPart } from "@synsci/sdk/v2/client"
+import type { Message, Part, ToolPart } from "@griffin/sdk/v2/client"
 
 interface SessionShellTabProps {
   scrollTo?: string

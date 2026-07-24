@@ -414,7 +414,7 @@ Phylo.draw_ascii(tree)
 - **Official Documentation**: https://biopython.org/docs/latest/
 - **Tutorial**: https://biopython.org/docs/latest/Tutorial/
 - **Cookbook**: https://biopython.org/docs/latest/Tutorial/ (advanced examples)
-- **GitHub**: https://github.com/biopython/biopython
+- **GitHub**: 
 - **Mailing List**: biopython@biopython.org
 
 ## Quick Reference

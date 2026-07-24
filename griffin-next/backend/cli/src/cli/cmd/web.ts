@@ -1,5 +1,5 @@
 import { Server } from "../../server/server"
-import { OpenScience } from "../../openscience"
+import { Griffin } from "../../griffin"
 import { UI } from "../ui"
 import { cmd } from "./cmd"
 import { withNetworkOptions, resolveNetworkOptions } from "../network"
@@ -20,7 +20,7 @@ async function probeMacFda(): Promise<{ blocked: boolean; reason?: string }> {
   try {
     const entries = await fs.readdir(desktop)
     if (entries.length > 0) return { blocked: false }
-    return { blocked: true, reason: "openscience returned 0 entries for ~/Desktop (TCC likely blocking)" }
+    return { blocked: true, reason: "griffin returned 0 entries for ~/Desktop (TCC likely blocking)" }
   } catch (err: any) {
     if (err?.code === "EACCES" || err?.code === "EPERM") {
       return { blocked: true, reason: err.message }
@@ -35,21 +35,21 @@ const FDA_SETTINGS_URL = "x-apple.systempreferences:com.apple.preference.securit
 async function announceFdaIfNeeded() {
   const result = await probeMacFda()
   if (!result.blocked) return
-  const binary = process.execPath || "openscience"
+  const binary = process.execPath || "griffin"
   UI.empty()
   UI.println(UI.Style.TEXT_WARNING_BOLD + "  ⚠  Full Disk Access required", UI.Style.TEXT_NORMAL)
   UI.empty()
   UI.println(
     UI.Style.TEXT_NORMAL,
-    "  macOS is blocking OpenScience from listing ~/Desktop, ~/Documents and ~/Downloads.",
+    "  macOS is blocking Griffin from listing ~/Desktop, ~/Documents and ~/Downloads.",
   )
   UI.println(UI.Style.TEXT_NORMAL, "  Without Full Disk Access the folder picker and file tree will be empty.")
   UI.empty()
   UI.println(UI.Style.TEXT_INFO_BOLD + "  Grant access:", UI.Style.TEXT_NORMAL)
   UI.println(UI.Style.TEXT_NORMAL, "    1. The Privacy & Security pane just opened — find “Full Disk Access”")
   UI.println(UI.Style.TEXT_NORMAL, "    2. Click +, hit ⌘⇧G, paste the path below, click Open")
-  UI.println(UI.Style.TEXT_NORMAL, "    3. Toggle the openscience entry on")
-  UI.println(UI.Style.TEXT_NORMAL, "    4. Quit (Ctrl+C) and relaunch `openscience web`")
+  UI.println(UI.Style.TEXT_NORMAL, "    3. Toggle the griffin entry on")
+  UI.println(UI.Style.TEXT_NORMAL, "    4. Quit (Ctrl+C) and relaunch `griffin web`")
   UI.empty()
   UI.println(UI.Style.TEXT_INFO_BOLD + "  Path to add:", UI.Style.TEXT_NORMAL, "  " + binary)
   UI.empty()
@@ -58,7 +58,7 @@ async function announceFdaIfNeeded() {
 }
 
 export const WebCommand = cmd({
-  // Default command: bare `openscience` and `openscience web` both open the
+  // Default command: bare `griffin` and `griffin web` both open the
   // workspace in the browser. An optional [project] path runs it in that dir.
   command: ["web", "$0 [project]"],
   builder: (yargs) =>
@@ -66,7 +66,7 @@ export const WebCommand = cmd({
       type: "string",
       describe: "directory to open the workspace in",
     }),
-  describe: "open the OpenScience workspace in your browser",
+  describe: "open the Griffin workspace in your browser",
   handler: async (args) => {
     if (args.project) {
       try {
@@ -91,13 +91,13 @@ export const WebCommand = cmd({
 
     // Run the dashboard sync BEFORE starting the server — and without
     // the 5s race timeout the global middleware uses. The model picker
-    // and provider whitelist live in ~/.config/openscience/openscience-synced.json;
+    // and provider whitelist live in ~/.config/griffin/griffin-synced.json;
     // Config.state() reads that file once on first request and caches
     // for the process lifetime. If we start the HTTP server first, the
     // browser can race the sync and the picker shows the previous run's
     // catalogue. Doing it here, await-ed, guarantees the next browser
     // request sees the freshly-synced whitelist.
-    const authed = await OpenScience.isAuthenticated()
+    const authed = await Griffin.isAuthenticated()
     if (!authed) {
       // Only nudge when there's genuinely no way to run a model. A BYOK key
       // (env var or `keys add`) is a first-class, account-free setup — don't
@@ -106,7 +106,7 @@ export const WebCommand = cmd({
         UI.println(UI.Style.TEXT_WARNING_BOLD + "  ⚠  No model configured", UI.Style.TEXT_NORMAL)
         UI.println(
           UI.Style.TEXT_NORMAL,
-          "  Run `openscience login` for Atlas managed models, or `openscience keys add` for your own key.",
+          "  Run `griffin login` for Atlas managed models, or `griffin keys add` for your own key.",
         )
         UI.println(UI.Style.TEXT_DIM, "  Continuing with free demo models for now.")
         UI.empty()
@@ -119,7 +119,7 @@ export const WebCommand = cmd({
       // cap, bind anyway and let it finish in the background — the global
       // middleware also syncs per-request as a backstop.
       const SYNC_BUDGET_MS = 6000
-      const synced = OpenScience.syncServices().catch(() => null)
+      const synced = Griffin.syncServices().catch(() => null)
       const result = await Promise.race([
         synced,
         new Promise<"timeout">((r) => setTimeout(() => r("timeout"), SYNC_BUDGET_MS)),

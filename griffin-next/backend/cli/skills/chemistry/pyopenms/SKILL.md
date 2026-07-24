@@ -203,7 +203,7 @@ PyOpenMS integrates with:
 
 - **Official documentation**: https://pyopenms.readthedocs.io
 - **OpenMS documentation**: https://www.openms.org
-- **GitHub**: https://github.com/OpenMS/OpenMS
+- **GitHub**: 
 
 ## References
 

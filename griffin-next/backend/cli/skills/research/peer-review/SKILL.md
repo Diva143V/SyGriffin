@@ -179,7 +179,7 @@ Evaluate the technical quality and rigor of the research with particular attenti
 
 ### Stage 4: Reproducibility and Transparency
 
-Assess whether the research meets modern standards for reproducibility and open science.
+Assess whether the research meets modern standards for reproducibility and griffin.
 
 **Data Availability:**
 - Are raw data deposited in appropriate repositories?

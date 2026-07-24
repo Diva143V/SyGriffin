@@ -15,7 +15,7 @@ import { Config } from "@/config/config"
 import { SessionCompaction } from "./compaction"
 import { PermissionNext } from "@/permission/next"
 import { Question } from "@/question"
-import { OpenScience, InsufficientCreditsError } from "@/openscience"
+import { Griffin, InsufficientCreditsError } from "@/griffin"
 import { requiresWalletBalance, shouldReportUsage, resolveCredentialSource, llmBillingMode } from "./billing-gate"
 
 export namespace SessionProcessor {
@@ -103,7 +103,7 @@ export namespace SessionProcessor {
         while (true) {
           try {
             // Check for dashboard-side BYOK/managed changes before each user message.
-            await OpenScience.refreshIfStale()
+            await Griffin.refreshIfStale()
 
             // Classify the credential backing this call. The wallet pre-flight
             // fires ONLY for managed-proxy credentials (a thk_* token / synced
@@ -130,11 +130,11 @@ export namespace SessionProcessor {
             // the managed proxy is the billing authority and returns 402 if actually
             // out of credits. Hard-blocking here strands a user whose session lapsed.
             if (requiresWalletBalance(credentialSource)) {
-              const balance = await OpenScience.getBalance()
+              const balance = await Griffin.getBalance()
               if (balance !== null && balance <= 0) {
                 // Drop the 30s cache so a top-up is visible on the next
                 // attempt instead of blocking until the TTL expires.
-                OpenScience.invalidateBalance()
+                Griffin.invalidateBalance()
                 throw new Error(
                   "Your Atlas wallet is empty. Top up at app.syntheticsciences.ai/cli, or switch LLM spend to BYOK in Settings → Spend — BYOK uses your own key and is never billed.",
                 )
@@ -340,11 +340,11 @@ export namespace SessionProcessor {
 
                   // Report usage ONLY for managed-proxy credentials. BYOK keys
                   // and first-party OAuth subscriptions are billed to the user's
-                  // own account, not the openscience CLI wallet, so they are never
+                  // own account, not the griffin CLI wallet, so they are never
                   // reported (regardless of the model's nominal models.dev price).
                   const usageResult = !shouldReportUsage(credentialSource)
                     ? null
-                    : await OpenScience.reportUsage({
+                    : await Griffin.reportUsage({
                         service: "llm",
                         event_type: "chat",
                         model: input.model.id,

@@ -387,6 +387,6 @@ python train_async.py \
 ## Resources
 
 - Documentation: https://thudm.github.io/slime/
-- GitHub: https://github.com/THUDM/slime
+- GitHub: 
 - Blog: https://lmsys.org/blog/2025-07-09-slime/
 - Examples: `examples/` directory (14+ worked examples)

@@ -54,14 +54,14 @@ On-demand GPU clusters and git-style training jobs via the `tp` CLI. TensorPool 
 
 ## Credential Setup
 
-Credentials are auto-injected by openscience when connected via the dashboard.
+Credentials are auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$TENSORPOOL_KEY" ] && echo "TENSORPOOL_KEY set" || echo "NOT SET"
 ```
 
-If not set: connect TensorPool at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect TensorPool at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Quick Start
 
@@ -74,7 +74,7 @@ pip install tensorpool
 ### Authentication
 
 ```bash
-# Set API key (synced automatically via OpenScience dashboard)
+# Set API key (synced automatically via Griffin dashboard)
 export TENSORPOOL_KEY="your_api_key_here"
 
 # Verify
@@ -408,7 +408,7 @@ tp cluster destroy <cluster_id>
 **1. `TENSORPOOL_KEY` not set**
 ```bash
 [ -n "$TENSORPOOL_KEY" ] && echo "set" || echo "not set"
-# If not set, connect via OpenScience dashboard or export manually
+# If not set, connect via Griffin dashboard or export manually
 ```
 
 **2. Cluster stuck in PENDING/PROVISIONING**
@@ -459,7 +459,7 @@ tp job push tp.config.toml
 
 ## Agent Usage Instructions
 
-When the `openscience` agent loads this skill for a user task:
+When the `griffin` agent loads this skill for a user task:
 
 1. **Check credentials first**: Verify `TENSORPOOL_KEY` is set
 2. **Determine cluster vs job**: Jobs for batch experiments, clusters for interactive work

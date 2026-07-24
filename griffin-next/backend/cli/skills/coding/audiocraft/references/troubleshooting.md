@@ -12,7 +12,7 @@
 pip install audiocraft
 
 # Or from GitHub
-pip install git+https://github.com/facebookresearch/audiocraft.git
+pip install git+.git
 
 # Verify installation
 python -c "from audiocraft.models import MusicGen; print('OK')"
@@ -488,7 +488,7 @@ print(f"Model device: {next(model.lm.parameters()).device}")
 
 ## Getting Help
 
-1. **GitHub Issues**: https://github.com/facebookresearch/audiocraft/issues
+1. **GitHub Issues**: /issues
 2. **HuggingFace Forums**: https://discuss.huggingface.co
 3. **Paper**: https://arxiv.org/abs/2306.05284
 

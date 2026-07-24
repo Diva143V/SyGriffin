@@ -22,7 +22,7 @@ import { URLS } from "@/config/urls"
 import { Identifier } from "@/utils/id"
 import { useProviders, popularProviders } from "@/hooks/use-providers"
 import { useGlobalSync } from "@/context/global-sync"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { openSetupDialog } from "@/atlas/SetupDialog"
 import { resolveModelSource, type ModelSource } from "@/utils/model-cost"
 
@@ -41,7 +41,7 @@ const PROVIDER_LABEL: Record<string, string> = {
   mistral: "Mistral",
   xai: "xAI",
   cohere: "Cohere",
-  synsci: "Griffin managed",
+  griffin: "Griffin managed",
 }
 
 // Credential source shown as a single low-weight dot — the one bit that matters

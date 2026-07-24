@@ -408,7 +408,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 ## Resources
 
-- GitHub: https://github.com/bitsandbytes-foundation/bitsandbytes
+- GitHub: 
 - HuggingFace docs: https://huggingface.co/docs/transformers/quantization/bitsandbytes
 - QLoRA paper: "QLoRA: Efficient Finetuning of Quantized LLMs" (2023)
 - LLM.int8() paper: "LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale" (2022)

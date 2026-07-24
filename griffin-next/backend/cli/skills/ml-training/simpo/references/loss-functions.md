@@ -347,4 +347,4 @@ print(f"Reward margin: {reward_margin:.2f}")
 
 - SimPO paper: https://arxiv.org/abs/2405.14734
 - DPO paper: https://arxiv.org/abs/2305.18290
-- Implementation: https://github.com/princeton-nlp/SimPO
+- Implementation: 

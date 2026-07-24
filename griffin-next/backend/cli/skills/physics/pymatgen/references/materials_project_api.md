@@ -503,7 +503,7 @@ with MPRester() as mpr:
 
 - **API Documentation**: https://docs.materialsproject.org/
 - **Materials Project Website**: https://next-gen.materialsproject.org/
-- **GitHub**: https://github.com/materialsproject/api
+- **GitHub**: 
 - **Forum**: https://matsci.org/
 
 ## Best Practices Summary

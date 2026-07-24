@@ -1,12 +1,12 @@
 /**
  * Dev-only Vite middleware that turns a `showDirectoryPicker` result
  * (folder name only, plus a fingerprint of its child names) into an
- * absolute path. We delegate the actual filesystem walk to the openscience
- * backend at :4096 — only openscience needs Full Disk Access on macOS, and
+ * absolute path. We delegate the actual filesystem walk to the griffin
+ * backend at :4096 — only griffin needs Full Disk Access on macOS, and
  * the user usually has it granted to that binary.
  *
  * Routes:
- *   GET  /api/resolve-folder/probe           — does openscience see ~/Desktop?
+ *   GET  /api/resolve-folder/probe           — does griffin see ~/Desktop?
  *   POST /api/resolve-folder { name, hint, children? }
  */
 
@@ -17,8 +17,8 @@ import { spawn } from "node:child_process"
 
 const HOME = os.homedir()
 
-const OPENSCIENCE_BASE = "http://localhost:4096"
-const HEADER = "x-openscience-directory"
+const GRIFFIN_BASE = "http://localhost:4096"
+const HEADER = "x-griffin-directory"
 
 const SEARCH_ROOTS = [
   HOME,
@@ -57,23 +57,23 @@ const SKIP_DIRS = new Set([
 ])
 
 function authHeaders(headers = {}) {
-  const password = process.env.OPENSCIENCE_SERVER_PASSWORD
+  const password = process.env.GRIFFIN_SERVER_PASSWORD
   if (!password) return headers
-  const username = process.env.OPENSCIENCE_SERVER_USERNAME || "openscience"
+  const username = process.env.GRIFFIN_SERVER_USERNAME || "griffin"
   return {
     ...headers,
     Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`,
   }
 }
 
-async function openscienceList(directory) {
+async function griffinList(directory) {
   try {
-    const url = `${OPENSCIENCE_BASE}/file?directory=${encodeURIComponent(directory)}&path=.`
+    const url = `${GRIFFIN_BASE}/file?directory=${encodeURIComponent(directory)}&path=.`
     const res = await fetch(url, { headers: authHeaders({ [HEADER]: directory }) })
     if (!res.ok) {
       const fallback = await nodeList(directory)
       if (fallback.ok) return fallback
-      return { ok: false, error: `openscience ${res.status}` }
+      return { ok: false, error: `griffin ${res.status}` }
     }
     const data = await res.json()
     if (!Array.isArray(data)) return { ok: false, error: "non-array" }
@@ -107,14 +107,14 @@ async function nodeList(directory) {
 }
 
 async function probe() {
-  // openscience lists the parent fine but TCC blocks ~/Desktop unless the
-  // openscience binary has Full Disk Access. We treat "0 entries on Desktop"
+  // griffin lists the parent fine but TCC blocks ~/Desktop unless the
+  // griffin binary has Full Disk Access. We treat "0 entries on Desktop"
   // as the user's Desktop being unreachable.
   const desktop = `${HOME}/Desktop`
-  const r = await openscienceList(desktop)
+  const r = await griffinList(desktop)
   if (!r.ok) return { fda: false, reason: r.error }
   const fda = r.entries.length > 0
-  return { fda, reason: fda ? undefined : "openscience returned 0 entries for ~/Desktop (TCC blocking)" }
+  return { fda, reason: fda ? undefined : "griffin returned 0 entries for ~/Desktop (TCC blocking)" }
 }
 
 function score(candidate, hint, fingerprint) {
@@ -130,7 +130,7 @@ function score(candidate, hint, fingerprint) {
 async function findByName(name, hint, fingerprint) {
   const candidates = []
   for (const root of SEARCH_ROOTS) {
-    const rootList = await openscienceList(root)
+    const rootList = await griffinList(root)
     if (!rootList.ok) continue
     const queue = [{ path: root, depth: 0, list: rootList }]
     while (queue.length > 0 && candidates.length < MAX_CANDIDATES) {
@@ -140,7 +140,7 @@ async function findByName(name, hint, fingerprint) {
         const full = d.absolute || `${cur.path}/${d.name}`
         if (d.name === name) {
           // Fetch this candidate's children and score it.
-          const inner = await openscienceList(full)
+          const inner = await griffinList(full)
           if (inner.ok) {
             const sc = score(inner, hint, fingerprint)
             candidates.push({ path: full, score: sc, depth: cur.depth + 1 })
@@ -152,7 +152,7 @@ async function findByName(name, hint, fingerprint) {
           }
         }
         // Enqueue children for further walking.
-        const next = await openscienceList(full)
+        const next = await griffinList(full)
         if (next.ok) queue.push({ path: full, depth: cur.depth + 1, list: next })
       }
     }
@@ -225,7 +225,7 @@ async function validatePath(input) {
   if (!stat) return { ok: false, absolute, error: "path not found" }
   if (!stat.isDirectory()) return { ok: false, absolute, error: "path is not a directory" }
   const real = await fs.realpath(absolute).catch(() => absolute)
-  const listed = await openscienceList(real)
+  const listed = await griffinList(real)
   return {
     ok: true,
     absolute: real,

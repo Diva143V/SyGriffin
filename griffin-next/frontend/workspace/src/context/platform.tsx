@@ -1,4 +1,4 @@
-import { createSimpleContext } from "@synsci/ui/context"
+import { createSimpleContext } from "@griffin/ui/context"
 import { AsyncStorage, SyncStorage } from "@solid-primitives/storage"
 
 export type Platform = {

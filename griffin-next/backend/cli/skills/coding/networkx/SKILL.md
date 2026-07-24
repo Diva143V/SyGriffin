@@ -436,5 +436,5 @@ Extensive documentation on visualization techniques including layout algorithms,
 - **Official Documentation**: https://networkx.org/documentation/latest/
 - **Tutorial**: https://networkx.org/documentation/latest/tutorial.html
 - **Gallery**: https://networkx.org/documentation/latest/auto_examples/index.html
-- **GitHub**: https://github.com/networkx/networkx
+- **GitHub**: 
 

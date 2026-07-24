@@ -6,15 +6,15 @@ import {
   type PermissionRequest,
   TextPart,
   ToolPart,
-} from "@synsci/sdk/v2/client"
-import { type FileDiff } from "@synsci/sdk/v2"
+} from "@griffin/sdk/v2/client"
+import { type FileDiff } from "@griffin/sdk/v2"
 import { useData } from "../context"
 import { useDiffComponent } from "../context/diff"
 import { type UiI18nKey, type UiI18nParams, useI18n } from "../context/i18n"
-import { findLast } from "@synsci/util/array"
-import { getDirectory, getFilename } from "@synsci/util/path"
+import { findLast } from "@griffin/util/array"
+import { getDirectory, getFilename } from "@griffin/util/path"
 
-import { Binary } from "@synsci/util/binary"
+import { Binary } from "@griffin/util/binary"
 import { createEffect, createMemo, createSignal, For, Match, on, onCleanup, ParentProps, Show, Switch } from "solid-js"
 import { DiffChanges } from "./diff-changes"
 import { Message, Part } from "./message-part"

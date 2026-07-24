@@ -355,6 +355,6 @@ Dependencies are automatically managed. Package is tested on Python 3.9-3.12.
 
 For detailed API documentation and advanced features, refer to:
 - Official documentation: https://bioservices.readthedocs.io/
-- Source code: https://github.com/cokelaer/bioservices
+- Source code: 
 - Service-specific references in `references/services_reference.md`
 

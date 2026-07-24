@@ -2,9 +2,9 @@
 
 We're introducing FP8-precision training for RL, making FP8 GRPO now possible on **consumer GPUs** (RTX 40, 50 etc). DeepSeek-R1 demonstrated how powerful FP8 can be and with Unsloth, Qwen3-1.7B FP8 GRPO now works on just **5GB of VRAM**.
 
-Faster RL inference is critical as it's the most compute-intensive workload in RL. We collabed with [TorchAO](https://github.com/pytorch/ao) from PyTorch to enable performance gains with no loss in accuracy.
+Faster RL inference is critical as it's the most compute-intensive workload in RL. We collabed with [TorchAO]() from PyTorch to enable performance gains with no loss in accuracy.
 
-* **\~1.4× faster** RL inference via [vLLM](https://github.com/vllm-project/vllm) • 2x longer context vs. BF16 and FP16
+* **\~1.4× faster** RL inference via [vLLM]() • 2x longer context vs. BF16 and FP16
 * **60% less VRAM** and **10× longer** context than other FP8 RL implementations
 * Unsloth is the **only framework** to make FP8 RL LoRA work on consumer GPUs (e.g. NVIDIA GeForce RTX 40 and 50 Series). Also works on H100, H200, B200 etc.
 * Use `load_in_fp8 = True` within `FastLanguageModel` to enable FP8 RL.
@@ -16,7 +16,7 @@ Faster RL inference is critical as it's the most compute-intensive workload in R
 Bonus: You’ll notice Unsloth now uses much less VRAM. We’ll share details in a new blog soon.
 {% endhint %}
 
-Our FP8 support uses Unsloth’s [weight-sharing feature](https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide/memory-efficient-rl), reducing VRAM use by another **50%**, enabling **10× more** context with no accuracy loss. We use [vLLM](https://github.com/vllm-project/vllm) for fast inference and, our techniques like Unsloth [Standby](https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide/memory-efficient-rl) and [Flex Attention](https://unsloth.ai/docs/models/gpt-oss-how-to-run-and-fine-tune/long-context-gpt-oss-training) to further reducese. TorchAO enables universal on the fly FP8, so Llama, Gemma, Mistral & more work. We’ve also [uploaded](#unsloth-fp8-uploads) most FP8 models (including Qwen3).
+Our FP8 support uses Unsloth’s [weight-sharing feature](https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide/memory-efficient-rl), reducing VRAM use by another **50%**, enabling **10× more** context with no accuracy loss. We use [vLLM]() for fast inference and, our techniques like Unsloth [Standby](https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide/memory-efficient-rl) and [Flex Attention](https://unsloth.ai/docs/models/gpt-oss-how-to-run-and-fine-tune/long-context-gpt-oss-training) to further reducese. TorchAO enables universal on the fly FP8, so Llama, Gemma, Mistral & more work. We’ve also [uploaded](#unsloth-fp8-uploads) most FP8 models (including Qwen3).
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2FNhbi7jRc6zwCAeuddBBk%2Foutput(14).png?alt=media&#x26;token=80ad0712-4626-4536-aa57-29bc53b40540" alt="" width="375"><figcaption><p>Reward plot shows FP8 following the same trend as BF16</p></figcaption></figure>
 
@@ -32,7 +32,7 @@ Quantized training stores a low-precision weight (e.g., FP8) plus a higher-preci
 
 The scale maps the weight’s range into FP8’s representable range. More scales usually improve accuracy, but scales cost extra high-precision memory, so it’s a tradeoff. [DeepSeek R1](https://arxiv.org/abs/2501.12948), for instance, mostly favors block quantization.
 
-There are 3 common FP8 types as defined by vLLM's [llm-compressor](https://github.com/vllm-project/llm-compressor). We benchmarked Qwen3-8B on all 3 types, and also checked throughput, MMLU Pro and GQPA Diamond. We find **FP8 Block-Wise or Per-Channel (-FP8-Dynamic) is the best** in terms of accuracy and throughput.
+There are 3 common FP8 types as defined by vLLM's [llm-compressor](). We benchmarked Qwen3-8B on all 3 types, and also checked throughput, MMLU Pro and GQPA Diamond. We find **FP8 Block-Wise or Per-Channel (-FP8-Dynamic) is the best** in terms of accuracy and throughput.
 
 <table><thead><tr><th width="121">Type</th><th width="225.20001220703125"></th><th width="126.40002">Throughput</th><th width="121.60003662109375">MMLU Pro</th><th>GQPA Diamond</th></tr></thead><tbody><tr><td></td><td>Bfloat16 Baseline</td><td>11,367</td><td><strong>62.04%</strong></td><td>28.79%</td></tr><tr><td>Block-wise</td><td>Scales per block (128X128)</td><td>12,041</td><td><strong>62.37%</strong></td><td><strong>29.29%</strong></td></tr><tr><td>Per-Channel</td><td>1 scale per row or column</td><td>12,963</td><td>61.89%</td><td><strong>31.82%</strong></td></tr><tr><td>Per-Tensor</td><td>1 scale for the whole tensor</td><td><strong>13,681</strong></td><td>61.83%</td><td>27.78%</td></tr></tbody></table>
 
@@ -168,7 +168,7 @@ Our first reference point was `transformers`, which already supports FP8 in a co
 
 ### 🔥TorchAO Collab
 
-So we worked with the [TorchAO](https://github.com/pytorch/ao) team (huge thanks to[ Andrew](https://github.com/unslothai/unsloth/pull/3440)) to incorporate TorchAO’s FP8 support into our RL workloads and saw around **1.4× faster throughput** and up to **60% less model memory usage**. At a high level:
+So we worked with the [TorchAO]() team (huge thanks to[ Andrew](/pull/3440)) to incorporate TorchAO’s FP8 support into our RL workloads and saw around **1.4× faster throughput** and up to **60% less model memory usage**. At a high level:
 
 * We store the frozen LoRA weights in FP8.
 * During the forward pass, we apply dynamic FP8 quantization to the input activations, while keeping the trainable LoRA adapters 
@@ -179,7 +179,7 @@ This general setup works across all supported RL algorithms, including [GSPO](ht
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2FUir0hB7T0xBtWUTnK3aG%2Funknown.png?alt=media&#x26;token=d225cd2e-fdf4-4521-8e9f-72bd684eb9e4" alt="" width="375"><figcaption></figcaption></figure>
 
-TorchAO provides PyTorch-native FP8 support for both training and inference, offering a variety of scaling granularities including tensorwise, row-wise, and 128x128 blockwise (prototype). TorchAO’s FP8 support can improve infereughput by up to [1.64x at 27B scale](https://huggingface.co/pytorch/gemma-3-27b-it-FP8/blob/main/README.md#results-h100-machine) with row-wise scaling granularity. For more details, visit the TorchAO [FP8 README](https://github.com/pytorch/ao/blob/main/torchao/float8/README.md).
+TorchAO provides PyTorch-native FP8 support for both training and inference, offering a variety of scaling granularities including tensorwise, row-wise, and 128x128 blockwise (prototype). TorchAO’s FP8 support can improve infereughput by up to [1.64x at 27B scale](https://huggingface.co/pytorch/gemma-3-27b-it-FP8/blob/main/README.md#results-h100-machine) with row-wise scaling granularity. For more details, visit the TorchAO [FP8 README](/blob/main/torchao/float8/README.md).
 
 #### TorchAO’s block-quantized FP8 matmul
 
@@ -192,7 +192,7 @@ So for a while, this became our default FP8 matmul backend, until FBGEMM caught 
 
 PS: We also experimented with DeepSeek’s DeepGEMM, but couldn’t get it fully integrated end‑to‑end to run clean, apples‑to‑apples comparisons.
 
-### :bird:On the fly TorchAO FPthanks to [Andrew](https://github.com/unslothai/unsloth/pull/3440) from TorchAO, Unsloth FP8 RL also lets you quantize the model on the fly by doing quantization within the model load time and passing that on to vLLM. This way, you need not explicitly quantize the model yourself (we handle it for you). You can do this by setting `load_in_fp8 = True` in the model load arguments, and will do offline FP8 if we don't find a suitable pre-quantized checkpoint.
+### :bird:On the fly TorchAO FPthanks to [Andrew](/pull/3440) from TorchAO, Unsloth FP8 RL also lets you quantize the model on the fly by doing quantization within the model load time and passing that on to vLLM. This way, you need not explicitly quantize the model yourself (we handle it for you). You can do this by setting `load_in_fp8 = True` in the model load arguments, and will do offline FP8 if we don't find a suitable pre-quantized checkpoint.
 
 ```python
 from unsloth import FastLanguageModel

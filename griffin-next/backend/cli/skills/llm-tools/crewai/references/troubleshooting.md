@@ -466,9 +466,9 @@ logger.setLevel(logging.DEBUG)
 ## Getting Help
 
 1. **Documentation**: https://docs.crewai.com
-2. **GitHub Issues**: https://github.com/crewAIInc/crewAI/issues
-3. **Discord**: https://discord.gg/crewai
-4. **Examples**: https://github.com/crewAIInc/crewAI-examples
+2. **GitHub Issues**: /issues
+3. **Discord**: 
+4. **Examples**: 
 
 ### Reporting Issues
 

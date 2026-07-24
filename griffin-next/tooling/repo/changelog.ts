@@ -1,10 +1,10 @@
 #!/usr/bin/env bun
 
 import { $ } from "bun"
-import { createOpenScience } from "@synsci/sdk/v2"
+import { createGriffin } from "@griffin/sdk/v2"
 import { parseArgs } from "util"
 
-export const team = ["ishaan1124", "openscience", "openscience-agent[bot]", "actions-user"]
+export const team = ["ishaan1124", "griffin", "griffin-agent[bot]", "actions-user"]
 
 type Release = {
   tag_name: string
@@ -15,7 +15,7 @@ type Release = {
 export async function getLatestRelease(skip?: string) {
   const headers: Record<string, string> = { Accept: "application/vnd.github.v3+json" }
   if (process.env.GH_TOKEN) headers.Authorization = `token ${process.env.GH_TOKEN}`
-  const data = await fetch("https://api.github.com/repos/synthetic-sciences/OpenScience/releases?per_page=100", {
+  const data = await fetch("https://api.github.com/repos/synthetic-sciences/Griffin/releases?per_page=100", {
     headers,
   }).then((res) => {
     if (!res.ok) throw new Error(res.statusText)
@@ -48,7 +48,7 @@ export async function getCommits(from: string, to: string): Promise<Commit[]> {
 
   // Get commit data with GitHub usernames from the API
   const compare =
-    await $`gh api "/repos/synthetic-sciences/OpenScience/compare/${fromRef}...${toRef}" --jq '.commits[] | {sha: .sha, login: .author.login, message: .commit.message}'`.text()
+    await $`gh api "/repos/synthetic-sciences/Griffin/compare/${fromRef}...${toRef}" --jq '.commits[] | {sha: .sha, login: .author.login, message: .commit.message}'`.text()
 
   const commitData = new Map<string, { login: string | null; message: string }>()
   for (const line of compare.split("\n").filter(Boolean)) {
@@ -133,16 +133,16 @@ function getSection(areas: Set<string>): string {
 }
 
 async function summarizeCommit(
-  openscience: Awaited<ReturnType<typeof createOpenScience>>,
+  griffin: Awaited<ReturnType<typeof createGriffin>>,
   message: string,
 ): Promise<string> {
   console.log("summarizing commit:", message)
-  const session = await openscience.client.session.create()
-  const result = await openscience.client.session
+  const session = await griffin.client.session.create()
+  const result = await griffin.client.session
     .prompt(
       {
         sessionID: session.data!.id,
-        model: { providerID: "synsci", modelID: "claude-sonnet-4-5" },
+        model: { providerID: "griffin", modelID: "claude-sonnet-4-5" },
         tools: {
           "*": false,
         },
@@ -163,13 +163,13 @@ Commit: ${message}`,
   return result.trim()
 }
 
-export async function generateChangelog(commits: Commit[], openscience: Awaited<ReturnType<typeof createOpenScience>>) {
+export async function generateChangelog(commits: Commit[], griffin: Awaited<ReturnType<typeof createGriffin>>) {
   // Summarize commits in parallel with max 10 concurrent requests
   const BATCH_SIZE = 10
   const summaries: string[] = []
   for (let i = 0; i < commits.length; i += BATCH_SIZE) {
     const batch = commits.slice(i, i + BATCH_SIZE)
-    const results = await Promise.all(batch.map((c) => summarizeCommit(openscience, c.message)))
+    const results = await Promise.all(batch.map((c) => summarizeCommit(griffin, c.message)))
     summaries.push(...results)
   }
 
@@ -200,7 +200,7 @@ export async function getContributors(from: string, to: string) {
   const fromRef = from.startsWith("v") ? from : `v${from}`
   const toRef = to === "HEAD" ? to : to.startsWith("v") ? to : `v${to}`
   const compare =
-    await $`gh api "/repos/synthetic-sciences/OpenScience/compare/${fromRef}...${toRef}" --jq '.commits[] | {login: .author.login, message: .commit.message}'`.text()
+    await $`gh api "/repos/synthetic-sciences/Griffin/compare/${fromRef}...${toRef}" --jq '.commits[] | {login: .author.login, message: .commit.message}'`.text()
   const contributors = new Map<string, Set<string>>()
 
   for (const line of compare.split("\n").filter(Boolean)) {
@@ -226,11 +226,11 @@ export async function buildNotes(from: string, to: string) {
 
   console.log("generating changelog since " + from)
 
-  const openscience = await createOpenScience({ port: 0 })
+  const griffin = await createGriffin({ port: 0 })
   const notes: string[] = []
 
   try {
-    const lines = await generateChangelog(commits, openscience)
+    const lines = await generateChangelog(commits, griffin)
     notes.push(...lines)
     console.log("---- Generated Changelog ----")
     console.log(notes.join("\n"))
@@ -246,7 +246,7 @@ export async function buildNotes(from: string, to: string) {
       throw error
     }
   } finally {
-    await openscience.server.close()
+    await griffin.server.close()
   }
   console.log("changelog generation complete")
 

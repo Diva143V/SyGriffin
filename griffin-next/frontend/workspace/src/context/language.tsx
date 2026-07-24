@@ -1,7 +1,7 @@
 import * as i18n from "@solid-primitives/i18n"
 import { createEffect, createMemo, createSignal } from "solid-js"
 import { createStore } from "solid-js/store"
-import { createSimpleContext } from "@synsci/ui/context"
+import { createSimpleContext } from "@griffin/ui/context"
 import { Persist, persisted } from "@/utils/persist"
 // English (default + fallback) stays eager so first paint has strings instantly.
 // Every OTHER locale is a per-language dynamic chunk, loaded only when that
@@ -9,7 +9,7 @@ import { Persist, persisted } from "@/utils/persist"
 // the entry chunk (measured). Switching language loads its chunk on demand and
 // the UI updates reactively; until then it falls back to English.
 import { dict as en } from "@/i18n/en"
-import { dict as uiEn } from "@synsci/ui/i18n/en"
+import { dict as uiEn } from "@griffin/ui/i18n/en"
 
 export type Locale =
   | "en"
@@ -68,20 +68,20 @@ const APP_DICTS: Record<NonEn, () => Promise<{ dict: unknown }>> = {
   th: () => import("@/i18n/th"),
 }
 const UI_DICTS: Record<NonEn, () => Promise<{ dict: unknown }>> = {
-  zh: () => import("@synsci/ui/i18n/zh"),
-  zht: () => import("@synsci/ui/i18n/zht"),
-  ko: () => import("@synsci/ui/i18n/ko"),
-  de: () => import("@synsci/ui/i18n/de"),
-  es: () => import("@synsci/ui/i18n/es"),
-  fr: () => import("@synsci/ui/i18n/fr"),
-  da: () => import("@synsci/ui/i18n/da"),
-  ja: () => import("@synsci/ui/i18n/ja"),
-  pl: () => import("@synsci/ui/i18n/pl"),
-  ru: () => import("@synsci/ui/i18n/ru"),
-  ar: () => import("@synsci/ui/i18n/ar"),
-  no: () => import("@synsci/ui/i18n/no"),
-  br: () => import("@synsci/ui/i18n/br"),
-  th: () => import("@synsci/ui/i18n/th"),
+  zh: () => import("@griffin/ui/i18n/zh"),
+  zht: () => import("@griffin/ui/i18n/zht"),
+  ko: () => import("@griffin/ui/i18n/ko"),
+  de: () => import("@griffin/ui/i18n/de"),
+  es: () => import("@griffin/ui/i18n/es"),
+  fr: () => import("@griffin/ui/i18n/fr"),
+  da: () => import("@griffin/ui/i18n/da"),
+  ja: () => import("@griffin/ui/i18n/ja"),
+  pl: () => import("@griffin/ui/i18n/pl"),
+  ru: () => import("@griffin/ui/i18n/ru"),
+  ar: () => import("@griffin/ui/i18n/ar"),
+  no: () => import("@griffin/ui/i18n/no"),
+  br: () => import("@griffin/ui/i18n/br"),
+  th: () => import("@griffin/ui/i18n/th"),
 }
 
 function detectLocale(): Locale {

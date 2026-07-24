@@ -53,7 +53,7 @@ export function parseDotenv(raw: string): Array<[string, string]> {
 /** Vars that alter how this process or its subprocesses execute. Never honoured
  *  from a project `.env` (which may be an untrusted cloned repo) even though
  *  ordinary vars are — setting one from the launch dir would let the repo inject
- *  code into the tool subprocesses openscience spawns. A shell export of these
+ *  code into the tool subprocesses griffin spawns. A shell export of these
  *  still works; only the `.env` path is refused. */
 const DANGEROUS_ENV = new Set([
   "NODE_OPTIONS",

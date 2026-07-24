@@ -51,7 +51,7 @@ Address all applicable questions:
 
 ---
 
-## Extension 4: Reproducibility and Open Science Assessment
+## Extension 4: Reproducibility and Griffin Assessment
 
 1. **Data availability** — are all data accessible? GEO/TCGA accessions confirmed? Raw data shared?
 2. **Code availability** — is the analysis code publicly available and documented?

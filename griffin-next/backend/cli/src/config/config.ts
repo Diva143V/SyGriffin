@@ -9,7 +9,7 @@ import { mergeDeep, pipe, unique } from "remeda"
 import { Global } from "../global"
 import fs from "fs/promises"
 import { lazy } from "../util/lazy"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { Flag } from "../flag/flag"
 import { Auth } from "../auth"
 import {
@@ -40,25 +40,25 @@ export namespace Config {
     const dir = (() => {
       switch (process.platform) {
         case "darwin":
-          return "/Library/Application Support/openscience"
+          return "/Library/Application Support/griffin"
         case "win32":
-          return path.join(process.env.ProgramData || "C:\\ProgramData", "openscience")
+          return path.join(process.env.ProgramData || "C:\\ProgramData", "griffin")
         default:
-          return "/etc/openscience"
+          return "/etc/griffin"
       }
     })()
-    // Enterprise machines provisioned before the OpenScience rename may still
+    // Enterprise machines provisioned before the Griffin rename may still
     // use the legacy "synsc" directory; keep honoring it until re-provisioned.
     if (existsSync(dir)) return dir
-    const old = dir.replace(/openscience$/, "synsc")
+    const old = dir.replace(/griffin$/, "synsc")
     return existsSync(old) ? old : dir
   }
 
-  const managedConfigDir = process.env.OPENSCIENCE_TEST_MANAGED_CONFIG_DIR || getManagedConfigDir()
+  const managedConfigDir = process.env.GRIFFIN_TEST_MANAGED_CONFIG_DIR || getManagedConfigDir()
 
   // Config filenames, oldest first: later merges win, so the legacy names load
-  // as the base and openscience.json(c) overrides them.
-  const CONFIG_FILES = ["synsc.jsonc", "synsc.json", "openscience.jsonc", "openscience.json"]
+  // as the base and griffin.json(c) overrides them.
+  const CONFIG_FILES = ["synsc.jsonc", "synsc.json", "griffin.jsonc", "griffin.json"]
 
   // Custom merge function that concatenates array fields instead of replacing them
   function mergeConfigConcatArrays(target: Info, source: Info): Info {
@@ -81,12 +81,12 @@ export namespace Config {
     for (const [key, value] of Object.entries(auth)) {
       if (value.type === "wellknown") {
         process.env[value.key] = value.token
-        log.debug("fetching remote config", { url: `${key}/.well-known/openscience` })
+        log.debug("fetching remote config", { url: `${key}/.well-known/griffin` })
         // A transient outage/DNS failure on a well-known host must NOT reject
         // Config.get() and brick the whole CLI (it's only the lowest-precedence
         // base layer) — mirror the synced-config resilience: log and continue.
         try {
-          const response = await fetch(`${key}/.well-known/openscience`)
+          const response = await fetch(`${key}/.well-known/griffin`)
           if (!response.ok) throw new Error(`HTTP ${response.status}`)
           const wellknown = (await response.json()) as any
           const remoteConfig = wellknown.config ?? {}
@@ -94,7 +94,7 @@ export namespace Config {
           if (!remoteConfig.$schema) remoteConfig.$schema = "https://syntheticsciences.ai/config.json"
           result = mergeConfigConcatArrays(
             result,
-            await load(JSON.stringify(remoteConfig), `${key}/.well-known/openscience`),
+            await load(JSON.stringify(remoteConfig), `${key}/.well-known/griffin`),
           )
           log.debug("loaded remote config from well-known", { url: key })
         } catch (e) {
@@ -110,13 +110,13 @@ export namespace Config {
     result = mergeConfigConcatArrays(result, await global())
 
     // Custom config path overrides global
-    if (Flag.OPENSCIENCE_CONFIG) {
-      result = mergeConfigConcatArrays(result, await loadFile(Flag.OPENSCIENCE_CONFIG))
-      log.debug("loaded custom config", { path: Flag.OPENSCIENCE_CONFIG })
+    if (Flag.GRIFFIN_CONFIG) {
+      result = mergeConfigConcatArrays(result, await loadFile(Flag.GRIFFIN_CONFIG))
+      log.debug("loaded custom config", { path: Flag.GRIFFIN_CONFIG })
     }
 
     // Project config has highest precedence (overrides global and remote)
-    if (!Flag.OPENSCIENCE_DISABLE_PROJECT_CONFIG) {
+    if (!Flag.GRIFFIN_DISABLE_PROJECT_CONFIG) {
       for (const file of CONFIG_FILES) {
         const found = await Filesystem.findUp(file, Instance.directory, Instance.worktree)
         for (const resolved of found.toReversed()) {
@@ -126,9 +126,9 @@ export namespace Config {
     }
 
     // Inline config content has highest precedence
-    if (Flag.OPENSCIENCE_CONFIG_CONTENT) {
-      result = mergeConfigConcatArrays(result, JSON.parse(Flag.OPENSCIENCE_CONFIG_CONTENT))
-      log.debug("loaded custom config from OPENSCIENCE_CONFIG_CONTENT")
+    if (Flag.GRIFFIN_CONFIG_CONTENT) {
+      result = mergeConfigConcatArrays(result, JSON.parse(Flag.GRIFFIN_CONFIG_CONTENT))
+      log.debug("loaded custom config from GRIFFIN_CONFIG_CONTENT")
     }
 
     result.agent = result.agent || {}
@@ -137,34 +137,34 @@ export namespace Config {
 
     const directories = [
       Global.Path.config,
-      // Only scan project .openscience/ directories when project discovery is enabled
+      // Only scan project .griffin/ directories when project discovery is enabled
       // (".synsc" is the pre-rename name, still honored)
-      ...(!Flag.OPENSCIENCE_DISABLE_PROJECT_CONFIG
+      ...(!Flag.GRIFFIN_DISABLE_PROJECT_CONFIG
         ? await Array.fromAsync(
             Filesystem.up({
-              targets: [".openscience", ".synsc"],
+              targets: [".griffin", ".synsc"],
               start: Instance.directory,
               stop: Instance.worktree,
             }),
           )
         : []),
-      // Always scan ~/.openscience/ (user home directory)
+      // Always scan ~/.griffin/ (user home directory)
       ...(await Array.fromAsync(
         Filesystem.up({
-          targets: [".openscience", ".synsc"],
+          targets: [".griffin", ".synsc"],
           start: Global.Path.home,
           stop: Global.Path.home,
         }),
       )),
     ]
 
-    if (Flag.OPENSCIENCE_CONFIG_DIR) {
-      directories.push(Flag.OPENSCIENCE_CONFIG_DIR)
-      log.debug("loading config from OPENSCIENCE_CONFIG_DIR", { path: Flag.OPENSCIENCE_CONFIG_DIR })
+    if (Flag.GRIFFIN_CONFIG_DIR) {
+      directories.push(Flag.GRIFFIN_CONFIG_DIR)
+      log.debug("loading config from GRIFFIN_CONFIG_DIR", { path: Flag.GRIFFIN_CONFIG_DIR })
     }
 
     for (const dir of unique(directories)) {
-      if (dir.endsWith(".openscience") || dir.endsWith(".synsc") || dir === Flag.OPENSCIENCE_CONFIG_DIR) {
+      if (dir.endsWith(".griffin") || dir.endsWith(".synsc") || dir === Flag.GRIFFIN_CONFIG_DIR) {
         for (const file of CONFIG_FILES) {
           log.debug(`loading config from ${path.join(dir, file)}`)
           result = mergeConfigConcatArrays(result, await loadFile(path.join(dir, file)))
@@ -186,11 +186,11 @@ export namespace Config {
     }
 
     // Load synced config from dashboard (below the enterprise-managed layer).
-    // Written by OpenScience.syncServices() to the user's XDG config dir. Tolerate
+    // Written by Griffin.syncServices() to the user's XDG config dir. Tolerate
     // a corrupt file: it must never brick config load (and thus the whole CLI).
     // Atomic writes prevent torn files going forward; this covers external
     // corruption or a file written by an older, non-atomic version.
-    const syncedConfig = path.join(Global.Path.config, "openscience-synced.json")
+    const syncedConfig = path.join(Global.Path.config, "griffin-synced.json")
     try {
       // Atlas writes model-lockdown config (enabled_providers, per-provider
       // whitelists, default model) for the hosted web agents, but on the CLI the
@@ -242,8 +242,8 @@ export namespace Config {
       })
     }
 
-    if (Flag.OPENSCIENCE_PERMISSION) {
-      result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.OPENSCIENCE_PERMISSION))
+    if (Flag.GRIFFIN_PERMISSION) {
+      result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.GRIFFIN_PERMISSION))
     }
 
     // Backwards compatibility: legacy top-level `tools` config
@@ -265,10 +265,10 @@ export namespace Config {
     if (!result.keybinds) result.keybinds = Info.shape.keybinds.parse({})
 
     // Apply flag overrides for compaction settings
-    if (Flag.OPENSCIENCE_DISABLE_AUTOCOMPACT) {
+    if (Flag.GRIFFIN_DISABLE_AUTOCOMPACT) {
       result.compaction = { ...result.compaction, auto: false }
     }
-    if (Flag.OPENSCIENCE_DISABLE_PRUNE) {
+    if (Flag.GRIFFIN_DISABLE_PRUNE) {
       result.compaction = { ...result.compaction, prune: false }
     }
 
@@ -292,7 +292,7 @@ export namespace Config {
     if (!hasGitIgnore) await Bun.write(gitignore, ["node_modules", "package.json", "bun.lock", ".gitignore"].join("\n"))
 
     await BunProc.run(
-      ["add", "@synsci/plugin@" + (Installation.isLocal() ? "latest" : Installation.VERSION), "--exact"],
+      ["add", "@griffin/plugin@" + (Installation.isLocal() ? "latest" : Installation.VERSION), "--exact"],
       {
         cwd: dir,
       },
@@ -337,8 +337,8 @@ export namespace Config {
       if (!md) continue
 
       const patterns = [
-        "/.openscience/command/",
-        "/.openscience/commands/",
+        "/.griffin/command/",
+        "/.griffin/commands/",
         "/.synsc/command/",
         "/.synsc/commands/",
         "/command/",
@@ -384,8 +384,8 @@ export namespace Config {
       if (!md) continue
 
       const patterns = [
-        "/.openscience/agent/",
-        "/.openscience/agents/",
+        "/.griffin/agent/",
+        "/.griffin/agents/",
         "/.synsc/agent/",
         "/.synsc/agents/",
         "/agent/",
@@ -468,7 +468,7 @@ export namespace Config {
    *
    * @example
    * getPluginName("file:///path/to/plugin/foo.js") // "foo"
-   * getPluginName("oh-my-openscience@2.4.3") // "oh-my-openscience"
+   * getPluginName("oh-my-griffin@2.4.3") // "oh-my-griffin"
    * getPluginName("@scope/pkg@1.0.0") // "@scope/pkg"
    */
   export function getPluginName(plugin: string): string {
@@ -486,20 +486,20 @@ export namespace Config {
    * Deduplicates plugins by name, with later entries (higher priority) winning.
    * Priority order (highest to lowest):
    * 1. Local plugin/ directory
-   * 2. Local openscience.json
+   * 2. Local griffin.json
    * 3. Global plugin/ directory
-   * 4. Global openscience.json
+   * 4. Global griffin.json
    *
    * Since plugins are added in low-to-high priority order,
    * we reverse, deduplicate (keeping first occurrence), then restore order.
    */
   export function deduplicatePlugins(plugins: string[]): string[] {
     // seenNames: canonical plugin names for duplicate detection
-    // e.g., "oh-my-openscience", "@scope/pkg"
+    // e.g., "oh-my-griffin", "@scope/pkg"
     const seenNames = new Set<string>()
 
     // uniqueSpecifiers: full plugin specifiers to return
-    // e.g., "oh-my-openscience@2.4.3", "file:///path/to/plugin.js"
+    // e.g., "oh-my-griffin@2.4.3", "file:///path/to/plugin.js"
     const uniqueSpecifiers: string[] = []
 
     for (const specifier of plugins.toReversed()) {
@@ -1007,7 +1007,7 @@ export namespace Config {
       theme: z.string().optional().describe("Theme name to use for the interface"),
       keybinds: Keybinds.optional().describe("Custom keybind configurations"),
       logLevel: Log.Level.optional().describe("Log level"),
-      server: Server.optional().describe("Server configuration for openscience serve and web commands"),
+      server: Server.optional().describe("Server configuration for griffin serve and web commands"),
       command: z
         .record(z.string(), Command)
         .optional()
@@ -1256,8 +1256,8 @@ export namespace Config {
     let result: Info = pipe(
       {},
       mergeDeep(await loadFile(path.join(Global.Path.config, "config.json"))),
-      mergeDeep(await loadFile(path.join(Global.Path.config, "openscience.json"))),
-      mergeDeep(await loadFile(path.join(Global.Path.config, "openscience.jsonc"))),
+      mergeDeep(await loadFile(path.join(Global.Path.config, "griffin.json"))),
+      mergeDeep(await loadFile(path.join(Global.Path.config, "griffin.jsonc"))),
     )
 
     const legacy = path.join(Global.Path.config, "config")
@@ -1420,7 +1420,7 @@ export namespace Config {
   }
 
   export async function update(config: Info) {
-    // Write to an actual project config READ path (openscience.json / .openscience/…)
+    // Write to an actual project config READ path (griffin.json / .griffin/…)
     // — the previous `<Instance.directory>/config.json` is only read as the GLOBAL
     // config, never as project config, so PATCH /config appeared to save but the
     // change vanished on the next Instance reload.
@@ -1431,7 +1431,7 @@ export namespace Config {
   }
 
   function globalConfigFile() {
-    const candidates = ["openscience.jsonc", "openscience.json", "config.json"].map((file) =>
+    const candidates = ["griffin.jsonc", "griffin.json", "config.json"].map((file) =>
       path.join(Global.Path.config, file),
     )
     for (const file of candidates) {
@@ -1442,10 +1442,10 @@ export namespace Config {
 
   function projectConfigFile() {
     const candidates = [
-      path.join(Instance.worktree, "openscience.jsonc"),
-      path.join(Instance.worktree, "openscience.json"),
-      path.join(Instance.worktree, ".openscience", "openscience.jsonc"),
-      path.join(Instance.worktree, ".openscience", "openscience.json"),
+      path.join(Instance.worktree, "griffin.jsonc"),
+      path.join(Instance.worktree, "griffin.json"),
+      path.join(Instance.worktree, ".griffin", "griffin.jsonc"),
+      path.join(Instance.worktree, ".griffin", "griffin.json"),
       // legacy pre-rename names: keep writing to an existing project config
       path.join(Instance.worktree, "synsc.jsonc"),
       path.join(Instance.worktree, "synsc.json"),
@@ -1540,7 +1540,7 @@ export namespace Config {
   /**
    * Execution-sandbox policy resolved from GLOBAL + MANAGED (admin) config only.
    * Project config is deliberately excluded: the sandbox is a machine-wide safety
-   * boundary, so an untrusted repo's `openscience.json` must not be able to weaken
+   * boundary, so an untrusted repo's `griffin.json` must not be able to weaken
    * or disable it. Managed (enterprise) config wins over the user's global config.
    */
   export async function trustedSandbox(): Promise<Sandbox | undefined> {

@@ -1,7 +1,7 @@
 import { createMemo } from "solid-js"
 import { createStore } from "solid-js/store"
 import { uniqueBy } from "remeda"
-import { createSimpleContext } from "@synsci/ui/context"
+import { createSimpleContext } from "@griffin/ui/context"
 import { useProviders } from "@/hooks/use-providers"
 import { Persist, persisted } from "@/utils/persist"
 

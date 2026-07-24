@@ -282,7 +282,7 @@ init_from = 'gpt2'  # Valid: gpt2, gpt2-medium, gpt2-large, gpt2-xl
 
 ## Resources
 
-- GitHub: https://github.com/karpathy/nanoGPT ⭐ 48,000+
+- GitHub:  ⭐ 48,000+
 - Video: "Let's build GPT" by Andrej Karpathy
 - Paper: "Attention is All You Need" (Vaswani et al.)
 - OpenWebText: https://huggingface.co/datasets/Skylion007/openwebtext

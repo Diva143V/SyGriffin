@@ -675,7 +675,7 @@ sga = SpacegroupAnalyzer(struct, symprec=0.1)
 
 - **Documentation**: https://pymatgen.org/
 - **Materials Project**: https://materialsproject.org/
-- **GitHub**: https://github.com/materialsproject/pymatgen
+- **GitHub**: 
 - **Forum**: https://matsci.org/
 - **Example notebooks**: https://matgenb.materialsvirtuallab.org/
 

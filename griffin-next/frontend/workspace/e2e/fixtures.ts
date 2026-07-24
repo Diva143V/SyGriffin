@@ -31,7 +31,7 @@ export const test = base.extend<TestFixtures, WorkerFixtures>({
   gotoSession: async ({ page, directory }, use) => {
     await page.addInitScript(
       (input: { directory: string; serverUrl: string }) => {
-        const key = "openscience.global.dat:server"
+        const key = "griffin.global.dat:server"
         const raw = localStorage.getItem(key)
         const parsed = (() => {
           if (!raw) return undefined

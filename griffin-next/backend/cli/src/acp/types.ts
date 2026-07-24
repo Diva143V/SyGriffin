@@ -1,5 +1,5 @@
 import type { McpServer } from "@agentclientprotocol/sdk"
-import type { OpenScienceClient } from "@synsci/sdk/v2"
+import type { GriffinClient } from "@griffin/sdk/v2"
 
 export interface ACPSessionState {
   id: string
@@ -15,7 +15,7 @@ export interface ACPSessionState {
 }
 
 export interface ACPConfig {
-  sdk: OpenScienceClient
+  sdk: GriffinClient
   defaultModel?: {
     providerID: string
     modelID: string

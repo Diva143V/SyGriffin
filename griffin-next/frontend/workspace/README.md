@@ -8,7 +8,7 @@ This is the reason you see a `pnpm-lock.yaml`. That said, any package manager wi
 $ npm install # or pnpm install or yarn install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](#)
 
 ## Available Scripts
 
@@ -31,7 +31,7 @@ Your app is ready to be deployed!
 
 ## E2E Testing
 
-Playwright starts the Vite dev server automatically via `webServer`, and UI tests need an openscience backend (defaults to `localhost:4096`).
+Playwright starts the Vite dev server automatically via `webServer`, and UI tests need an griffin backend (defaults to `localhost:4096`).
 Use the local runner to create a temp sandbox, seed data, and run the tests.
 
 ```bash

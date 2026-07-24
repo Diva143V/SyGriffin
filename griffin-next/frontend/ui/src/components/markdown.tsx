@@ -2,7 +2,7 @@ import { useMarked } from "../context/marked"
 import { useI18n } from "../context/i18n"
 import DOMPurify from "dompurify"
 import morphdom from "morphdom"
-import { checksum } from "@synsci/util/encode"
+import { checksum } from "@griffin/util/encode"
 import { ComponentProps, createEffect, createResource, createSignal, onCleanup, splitProps } from "solid-js"
 import { isServer } from "solid-js/web"
 
@@ -256,7 +256,7 @@ export function Markdown(
       anchor.addEventListener("click", (e) => {
         e.preventDefault()
         e.stopPropagation()
-        document.dispatchEvent(new CustomEvent("openscience:open-file", { detail: { path: text } }))
+        document.dispatchEvent(new CustomEvent("griffin:open-file", { detail: { path: text } }))
       })
     })
 

@@ -4,7 +4,7 @@
  * When a trajectory scores >= 75/100 from the critic, this module:
  * 1. Extracts the decomposition pattern, tool sequence, and failure recovery
  * 2. Generates a SKILL.md in the standard format
- * 3. Writes to ~/.openscience/learned-skills/{name}/SKILL.md
+ * 3. Writes to ~/.griffin/learned-skills/{name}/SKILL.md
  * 4. Uploads to dashboard via the learned skill sync API
  */
 
@@ -13,7 +13,7 @@ import fs from "fs/promises"
 import { Global } from "@/global"
 import { Log } from "@/util/log"
 import { RSITrajectory } from "./trajectory"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 
 export namespace RSIDistill {
   const log = Log.create({ service: "rsi-distill" })
@@ -43,7 +43,7 @@ export namespace RSIDistill {
     log.info("learned skill distilled", { name, score: trajectory.score })
 
     // Upload to dashboard (async, non-blocking)
-    OpenScience.uploadLearnedSkill(name, description, content, {
+    Griffin.uploadLearnedSkill(name, description, content, {
       agent: trajectory.agent,
       trajectory_id: trajectory.sessionId,
       score: trajectory.score,

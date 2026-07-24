@@ -1,7 +1,7 @@
 import { cmd } from "./cmd"
 import * as prompts from "@clack/prompts"
 import { UI } from "../ui"
-import { OpenScience, API_BASE } from "../../openscience"
+import { Griffin, API_BASE } from "../../griffin"
 import { openUrl } from "../../util/open-url"
 
 /** Best-effort detection of environments where opening a browser and
@@ -15,7 +15,7 @@ function isHeadless(): boolean {
 }
 
 async function syncAndReport() {
-  const result = await OpenScience.syncServices()
+  const result = await Griffin.syncServices()
   if (result) {
     const noun = result.credentials === 1 ? "credential" : "credentials"
     prompts.log.success(`Synced ${result.credentials} ${noun} from connected services`)
@@ -24,8 +24,8 @@ async function syncAndReport() {
   // syncServices() returns null on every failure and clears the session when
   // the backend rejected the key. Never leave "authenticated" looking healthy
   // while every request silently fails — say what happened and against which host.
-  if (!(await OpenScience.getSession())) {
-    prompts.log.warn(`${API_BASE} rejected your saved key. Run \`openscience login\` to re-authenticate.`)
+  if (!(await Griffin.getSession())) {
+    prompts.log.warn(`${API_BASE} rejected your saved key. Run \`griffin login\` to re-authenticate.`)
     return
   }
   prompts.log.warn(
@@ -38,7 +38,7 @@ async function finishWithKey(key: string): Promise<boolean> {
   const spinner = prompts.spinner()
   spinner.start("Validating key...")
   try {
-    await OpenScience.loginWithKey(key)
+    await Griffin.loginWithKey(key)
     spinner.stop("Authenticated")
   } catch (e) {
     spinner.stop("Login failed", 1)
@@ -54,7 +54,7 @@ async function finishWithKey(key: string): Promise<boolean> {
 async function tryBrowserLogin(): Promise<boolean> {
   let opened = false
   try {
-    await OpenScience.browserLogin({
+    await Griffin.browserLogin({
       onApprovalUrl(url) {
         prompts.log.info("Opening your browser to approve this device...")
         prompts.log.message(url)
@@ -77,7 +77,7 @@ async function tryBrowserLogin(): Promise<boolean> {
 async function manualKeyLogin(): Promise<boolean> {
   prompts.log.info("Finish login from any device with a browser:")
   prompts.log.message(
-    `1. Open ${OpenScience.authPageUrl()} and sign in\n` + `2. Create a CLI API key (starts with thk_) and copy it`,
+    `1. Open ${Griffin.authPageUrl()} and sign in\n` + `2. Create a CLI API key (starts with thk_) and copy it`,
   )
 
   if (!process.stdin.isTTY) {
@@ -94,11 +94,11 @@ async function manualKeyLogin(): Promise<boolean> {
   return await finishWithKey(pasted)
 }
 
-/** Core Atlas sign-in, shared by `openscience login` and the setup wizard.
+/** Core Atlas sign-in, shared by `griffin login` and the setup wizard.
  *  Returns true if the CLI is authenticated when it finishes. Carries no
  *  intro/outro framing so callers own the surrounding UI. */
 export async function runAtlasLogin(args: { key?: string; browser?: boolean } = {}): Promise<boolean> {
-  const existing = await OpenScience.getSession()
+  const existing = await Griffin.getSession()
   if (existing) {
     // "authenticated" only means a key is saved locally. Name the backend so
     // that, if requests then fail, the user can see WHICH host they point at.
@@ -136,7 +136,7 @@ export const LoginCommand = cmd({
       }),
   async handler(args) {
     UI.empty()
-    prompts.intro("OpenScience")
+    prompts.intro("Griffin")
     const ok = await runAtlasLogin({ key: args.key as string | undefined, browser: args.browser as boolean })
     prompts.outro(ok ? "Done" : "Not signed in")
   },
@@ -147,20 +147,20 @@ export const LogoutCommand = cmd({
   describe: "log out of your Atlas account",
   async handler() {
     UI.empty()
-    prompts.intro("OpenScience")
+    prompts.intro("Griffin")
 
-    const session = await OpenScience.getSession()
+    const session = await Griffin.getSession()
     if (!session) {
       prompts.log.warn("Not signed in to Atlas.")
-      prompts.log.info("To remove a saved provider key instead, use `openscience keys rm`.")
+      prompts.log.info("To remove a saved provider key instead, use `griffin keys rm`.")
       prompts.outro("Done")
       return
     }
 
     // Revoke this device's key server-side while it can still authenticate
     // the call, then clear every local credential artifact.
-    const revoked = await OpenScience.revokeCurrentDevice()
-    await OpenScience.clearSession()
+    const revoked = await Griffin.revokeCurrentDevice()
+    await Griffin.clearSession()
     prompts.log.success("Signed out of Atlas")
     if (!revoked) {
       prompts.log.info(
@@ -176,12 +176,12 @@ export const StatusCommand = cmd({
   describe: "show Atlas connection, account, and wallet",
   async handler() {
     UI.empty()
-    prompts.intro("OpenScience")
+    prompts.intro("Griffin")
 
-    const session = await OpenScience.getSession()
+    const session = await Griffin.getSession()
     if (!session) {
       prompts.log.warn("Not connected to Atlas")
-      prompts.log.info("Run `openscience login` to connect, or `openscience keys add` to use your own key.")
+      prompts.log.info("Run `griffin login` to connect, or `griffin keys add` to use your own key.")
       prompts.outro("Done")
       return
     }
@@ -191,7 +191,7 @@ export const StatusCommand = cmd({
     if (session.user_id) prompts.log.info(`User: ${session.user_id}`)
     if (session.device_name) prompts.log.info(`Device: ${session.device_name}`)
 
-    const result = await OpenScience.syncServices()
+    const result = await Griffin.syncServices()
     if (result) {
       if (result.user.email) prompts.log.info(`Email: ${result.user.email}`)
       const noun = result.credentials === 1 ? "credential" : "credentials"
@@ -199,8 +199,8 @@ export const StatusCommand = cmd({
       if (result.user.subscription_status) {
         prompts.log.info(`Subscription: ${result.user.subscription_status}`)
       }
-    } else if (!(await OpenScience.getSession())) {
-      prompts.log.warn(`${API_BASE} rejected your saved key. Run \`openscience login\` to re-authenticate.`)
+    } else if (!(await Griffin.getSession())) {
+      prompts.log.warn(`${API_BASE} rejected your saved key. Run \`griffin login\` to re-authenticate.`)
     } else {
       prompts.log.warn(
         `Could not reach ${API_BASE} to verify services — the saved session is untested against the backend.`,
@@ -211,9 +211,9 @@ export const StatusCommand = cmd({
     // managed-compute availability, and the bundled `atlas` companion version —
     // one answer to "what's my Atlas state?". Every probe degrades to silence.
     const [mode, credits, txns] = await Promise.all([
-      OpenScience.getBillingMode().catch(() => null),
-      OpenScience.getCredits().catch(() => null),
-      OpenScience.getTransactions(5).catch(() => null),
+      Griffin.getBillingMode().catch(() => null),
+      Griffin.getCredits().catch(() => null),
+      Griffin.getTransactions(5).catch(() => null),
     ])
     const balanceUsd = credits?.balanceUsd ?? mode?.balance_usd
     if (balanceUsd !== undefined) {
@@ -228,9 +228,9 @@ export const StatusCommand = cmd({
       const noun = txns.length === 1 ? "charge" : "charges"
       prompts.log.info(`Recent usage: ${txns.length} ${noun} — latest ${txns[0].description.slice(0, 64)}`)
     }
-    const atlasVer = await OpenScience.atlasCliVersion()
+    const atlasVer = await Griffin.atlasCliVersion()
     if (atlasVer) {
-      const drift = atlasVer.startsWith("0.13.") ? "" : " (expected ^0.13.2 — run `npm i -g @synsci/atlas@latest`)"
+      const drift = atlasVer.startsWith("0.13.") ? "" : " (expected ^0.13.2 — run `npm i -g @griffin/atlas@latest`)"
       prompts.log.info(`atlas companion: v${atlasVer}${drift}`)
     }
 
@@ -243,12 +243,12 @@ export const SyncCommand = cmd({
   describe: "sync service credentials from your Atlas account",
   async handler() {
     UI.empty()
-    prompts.intro("OpenScience")
+    prompts.intro("Griffin")
 
-    const session = await OpenScience.getSession()
+    const session = await Griffin.getSession()
     if (!session) {
       prompts.log.warn("Not connected")
-      prompts.log.info("Run `openscience login` to authenticate")
+      prompts.log.info("Run `griffin login` to authenticate")
       prompts.outro("Done")
       return
     }
@@ -256,7 +256,7 @@ export const SyncCommand = cmd({
     const spinner = prompts.spinner()
     spinner.start("Syncing services...")
 
-    const result = await OpenScience.syncServices()
+    const result = await Griffin.syncServices()
     if (result) {
       const noun = result.credentials === 1 ? "credential" : "credentials"
       spinner.stop(`Synced ${result.credentials} ${noun}`)
@@ -273,17 +273,17 @@ export const DevicesCommand = cmd({
   describe: "list authenticated devices",
   async handler() {
     UI.empty()
-    prompts.intro("OpenScience")
+    prompts.intro("Griffin")
 
-    const session = await OpenScience.getSession()
+    const session = await Griffin.getSession()
     if (!session) {
       prompts.log.warn("Not connected")
-      prompts.log.info("Run `openscience login` to authenticate")
+      prompts.log.info("Run `griffin login` to authenticate")
       prompts.outro("Done")
       return
     }
 
-    const devices = await OpenScience.listDevices()
+    const devices = await Griffin.listDevices()
     if (!devices) {
       prompts.log.error("Failed to list devices")
       prompts.outro("Done")

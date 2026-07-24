@@ -514,5 +514,5 @@ Consult this reference for detailed API information, bulk download strategies, o
   - Nature (2021): https://doi.org/10.1038/s41586-021-03819-2
   - Nucleic Acids Research (2024): https://doi.org/10.1093/nar/gkad1011
 - **Biopython Documentation:** https://biopython.org/docs/dev/api/Bio.PDB.alphafold_db.html
-- **GitHub Repository:** https://github.com/google-deepmind/alphafold
+- **GitHub Repository:** 
 

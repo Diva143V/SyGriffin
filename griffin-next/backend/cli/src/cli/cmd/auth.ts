@@ -11,10 +11,10 @@ import { Global } from "../../global"
 import { managedApiBase } from "../../endpoints"
 import { Plugin } from "../../plugin"
 import { Instance } from "../../project/instance"
-import { OpenScience } from "../../openscience"
+import { Griffin } from "../../griffin"
 import { Log } from "../../util/log"
 import { runLocalModelSetup } from "./local"
-import type { Hooks } from "@synsci/plugin"
+import type { Hooks } from "@griffin/plugin"
 
 const log = Log.create({ service: "cmd.logout" })
 
@@ -111,7 +111,7 @@ async function handlePluginAuth(
         const result = await authorize.callback()
         if (result.type === "failed") {
           spinner.stop("Sign-in wasn't completed", 1)
-          prompts.log.info("Declined, timed out, or cancelled. Retry with `openscience keys signin`.")
+          prompts.log.info("Declined, timed out, or cancelled. Retry with `griffin keys signin`.")
         } else if (result.type === "success") {
           const saveProvider = result.provider ?? provider
           if ("refresh" in result) {
@@ -261,7 +261,7 @@ export const AuthListCommand = cmd({
 
 /**
  * Classify the overloaded `keys add [url]` positional.
- *  - a full http(s) URL → a custom endpoint (auth via /.well-known/openscience)
+ *  - a full http(s) URL → a custom endpoint (auth via /.well-known/griffin)
  *  - a bare provider id (a-z, 0-9, hyphens; optional `@ai-sdk/` prefix stripped)
  *    → preselect that provider, skipping the picker
  *  - anything else (or absent) → neither; fall through to the interactive picker
@@ -281,7 +281,7 @@ export const AuthLoginCommand = cmd({
   describe: "add a provider API key (BYOK)",
   builder: (yargs) =>
     yargs.positional("url", {
-      describe: "openscience auth provider",
+      describe: "griffin auth provider",
       type: "string",
     }),
   async handler(args) {
@@ -292,10 +292,10 @@ export const AuthLoginCommand = cmd({
         prompts.intro("Add credential")
 
         // The positional is overloaded: a full http(s) URL means a custom
-        // endpoint that advertises its auth via /.well-known/openscience, while
+        // endpoint that advertises its auth via /.well-known/griffin, while
         // a bare token (e.g. `keys add deepseek`) is a provider id to preselect.
         // Previously ANY positional went to the well-known fetch, so a provider
-        // name became `fetch("deepseek/.well-known/openscience")` → the
+        // name became `fetch("deepseek/.well-known/griffin")` → the
         // "fetch() URL is invalid" crash from #142.
         const { endpointUrl, preselect } = classifyKeyTarget(args.url)
         if (args.url && !endpointUrl && !preselect) {
@@ -303,7 +303,7 @@ export const AuthLoginCommand = cmd({
         }
 
         if (endpointUrl) {
-          const wellknown = await fetch(`${endpointUrl}/.well-known/openscience`).then((x) => x.json() as any)
+          const wellknown = await fetch(`${endpointUrl}/.well-known/griffin`).then((x) => x.json() as any)
           prompts.log.info(`Running \`${wellknown.auth.command.join(" ")}\``)
           const proc = Bun.spawn({
             cmd: wellknown.auth.command,
@@ -343,7 +343,7 @@ export const AuthLoginCommand = cmd({
         })
 
         const priority: Record<string, number> = {
-          synsci: 0,
+          griffin: 0,
           anthropic: 1,
           "github-copilot": 2,
           openai: 3,
@@ -358,7 +358,7 @@ export const AuthLoginCommand = cmd({
           "local",
           "other",
           "amazon-bedrock",
-          "synsci",
+          "griffin",
           "vercel",
           "cloudflare",
           "cloudflare-ai-gateway",
@@ -366,7 +366,7 @@ export const AuthLoginCommand = cmd({
         let provider: string | symbol | undefined = preselect
         if (preselect && !providers[preselect] && !specialIds.has(preselect)) {
           prompts.log.warn(
-            `${preselect} isn't in the model catalog — the key will be stored, but you'll need to configure the provider in openscience.json. See the docs.`,
+            `${preselect} isn't in the model catalog — the key will be stored, but you'll need to configure the provider in griffin.json. See the docs.`,
           )
         }
         if (!provider) {
@@ -383,7 +383,7 @@ export const AuthLoginCommand = cmd({
                 hint: "use your ChatGPT Plus/Pro/Business subscription — no API key",
               },
               // Local models aren't in the models.dev catalog — surface them at the
-              // top so pointing OpenScience at Ollama / LM Studio / any local
+              // top so pointing Griffin at Ollama / LM Studio / any local
               // OpenAI-compatible endpoint is a first-class, discoverable choice.
               {
                 value: "local",
@@ -401,7 +401,7 @@ export const AuthLoginCommand = cmd({
                   label: x.name,
                   value: x.id,
                   hint: {
-                    synsci: "Atlas — recommended",
+                    griffin: "Atlas — recommended",
                     anthropic: "Claude Max or API key",
                     openai: "API key (to sign in with Codex/ChatGPT, use the option above)",
                   }[x.id],
@@ -471,7 +471,7 @@ export const AuthLoginCommand = cmd({
           }
 
           prompts.log.warn(
-            `This only stores a credential for ${provider} - you will need to configure it in openscience.json, check the docs for examples.`,
+            `This only stores a credential for ${provider} - you will need to configure it in griffin.json, check the docs for examples.`,
           )
         }
 
@@ -480,12 +480,12 @@ export const AuthLoginCommand = cmd({
             "Amazon Bedrock authentication priority:\n" +
               "  1. Bearer token (AWS_BEARER_TOKEN_BEDROCK or /connect)\n" +
               "  2. AWS credential chain (profile, access keys, IAM roles, EKS IRSA)\n\n" +
-              "Configure via openscience.json options (profile, region, endpoint) or\n" +
+              "Configure via griffin.json options (profile, region, endpoint) or\n" +
               "AWS environment variables (AWS_PROFILE, AWS_REGION, AWS_ACCESS_KEY_ID, AWS_WEB_IDENTITY_TOKEN_FILE).",
           )
         }
 
-        if (provider === "synsci") {
+        if (provider === "griffin") {
           prompts.log.info("Create an API key at https://app.syntheticsciences.ai/cli")
         }
 
@@ -524,7 +524,7 @@ export const AuthLoginCommand = cmd({
  *  We check both before showing the "Already signed in" prompt so the
  *  flow stays robust under that drift. */
 async function backendHasCodex(): Promise<boolean | null> {
-  const session = await OpenScience.getSession?.()
+  const session = await Griffin.getSession?.()
   const thkToken = session?.api_key
   if (!thkToken) return null
   const atlasBase = managedApiBase()
@@ -606,7 +606,7 @@ export const AuthCodexCommand = cmd({
  *  still authenticate the call. Never throws — the local Auth.remove is what
  *  actually signs the CLI out. */
 async function disconnectCodexBackend(): Promise<void> {
-  const session = await OpenScience.getSession?.()
+  const session = await Griffin.getSession?.()
   const thkToken = session?.api_key
   if (!thkToken) return
   try {
@@ -619,7 +619,7 @@ async function disconnectCodexBackend(): Promise<void> {
   }
 }
 
-/** `openscience connect [codex]` — sign in with a ChatGPT (Codex) subscription.
+/** `griffin connect [codex]` — sign in with a ChatGPT (Codex) subscription.
  *  The connect/disconnect verb pair is Codex's; Atlas uses login/logout. */
 export const ConnectCommand = cmd({
   command: "connect [service]",
@@ -644,7 +644,7 @@ export const ConnectCommand = cmd({
   },
 })
 
-/** `openscience disconnect [codex]` — sign out of ChatGPT (Codex): clears the
+/** `griffin disconnect [codex]` — sign out of ChatGPT (Codex): clears the
  *  local OAuth credential and best-effort revokes it server-side. */
 export const DisconnectCommand = cmd({
   command: "disconnect [service]",
@@ -708,7 +708,7 @@ export const AuthLogoutCommand = cmd({
     // and backend drift (local removed, backend still connected).
     if (providerID === "openai-codex") {
       await revokeCodexOnBackend()
-      await OpenScience.syncServices?.().catch(() => {})
+      await Griffin.syncServices?.().catch(() => {})
     }
     prompts.outro("Logout successful")
   },
@@ -716,7 +716,7 @@ export const AuthLogoutCommand = cmd({
 
 async function revokeCodexOnBackend(): Promise<void> {
   const atlasBase = managedApiBase()
-  const session = await OpenScience.getSession?.()
+  const session = await Griffin.getSession?.()
   const thkToken = session?.api_key
   if (!thkToken) {
     log.warn("no atlas session; skipping backend codex revoke")

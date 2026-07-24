@@ -398,9 +398,9 @@ collection = client.get_or_create_collection("my_docs")
 
 ## Resources
 
-- **GitHub**: https://github.com/chroma-core/chroma ⭐ 24,300+
+- **GitHub**:  ⭐ 24,300+
 - **Docs**: https://docs.trychroma.com
-- **Discord**: https://discord.gg/MMeYNTmh3x
+- **Discord**: 
 - **Version**: 1.3.3+
 - **License**: Apache 2.0
 

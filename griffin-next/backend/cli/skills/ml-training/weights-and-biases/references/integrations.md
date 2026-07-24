@@ -697,4 +697,4 @@ wb.finish()
 - **HuggingFace**: https://docs.wandb.ai/guides/integrations/huggingface
 - **PyTorch Lightning**: https://docs.wandb.ai/guides/integrations/lightning
 - **Keras**: https://docs.wandb.ai/guides/integrations/keras
-- **Examples**: https://github.com/wandb/examples
+- **Examples**: 

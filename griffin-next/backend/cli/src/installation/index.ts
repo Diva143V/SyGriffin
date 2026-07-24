@@ -2,14 +2,14 @@ import { BusEvent } from "@/bus/bus-event"
 import path from "path"
 import { $ } from "bun"
 import z from "zod"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { Log } from "../util/log"
 import { iife } from "@/util/iife"
 import { Flag } from "../flag/flag"
 
 declare global {
-  const OPENSCIENCE_VERSION: string
-  const OPENSCIENCE_CHANNEL: string
+  const GRIFFIN_VERSION: string
+  const GRIFFIN_CHANNEL: string
 }
 
 export namespace Installation {
@@ -58,7 +58,7 @@ export namespace Installation {
   }
 
   export async function method() {
-    if (process.execPath.includes(path.join(".openscience", "bin"))) return "curl"
+    if (process.execPath.includes(path.join(".griffin", "bin"))) return "curl"
     // legacy pre-rename curl installs lived under ~/.synsc/bin
     if (process.execPath.includes(path.join(".synsc", "bin"))) return "curl"
     // ~/.local/bin is ALSO npm's target with `--prefix ~/.local`, pipx, and many
@@ -88,15 +88,15 @@ export namespace Installation {
       },
       {
         name: "brew" as const,
-        command: () => $`brew list --formula openscience`.throws(false).quiet().text(),
+        command: () => $`brew list --formula griffin`.throws(false).quiet().text(),
       },
       {
         name: "scoop" as const,
-        command: () => $`scoop list openscience`.throws(false).quiet().text(),
+        command: () => $`scoop list griffin`.throws(false).quiet().text(),
       },
       {
         name: "choco" as const,
-        command: () => $`choco list --limit-output openscience`.throws(false).quiet().text(),
+        command: () => $`choco list --limit-output griffin`.throws(false).quiet().text(),
       },
     ]
 
@@ -112,8 +112,8 @@ export namespace Installation {
       const output = await check.command()
       const installedName =
         check.name === "brew" || check.name === "choco" || check.name === "scoop"
-          ? "openscience"
-          : "@synsci/openscience"
+          ? "griffin"
+          : "@griffin/griffin"
       if (output.includes(installedName)) {
         return check.name
       }
@@ -134,33 +134,33 @@ export namespace Installation {
   )
 
   async function getBrewFormula() {
-    const tapFormula = await $`brew list --formula openscience/tap/openscience`.throws(false).quiet().text()
-    if (tapFormula.includes("openscience")) return "openscience/tap/openscience"
-    const coreFormula = await $`brew list --formula openscience`.throws(false).quiet().text()
-    if (coreFormula.includes("openscience")) return "openscience"
-    return "openscience"
+    const tapFormula = await $`brew list --formula griffin/tap/griffin`.throws(false).quiet().text()
+    if (tapFormula.includes("griffin")) return "griffin/tap/griffin"
+    const coreFormula = await $`brew list --formula griffin`.throws(false).quiet().text()
+    if (coreFormula.includes("griffin")) return "griffin"
+    return "griffin"
   }
 
   export async function upgrade(method: Method, target: string) {
     let cmd
     switch (method) {
       case "curl":
-        // openscience.sh/install serves the repo install script. The app
+        // griffin.sh/install serves the repo install script. The app
         // subdomain serves the dashboard SPA, so piping it into bash fails.
-        // Override via OPENSCIENCE_INSTALL_URL if hosting the script elsewhere.
-        cmd = $`curl -fsSL ${process.env.OPENSCIENCE_INSTALL_URL || "https://openscience.sh/install"} | bash`.env({
+        // Override via GRIFFIN_INSTALL_URL if hosting the script elsewhere.
+        cmd = $`curl -fsSL ${process.env.GRIFFIN_INSTALL_URL || "https://griffin.sh/install"} | bash`.env({
           ...process.env,
           VERSION: target,
         })
         break
       case "npm":
-        cmd = $`npm install -g @synsci/openscience@${target}`
+        cmd = $`npm install -g @griffin/griffin@${target}`
         break
       case "pnpm":
-        cmd = $`pnpm install -g @synsci/openscience@${target}`
+        cmd = $`pnpm install -g @griffin/griffin@${target}`
         break
       case "bun":
-        cmd = $`bun install -g @synsci/openscience@${target}`
+        cmd = $`bun install -g @griffin/griffin@${target}`
         break
       case "brew": {
         const formula = await getBrewFormula()
@@ -171,10 +171,10 @@ export namespace Installation {
         break
       }
       case "choco":
-        cmd = $`echo Y | choco upgrade openscience --version=${target}`
+        cmd = $`echo Y | choco upgrade griffin --version=${target}`
         break
       case "scoop":
-        cmd = $`scoop install openscience@${target}`
+        cmd = $`scoop install griffin@${target}`
         break
       default:
         throw new Error(`Unknown method: ${method}`)
@@ -195,17 +195,17 @@ export namespace Installation {
     await $`${process.execPath} --version`.nothrow().quiet().text()
   }
 
-  export const VERSION = typeof OPENSCIENCE_VERSION === "string" ? OPENSCIENCE_VERSION : "local"
-  export const CHANNEL = typeof OPENSCIENCE_CHANNEL === "string" ? OPENSCIENCE_CHANNEL : "local"
-  export const USER_AGENT = `openscience/${CHANNEL}/${VERSION}/${Flag.OPENSCIENCE_CLIENT}`
+  export const VERSION = typeof GRIFFIN_VERSION === "string" ? GRIFFIN_VERSION : "local"
+  export const CHANNEL = typeof GRIFFIN_CHANNEL === "string" ? GRIFFIN_CHANNEL : "local"
+  export const USER_AGENT = `griffin/${CHANNEL}/${VERSION}/${Flag.GRIFFIN_CLIENT}`
 
   /** OData query for the latest published version of a Chocolatey package.
    *  The id must match what the CLI actually publishes to Chocolatey
-   *  (`openscience`) — everywhere else in this file already uses it (`choco
-   *  list --limit-output openscience`, `choco upgrade openscience`). A leftover
+   *  (`griffin`) — everywhere else in this file already uses it (`choco
+   *  list --limit-output griffin`, `choco upgrade griffin`). A leftover
    *  pre-rename `synsc` id here queried a non-existent package, so choco users
    *  could never resolve an upgrade target (`data.d.results[0]` was undefined). */
-  export function chocoLatestVersionUrl(pkg: string = "openscience"): string {
+  export function chocoLatestVersionUrl(pkg: string = "griffin"): string {
     const filter = encodeURIComponent(`Id eq '${pkg}' and IsLatestVersion`)
     return `https://community.chocolatey.org/api/v2/Packages?$filter=${filter}&$select=Version`
   }
@@ -215,8 +215,8 @@ export namespace Installation {
 
     if (detectedMethod === "brew") {
       const formula = await getBrewFormula()
-      if (formula === "openscience") {
-        return fetch("https://formulae.brew.sh/api/formula/openscience.json")
+      if (formula === "griffin") {
+        return fetch("https://formulae.brew.sh/api/formula/griffin.json")
           .then((res) => {
             if (!res.ok) throw new Error(res.statusText)
             return res.json()
@@ -238,7 +238,7 @@ export namespace Installation {
       })
       const knownTags = new Set(["latest", "ci", "dev", "beta"])
       const channel = knownTags.has(CHANNEL) ? CHANNEL : "latest"
-      return fetch(`${registry}/@synsci/openscience/${channel}`)
+      return fetch(`${registry}/@griffin/griffin/${channel}`)
         .then((res) => {
           if (!res.ok) throw new Error(res.statusText)
           return res.json()
@@ -256,7 +256,7 @@ export namespace Installation {
     }
 
     if (detectedMethod === "scoop") {
-      return fetch("https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/openscience.json", {
+      return fetch("https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/griffin.json", {
         headers: { Accept: "application/json" },
       })
         .then((res) => {
@@ -266,7 +266,7 @@ export namespace Installation {
         .then((data: any) => data.version)
     }
 
-    return fetch("https://api.github.com/repos/synthetic-sciences/OpenScience/releases/latest")
+    return fetch("https://api.github.com/repos/synthetic-sciences/Griffin/releases/latest")
       .then((res) => {
         if (!res.ok) throw new Error(res.statusText)
         return res.json()

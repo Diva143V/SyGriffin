@@ -323,10 +323,10 @@ set_seed(42)
 ## Resources
 
 - Docs: https://huggingface.co/docs/accelerate
-- GitHub: https://github.com/huggingface/accelerate
+- GitHub: 
 - Version: 1.11.0+
 - Tutorial: "Accelerate your scripts"
-- Examples: https://github.com/huggingface/accelerate/tree/main/examples
+- Examples: /tree/main/examples
 - Used by: HuggingFace Transformers, TRL, PEFT, all HF libraries
 
 

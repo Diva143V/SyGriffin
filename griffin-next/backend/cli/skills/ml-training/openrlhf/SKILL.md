@@ -241,9 +241,9 @@ Enable vLLM acceleration:
 
 ## Resources
 
-- Docs: https://github.com/OpenRLHF/OpenRLHF
+- Docs: 
 - Paper: https://arxiv.org/abs/2405.11143
-- Examples: https://github.com/OpenRLHF/OpenRLHF/tree/main/examples
+- Examples: /tree/main/examples
 - Discord: Community support
 
 

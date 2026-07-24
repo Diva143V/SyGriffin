@@ -644,4 +644,4 @@ report = identify_compounds("unknowns.mgf", "reference_library.mgf")
 
 - matchms documentation: https://matchms.readthedocs.io
 - GNPS platform: https://gnps.ucsd.edu
-- matchms GitHub: https://github.com/matchms/matchms
+- matchms GitHub: 

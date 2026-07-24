@@ -397,7 +397,7 @@ Use with `scientific-critical-thinking` skill:
 **LiteLLM:**
 - Documentation: https://docs.litellm.ai/
 - OpenRouter Provider: https://docs.litellm.ai/docs/providers/openrouter
-- GitHub: https://github.com/BerriAI/litellm
+- GitHub: 
 
 **Perplexity:**
 - Official Docs: https://docs.perplexity.ai/

@@ -3,7 +3,7 @@ import fs from "fs/promises"
 import z from "zod"
 import { Tool } from "./tool"
 import { Global } from "@/global"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { RSILifecycle } from "@/session/rsi/lifecycle"
 import { Log } from "@/util/log"
 
@@ -25,7 +25,7 @@ export const LearnTool = Tool.define("learn", {
     await Bun.write(filepath, params.content)
     log.info("learned skill written", { name: params.name, path: filepath })
 
-    const uploaded = await OpenScience.uploadLearnedSkill(params.name, params.description, params.content, {
+    const uploaded = await Griffin.uploadLearnedSkill(params.name, params.description, params.content, {
       agent: ctx.agent,
       score: 0,
     }).catch(() => false)

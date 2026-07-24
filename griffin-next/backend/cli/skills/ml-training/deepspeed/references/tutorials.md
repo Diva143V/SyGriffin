@@ -752,7 +752,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/huggingface/transformers.git
+git clone .git
     cd transformers
     pip install .
 ```
@@ -1214,7 +1214,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/deepspeedai/DeepSpeed
+git clone 
 cd DeepSpeed
 git submodule update --init --recursive
 cd DeepSpeedExamples/
@@ -2302,7 +2302,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/deepspeedai/DeepSpeed
+git clone 
 cd DeepSpeed
 git submodule update --init --recursive
 cd DeepSpeedExamples/
@@ -2700,7 +2700,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/deepspeedai/DeepSpeed
+git clone 
 cd DeepSpeed
 git submodule update --init --recursive
 cd DeepSpeedExamples/
@@ -2769,7 +2769,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/NVIDIA/cutlass
+git clone 
 export CUTLASS_PATH=/path/to/cutlass
 ```
 
@@ -2892,11 +2892,11 @@ Accelerator Setup Guide provides a guide on how to setup different accelerators 
 
 It is possible to implement a new DeepSpeed accelerator extension to support new accelerator in DeepSpeed. An example to follow is Intel Extension For DeepSpeed. An accelerator extension contains the following components:
 
-Note that an extension does not have to implement all op builders under https://github.com/deepspeedai/DeepSpeed/tree/master/op_builder all at a time. A missing op builder usually means certain DeepSpeed functionality cannot be used for that Accelerator, but models that does not use that functionality can still run.
+Note that an extension does not have to implement all op builders under /tree/master/op_builder all at a time. A missing op builder usually means certain DeepSpeed functionality cannot be used for that Accelerator, but models that does not use that functionality can still run.
 
-When implementing op builder for an accelerator extension, one thing needs to be noted is that the op builder native code is being built by DeepSpeed jit load mechanism. This mean the native source file being built needs to be in DeepSpeed installation directory. However these files are defined in accelerator extension installation directory, which cannot be built by DeepSpeed directly. To solve this, follow the example in https://github.com/intel/intel-extension-for-deepspeed/blob/main/intel_extension_for_deepspeed/op_builder/cpu_adam.py to use ‘sycl_kernel_path’ and ‘sycl_kernel_include’ (User can change ‘sycl’ to other prefix in their own accelerator extension) to allow native code be built during DeepSpeed jit load.
+When implementing op builder for an accelerator extension, one thing needs to be noted is that the op builder native code is being built by DeepSpeed jit load mechanism. This mean the native source file being built needs to be in DeepSpeed installation directory. However these files are defined in accelerator extension installation directory, which cannot be built by DeepSpeed directly. To solve this, follow the example in /blob/main/intel_extension_for_deepspeed/op_builder/cpu_adam.py to use ‘sycl_kernel_path’ and ‘sycl_kernel_include’ (User can change ‘sycl’ to other prefix in their own accelerator extension) to allow native code be built during DeepSpeed jit load.
 
-When accelerator extension is installed in the environment, it can be used by either explicit call deepspeed.accelerator.set_accelerator(XYZ_Accelerator()) following the example in https://github.com/deepspeedai/DeepSpeed/blob/master/accelerator/real_accelerator.py, or add an implicit detection code in get_accelerator in the same file above.
+When accelerator extension is installed in the environment, it can be used by either explicit call deepspeed.accelerator.set_accelerator(XYZ_Accelerator()) following the example in /blob/master/accelerator/real_accelerator.py, or add an implicit detection code in get_accelerator in the same file above.
 
 Updated: November 5, 2025
 
@@ -3020,7 +3020,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/deepspeedai/DeepSpeed
+git clone 
 cd DeepSpeed
 git submodule update --init --recursive
 cd DeepSpeedExamples/training/BingBertSquad
@@ -4059,7 +4059,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/deepspeedai/DeepSpeed
+git clone 
 cd DeepSpeed
 git submodule update --init --recursive
 cd DeepSpeedExamples/
@@ -4473,7 +4473,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/deepspeedai/DeepSpeed
+git clone 
 cd DeepSpeed
 git submodule update --init --recursive
 cd DeepSpeedExamples/
@@ -6202,7 +6202,7 @@ Updated: November 5, 2025
 
 Example 1 (unknown):
 ```unknown
-git clone https://github.com/huggingface/transformers.git
+git clone .git
     cd transformers
     pip install .
 ```

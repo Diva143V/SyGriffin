@@ -144,7 +144,7 @@ describe("session.compaction.isOverflow", () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
         await Bun.write(
-          path.join(dir, "openscience.json"),
+          path.join(dir, "griffin.json"),
           JSON.stringify({
             compaction: { auto: false },
           }),
@@ -164,7 +164,7 @@ describe("session.compaction.isOverflow", () => {
   test("respects config.compaction.threshold override", async () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
-        await Bun.write(path.join(dir, "openscience.json"), JSON.stringify({ compaction: { threshold: 0.5 } }))
+        await Bun.write(path.join(dir, "griffin.json"), JSON.stringify({ compaction: { threshold: 0.5 } }))
       },
     })
     await Instance.provide({
@@ -181,7 +181,7 @@ describe("session.compaction.isOverflow", () => {
   test("respects config.compaction.fallbackContext for context=0 models", async () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
-        await Bun.write(path.join(dir, "openscience.json"), JSON.stringify({ compaction: { fallbackContext: 8_000 } }))
+        await Bun.write(path.join(dir, "griffin.json"), JSON.stringify({ compaction: { fallbackContext: 8_000 } }))
       },
     })
     await Instance.provide({

@@ -8,7 +8,7 @@ This document provides practical workflows and usage examples for common DiffDoc
 
 ```bash
 # Clone repository
-git clone https://github.com/gcorso/DiffDock.git
+git clone .git
 cd DiffDock
 
 # Create conda environment

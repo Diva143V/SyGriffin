@@ -1,6 +1,6 @@
 # 3x Faster LLM Training with Unsloth Kernels + Packing
 
-Unsloth now supports up to **5× faster** (typically 3x) training with our new custom **RoPE and MLP Triton kernels**, plus our new smart auto packing. Unsloth's new kernels + features not only increase training speed, but also further **reduces VRAM use (30% - 90%)** with no accuracy loss. [Unsloth GitHub](https://github.com/unslothai/unsloth)\
+Unsloth now supports up to **5× faster** (typically 3x) training with our new custom **RoPE and MLP Triton kernels**, plus our new smart auto packing. Unsloth's new kernels + features not only increase training speed, but also further **reduces VRAM use (30% - 90%)** with no accuracy loss. [Unsloth GitHub]()\
 \
 This means you can now train LLMs like [Qwen3](https://unsloth.ai/docs/models/qwen3-how-to-run-and-fine-tune)-4B not only on just **3GB VRAM**, but also 3x faster.
 
@@ -15,7 +15,7 @@ Our auto [**padding-free**](#padding-free-by-default) uncontaminated packing is 
 
 ### :drum:Fused QK RoPE Triton Kernel with packing
 
-Back in December 2023, we introduced a RoPE kernel coded up in Triton as part of our Unsloth launch. In March 2024, a community member made end to end training 1-2% faster by optimizing the RoPE kernel to allow launching a block for a group of heads. See [PR 238](https://github.com/unslothai/unsloth/pull/238).
+Back in December 2023, we introduced a RoPE kernel coded up in Triton as part of our Unsloth launch. In March 2024, a community member made end to end training 1-2% faster by optimizing the RoPE kernel to allow launching a block for a group of heads. See [PR 238](/pull/238).
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2FewadBu05vK7zAmJRJcj6%2Frope_varlen_qk_rope_kernel_benchmark_v5.png?alt=media&#x26;token=04d277d4-c289-4943-9312-e3d3e2d60bec" alt="" width="563"><figcaption></figcaption></figure>
 

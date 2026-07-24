@@ -4,7 +4,7 @@ Griffin is the life-sciences research companion: an AI-native workspace that
 turns a biological question into a governed, reproducible computational
 experiment.
 
-It is built on the OpenScience workbench and deliberately focused on life
+It is built on the Griffin workbench and deliberately focused on life
 sciences. Griffin combines a researcher-facing workspace with curated skills,
 reusable experimental recipes, biological data contracts, review gates, and
 complete run provenance.
@@ -16,7 +16,7 @@ validated by qualified experts.
 
 ## What makes Griffin different
 
-OpenScience is a broad scientific workbench. Griffin is a life-sciences-native
+Griffin is a broad scientific workbench. Griffin is a life-sciences-native
 research system. It is opinionated about biological inputs, reference assets,
 tool versions, evidence, uncertainty, and the records needed to replay a result.
 
@@ -39,7 +39,7 @@ and review checkpoints before any candidate report can be produced.
 
 ## Skill governance
 
-Griffin catalogs compatible capabilities from OpenScience, AIPOCH Medical
+Griffin catalogs compatible capabilities from Griffin, AIPOCH Medical
 Research Skills, and ClawBio. An imported skill is not automatically trusted:
 it must declare provenance, license, domain, input/output contracts, required
 permissions, validation level, and clinical-risk classification before it can be
@@ -59,6 +59,6 @@ bun dev
 
 ## Attribution
 
-This project is derived from OpenScience under Apache-2.0. See [LICENSE](LICENSE)
+This project is derived from Griffin under Apache-2.0. See [LICENSE](LICENSE)
 and [NOTICE](NOTICE). Third-party skill sources retain their respective licenses
 and provenance.

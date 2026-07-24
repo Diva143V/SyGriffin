@@ -49,7 +49,7 @@ Comprehensive platform for building, deploying, and managing continuous AI agent
 
 ```bash
 # Clone repository
-git clone https://github.com/Significant-Gravitas/AutoGPT.git
+git clone .git
 cd AutoGPT/autogpt_platform
 
 # Copy environment file
@@ -406,6 +406,6 @@ docker compose restart executor
 ## Resources
 
 - **Documentation**: https://docs.agpt.co
-- **Repository**: https://github.com/Significant-Gravitas/AutoGPT
-- **Discord**: https://discord.gg/autogpt
+- **Repository**: 
+- **Discord**: 
 - **License**: MIT (Classic) / Polyform Shield (Platform)

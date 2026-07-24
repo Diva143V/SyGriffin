@@ -1,15 +1,15 @@
-import type { Hooks, PluginInput, Plugin as PluginInstance } from "@synsci/plugin"
+import type { Hooks, PluginInput, Plugin as PluginInstance } from "@griffin/plugin"
 import { Config } from "../config/config"
 import { Bus } from "../bus"
 import { Log } from "../util/log"
-import { createOpenScienceClient } from "@synsci/sdk"
+import { createGriffinClient } from "@griffin/sdk"
 import { Server } from "../server/server"
 import { BunProc } from "../bun"
 import { Instance } from "../project/instance"
 import { Flag } from "../flag/flag"
 import { CodexAuthPlugin } from "./codex"
 import { Session } from "../session"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { CopilotAuthPlugin } from "./copilot"
 
 export namespace Plugin {
@@ -25,7 +25,7 @@ export namespace Plugin {
 
   // A single plugin install must never wedge startup. bun add for a missing/slow
   // package can hang well past a reasonable wait; cap it so we log and move on.
-  const INSTALL_TIMEOUT_MS = Number(process.env["OPENSCIENCE_PLUGIN_INSTALL_TIMEOUT_MS"]) || 30_000
+  const INSTALL_TIMEOUT_MS = Number(process.env["GRIFFIN_PLUGIN_INSTALL_TIMEOUT_MS"]) || 30_000
 
   // Built-in plugins that are directly imported (not installed from npm)
   const INTERNAL_PLUGINS: PluginInstance[] = [CodexAuthPlugin, CopilotAuthPlugin]
@@ -51,8 +51,8 @@ export namespace Plugin {
   }
 
   const state = Instance.state(async () => {
-    const client = createOpenScienceClient({
-      baseUrl: "http://openscience.internal",
+    const client = createGriffinClient({
+      baseUrl: "http://griffin.internal",
       fetch: Server.internalFetch(),
     })
     const config = await Config.get()
@@ -73,14 +73,14 @@ export namespace Plugin {
     }
 
     const plugins = [...(config.plugin ?? [])]
-    if (!Flag.OPENSCIENCE_DISABLE_DEFAULT_PLUGINS) {
+    if (!Flag.GRIFFIN_DISABLE_DEFAULT_PLUGINS) {
       plugins.push(...BUILTIN)
     }
 
     for (let plugin of plugins) {
       // ignore old codex plugin since it is supported first party now
       if (
-        ["openscience-openai-codex-auth", "openscience-copilot-auth", "synsci-openai-codex-auth", "synsci-copilot-auth"] // legacy config names still skipped
+        ["griffin-openai-codex-auth", "griffin-copilot-auth", "griffin-openai-codex-auth", "griffin-copilot-auth"] // legacy config names still skipped
           .some((name) => plugin.includes(name))
       )
         continue

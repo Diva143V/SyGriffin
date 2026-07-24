@@ -673,7 +673,7 @@ Execute scripts directly or read them for implementation patterns.
 ### Official Resources
 
 - **Documentation**: https://pytorch-geometric.readthedocs.io/
-- **GitHub**: https://github.com/pyg-team/pytorch_geometric
+- **GitHub**: 
 - **Tutorials**: https://pytorch-geometric.readthedocs.io/en/latest/get_started/introduction.html
-- **Examples**: https://github.com/pyg-team/pytorch_geometric/tree/master/examples
+- **Examples**: /tree/master/examples
 

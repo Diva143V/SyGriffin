@@ -6,7 +6,7 @@ Based on ICLR 2024 paper (arXiv 2306.11695) - A Simple and Effective Pruning App
 
 **Source**: https://arxiv.org/abs/2306.11695
 **Conference**: ICLR 2024
-**GitHub**: https://github.com/locuslab/wanda
+**GitHub**: 
 
 Wanda prunes LLMs by weight magnitude × input activation, achieving 50% sparsity with <1% accuracy loss, no retraining required.
 
@@ -293,7 +293,7 @@ def apply_nm_mask(weight, importance, n=2, m=4):
 
 ```bash
 # Clone Wanda repo
-git clone https://github.com/locuslab/wanda
+git clone 
 cd wanda
 
 # Install dependencies
@@ -343,5 +343,5 @@ for task, score in results['results'].items():
 ## Resources
 
 - **Paper**: https://arxiv.org/abs/2306.11695
-- **GitHub**: https://github.com/locuslab/wanda
+- **GitHub**: 
 - **ICLR 2024**: https://openreview.net/forum?id=PxoFut3dWW

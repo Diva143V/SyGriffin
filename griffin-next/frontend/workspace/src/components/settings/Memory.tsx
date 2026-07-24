@@ -1,7 +1,7 @@
 import { For, Show, createSignal, onMount } from "solid-js"
 import { currentDirectory } from "@/utils/base64"
-import { Icon } from "@synsci/ui/icon"
-import { Switch } from "@synsci/ui/switch"
+import { Icon } from "@griffin/ui/icon"
+import { Switch } from "@griffin/ui/switch"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 

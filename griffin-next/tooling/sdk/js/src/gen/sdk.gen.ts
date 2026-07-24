@@ -982,7 +982,7 @@ class Event extends _HeyApiClient {
   }
 }
 
-export class OpenScienceClient extends _HeyApiClient {
+export class GriffinClient extends _HeyApiClient {
   /**
    * Respond to a permission request
    */

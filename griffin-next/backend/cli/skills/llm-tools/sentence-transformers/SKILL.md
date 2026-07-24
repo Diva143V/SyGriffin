@@ -248,7 +248,7 @@ index = VectorStoreIndex.from_documents(documents)
 
 ## Resources
 
-- **GitHub**: https://github.com/UKPLab/sentence-transformers ⭐ 15,700+
+- **GitHub**:  ⭐ 15,700+
 - **Models**: https://huggingface.co/sentence-transformers
 - **Docs**: https://www.sbert.net
 - **License**: Apache 2.0
@@ -258,11 +258,11 @@ index = VectorStoreIndex.from_documents(documents)
 
 ## Credential Setup
 
-HuggingFace token is auto-injected by openscience when connected via the dashboard.
+HuggingFace token is auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$HF_TOKEN" ] && echo "HF_TOKEN set" || echo "NOT SET"
 ```
 
-If not set: connect HuggingFace at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect HuggingFace at https://app.syntheticsciences.ai -> Services, then restart griffin.

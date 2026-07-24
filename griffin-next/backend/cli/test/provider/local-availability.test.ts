@@ -16,9 +16,9 @@ mock.module("../../src/bun/index", () => ({
   },
 }))
 const mockPlugin = () => ({})
-mock.module("openscience-copilot-auth", () => ({ default: mockPlugin }))
-mock.module("openscience-anthropic-auth", () => ({ default: mockPlugin }))
-mock.module("@gitlab/openscience-gitlab-auth", () => ({ default: mockPlugin }))
+mock.module("griffin-copilot-auth", () => ({ default: mockPlugin }))
+mock.module("griffin-anthropic-auth", () => ({ default: mockPlugin }))
+mock.module("@gitlab/griffin-gitlab-auth", () => ({ default: mockPlugin }))
 
 import { tmpdir } from "../fixture/fixture"
 import { Instance } from "../../src/project/instance"

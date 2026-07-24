@@ -1,6 +1,6 @@
 import { test, expect, afterEach } from "bun:test"
 import path from "path"
-import { OpenScience } from "../../src/openscience"
+import { Griffin } from "../../src/griffin"
 import { Global } from "../../src/global"
 
 // syncServices must respect credential precedence: a user's own shell-exported
@@ -21,7 +21,7 @@ afterEach(() => {
 
 async function seedSession() {
   await Bun.write(
-    path.join(Global.Path.data, "openscience-session.json"),
+    path.join(Global.Path.data, "griffin-session.json"),
     JSON.stringify({ api_key: "thk_test.secret", user_id: "u1", device_name: "test" }),
   )
 }
@@ -45,7 +45,7 @@ test("a user's exported OpenRouter key is NOT clobbered by a synced managed key"
       OPENROUTER_BASE_URL: "https://app.syntheticsciences.ai/api/llm/proxy/openrouter/v1",
     },
   })
-  await OpenScience.syncServices()
+  await Griffin.syncServices()
   expect(process.env["OPENROUTER_API_KEY"]).toBe("sk-or-user-own-key")
 })
 
@@ -53,7 +53,7 @@ test("a synced managed OpenRouter key IS applied when the slot is empty", async 
   await seedSession()
   delete process.env["OPENROUTER_API_KEY"]
   stubSync({ openrouter: { OPENROUTER_API_KEY: "thk_managed.value" } })
-  await OpenScience.syncServices()
+  await Griffin.syncServices()
   expect(process.env["OPENROUTER_API_KEY"]).toBe("thk_managed.value")
 })
 
@@ -61,6 +61,6 @@ test("a synced non-OpenRouter LLM key is dropped — those providers are BYOK-lo
   await seedSession()
   delete process.env["ANTHROPIC_API_KEY"]
   stubSync({ anthropic: { ANTHROPIC_API_KEY: "thk_managed.value" } })
-  await OpenScience.syncServices()
+  await Griffin.syncServices()
   expect(process.env["ANTHROPIC_API_KEY"]).toBeUndefined()
 })

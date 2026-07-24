@@ -306,5 +306,5 @@ Common species identifiers:
 - **Python Package Docs:** https://ensemblrest.readthedocs.io
 - **EBI Training:** https://www.ebi.ac.uk/training/online/courses/ensembl-rest-api/
 - **Ensembl Browser:** https://useast.ensembl.org
-- **GitHub Examples:** https://github.com/Ensembl/ensembl-rest/wiki
+- **GitHub Examples:** /wiki
 

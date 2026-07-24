@@ -1,9 +1,9 @@
 # Changelog
 
-All notable changes to OpenScience are recorded here. The project follows
+All notable changes to Griffin are recorded here. The project follows
 [semantic versioning](https://semver.org). Releases are cut from `main` via the
 `publish` workflow and published to npm as
-[`@synsci/openscience`](https://www.npmjs.com/package/@synsci/openscience); each
+[`@griffin/griffin`](https://www.npmjs.com/package/@griffin/griffin); each
 tagged release also ships native binaries for Linux, macOS, and Windows.
 
 ## v1.2.8 — 2026-07-06
@@ -45,7 +45,7 @@ Atlas experience polish.
 
 ### Added
 
-- Unified `openscience status`: connection, plan, wallet balance + lifetime
+- Unified `griffin status`: connection, plan, wallet balance + lifetime
   spend, recent usage, managed-compute availability, and the bundled `atlas`
   companion version — all in one view, degrading gracefully when signed out.
 - Wallet settings panel and a `/settings/wallet` route surfacing the Atlas
@@ -57,7 +57,7 @@ Atlas experience polish.
 
 ### Changed
 
-- Bundled `@synsci/atlas` companion bumped to `^0.13.2` so managed compute
+- Bundled `@griffin/atlas` companion bumped to `^0.13.2` so managed compute
   resolves.
 - arXiv retrieval hardened: per-host throttling, honest content negotiation,
   PDF-link and error-response parsing, and graceful degradation when a source
@@ -78,7 +78,7 @@ Atlas experience polish.
 
 - Seamless first-run onboarding with a clear managed vs. BYOK choice.
 - Centralized catalog model pins with a delisting tripwire.
-- OpenScience docs site at openscience.sh/docs.
+- Griffin docs site at griffin.sh/docs.
 - Spend controls in the workspace; compute keys actually applied.
 
 ## v1.2.4 — 2026-07-04

@@ -768,7 +768,7 @@ For detailed API documentation, advanced usage, and the latest updates:
 
 - **Official Documentation**: https://zarr.readthedocs.io/
 - **Zarr Specifications**: https://zarr-specs.readthedocs.io/
-- **GitHub Repository**: https://github.com/zarr-developers/zarr-python
+- **GitHub Repository**: 
 - **Community Chat**: https://gitter.im/zarr-developers/community
 
 **Related Libraries**:

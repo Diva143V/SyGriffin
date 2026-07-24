@@ -6,7 +6,7 @@ Griffin is a life-sciences research companion. It uses an agent to coordinate
 validated computational work while preserving the information needed to inspect,
 repeat, and critique that work.
 
-OpenScience supplies the workbench foundation: local server, browser UI, model
+Griffin supplies the workbench foundation: local server, browser UI, model
 routing, sessions, tools, extension model, and basic skill discovery. Griffin
 owns the life-sciences domain layer.
 
@@ -16,7 +16,7 @@ flowchart TB
     Context --> Planner["Life-science research planner"]
     Planner --> Recipes["Versioned recipes"]
     Recipes --> Skills["Governed skill catalog"]
-    Skills --> Runtime["OpenScience runtime and tools"]
+    Skills --> Runtime["Griffin runtime and tools"]
     Runtime --> Artifacts["Results, logs, and intermediate artifacts"]
     Artifacts --> Review["Evidence, uncertainty, and human review gates"]
     Review --> Record["Replayable Griffin run record"]
@@ -52,7 +52,7 @@ observed result.
 
 | Source | Role in Griffin | License |
 | --- | --- | --- |
-| OpenScience | Workbench and agent-runtime foundation | Apache-2.0 |
+| Griffin | Workbench and agent-runtime foundation | Apache-2.0 |
 | AIPOCH Medical Research Skills | Evidence, protocol, analysis, and writing capabilities | MIT |
 | ClawBio | Bioinformatics skills, local-first reproducibility, benchmark patterns | MIT |
 
@@ -61,7 +61,7 @@ skills are catalog material until Griffin has normalized and reviewed them.
 
 ## Milestones
 
-1. Rebrand and isolate the OpenScience foundation.
+1. Rebrand and isolate the Griffin foundation.
 2. Implement the Griffin catalog schema, importer, and validation gate.
 3. Classify AIPOCH and ClawBio skills with provenance.
 4. Build project context, data-contract checks, and research memory.

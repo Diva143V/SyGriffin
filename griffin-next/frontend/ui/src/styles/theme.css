@@ -57,7 +57,7 @@
   --container-7xl: 80rem;
 
   /* Sharpened scale — converges on the app's 2px "instrument-readout" language
-     so shared @synsci/ui components (buttons, cards, dialogs) stop reading soft. */
+     so shared @griffin/ui components (buttons, cards, dialogs) stop reading soft. */
   --radius-xs: 0.25rem; /* 4px — unified control tier (buttons/tabs/selectors) */
   --radius-sm: 0.25rem; /* 4px */
   --radius-md: 0.25rem; /* 4px */
@@ -117,7 +117,7 @@
   --text-invert-stronger: var(--text-invert-strong);
   --color-primary: var(--surface-brand-base);
 
-  /* OpenScience fallback variables (light) */
+  /* Griffin fallback variables (light) */
   --background-base: #f8f7f7;
   --background-weak: var(--smoke-light-3);
   --background-strong: var(--smoke-light-1);
@@ -375,7 +375,7 @@
     color-scheme: dark;
     --text-mix-blend-mode: plus-lighter;
 
-    /* OpenScience fallback variables (dark) */
+    /* Griffin fallback variables (dark) */
     --background-base: var(--smoke-dark-1);
     --background-weak: #1c1717;
     --background-strong: #151313;

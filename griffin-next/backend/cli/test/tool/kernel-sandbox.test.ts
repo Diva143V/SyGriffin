@@ -21,9 +21,9 @@ describe("Sandbox.wrapArgv — kernel confinement", () => {
   test("wrapped interpreter reads its /tmp script and writes inside, but not outside, the workspace", async () => {
     if (!Sandbox.available()) return // no OS backend — nothing to enforce
 
-    const work = fs.mkdtempSync(path.join(os.tmpdir(), "openscience-kernel-test-"))
-    const script = path.join(os.tmpdir(), `openscience-kernel-probe-${process.pid}.sh`)
-    const outside = path.join(os.homedir(), `.openscience-kernel-escape-${process.pid}`)
+    const work = fs.mkdtempSync(path.join(os.tmpdir(), "griffin-kernel-test-"))
+    const script = path.join(os.tmpdir(), `griffin-kernel-probe-${process.pid}.sh`)
+    const outside = path.join(os.homedir(), `.griffin-kernel-escape-${process.pid}`)
     fs.writeFileSync(script, `printf hi > "${work}/inside" && printf x > "${outside}"\n`)
     fs.rmSync(outside, { force: true })
 

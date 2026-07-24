@@ -1,6 +1,6 @@
 # ACP (Agent Client Protocol) Implementation
 
-This directory contains a clean, protocol-compliant implementation of the [Agent Client Protocol](https://agentclientprotocol.com/) for openscience.
+This directory contains a clean, protocol-compliant implementation of the [Agent Client Protocol](https://agentclientprotocol.com/) for griffin.
 
 ## Architecture
 
@@ -21,7 +21,7 @@ The implementation follows a clean separation of concerns:
 
 - **`session.ts`** - Session state management
   - Creates and tracks ACP sessions
-  - Maps ACP sessions to internal openscience sessions
+  - Maps ACP sessions to internal griffin sessions
   - Maintains working directory context
   - Handles MCP server configurations
 
@@ -38,10 +38,10 @@ The implementation follows a clean separation of concerns:
 
 ```bash
 # Start the ACP server in the current directory
-openscience acp
+griffin acp
 
 # Start in a specific directory
-openscience acp --cwd /path/to/project
+griffin acp --cwd /path/to/project
 ```
 
 ### Programmatic
@@ -59,8 +59,8 @@ Add to your Zed configuration (`~/.config/zed/settings.json`):
 ```json
 {
   "agent_servers": {
-    "OpenScience": {
-      "command": "openscience",
+    "Griffin": {
+      "command": "griffin",
       "args": ["acp"]
     }
   }
@@ -114,7 +114,7 @@ This implementation follows the ACP specification v1:
 - **Session Persistence**: Save and restore full conversation history
 - **Mode Support**: Implement different operational modes (ask, code, etc.)
 - **Enhanced Permissions**: More sophisticated permission handling
-- **Terminal Integration**: Full terminal support via openscience's bash tool
+- **Terminal Integration**: Full terminal support via griffin's bash tool
 
 ## Testing
 
@@ -123,7 +123,7 @@ This implementation follows the ACP specification v1:
 bun test test/acp.test.ts
 
 # Test manually with stdio
-echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":1}}' | openscience acp
+echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":1}}' | griffin acp
 ```
 
 ## Design Decisions
@@ -148,9 +148,9 @@ Each component has a single responsibility:
 
 This makes the codebase maintainable and testable.
 
-### Mapping to OpenScience
+### Mapping to Griffin
 
-ACP sessions map cleanly to openscience's internal session model:
+ACP sessions map cleanly to griffin's internal session model:
 
 - ACP `session/new` → creates internal Session
 - ACP `session/prompt` → uses SessionPrompt.prompt()
@@ -160,5 +160,5 @@ ACP sessions map cleanly to openscience's internal session model:
 ## References
 
 - [ACP Specification](https://agentclientprotocol.com/)
-- [TypeScript Library](https://github.com/agentclientprotocol/typescript-sdk)
-- [Protocol Examples](https://github.com/agentclientprotocol/typescript-sdk/tree/main/src/examples)
+- [TypeScript Library]()
+- [Protocol Examples](/tree/main/src/examples)

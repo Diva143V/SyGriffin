@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
 import os from "os"
-import { OpenScience } from "../src/openscience"
+import { Griffin } from "../src/griffin"
 
 const CAP = String(Math.max(1, Math.min(4, os.cpus().length)))
 const VARS = [
@@ -14,7 +14,7 @@ const VARS = [
 ]
 
 test("pythonThreadCapEnv caps every thread/worker var when unset (#102)", () => {
-  const capped = OpenScience.pythonThreadCapEnv({})
+  const capped = Griffin.pythonThreadCapEnv({})
   for (const v of VARS) expect(capped[v]).toBe(CAP)
   // Cap is small and sane — this is what stops joblib/BLAS fanning out per-core.
   expect(Number(CAP)).toBeGreaterThanOrEqual(1)
@@ -22,7 +22,7 @@ test("pythonThreadCapEnv caps every thread/worker var when unset (#102)", () => 
 })
 
 test("pythonThreadCapEnv never overrides a value the user/agent already set", () => {
-  const capped = OpenScience.pythonThreadCapEnv({ OMP_NUM_THREADS: "16", MKL_NUM_THREADS: "8" })
+  const capped = Griffin.pythonThreadCapEnv({ OMP_NUM_THREADS: "16", MKL_NUM_THREADS: "8" })
   // Explicit user values are left for the caller's env to win — not returned here.
   expect(capped.OMP_NUM_THREADS).toBeUndefined()
   expect(capped.MKL_NUM_THREADS).toBeUndefined()
@@ -37,7 +37,7 @@ test("a python kernel spawned with the cap env actually sees the caps (live)", a
   const proc = Bun.spawn(
     ["python3", "-c", "import os,json;print(json.dumps({k:os.environ.get(k) for k in os.environ}))"],
     {
-      env: { PATH: process.env.PATH ?? "", ...OpenScience.pythonThreadCapEnv({}) },
+      env: { PATH: process.env.PATH ?? "", ...Griffin.pythonThreadCapEnv({}) },
       stdout: "pipe",
     },
   )
@@ -50,7 +50,7 @@ test("an explicit OMP override survives into the live kernel (user wins)", async
   const env = {
     PATH: process.env.PATH ?? "",
     OMP_NUM_THREADS: "7",
-    ...OpenScience.pythonThreadCapEnv({ OMP_NUM_THREADS: "7" }),
+    ...Griffin.pythonThreadCapEnv({ OMP_NUM_THREADS: "7" }),
   }
   const proc = Bun.spawn(["python3", "-c", "import os;print(os.environ.get('OMP_NUM_THREADS'))"], {
     env,

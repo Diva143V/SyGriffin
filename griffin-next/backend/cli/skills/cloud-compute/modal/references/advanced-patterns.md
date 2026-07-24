@@ -1,6 +1,6 @@
 # Modal Advanced Patterns
 
-Advanced patterns for Modal including disconnect-safe training, multi-node training, distributed primitives, sandbox workflows, memory snapshots, and integration with openscience/other skills.
+Advanced patterns for Modal including disconnect-safe training, multi-node training, distributed primitives, sandbox workflows, memory snapshots, and integration with griffin/other skills.
 
 ## Disconnect-Safe Training (CRITICAL)
 
@@ -295,7 +295,7 @@ image = modal.Image.from_registry(
 
 # From Git
 image = modal.Image.debian_slim().uv_pip_install(
-    "git+https://github.com/vllm-project/vllm.git@main"
+    "git+.git@main"
 )
 ```
 
@@ -593,11 +593,11 @@ def train_from_s3():
 4. **Batch with `.map()`** — fan out to many cheap GPUs vs one expensive GPU
 5. **`keep_warm=1`** only for user-facing low-latency endpoints (costs money)
 
-## openscience Integration
+## griffin Integration
 
 ### Credential Handling
 
-Modal credentials are injected via OpenScience. The Modal CLI reads `MODAL_TOKEN_ID` and `MODAL_TOKEN_SECRET` from environment automatically.
+Modal credentials are injected via Griffin. The Modal CLI reads `MODAL_TOKEN_ID` and `MODAL_TOKEN_SECRET` from environment automatically.
 
 ```bash
 # Verify before any Modal workload
@@ -619,7 +619,7 @@ After any Modal job completes, report usage:
 
 ```typescript
 // In the CLI agent, after Modal job finishes
-await OpenScience.reportUsage({
+await Griffin.reportUsage({
     service: "modal",
     model: "meta-llama/Llama-3.1-8B",  // or whatever was used
     tokens: estimatedTokens,

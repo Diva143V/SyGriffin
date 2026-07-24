@@ -28,12 +28,12 @@ describe("tool.bash sandbox integration", () => {
     if (!Sandbox.available()) return // no OS backend on this platform — nothing to enforce
 
     await using tmp = await tmpdir({ git: true })
-    const managedDir = process.env.OPENSCIENCE_TEST_MANAGED_CONFIG_DIR!
-    const managedFile = path.join(managedDir, "openscience.json")
+    const managedDir = process.env.GRIFFIN_TEST_MANAGED_CONFIG_DIR!
+    const managedFile = path.join(managedDir, "griffin.json")
     fs.mkdirSync(managedDir, { recursive: true })
     fs.writeFileSync(managedFile, JSON.stringify({ sandbox: { enabled: true, network: "deny" } }))
 
-    const outside = path.join(os.homedir(), `.openscience-bash-escape-${process.pid}`)
+    const outside = path.join(os.homedir(), `.griffin-bash-escape-${process.pid}`)
     fs.rmSync(outside, { force: true })
 
     try {

@@ -34,7 +34,7 @@ pip install 'markitdown[pdf,docx,pptx,xlsx,audio-transcription]'
 ### Install from Source
 
 ```bash
-git clone https://github.com/microsoft/markitdown.git
+git clone .git
 cd markitdown
 pip install -e 'packages/markitdown[all]'
 ```
@@ -70,7 +70,7 @@ sudo apt-get install tesseract-ocr
 ```
 
 #### Windows
-Download from: https://github.com/UB-Mannheim/tesseract/wiki
+Download from: /wiki
 
 ### Poppler Utils (for advanced PDF operations)
 
@@ -196,7 +196,7 @@ export AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT="https://your-endpoint.cognitiveserv
 
 ```bash
 # Clone repository
-git clone https://github.com/microsoft/markitdown.git
+git clone .git
 cd markitdown
 
 # Build image
@@ -312,7 +312,7 @@ python test_markitdown.py
 ## Getting Help
 
 - **Documentation**: See `SKILL.md` and `README.md`
-- **GitHub Issues**: https://github.com/microsoft/markitdown/issues
+- **GitHub Issues**: /issues
 - **Examples**: `assets/example_usage.md`
 - **API Reference**: `references/api_reference.md`
 

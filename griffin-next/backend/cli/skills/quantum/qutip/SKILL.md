@@ -313,5 +313,5 @@ This skill includes detailed reference documentation:
 - Documentation: https://qutip.readthedocs.io/
 - Tutorials: https://qutip.org/qutip-tutorials/
 - API Reference: https://qutip.readthedocs.io/en/stable/apidoc/apidoc.html
-- GitHub: https://github.com/qutip/qutip
+- GitHub: 
 

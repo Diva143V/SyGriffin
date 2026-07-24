@@ -74,12 +74,12 @@ Running `tokenizer.apply_chat_template([{"role": "user", "content": "What is 1+1
 
 For this guide we'll be running the smallest 1-bit quant which is 240GB in size. Feel free to change quantization type to 2-bit, 3-bit etc. To run the model in near **full precision**, you can use the 4-bit or 5-bit quants. You can use any higher just to be safe.
 
-1. Obtain the latest `llama.cpp` on [GitHub here](https://github.com/ggml-org/llama.cpp). You can follow the build instructions below as well. Change `-DGGML_CUDA=ON` to `-DGGML_CUDA=OFF` if you don't have a GPU or just want CPU inference.
+1. Obtain the latest `llama.cpp` on [GitHub here](.cpp). You can follow the build instructions below as well. Change `-DGGML_CUDA=ON` to `-DGGML_CUDA=OFF` if you don't have a GPU or just want CPU inference.
 
 ```bash
 apt-get update
 apt-get install pciutils build-essential cmake curl libcurl4-openssl-dev -y
-git clone https://github.com/ggml-org/llama.cpp
+git clone .cpp
 cmake llama.cpp -B llama.cpp/build \
     -DBUILD_SHARED_LIBS=OFF -DGGML_CUDA=ON
 cmake --build ama.cpp/build --config Release -j --clean-first --target llama-cli llama-mtmd-cli llama-server llama-gguf-split

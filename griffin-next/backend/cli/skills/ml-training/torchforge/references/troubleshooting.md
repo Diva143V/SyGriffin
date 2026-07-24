@@ -345,7 +345,7 @@ pip uninstall torch torchvision torchaudio
 
 1. **Install from source**:
 ```bash
-git clone https://github.com/meta-pytorch/monarch
+git clone 
 cd monarch && pip install -e .
 ```
 
@@ -404,6 +404,6 @@ Check Discord for latest updates and workarounds.
 
 ## Resources
 
-- GitHub Issues: https://github.com/meta-pytorch/torchforge/issues
-- Discord: https://discord.gg/YsTYBh6PD9
-- Monarch Issues: https://github.com/meta-pytorch/monarch/issues
+- GitHub Issues: /issues
+- Discord: 
+- Monarch Issues: /issues

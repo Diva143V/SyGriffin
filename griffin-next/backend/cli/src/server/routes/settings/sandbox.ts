@@ -26,7 +26,7 @@ async function currentConfig() {
  * Execution-sandbox settings for the workspace GUI. The SPA can neither detect
  * the OS backend nor spawn a probe itself, so the server — which runs the
  * commands — reports availability, persists the config, and runs the empirical
- * self-test on its behalf. Mirrors the `openscience sandbox` CLI.
+ * self-test on its behalf. Mirrors the `griffin sandbox` CLI.
  */
 export const SandboxSettingsRoutes = lazy(() =>
   new Hono()

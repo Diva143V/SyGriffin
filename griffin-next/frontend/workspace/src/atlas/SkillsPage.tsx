@@ -4,16 +4,16 @@
 // same real endpoints the old settings panel used (app.skills / app.skill.write
 // / permission.skill), presented as a browsable, category-shelved library.
 import { For, Show, createMemo, createResource, createSignal, type JSX } from "solid-js"
-import { Switch } from "@synsci/ui/switch"
-import { Icon } from "@synsci/ui/icon"
-import { showToast } from "@synsci/ui/toast"
+import { Switch } from "@griffin/ui/switch"
+import { Icon } from "@griffin/ui/icon"
+import { showToast } from "@griffin/ui/toast"
 import { currentDirectory } from "@/utils/base64"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 import { useGlobalSync } from "@/context/global-sync"
 import { FONT_MONO, FONT_SANS } from "@/styles/tokens"
 import { IconBrain } from "@/atlas/shared/Icon"
-import type { Config } from "@synsci/sdk/v2/client"
+import type { Config } from "@griffin/sdk/v2/client"
 import {
   SearchInput,
   FilterMenu,

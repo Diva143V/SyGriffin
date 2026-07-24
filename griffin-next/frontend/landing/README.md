@@ -1,6 +1,6 @@
 # landing
 
-Marketing site for OpenScience — the source behind [openscience.sh](https://openscience.sh).
+Marketing site for Griffin — the source behind [griffin.sh](https://griffin.sh).
 
 Standalone Vite + React + Tailwind project (not part of the monorepo bun
 workspace, so its deps stay isolated). The whole page is one file:
@@ -13,9 +13,9 @@ bun run dev              # local preview
 bun run build            # production build → dist/
 ```
 
-`public/install` is served at `openscience.sh/install`, so
-`curl -fsSL https://openscience.sh/install | bash` works. Screenshots in
+`public/install` is served at `griffin.sh/install`, so
+`curl -fsSL https://griffin.sh/install | bash` works. Screenshots in
 `src/assets/` are captured from the real workspace UI.
 
-Deployed via Vercel (project `openscience-landing-page`, which owns the
-`openscience.sh` domain): `vercel deploy --prod`.
+Deployed via Vercel (project `griffin-landing-page`, which owns the
+`griffin.sh` domain): `vercel deploy --prod`.

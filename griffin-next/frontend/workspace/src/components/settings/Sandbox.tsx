@@ -4,13 +4,13 @@
 // to the workspace and can deny network egress. The server
 // (routes/settings/sandbox.ts) reports backend availability, persists the
 // config, and runs the empirical self-test the browser can't. Mirrors the
-// `openscience sandbox` CLI.
+// `griffin sandbox` CLI.
 import { Component, For, Show, createResource, createSignal } from "solid-js"
-import { Select } from "@synsci/ui/select"
-import { Button } from "@synsci/ui/button"
-import { Switch } from "@synsci/ui/switch"
-import { Icon } from "@synsci/ui/icon"
-import { showToast } from "@synsci/ui/toast"
+import { Select } from "@griffin/ui/select"
+import { Button } from "@griffin/ui/button"
+import { Switch } from "@griffin/ui/switch"
+import { Icon } from "@griffin/ui/icon"
+import { showToast } from "@griffin/ui/toast"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 import { settingsApi } from "./api"

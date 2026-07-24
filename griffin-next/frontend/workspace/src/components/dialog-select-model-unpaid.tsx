@@ -1,8 +1,8 @@
-import { useDialog } from "@synsci/ui/context/dialog"
-import { Dialog } from "@synsci/ui/dialog"
-import { List, type ListRef } from "@synsci/ui/list"
-import { Tag } from "@synsci/ui/tag"
-import { Tooltip } from "@synsci/ui/tooltip"
+import { useDialog } from "@griffin/ui/context/dialog"
+import { Dialog } from "@griffin/ui/dialog"
+import { List, type ListRef } from "@griffin/ui/list"
+import { Tag } from "@griffin/ui/tag"
+import { Tooltip } from "@griffin/ui/tooltip"
 import { type Component, onCleanup, onMount, Show } from "solid-js"
 import { useLocal } from "@/context/local"
 import { ModelTooltip } from "./model-tooltip"
@@ -48,7 +48,7 @@ export const DialogSelectModelUnpaid: Component = () => {
                 <ModelTooltip
                   model={item}
                   latest={item.latest}
-                  free={item.provider.id === "synsci" && (!item.cost || item.cost.input === 0)}
+                  free={item.provider.id === "griffin" && (!item.cost || item.cost.input === 0)}
                 />
               }
             >
