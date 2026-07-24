@@ -52,7 +52,7 @@ scientific results.
 ### Run locally
 
 ```bash
-git clone https://github.com/varshhhy7/Griffin.git
+git clone https://github.com/aegion-dynamic/Griffin
 cd Griffin/griffin-next
 bun install
 bun dev serve --port 4097
@@ -80,7 +80,7 @@ The root package provides a deterministic CLI for neoantigen research. Python
 3.11 is recommended for the scientific dependency stack.
 
 ```powershell
-git clone https://github.com/varshhhy7/Griffin.git
+git clone https://github.com/aegion-dynamic/Griffin
 cd Griffin
 uv sync --python 3.11 --group dev
 uv run python -m griffin doctor
