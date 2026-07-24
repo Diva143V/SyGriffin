@@ -539,8 +539,8 @@ trainer.generate_completions(dataset[:1])  # Generate without updating
 - Unsloth Docs: https://docs.unsloth.ai/
 
 **Example Repositories:**
-- Open R1 Implementation: https://github.com/huggingface/open-r1
-- TRL Examples: https://github.com/huggingface/trl/tree/main/examples
+- Open R1 Implementation: 
+- TRL Examples: /tree/main/examples
 
 **Recommended Reading:**
 - Progressive Disclosure Pattern for agent instructions

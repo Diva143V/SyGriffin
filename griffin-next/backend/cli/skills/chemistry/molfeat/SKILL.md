@@ -504,7 +504,7 @@ print(f"molfeat version: {molfeat.__version__}")
 ## Additional Resources
 
 - **Official Documentation**: https://molfeat-docs.datamol.io/
-- **GitHub Repository**: https://github.com/datamol-io/molfeat
+- **GitHub Repository**: 
 - **PyPI Package**: https://pypi.org/project/molfeat/
 - **Tutorial**: https://portal.valencelabs.com/datamol/post/types-of-featurizers-b1e8HHrbFMkbun6
 

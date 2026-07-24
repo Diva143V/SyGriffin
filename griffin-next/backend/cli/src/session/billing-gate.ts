@@ -1,7 +1,7 @@
 /**
  * Billing gate predicates for LLM calls.
  *
- * The openscience CLI wallet only pays for *managed-proxy* calls. Everything else —
+ * The griffin CLI wallet only pays for *managed-proxy* calls. Everything else —
  * a user's own key (BYOK) or a first-party OAuth subscription (Claude Pro/Max,
  * Sign in with ChatGPT, Copilot) — costs the wallet nothing and must never be
  * blocked by it or reported for billing.
@@ -18,7 +18,7 @@ import { Auth } from "@/auth"
 import { Config } from "@/config/config"
 import { Env } from "@/env"
 import { Provider } from "@/provider/provider"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 
 export type CredentialSource = "byok" | "managed" | "oauth-free"
 export type BillingMode = "managed" | "byok"
@@ -81,12 +81,12 @@ export async function resolveCredentialSource(providerID: string, _modelID: stri
   const optionKey = provider?.options?.["apiKey"]
   const resolvedKey = typeof provider?.key === "string" ? provider.key : undefined
   const explicitKey = typeof optionKey === "string" ? optionKey : undefined
-  if (OpenScience.isManagedKeyValue(resolvedKey) || OpenScience.isManagedKeyValue(explicitKey)) {
+  if (Griffin.isManagedKeyValue(resolvedKey) || Griffin.isManagedKeyValue(explicitKey)) {
     return "managed"
   }
   const envKeys = provider?.env ?? []
   for (const key of envKeys) {
-    if (OpenScience.isManagedKeyValue(Env.get(key))) return "managed"
+    if (Griffin.isManagedKeyValue(Env.get(key))) return "managed"
   }
 
   // 2) OAuth-free: a first-party OAuth subscription (user's own account).

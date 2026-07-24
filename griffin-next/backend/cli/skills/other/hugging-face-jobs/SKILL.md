@@ -271,14 +271,14 @@ print("✅ Dataset pushed successfully!")
 
 ## Credential Setup
 
-HuggingFace token is auto-injected by openscience when connected via the dashboard.
+HuggingFace token is auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$HF_TOKEN" ] && echo "HF_TOKEN set" || echo "NOT SET"
 ```
 
-If not set: connect HuggingFace at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect HuggingFace at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Quick Start: Two Approaches
 

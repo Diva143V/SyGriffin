@@ -63,7 +63,7 @@ docker run --rm --gpus all --ipc=host --shm-size=16g \
   -it radixark/miles:latest /bin/bash
 
 # From source
-git clone https://github.com/radixark/miles.git
+git clone .git
 cd miles
 pip install -r requirements.txt
 pip install -e .
@@ -320,8 +320,8 @@ See [slime API Reference](../slime/references/api-reference.md) for the complete
 
 ## Resources
 
-- **GitHub**: https://github.com/radixark/miles
+- **GitHub**: 
 - **Introduction Blog**: https://lmsys.org/blog/2025-11-19-miles/
-- **Slime (upstream)**: https://github.com/THUDM/slime
-- **SGLang**: https://github.com/sgl-project/sglang
+- **Slime (upstream)**: 
+- **SGLang**: 
 

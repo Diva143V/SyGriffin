@@ -2,14 +2,14 @@ import "@/index.css"
 import { ErrorBoundary, Show, lazy, type ParentProps } from "solid-js"
 import { Router, Route, Navigate } from "@solidjs/router"
 import { MetaProvider } from "@solidjs/meta"
-import { Font } from "@synsci/ui/font"
-import { MarkedProvider } from "@synsci/ui/context/marked"
-import { DiffComponentProvider } from "@synsci/ui/context/diff"
-import { CodeComponentProvider } from "@synsci/ui/context/code"
-import { I18nProvider } from "@synsci/ui/context"
-import { Diff } from "@synsci/ui/diff"
-import { Code } from "@synsci/ui/code"
-import { ThemeProvider } from "@synsci/ui/theme"
+import { Font } from "@griffin/ui/font"
+import { MarkedProvider } from "@griffin/ui/context/marked"
+import { DiffComponentProvider } from "@griffin/ui/context/diff"
+import { CodeComponentProvider } from "@griffin/ui/context/code"
+import { I18nProvider } from "@griffin/ui/context"
+import { Diff } from "@griffin/ui/diff"
+import { Code } from "@griffin/ui/code"
+import { ThemeProvider } from "@griffin/ui/theme"
 import { GlobalSyncProvider } from "@/context/global-sync"
 import { PermissionProvider } from "@/context/permission"
 import { LayoutProvider } from "@/context/layout"
@@ -22,7 +22,7 @@ import { FileProvider } from "@/context/file"
 import { CommentsProvider } from "@/context/comments"
 import { NotificationProvider } from "@/context/notification"
 import { ModelsProvider } from "@/context/models"
-import { DialogProvider } from "@synsci/ui/context/dialog"
+import { DialogProvider } from "@griffin/ui/context/dialog"
 import { CommandProvider } from "@/context/command"
 import { LanguageProvider, useLanguage } from "@/context/language"
 import { usePlatform } from "@/context/platform"
@@ -52,8 +52,8 @@ function UiI18nBridge(props: ParentProps) {
 
 declare global {
   interface Window {
-    __OPENSCIENCE__?: { updaterEnabled?: boolean; deepLinks?: string[] }
-    __OPENSCIENCE_BASE_URL__?: string
+    __GRIFFIN__?: { updaterEnabled?: boolean; deepLinks?: string[] }
+    __GRIFFIN_BASE_URL__?: string
   }
 }
 
@@ -110,7 +110,7 @@ export function AppInterface(props: { defaultUrl?: string }) {
     if (stored) return stored
     if (location.hostname.includes(URLS.host)) return "http://localhost:4096"
     if (import.meta.env.DEV)
-      return `http://${import.meta.env.VITE_OPENSCIENCE_SERVER_HOST ?? "localhost"}:${import.meta.env.VITE_OPENSCIENCE_SERVER_PORT ?? "4096"}`
+      return `http://${import.meta.env.VITE_GRIFFIN_SERVER_HOST ?? "localhost"}:${import.meta.env.VITE_GRIFFIN_SERVER_PORT ?? "4096"}`
 
     return window.location.origin
   }

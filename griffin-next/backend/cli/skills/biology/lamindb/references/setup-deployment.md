@@ -404,7 +404,7 @@ print(ln.setup.settings.instance)
 lamin settings set dev-dir /path/to/project
 
 # Configure git sync
-lamin settings set sync-git-repo https://github.com/user/repo.git
+lamin settings set sync-git-repo .git
 
 # View all settings
 lamin settings
@@ -420,7 +420,7 @@ export LAMIN_CACHE_DIR=/path/to/cache
 export LAMIN_SETTINGS_DIR=/path/to/settings
 
 # Git sync
-export LAMINDB_SYNC_GIT_REPO=https://github.com/user/repo.git
+export LAMINDB_SYNC_GIT_REPO=.git
 ```
 
 ## Instance Management

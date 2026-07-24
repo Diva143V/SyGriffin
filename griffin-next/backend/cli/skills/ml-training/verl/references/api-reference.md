@@ -297,5 +297,5 @@ actor_rollout_ref:
 ## Resources
 
 - Documentation: https://verl.readthedocs.io/
-- GitHub: https://github.com/volcengine/verl
+- GitHub: 
 - Paper: https://arxiv.org/abs/2409.19256 (HybridFlow)

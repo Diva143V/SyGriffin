@@ -1,4 +1,4 @@
-import { Slug } from "@synsci/util/slug"
+import { Slug } from "@griffin/util/slug"
 import path from "path"
 import { BusEvent } from "@/bus/bus-event"
 import { Bus } from "@/bus"
@@ -236,7 +236,7 @@ export namespace Session {
 
   export function plan(input: { slug: string; time: { created: number } }) {
     const base = Instance.project.vcs
-      ? path.join(Instance.worktree, ".openscience", "plans")
+      ? path.join(Instance.worktree, ".griffin", "plans")
       : path.join(Global.Path.data, "plans")
     return path.join(base, [input.time.created, input.slug].join("-") + ".md")
   }

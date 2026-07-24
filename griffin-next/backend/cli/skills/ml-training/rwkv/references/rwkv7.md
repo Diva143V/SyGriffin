@@ -379,8 +379,8 @@ def convert_state_v6_to_v7(state_v6, n_heads):
 ## Resources
 
 - **Paper**: https://arxiv.org/abs/2503.14456 (RWKV-7, March 2025)
-- **GitHub**: https://github.com/BlinkDL/RWKV-LM (v7 branch)
+- **GitHub**:  (v7 branch)
 - **Models**: https://huggingface.co/BlinkDL/rwkv-7-world
 - **Multimodal Demo**: https://huggingface.co/spaces/BlinkDL/RWKV-7-Multimodal
-- **Discord**: https://discord.gg/bDSBUMeFpc
+- **Discord**: 
 - **Wiki**: https://wiki.rwkv.com/rwkv7

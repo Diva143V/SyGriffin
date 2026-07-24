@@ -309,9 +309,9 @@ Full list: 99 languages total
 
 ## Resources
 
-- **GitHub**: https://github.com/openai/whisper ⭐ 72,900+
+- **GitHub**:  ⭐ 72,900+
 - **Paper**: https://arxiv.org/abs/2212.04356
-- **Model Card**: https://github.com/openai/whisper/blob/main/model-card.md
+- **Model Card**: /blob/main/model-card.md
 - **Colab**: Available in repo
 - **License**: MIT
 

@@ -41,7 +41,7 @@ Open-source vision-language model for conversational image understanding.
 
 ```bash
 # Clone repository
-git clone https://github.com/haotian-liu/LLaVA
+git clone 
 cd LLaVA
 
 # Install
@@ -296,7 +296,7 @@ demo.launch()
 
 ## Resources
 
-- **GitHub**: https://github.com/haotian-liu/LLaVA ⭐ 23,000+
+- **GitHub**:  ⭐ 23,000+
 - **Paper**: https://arxiv.org/abs/2304.08485
 - **Demo**: https://llava.hliu.cc
 - **Models**: https://huggingface.co/liuhaotian

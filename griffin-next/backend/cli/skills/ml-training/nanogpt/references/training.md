@@ -558,7 +558,7 @@ print(decode(y[0].tolist()))
 
 ## Resources
 
-- Training script: https://github.com/karpathy/nanoGPT/blob/master/train.py
-- Configs: https://github.com/karpathy/nanoGPT/tree/master/config
+- Training script: /blob/master/train.py
+- Configs: /tree/master/config
 - Video walkthrough: "Let's build GPT" (training section)
 - GPT-2 paper: https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf

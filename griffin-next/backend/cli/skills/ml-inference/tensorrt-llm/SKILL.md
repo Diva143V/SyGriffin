@@ -182,7 +182,7 @@ outputs = llm.generate(
 ## Resources
 
 - **Docs**: https://nvidia.github.io/TensorRT-LLM/
-- **GitHub**: https://github.com/NVIDIA/TensorRT-LLM
+- **GitHub**: 
 - **Models**: https://huggingface.co/models?library=tensorrt_llm
 
 

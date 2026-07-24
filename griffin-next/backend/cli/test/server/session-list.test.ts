@@ -22,7 +22,7 @@ describe("session.list", () => {
         })
 
         const fetch = Server.internalFetch()
-        const response = await fetch(`http://openscience.internal/session?directory=${encodeURIComponent(projectRoot)}`)
+        const response = await fetch(`http://griffin.internal/session?directory=${encodeURIComponent(projectRoot)}`)
         expect(response.status).toBe(200)
 
         const body = (await response.json()) as unknown[]

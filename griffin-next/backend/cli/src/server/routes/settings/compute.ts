@@ -6,14 +6,14 @@ import path from "path"
 import fs from "fs/promises"
 import { Global } from "../../../global"
 import { Env } from "../../../env"
-import { OpenScience } from "../../../openscience"
+import { Griffin } from "../../../griffin"
 import { errors } from "../../error"
 import { lazy } from "../../../util/lazy"
 
 // ── Compute settings store ──────────────────────────────────────────────────
 //
 // Durable backing store for the Compute settings panel — "where do runs
-// execute". Persists to a real JSON file under ~/.openscience/ (Global.Path.data,
+// execute". Persists to a real JSON file under ~/.griffin/ (Global.Path.data,
 // mode 0600):
 //
 //   • BYOK GPU providers (Modal, TensorPool, Lambda Labs, Prime Intellect,
@@ -27,7 +27,7 @@ import { lazy } from "../../../util/lazy"
 // applyCredentialEnv in ./credentials.ts) decrypts each connected provider's
 // key and injects it into the process environment under the canonical env var
 // names the real consumers read — the cloud-compute/ml-training skills and
-// every bash subprocess via OpenScience.subprocessEnv. It runs at CLI/server
+// every bash subprocess via Griffin.subprocessEnv. It runs at CLI/server
 // boot (index.ts) and again after each provider connect/disconnect, so a saved
 // key applies live without a restart. Decrypted values are registered for
 // output redaction, and an explicit shell export always wins.
@@ -236,7 +236,7 @@ export namespace ComputeSettings {
           // Instance state not initialized yet — process.env alone is enough here.
         }
       }
-      OpenScience.registerSecretValues(secrets)
+      Griffin.registerSecretValues(secrets)
     } catch {
       // best-effort; a broken store must not break boot or a save response
     }

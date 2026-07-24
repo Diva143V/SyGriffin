@@ -1,7 +1,7 @@
 import { test, expect, describe } from "bun:test"
 import { classifyKeyTarget } from "../../src/cli/cmd/auth"
 
-// #142: `openscience keys add deepseek` used the bare provider name as a URL and
+// #142: `griffin keys add deepseek` used the bare provider name as a URL and
 // crashed with "fetch() URL is invalid". classifyKeyTarget separates a real
 // custom-endpoint URL from a provider id to preselect.
 

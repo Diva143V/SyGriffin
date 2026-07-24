@@ -29,7 +29,7 @@ Use Model Merging when you need to:
 
 ```bash
 # Install mergekit
-git clone https://github.com/arcee-ai/mergekit.git
+git clone .git
 cd mergekit
 pip install -e .
 
@@ -525,7 +525,7 @@ mergekit-yaml config.yml ./merged-model
 
 ## Resources
 
-- **mergekit GitHub**: https://github.com/arcee-ai/mergekit
+- **mergekit GitHub**: 
 - **HuggingFace Tutorial**: https://huggingface.co/blog/mlabonne/merge-models
 - **LazyMergekit**: Automated merging notebook
 - **TIES Paper**: https://arxiv.org/abs/2306.01708

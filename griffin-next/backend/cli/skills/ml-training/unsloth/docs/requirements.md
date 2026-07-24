@@ -9,7 +9,7 @@
 * Minimum CUDA Capability 7.0 (V100, T4, Titan V, RTX 20 & 50, A100, H100, L40 etc) [Check your GPU!](https://developer.nvidia.com/cuda-gpus) GTX 1070, 1080 works, but is slow.
 * The official [Unsloth Docker image](https://hub.docker.com/r/unsloth/unsloth) `unsloth/unsloth` is available on Docker Hub
   * [docker](https://unsloth.ai/docs/get-started/install/docker "mention")
-* Unsloth works on [AMD](https://unsloth.ai/docs/get-started/fine-tuning-for-beginners/broken-reference) and [Intel](https://github.com/unslothai/unsloth/pull/2621) GPUs! Apple/Silicon/MLX is in the works
+* Unsloth works on [AMD](https://unsloth.ai/docs/get-started/fine-tuning-for-beginners/broken-reference) and [Intel](/pull/2621) GPUs! Apple/Silicon/MLX is in the works
 * If you have different versions of torch, transformers etc., `pip install unsloth` will automatically install all the latest versions of those libraries so you don't need to worry about version compatibility.
 * Your device should have `xformers`, `torch`, `BitsandBytes` and `triton` support.
 

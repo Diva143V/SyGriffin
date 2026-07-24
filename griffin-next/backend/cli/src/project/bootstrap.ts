@@ -40,7 +40,7 @@ export async function InstanceBootstrap() {
   })
 
   // Hot-reload the skill registry when a SKILL.md changes on disk (external
-  // edits surface via the watcher when OPENSCIENCE_EXPERIMENTAL_FILEWATCHER=1;
+  // edits surface via the watcher when GRIFFIN_EXPERIMENTAL_FILEWATCHER=1;
   // in-app authoring self-invalidates through Skill.writeUser).
   Bus.subscribe(FileWatcher.Event.Updated, async (payload) => {
     if (payload.properties.file.endsWith("SKILL.md")) {

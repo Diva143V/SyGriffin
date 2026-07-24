@@ -794,7 +794,7 @@ Enhance poster interactivity for modern conferences:
 \usepackage{qrcode}
 
 % Link to paper, code repository, or supplementary materials
-\qrcode[height=2cm]{https://github.com/username/project}
+\qrcode[height=2cm]{}
 
 % QR code with caption
 \begin{center}

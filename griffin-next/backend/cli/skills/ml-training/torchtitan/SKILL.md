@@ -21,7 +21,7 @@ TorchTitan is PyTorch's official platform for large-scale LLM pretraining with c
 pip install torchtitan
 
 # From source (latest features, requires PyTorch nightly)
-git clone https://github.com/pytorch/torchtitan
+git clone 
 cd torchtitan
 pip install -r requirements.txt
 ```
@@ -184,7 +184,7 @@ Float8 Training:
 **Step 1: Install torchao**
 
 ```bash
-USE_CPP=0 pip install git+https://github.com/pytorch/ao.git
+USE_CPP=0 pip install git+.git
 ```
 
 **Step 2: Configure Float8**
@@ -352,7 +352,7 @@ Create seed checkpoint first (see Workflow 4, Step 1).
 
 ## Resources
 
-- GitHub: https://github.com/pytorch/torchtitan
+- GitHub: 
 - Paper: https://arxiv.org/abs/2410.06511
 - ICLR 2025: https://iclr.cc/virtual/2025/poster/29620
 - PyTorch Forum: https://discuss.pytorch.org/c/distributed/torchtitan/44

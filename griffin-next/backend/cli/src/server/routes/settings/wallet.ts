@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { describeRoute, resolver } from "hono-openapi"
 import z from "zod"
-import { OpenScience } from "../../../openscience"
+import { Griffin } from "../../../griffin"
 import { lazy } from "../../../util/lazy"
 
 // Settings → Wallet. Read-only view of the Atlas prepaid wallet: balance, plan
@@ -37,12 +37,12 @@ const SIGNED_OUT: WalletState = {
 }
 
 async function readWallet(): Promise<WalletState> {
-  const session = await OpenScience.getSession().catch(() => null)
+  const session = await Griffin.getSession().catch(() => null)
   if (!session) return SIGNED_OUT
   const [credits, mode, txns] = await Promise.all([
-    OpenScience.getCredits().catch(() => null),
-    OpenScience.getBillingMode().catch(() => null),
-    OpenScience.getTransactions(20).catch(() => null),
+    Griffin.getCredits().catch(() => null),
+    Griffin.getBillingMode().catch(() => null),
+    Griffin.getTransactions(20).catch(() => null),
   ])
   return {
     signedIn: true,

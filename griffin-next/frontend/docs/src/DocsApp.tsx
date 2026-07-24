@@ -78,7 +78,7 @@ type MintlifyCard = {
   horizontal?: boolean
 }
 
-type SectionKey = "openscience"
+type SectionKey = "griffin"
 
 type Section = {
   key: SectionKey
@@ -89,7 +89,7 @@ type Section = {
 }
 
 const SECTIONS: Section[] = [
-  { key: "openscience", label: "OpenScience", short: "OpenScience", tagline: "Open-source AI workbench", lead: false },
+  { key: "griffin", label: "Griffin", short: "Griffin", tagline: "Open-source AI workbench", lead: false },
 ]
 
 const SECTION_KEYS = SECTIONS.map((section) => section.key)
@@ -121,7 +121,7 @@ const ICONS: Record<string, ReactNode> = {
 }
 
 const SECTION_FALLBACK_ICON: Record<SectionKey, ReactNode> = {
-  openscience: <FlaskConical size={17} strokeWidth={1.8} />,
+  griffin: <FlaskConical size={17} strokeWidth={1.8} />,
 }
 
 const FRONTMATTER_RE = /^---\n([\s\S]*?)\n---\n?/
@@ -186,23 +186,23 @@ function buildSectionPages(section: SectionKey): Record<string, DocsPage> {
 }
 
 const SECTION_DOC_PAGES: Record<SectionKey, Record<string, DocsPage>> = {
-  openscience: buildSectionPages("openscience"),
+  griffin: buildSectionPages("griffin"),
 }
 
 const SECTION_CONFIGS: Record<SectionKey, DocsConfig> = {
-  openscience: RAW_CONFIGS["./content/openscience/docs.json"],
+  griffin: RAW_CONFIGS["./content/griffin/docs.json"],
 }
 
 function pageExists(section: SectionKey, path: string): boolean {
   return Boolean(SECTION_DOC_PAGES[section]?.[path])
 }
 
-// Retired first URL segments that redirect into the openscience scheme.
+// Retired first URL segments that redirect into the griffin scheme.
 const SECTION_ALIASES: Record<string, SectionKey> = {
-  "agent-cli": "openscience",
+  "agent-cli": "griffin",
 }
 
-// Old CLI page names that moved during the OpenScience rebuild.
+// Old CLI page names that moved during the Griffin rebuild.
 const PAGE_ALIASES: Record<string, string> = {
   "first-session": "sessions",
   "sub-agents": "agents",
@@ -212,29 +212,29 @@ const PAGE_ALIASES: Record<string, string> = {
 
 // Redirects from the oldest single-segment URLs to the #/<section>/<page> scheme.
 const LEGACY_REDIRECTS: Record<string, { section: SectionKey; path: string }> = {
-  "cli:index": { section: "openscience", path: "index" },
-  "cli:installation": { section: "openscience", path: "quickstart" },
-  "cli:quickstart": { section: "openscience", path: "quickstart" },
-  "cli:first-session": { section: "openscience", path: "sessions" },
-  "cli:sessions": { section: "openscience", path: "sessions" },
-  "cli:models": { section: "openscience", path: "models" },
-  "cli:codex": { section: "openscience", path: "models" },
-  "cli:sub-agents": { section: "openscience", path: "agents" },
-  "cli:skills": { section: "openscience", path: "skills" },
-  "cli:cli-runtime": { section: "openscience", path: "commands" },
-  "cli:connect": { section: "openscience", path: "atlas" },
-  "cli:credentials": { section: "openscience", path: "atlas" },
-  "cli:security": { section: "openscience", path: "security" },
-  "cli:feature-map": { section: "openscience", path: "commands" },
-  "cli:commands": { section: "openscience", path: "commands" },
-  "cli:web-ui": { section: "openscience", path: "workspace" },
-  "cli:server-mode": { section: "openscience", path: "workspace" },
+  "cli:index": { section: "griffin", path: "index" },
+  "cli:installation": { section: "griffin", path: "quickstart" },
+  "cli:quickstart": { section: "griffin", path: "quickstart" },
+  "cli:first-session": { section: "griffin", path: "sessions" },
+  "cli:sessions": { section: "griffin", path: "sessions" },
+  "cli:models": { section: "griffin", path: "models" },
+  "cli:codex": { section: "griffin", path: "models" },
+  "cli:sub-agents": { section: "griffin", path: "agents" },
+  "cli:skills": { section: "griffin", path: "skills" },
+  "cli:cli-runtime": { section: "griffin", path: "commands" },
+  "cli:connect": { section: "griffin", path: "atlas" },
+  "cli:credentials": { section: "griffin", path: "atlas" },
+  "cli:security": { section: "griffin", path: "security" },
+  "cli:feature-map": { section: "griffin", path: "commands" },
+  "cli:commands": { section: "griffin", path: "commands" },
+  "cli:web-ui": { section: "griffin", path: "workspace" },
+  "cli:server-mode": { section: "griffin", path: "workspace" },
 }
 
 type Route = { section: SectionKey; path: string }
 
 function defaultRoute(): Route {
-  return { section: "openscience", path: "index" }
+  return { section: "griffin", path: "index" }
 }
 
 function routeFromHash(): Route {
@@ -248,7 +248,7 @@ function routeFromHash(): Route {
     if (pageExists(maybeSection, path)) return { section: maybeSection, path }
     return { section: maybeSection, path: "index" }
   }
-  // Retired section names redirect into the openscience scheme.
+  // Retired section names redirect into the griffin scheme.
   const aliasSection = SECTION_ALIASES[segments[0]]
   if (aliasSection) {
     const rawPath = segments.slice(1).join("/") || "index"
@@ -268,7 +268,7 @@ function pageHref(section: SectionKey, path: string): string {
 
 // Module-level pointers updated on each render so the markdown renderer (which
 // can't take props through react-markdown) can resolve links and card icons.
-let CURRENT_SECTION: SectionKey = "openscience"
+let CURRENT_SECTION: SectionKey = "griffin"
 
 function resolveHref(href: string | undefined): string | undefined {
   if (!href) return href
@@ -340,7 +340,7 @@ function iconForCard(card: MintlifyCard): ReactNode {
   return <BookOpen size={17} strokeWidth={1.8} />
 }
 
-const OPENSCIENCE_REPO = "synthetic-sciences/openscience"
+const GRIFFIN_REPO = "synthetic-sciences/griffin"
 
 function formatStars(count: number): string {
   return count >= 1000 ? `${(count / 1000).toFixed(1).replace(/\.0$/, "")}k` : String(count)
@@ -351,7 +351,7 @@ function GitHubStars() {
 
   useEffect(() => {
     let cancelled = false
-    const cacheKey = `docs-gh-stars:${OPENSCIENCE_REPO}`
+    const cacheKey = `docs-gh-stars:${GRIFFIN_REPO}`
     try {
       const cached = JSON.parse(window.localStorage.getItem(cacheKey) ?? "null") as { stars: number; at: number } | null
       if (cached && Date.now() - cached.at < 60 * 60 * 1000) {
@@ -361,7 +361,7 @@ function GitHubStars() {
     } catch {
       /* ignore */
     }
-    fetch(`https://api.github.com/repos/${OPENSCIENCE_REPO}`)
+    fetch(`https://api.github.com/repos/${GRIFFIN_REPO}`)
       .then((response) => (response.ok ? response.json() : null))
       .then((data: { stargazers_count?: number } | null) => {
         const count = data?.stargazers_count
@@ -383,7 +383,7 @@ function GitHubStars() {
     <div className="docs-ghstars">
       <a
         className="docs-ghstars-primary"
-        href={`https://github.com/${OPENSCIENCE_REPO}`}
+        href={`https://github.com/${GRIFFIN_REPO}`}
         target="_blank"
         rel="noreferrer"
       >
@@ -391,11 +391,11 @@ function GitHubStars() {
         <span>Star on GitHub</span>
         {stars !== null ? <em>{formatStars(stars)}</em> : null}
       </a>
-      <a href={`https://github.com/${OPENSCIENCE_REPO}/blob/main/LICENSE`} target="_blank" rel="noreferrer">
+      <a href={`https://github.com/${GRIFFIN_REPO}/blob/main/LICENSE`} target="_blank" rel="noreferrer">
         Apache-2.0
       </a>
-      <a href="https://www.npmjs.com/package/@synsci/openscience" target="_blank" rel="noreferrer">
-        npm · @synsci/openscience
+      <a href="https://www.npmjs.com/package/@griffin/griffin" target="_blank" rel="noreferrer">
+        npm · @griffin/griffin
       </a>
     </div>
   )
@@ -685,10 +685,10 @@ export function DocumentationPage() {
   return (
     <div className="docs-page">
       <header className="docs-topbar">
-        <a href="https://openscience.sh" className="docs-brand">
+        <a href="https://griffin.sh" className="docs-brand">
           <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" />
           <span className="docs-brand-text">
-            <small>OpenScience</small>
+            <small>Griffin</small>
             <strong>Docs</strong>
           </span>
         </a>
@@ -748,7 +748,7 @@ export function DocumentationPage() {
           </button>
           <a
             className="docs-topbar-cta"
-            href={config.navbar?.primary?.href ?? "https://github.com/synthetic-sciences/openscience"}
+            href={config.navbar?.primary?.href ?? "https://github.com/synthetic-sciences/griffin"}
           >
             {(config.navbar?.primary?.label ?? "Star on GitHub").toLowerCase()}
             <ArrowUpRight size={13} strokeWidth={1.8} />

@@ -221,7 +221,7 @@ python3 scripts/notebook_operations.py backup-all --email user@example.edu --pas
 Install the `labarchives-py` wrapper for simplified API access:
 
 ```bash
-git clone https://github.com/mcmero/labarchives-py
+git clone 
 cd labarchives-py
 uv pip install .
 ```

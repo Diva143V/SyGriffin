@@ -1,6 +1,6 @@
 # 06 — Compute integrations audit + fixes
 
-Workstream: verify each compute path and fix what's broken — BYOK GPU (confirm), cloud storage, SSH, managed compute via the Atlas CLI. Findings-first. Audited against the Atlas backend (cloned) and the installed `atlas` CLI (`0.13.1` = npm `@synsci/atlas`). Citations `file:line`.
+Workstream: verify each compute path and fix what's broken — BYOK GPU (confirm), cloud storage, SSH, managed compute via the Atlas CLI. Findings-first. Audited against the Atlas backend (cloned) and the installed `atlas` CLI (`0.13.1` = npm `@griffin/atlas`). Citations `file:line`.
 
 ## Status per path
 
@@ -9,7 +9,7 @@ Workstream: verify each compute path and fix what's broken — BYOK GPU (confirm
 | **A. BYOK GPU providers**            | ✅ works (with gaps)        | Key encrypt→env-injection is solid + unit-tested for the 4 providers with skills (Modal, Lambda, TensorPool, Prime). **Vast + RunPod keys inject but no skill reads them.**                                                                                                                                                                              |
 | **B. Cloud storage**                 | ⚠️ creds-only, unverified   | No mount/rclone abstraction — AWS/GCP creds → env → whatever CLI a skill invokes. **Azure object storage is advertised but not backed.** Needs real creds+bucket to verify (FLAG).                                                                                                                                                                       |
 | **C. SSH-based compute**             | ❌ dead-end                 | "SSH hosts" + "Model endpoints" panels persist data **nothing ever reads**. No SSH client, no dispatch, no routing.                                                                                                                                                                                                                                      |
-| **D. Managed compute via atlas CLI** | ⚠️ real, but version-gapped | The atlas CLI **does** ship a full compute suite (`compute:up`/`catalog`/`list`/`ssh`/`release` → `/api/compute/leases`) in the **published 0.13.2** — but OpenScience pins `@synsci/atlas@^0.5.12`, so the shipped CLI predates it and the prompt's `atlas compute:up` can't resolve. Resale off by default server-side; `billing.compute` prompt-only. |
+| **D. Managed compute via atlas CLI** | ⚠️ real, but version-gapped | The atlas CLI **does** ship a full compute suite (`compute:up`/`catalog`/`list`/`ssh`/`release` → `/api/compute/leases`) in the **published 0.13.2** — but Griffin pins `@griffin/atlas@^0.5.12`, so the shipped CLI predates it and the prompt's `atlas compute:up` can't resolve. Resale off by default server-side; `billing.compute` prompt-only. |
 
 Ground truth: `atlas doctor` on this machine is seeded (`~/.config/atlas-cli/config.json`), authed, backend reachable — so atlas **auth/config-seeding works**; only the **compute command surface** is broken.
 
@@ -21,10 +21,10 @@ Compute panel (`Compute.tsx`, 6 cards) → `server/routes/settings/compute.ts`: 
 - ❌ **Vast/RunPod inject but no skill reads them** (`VAST_API_KEY`/`RUNPOD_API_KEY` set, no skill) — connecting does nothing.
 - ⚠️ `last_used` is declared + rendered but **never written** → always "never".
 - ⚠️ **Modal double-stored** — also in the Credentials panel, which injects the same vars and runs first at boot (`index.ts:107` before `:111`), so a Modal key set in both panels has the Credentials value silently win.
-- ⚠️ latent: the atlas-bin fallback resolver walks for `@openscience/atlas` while the dep is `@synsci/atlas` (`index.ts:225`) — dead fallback.
+- ⚠️ latent: the atlas-bin fallback resolver walks for `@griffin/atlas` while the dep is `@griffin/atlas` (`index.ts:225`) — dead fallback.
 - **FLAG:** an actual job round-trip (Modal/Lambda/TensorPool/Prime) needs live provider accounts — plumbing verified, round-trip not.
 
-**Fixes:** author Vast/RunPod skills or drop them from the catalog (interim: "key stored — skill coming"); populate or remove `last_used`; pick one home for Modal (recommend removing from Compute, Credentials owns it) or share one precedence; fix the `@openscience→@synsci` scope typo.
+**Fixes:** author Vast/RunPod skills or drop them from the catalog (interim: "key stored — skill coming"); populate or remove `last_used`; pick one home for Modal (recommend removing from Compute, Credentials owns it) or share one precedence; fix the `@griffin→@griffin` scope typo.
 
 ## Path B — Cloud storage (⚠️)
 
@@ -52,7 +52,7 @@ Config seeding works (`ensureAtlasCliConfig`, verified by `atlas doctor`). Inten
 
 **Correction to the initial audit** (which tested the _installed 0.13.1_): the atlas CLI at the **published latest (0.13.2)** ships a real compute suite — `cli/src/atlas-runtime/commands.mjs:915-923` registers `compute:up` (aliases `launch`/`lease` → `POST /compute/leases`, _"zero flags = cheapest GPU; managed bills the wallet per hour; BYOK free"_), `compute:catalog`/`gpus`/`options` (browse GPUs → `/compute/options`), `compute:list`/`leases` (`GET /compute/leases`), `compute:ssh` (`/connection`), `compute:release`/`down` (`/release`). So `atlas compute:up` **is a real command in 0.13.2**, hitting the exact `/api/compute/leases` API — the prompt is _aspirationally correct_, not naming a phantom.
 
-- ⚠️ **Version gap is the core defect.** OpenScience pins `@synsci/atlas@^0.5.12` (`backend/cli/package.json`); the installed CLI is 0.13.1 (whose `--help` doesn't surface compute); **npm latest is 0.13.2** (which does). So the MANAGED prompt (`prompt.ts:1329` `atlas compute:up`) names a real command the **shipped/pinned atlas CLI predates** → it doesn't resolve for users today.
+- ⚠️ **Version gap is the core defect.** Griffin pins `@griffin/atlas@^0.5.12` (`backend/cli/package.json`); the installed CLI is 0.13.1 (whose `--help` doesn't surface compute); **npm latest is 0.13.2** (which does). So the MANAGED prompt (`prompt.ts:1329` `atlas compute:up`) names a real command the **shipped/pinned atlas CLI predates** → it doesn't resolve for users today.
 - ⚠️ **The surface has churned** — the CLI CHANGELOG shows a `compute:*` set removed then a richer one re-added; and it also describes provisioning as a **web-dashboard "Lambda Labs reseller" Compute tab**. Confirm the intended UX (CLI leasing vs web dashboard, Modal as agent-runtime-internal) is settled before wiring the prompt hard to it.
 - ⚠️ `exec:start` is a **separate** graph-ledger command (INSERTs a bookkeeping row, no Modal/lease call, `execution_service.py:45-87`) — not the compute path; don't conflate the two.
 - ⚠️ server-side managed GPU is **off by default** — `COMPUTE_RESELL_ENABLED="false"` (`config.py:387`).
@@ -60,7 +60,7 @@ Config seeding works (`ensureAtlasCliConfig`, verified by `atlas doctor`). Inten
 - ⚠️ substrate named 3 ways — "Daytona-backed" (`research.txt:229`) vs "Modal sandbox" (`atlas agent:run --help`) vs "Atlas-provisioned" (`config.ts:984`).
 - **FLAG:** an actual lease still needs `COMPUTE_RESELL_ENABLED=true` + operator keys + a funded wallet + a Modal account to verify end-to-end.
 
-**Fixes:** (1) **primary — bump `@synsci/atlas` `^0.5.12`→`^0.13.2`** (align the pin + the seeded/expected version to the published CLI that has compute) and verify `atlas compute:*` resolves against the installed version; then `prompt.ts:1329`'s `atlas compute:up` is truthful. Add a prompt-time guard: if the installed `atlas` lacks `compute:*`, the MANAGED reminder falls back to BYOK rather than naming an unresolvable command. (2) enable resale (`COMPUTE_RESELL_ENABLED`) + wire `billing.compute` to reality (mirror `billing.llm`) so the managed path actually leases. (3) reconcile the CLI-leasing vs web-dashboard-reseller UX (owner decision). (4) reconcile substrate naming. (5) decide the BYOK source of truth.
+**Fixes:** (1) **primary — bump `@griffin/atlas` `^0.5.12`→`^0.13.2`** (align the pin + the seeded/expected version to the published CLI that has compute) and verify `atlas compute:*` resolves against the installed version; then `prompt.ts:1329`'s `atlas compute:up` is truthful. Add a prompt-time guard: if the installed `atlas` lacks `compute:*`, the MANAGED reminder falls back to BYOK rather than naming an unresolvable command. (2) enable resale (`COMPUTE_RESELL_ENABLED`) + wire `billing.compute` to reality (mirror `billing.llm`) so the managed path actually leases. (3) reconcile the CLI-leasing vs web-dashboard-reseller UX (owner decision). (4) reconcile substrate naming. (5) decide the BYOK source of truth.
 
 ## Cross-cutting — overlapping BYOK stores
 
@@ -70,11 +70,11 @@ A user's Modal key can live in **three** places with no reconciliation: the loca
 
 | #   | Fix                                                                                                                                                                           | Path | Effort                |
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | --------------------- |
-| 1   | Bump `@synsci/atlas` pin `^0.5.12`→`^0.13.2` so `atlas compute:up` resolves; add a "compute unavailable → BYOK" prompt guard (`prompt.ts:1329`); reconcile `research.txt:229` | D    | S                     |
+| 1   | Bump `@griffin/atlas` pin `^0.5.12`→`^0.13.2` so `atlas compute:up` resolves; add a "compute unavailable → BYOK" prompt guard (`prompt.ts:1329`); reconcile `research.txt:229` | D    | S                     |
 | 2   | Azure: add Storage cred or drop "Azure" copy                                                                                                                                  | B    | XS                    |
 | 3   | Vast/RunPod: "no skill yet" or remove from catalog                                                                                                                            | A    | XS                    |
 | 4   | `last_used`: populate or remove                                                                                                                                               | A    | XS                    |
-| 5   | Fix atlas-bin fallback scope `@openscience→@synsci`                                                                                                                           | A    | XS                    |
+| 5   | Fix atlas-bin fallback scope `@griffin→@griffin`                                                                                                                           | A    | XS                    |
 | 6   | Modal de-dup across Compute vs Credentials                                                                                                                                    | A    | S                     |
 | 7   | Remove or wire SSH-hosts + model-endpoints                                                                                                                                    | C    | S (remove) / L (wire) |
 | 8   | Document cloud-storage contract + optional rclone seeding                                                                                                                     | B    | S                     |
@@ -97,4 +97,4 @@ A user's Modal key can live in **three** places with no reconciliation: the loca
 - With managed enabled + infra: `Compute spend = Managed` starts a real lease, wallet debits per the 60 s tick, auto-releases — demonstrated once.
 - One substrate name + one canonical atlas version documented; `billing.compute` changes behavior or is labeled advisory; `settings-compute` tests stay green.
 
-**Key files:** `components/settings/{Compute,Storage,Spend}.tsx`, `server/routes/settings/{compute,storage,credentials,billing}.ts`, `openscience/index.ts`, `session/{prompt,billing-gate}.ts`, `agent/prompt/research.txt`, `config/config.ts`. Atlas: `routes/compute.py`, `services/{execution,compute_billing,compute_keys}_service.py`, `compute/{lease_manager,modal_provider}.py`, `config.py`.
+**Key files:** `components/settings/{Compute,Storage,Spend}.tsx`, `server/routes/settings/{compute,storage,credentials,billing}.ts`, `griffin/index.ts`, `session/{prompt,billing-gate}.ts`, `agent/prompt/research.txt`, `config/config.ts`. Atlas: `routes/compute.py`, `services/{execution,compute_billing,compute_keys}_service.py`, `compute/{lease_manager,modal_provider}.py`, `config.py`.

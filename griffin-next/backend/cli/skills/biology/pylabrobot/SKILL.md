@@ -176,7 +176,7 @@ data = await pr.read_absorbance(wavelength=450)
 ## Additional Resources
 
 - **Official Documentation**: https://docs.pylabrobot.org
-- **GitHub Repository**: https://github.com/PyLabRobot/pylabrobot
+- **GitHub Repository**: 
 - **Community Forum**: https://discuss.pylabrobot.org
 - **PyPI Package**: https://pypi.org/project/PyLabRobot/
 

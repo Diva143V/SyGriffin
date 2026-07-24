@@ -406,8 +406,8 @@ docker exec autogpt-rabbitmq rabbitmqctl purge_queue graph-execution
 ## Getting Help
 
 1. **Documentation**: https://docs.agpt.co
-2. **GitHub Issues**: https://github.com/Significant-Gravitas/AutoGPT/issues
-3. **Discord**: https://discord.gg/autogpt
+2. **GitHub Issues**: /issues
+3. **Discord**: 
 
 ### Reporting Issues
 

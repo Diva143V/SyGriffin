@@ -341,9 +341,9 @@ project/
 
 - **SpikeInterface Docs**: https://spikeinterface.readthedocs.io/
 - **Neuropixels Tutorial**: https://spikeinterface.readthedocs.io/en/stable/how_to/analyze_neuropixels.html
-- **Kilosort4 GitHub**: https://github.com/MouseLand/Kilosort
-- **IBL Neuropixel Tools**: https://github.com/int-brain-lab/ibl-neuropixel
-- **Allen Institute ecephys**: https://github.com/AllenInstitute/ecephys_spike_sorting
-- **Bombcell (Automated QC)**: https://github.com/Julie-Fabre/bombcell
-- **SpikeAgent (AI Curation)**: https://github.com/SpikeAgent/SpikeAgent
+- **Kilosort4 GitHub**: 
+- **IBL Neuropixel Tools**: 
+- **Allen Institute ecephys**: 
+- **Bombcell (Automated QC)**: 
+- **SpikeAgent (AI Curation)**: 
 

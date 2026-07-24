@@ -259,7 +259,7 @@ model = MambaLMHeadModel.from_pretrained("state-spaces/mamba-2.8b")
 
 - Paper (Mamba-1): https://arxiv.org/abs/2312.00752 (Dec 2023)
 - Paper (Mamba-2): https://arxiv.org/abs/2405.21060 (May 2024)
-- GitHub: https://github.com/state-spaces/mamba ⭐ 13,000+
+- GitHub:  ⭐ 13,000+
 - Models: https://huggingface.co/state-spaces
 - Docs: Repository README and wiki
 

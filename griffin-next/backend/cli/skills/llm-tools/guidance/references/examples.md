@@ -762,6 +762,6 @@ def batch_process(texts, batch_size=10):
 
 ## Resources
 
-- **Guidance Notebooks**: https://github.com/guidance-ai/guidance/tree/main/notebooks
+- **Guidance Notebooks**: /tree/main/notebooks
 - **Guidance Docs**: https://guidance.readthedocs.io
-- **Community Examples**: https://github.com/guidance-ai/guidance/discussions
+- **Community Examples**: /discussions

@@ -13,5 +13,5 @@ dist/
 backend/cli/skills/
 .astro/
 
-# built docs, embedded so openscience.sh/docs serves them (regenerate with: bun run --cwd frontend/landing sync:docs)
+# built docs, embedded so griffin.sh/docs serves them (regenerate with: bun run --cwd frontend/landing sync:docs)
 frontend/landing/public/docs/

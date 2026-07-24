@@ -153,7 +153,7 @@
 - Individual studies rarely overturn consensus
 - Consider the weight of evidence, not individual papers
 
-## Open Science Principles
+## Griffin Principles
 
 ### Transparency Practices
 - Preregistration of hypotheses and methods

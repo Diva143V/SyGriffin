@@ -44,7 +44,7 @@ async function waitForHealth(url: string, authHeader: string) {
 
 const appDir = process.cwd()
 const repoDir = path.resolve(appDir, "../..")
-const openscienceDir = path.join(repoDir, "backend", "cli")
+const griffinDir = path.join(repoDir, "backend", "cli")
 
 const extraArgs = (() => {
   const args = process.argv.slice(2)
@@ -54,49 +54,49 @@ const extraArgs = (() => {
 
 const [serverPort, webPort] = await Promise.all([freePort(), freePort()])
 
-const sandbox = await fs.mkdtemp(path.join(os.tmpdir(), "openscience-e2e-"))
+const sandbox = await fs.mkdtemp(path.join(os.tmpdir(), "griffin-e2e-"))
 
 // Pin Basic-Auth creds so the in-process server + the Playwright-hosted
-// frontend (via VITE_OPENSCIENCE_SERVER_PASSWORD) agree. Without this, flag.ts
+// frontend (via VITE_GRIFFIN_SERVER_PASSWORD) agree. Without this, flag.ts
 // auto-generates a random UUID password the frontend can't know, every
 // request 401s, and the server's Hono onError handler floods stdout with
 // `service=server error= failed` until the job times out.
-const e2eServerUsername = "openscience"
-const e2eServerPassword = "openscience-e2e-local-password"
+const e2eServerUsername = "griffin"
+const e2eServerPassword = "griffin-e2e-local-password"
 
 const serverEnv = {
   ...process.env,
-  OPENSCIENCE_DISABLE_SHARE: "true",
-  OPENSCIENCE_DISABLE_LSP_DOWNLOAD: "true",
-  OPENSCIENCE_DISABLE_DEFAULT_PLUGINS: "true",
-  OPENSCIENCE_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
-  OPENSCIENCE_TEST_HOME: path.join(sandbox, "home"),
+  GRIFFIN_DISABLE_SHARE: "true",
+  GRIFFIN_DISABLE_LSP_DOWNLOAD: "true",
+  GRIFFIN_DISABLE_DEFAULT_PLUGINS: "true",
+  GRIFFIN_EXPERIMENTAL_DISABLE_FILEWATCHER: "true",
+  GRIFFIN_TEST_HOME: path.join(sandbox, "home"),
   XDG_DATA_HOME: path.join(sandbox, "share"),
   XDG_CACHE_HOME: path.join(sandbox, "cache"),
   XDG_CONFIG_HOME: path.join(sandbox, "config"),
   XDG_STATE_HOME: path.join(sandbox, "state"),
-  OPENSCIENCE_E2E_PROJECT_DIR: repoDir,
-  OPENSCIENCE_E2E_SESSION_TITLE: "E2E Session",
-  OPENSCIENCE_E2E_MESSAGE: "Seeded for UI e2e",
-  OPENSCIENCE_E2E_MODEL: "synsci/gpt-5-nano",
-  OPENSCIENCE_CLIENT: "app",
-  OPENSCIENCE_SERVER_USERNAME: e2eServerUsername,
-  OPENSCIENCE_SERVER_PASSWORD: e2eServerPassword,
+  GRIFFIN_E2E_PROJECT_DIR: repoDir,
+  GRIFFIN_E2E_SESSION_TITLE: "E2E Session",
+  GRIFFIN_E2E_MESSAGE: "Seeded for UI e2e",
+  GRIFFIN_E2E_MODEL: "griffin/gpt-5-nano",
+  GRIFFIN_CLIENT: "app",
+  GRIFFIN_SERVER_USERNAME: e2eServerUsername,
+  GRIFFIN_SERVER_PASSWORD: e2eServerPassword,
 } satisfies Record<string, string>
 
 const runnerEnv = {
   ...serverEnv,
   PLAYWRIGHT_SERVER_HOST: "127.0.0.1",
   PLAYWRIGHT_SERVER_PORT: String(serverPort),
-  VITE_OPENSCIENCE_SERVER_HOST: "127.0.0.1",
-  VITE_OPENSCIENCE_SERVER_PORT: String(serverPort),
-  VITE_OPENSCIENCE_SERVER_USERNAME: e2eServerUsername,
-  VITE_OPENSCIENCE_SERVER_PASSWORD: e2eServerPassword,
+  VITE_GRIFFIN_SERVER_HOST: "127.0.0.1",
+  VITE_GRIFFIN_SERVER_PORT: String(serverPort),
+  VITE_GRIFFIN_SERVER_USERNAME: e2eServerUsername,
+  VITE_GRIFFIN_SERVER_PASSWORD: e2eServerPassword,
   PLAYWRIGHT_PORT: String(webPort),
 } satisfies Record<string, string>
 
 const seed = Bun.spawn(["bun", "script/seed-e2e.ts"], {
-  cwd: openscienceDir,
+  cwd: griffinDir,
   env: serverEnv,
   stdout: "inherit",
   stderr: "inherit",
@@ -109,7 +109,7 @@ if (seedExit !== 0) {
 
 Object.assign(process.env, serverEnv)
 process.env.AGENT = "1"
-process.env.OPENSCIENCE = "1"
+process.env.GRIFFIN = "1"
 
 const log = await import("../../../backend/cli/src/util/log")
 const install = await import("../../../backend/cli/src/installation")
@@ -122,7 +122,7 @@ await log.Log.init({
 const servermod = await import("../../../backend/cli/src/server/server")
 const inst = await import("../../../backend/cli/src/project/instance")
 const server = servermod.Server.listen({ port: serverPort, hostname: "127.0.0.1" })
-console.log(`openscience server listening on http://127.0.0.1:${serverPort}`)
+console.log(`griffin server listening on http://127.0.0.1:${serverPort}`)
 
 // Vite reads VITE_* env vars from .env.local at startup. Writing them
 // here (rather than relying on env-var propagation through Playwright's
@@ -130,10 +130,10 @@ console.log(`openscience server listening on http://127.0.0.1:${serverPort}`)
 // the matching Basic-Auth credentials. Cleaned up in the finally block.
 const envLocalPath = path.join(appDir, ".env.local")
 const envLocalBody = [
-  `VITE_OPENSCIENCE_SERVER_HOST=127.0.0.1`,
-  `VITE_OPENSCIENCE_SERVER_PORT=${serverPort}`,
-  `VITE_OPENSCIENCE_SERVER_USERNAME=${e2eServerUsername}`,
-  `VITE_OPENSCIENCE_SERVER_PASSWORD=${e2eServerPassword}`,
+  `VITE_GRIFFIN_SERVER_HOST=127.0.0.1`,
+  `VITE_GRIFFIN_SERVER_PORT=${serverPort}`,
+  `VITE_GRIFFIN_SERVER_USERNAME=${e2eServerUsername}`,
+  `VITE_GRIFFIN_SERVER_PASSWORD=${e2eServerPassword}`,
   "",
 ].join("\n")
 await fs.writeFile(envLocalPath, envLocalBody)

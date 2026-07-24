@@ -31,12 +31,12 @@ Use Speculative Decoding when you need to:
 pip install transformers accelerate
 
 # Medusa (multiple decoding heads)
-git clone https://github.com/FasterDecoding/Medusa
+git clone 
 cd Medusa
 pip install -e .
 
 # Lookahead Decoding
-git clone https://github.com/hao-ai-lab/LookaheadDecoding
+git clone 
 cd LookaheadDecoding
 pip install -e .
 
@@ -453,9 +453,9 @@ for output in outputs:
 ## Resources
 
 - **Medusa Paper**: https://arxiv.org/abs/2401.10774
-- **Medusa GitHub**: https://github.com/FasterDecoding/Medusa
+- **Medusa GitHub**: 
 - **Lookahead Decoding (ICML 2024)**: https://lmsys.org/blog/2023-11-21-lookahead-decoding/
-- **Lookahead GitHub**: https://github.com/hao-ai-lab/LookaheadDecoding
+- **Lookahead GitHub**: 
 - **Speculative Decoding Survey (ACL 2024)**: https://aclanthology.org/2024.findings-acl.456.pdf
 - **Comprehensive Survey**: https://arxiv.org/abs/2401.07851
 

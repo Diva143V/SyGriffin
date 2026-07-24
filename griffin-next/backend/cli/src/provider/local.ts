@@ -1,10 +1,10 @@
 /**
- * Local model support — point OpenScience at any OpenAI-compatible endpoint
+ * Local model support — point Griffin at any OpenAI-compatible endpoint
  * running on the user's machine (Ollama, LM Studio, llama.cpp, vLLM, Jan, …) or
  * a custom base URL.
  *
  * A local runtime is registered exactly like any other provider: a config block
- * under `openscience.json` → `provider.<id>` using the `@ai-sdk/openai-compatible`
+ * under `griffin.json` → `provider.<id>` using the `@ai-sdk/openai-compatible`
  * package, a `baseURL` (e.g. http://localhost:11434/v1), a throwaway api key
  * (most local servers ignore it, but the SDK requires a non-empty value), and a
  * `models` map. This module builds that block, discovers the models a running
@@ -18,7 +18,7 @@
 export namespace LocalProvider {
   /** A well-known local runtime and where it listens by default. */
   export interface Preset {
-    /** Provider id written to config (also the `openscience/<id>` model prefix). */
+    /** Provider id written to config (also the `griffin/<id>` model prefix). */
     id: string
     /** Human label shown in pickers. */
     name: string
@@ -73,7 +73,7 @@ export namespace LocalProvider {
   /** The npm package every local OpenAI-compatible endpoint routes through. */
   export const NPM = "@ai-sdk/openai-compatible"
 
-  /** How to start / manage a runtime's server from its CLI, when OpenScience can
+  /** How to start / manage a runtime's server from its CLI, when Griffin can
    *  host it for the user. Only runtimes with a self-contained "serve" command
    *  are auto-startable; the rest are BYO-server (the user runs it themselves). */
   export interface RuntimeCommands {
@@ -107,7 +107,7 @@ export namespace LocalProvider {
     },
   } as const
 
-  /** Whether OpenScience can start this runtime itself (a known serve command). */
+  /** Whether Griffin can start this runtime itself (a known serve command). */
   export function isAutoStartable(presetId: string): boolean {
     return presetId in RUNTIME_COMMANDS
   }
@@ -203,7 +203,7 @@ export namespace LocalProvider {
     return results.filter((r): r is Detected => Array.isArray(r.models) && r.models.length > 0)
   }
 
-  /** Build the `openscience.json` → `provider.<id>` block for a local endpoint.
+  /** Build the `griffin.json` → `provider.<id>` block for a local endpoint.
    *  Uses `@ai-sdk/openai-compatible`, pins the baseURL + a throwaway key, and
    *  registers each model at zero cost (local inference is free / never metered).
    *  Conservative capability + limit defaults; the user can refine per-model. */

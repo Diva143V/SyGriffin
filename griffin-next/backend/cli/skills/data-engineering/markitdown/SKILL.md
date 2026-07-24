@@ -4,7 +4,7 @@ description: "Convert files and office documents to Markdown. Supports PDF, DOCX
 category: data-engineering
 allowed-tools: [Read, Write, Edit, Bash]
 license: MIT
-source: https://github.com/microsoft/markitdown
+source: 
 ---
 
 # MarkItDown - File to Markdown Conversion
@@ -83,7 +83,7 @@ For detailed guidance on creating schematics, refer to the scientific-schematics
 pip install 'markitdown[all]'
 
 # Or from source
-git clone https://github.com/microsoft/markitdown.git
+git clone .git
 cd markitdown
 pip install -e 'packages/markitdown[all]'
 ```
@@ -477,7 +477,7 @@ print(result.text_content)
 
 ## Resources
 
-- **MarkItDown GitHub**: https://github.com/microsoft/markitdown
+- **MarkItDown GitHub**: 
 - **PyPI**: https://pypi.org/project/markitdown/
 - **OpenRouter**: https://openrouter.ai (for AI-enhanced conversions)
 - **OpenRouter API Keys**: https://openrouter.ai/keys

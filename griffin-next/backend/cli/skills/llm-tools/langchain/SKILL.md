@@ -471,7 +471,7 @@ splitter = SemanticChunker(OpenAIEmbeddings())
 
 ## Resources
 
-- **GitHub**: https://github.com/langchain-ai/langchain ⭐ 119,000+
+- **GitHub**:  ⭐ 119,000+
 - **Docs**: https://docs.langchain.com
 - **API Reference**: https://reference.langchain.com/python
 - **LangSmith**: https://smith.langchain.com (observability)

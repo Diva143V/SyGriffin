@@ -524,7 +524,7 @@ Systematically evaluate scientific claims for validity and support.
 
 This skill includes comprehensive reference materials that provide detailed frameworks for critical evaluation:
 
-- **`references/scientific_method.md`** - Core principles of scientific methodology, the scientific process, critical evaluation criteria, red flags in scientific claims, causal inference standards, peer review, and open science principles
+- **`references/scientific_method.md`** - Core principles of scientific methodology, the scientific process, critical evaluation criteria, red flags in scientific claims, causal inference standards, peer review, and griffin principles
 
 - **`references/common_biases.md`** - Comprehensive taxonomy of cognitive, experimental, methodological, statistical, and analysis biases with detection and mitigation strategies
 

@@ -41,7 +41,7 @@ The GGUF (GPT-Generated Unified Format) is the standard file format for llama.cp
 
 ```bash
 # Clone llama.cpp
-git clone https://github.com/ggml-org/llama.cpp
+git clone .cpp
 cd llama.cpp
 
 # Build (CPU)
@@ -421,8 +421,8 @@ python server.py --model model-q4_k_m.gguf --loader llama.cpp --n-gpu-layers 35
 
 ## Resources
 
-- **Repository**: https://github.com/ggml-org/llama.cpp
-- **Python Bindings**: https://github.com/abetlen/llama-cpp-python
+- **Repository**: .cpp
+- **Python Bindings**: 
 - **Pre-quantized Models**: https://huggingface.co/TheBloke
 - **GGUF Converter**: https://huggingface.co/spaces/ggml-org/gguf-my-repo
 - **License**: MIT

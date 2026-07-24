@@ -16,7 +16,7 @@
  * the store and injects each field into the process environment under the
  * canonical var names the real consumers already read — Bedrock/S3 (provider.ts
  * reads AWS_ACCESS_KEY_ID), the in-process literature connectors (Semantic
- * Scholar `x-api-key`, OpenAlex mailto/key), and — via OpenScience.subprocessEnv,
+ * Scholar `x-api-key`, OpenAlex mailto/key), and — via Griffin.subprocessEnv,
  * which forwards non-managed env vars — every skill/bash subprocess (aws, gh,
  * gcloud, modal, …). It runs at CLI/server boot (index.ts middleware) and again
  * after each save/delete so changes apply live without a restart. Decrypted
@@ -29,7 +29,7 @@ import path from "path"
 import z from "zod"
 import { Global } from "@/global"
 import { Env } from "@/env"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { lazy } from "@/util/lazy"
 
 type FieldType = "password" | "text" | "textarea"
@@ -326,7 +326,7 @@ export async function applyCredentialEnv(): Promise<void> {
         // Instance state not initialized yet — process.env alone is enough here.
       }
     }
-    OpenScience.registerSecretValues(secrets)
+    Griffin.registerSecretValues(secrets)
   } catch {
     // best-effort; a broken store must not break boot or a save response
   }

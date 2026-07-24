@@ -51,10 +51,10 @@ export function createEncryptPromptsPlugin(keyFragments: string[]): {
       },
     },
     defines: {
-      OPENSCIENCE_K1: `"${keyFragments[0]}"`,
-      OPENSCIENCE_K2: `"${keyFragments[1]}"`,
-      OPENSCIENCE_K3: `"${keyFragments[2]}"`,
-      OPENSCIENCE_K4: `"${keyFragments[3]}"`,
+      GRIFFIN_K1: `"${keyFragments[0]}"`,
+      GRIFFIN_K2: `"${keyFragments[1]}"`,
+      GRIFFIN_K3: `"${keyFragments[2]}"`,
+      GRIFFIN_K4: `"${keyFragments[3]}"`,
     },
   }
 }

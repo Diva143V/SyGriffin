@@ -74,7 +74,7 @@ sudo apt-get install fpocket
 brew install fpocket
 
 # From source
-git clone https://github.com/Discngine/fpocket.git
+git clone .git
 cd fpocket && make && sudo make install
 ```
 
@@ -108,7 +108,7 @@ P2Rank is a machine learning method:
 ### Installation
 ```bash
 # Download latest release
-wget https://github.com/rdk/p2rank/releases/download/2.4.2/p2rank_2.4.2.tar.gz
+wget /releases/download/2.4.2/p2rank_2.4.2.tar.gz
 tar -xzf p2rank_2.4.2.tar.gz
 export P2RANK_HOME=$(pwd)/p2rank_2.4.2
 ```

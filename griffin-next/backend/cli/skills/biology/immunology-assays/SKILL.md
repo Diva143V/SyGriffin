@@ -586,6 +586,6 @@ print(f"Control peaks: {len(ctrl_df)}, Treatment peaks: {len(treat_df)}")
 ## Resources
 
 - [ELISA Technical Guide (Thermo Fisher)](https://www.thermofisher.com/us/en/home/life-science/protein-biology/protein-biology-learning-center/protein-biology-resource-library/pierce-protein-methods/elisa-technical-guide.html)
-- [MACS2 Documentation](https://github.com/macs3-project/MACS)
+- [MACS2 Documentation]()
 - [HOMER Motif Analysis](http://homer.ucsd.edu/homer/)
 - [H-score Calculation Guidelines](https://doi.org/10.1007/978-1-4939-1124-0_6)

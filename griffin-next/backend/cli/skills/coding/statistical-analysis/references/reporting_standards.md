@@ -429,7 +429,7 @@ This document provides guidelines for reporting statistical analyses according t
 4. **Supplements**: Additional analyses, tables
 
 **Where to share**:
-- Open Science Framework (OSF)
+- griffin Framework (OSF)
 - GitHub (for code)
 - Journal supplements
 - Institutional repository

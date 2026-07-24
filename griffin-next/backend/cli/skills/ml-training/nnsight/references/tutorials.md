@@ -297,4 +297,4 @@ for i, resid in enumerate(residuals):
 
 ### Community
 - [Discussion Forum](https://discuss.ndif.us/)
-- [GitHub Issues](https://github.com/ndif-team/nnsight/issues)
+- [GitHub Issues](/issues)

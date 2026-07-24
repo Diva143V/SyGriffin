@@ -477,4 +477,4 @@ await run_protocol("opentrons")       # Run on Opentrons OT-2
 - Backend Documentation: https://docs.pylabrobot.org/user_guide/backends.html
 - Supported Machines: https://docs.pylabrobot.org/user_guide/machines.html
 - API Reference: https://docs.pylabrobot.org/api/pylabrobot.liquid_handling.backends.html
-- GitHub Examples: https://github.com/PyLabRobot/pylabrobot/tree/main/examples
+- GitHub Examples: /tree/main/examples

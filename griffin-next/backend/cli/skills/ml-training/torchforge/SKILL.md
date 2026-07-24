@@ -427,8 +427,8 @@ training:
 ## Resources
 
 - **Documentation**: https://meta-pytorch.org/torchforge
-- **GitHub**: https://github.com/meta-pytorch/torchforge
-- **Discord**: https://discord.gg/YsTYBh6PD9
-- **TorchTitan**: https://github.com/pytorch/torchtitan
-- **Monarch**: https://github.com/meta-pytorch/monarch
+- **GitHub**: 
+- **Discord**: 
+- **TorchTitan**: 
+- **Monarch**: 
 

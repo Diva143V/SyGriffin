@@ -425,4 +425,4 @@ done
 
 - **HuggingFace Models**: Browse merged models for inspiration
 - **Open LLM Leaderboard**: See top-performing merges
-- **mergekit Examples**: https://github.com/arcee-ai/mergekit/tree/main/examples
+- **mergekit Examples**: /tree/main/examples

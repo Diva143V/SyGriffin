@@ -62,10 +62,10 @@ pip install biopython numpy scipy
 # fpocket method (external binary)
 # Ubuntu/Debian: sudo apt-get install fpocket
 # macOS: brew install fpocket
-# Or build from source: https://github.com/Discngine/fpocket
+# Or build from source: 
 
 # P2Rank method (external binary)
-# Download from: https://github.com/rdk/p2rank/releases
+# Download from: /releases
 # Set P2RANK_HOME environment variable to installation directory
 
 # Visualization

@@ -676,12 +676,12 @@ for drug in drugs:
 - **API Documentation**: https://open.fda.gov/apis/
 - **Interactive API Explorer**: https://open.fda.gov/apis/try-the-api/
 - **Terms of Service**: https://open.fda.gov/terms/
-- **GitHub**: https://github.com/FDA/openfda
+- **GitHub**: 
 - **Status Page**: Check for API outages and maintenance
 
 ## Support
 
 For questions or issues:
-- **GitHub Issues**: https://github.com/FDA/openfda/issues
+- **GitHub Issues**: /issues
 - **Email**: open-fda@fda.hhs.gov
 - **Discussion Forum**: Check GitHub discussions

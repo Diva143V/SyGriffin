@@ -383,6 +383,6 @@ if len(checkpoints) > keep_last:
 
 ## Resources
 
-- Training code: https://github.com/state-spaces/mamba/tree/main/benchmarks
+- Training code: /tree/main/benchmarks
 - Pretrained models: https://huggingface.co/state-spaces
-- CUDA installation: https://github.com/state-spaces/mamba#installation
+- CUDA installation: #installation

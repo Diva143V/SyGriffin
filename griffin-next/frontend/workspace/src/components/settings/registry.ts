@@ -1,5 +1,5 @@
 import { lazy, type Component } from "solid-js"
-import type { IconProps } from "@synsci/ui/icon"
+import type { IconProps } from "@griffin/ui/icon"
 
 // ── Panel contract ──────────────────────────────────────────────────────────
 //
@@ -40,7 +40,7 @@ export interface SettingsPanel {
   id: SettingsPanelId
   /** Title shown in the shell header + rail label. */
   title: string
-  /** Icon name from `@synsci/ui/icon`. */
+  /** Icon name from `@griffin/ui/icon`. */
   icon: IconProps["name"]
   /** Which rail group the row lives under. */
   section: SettingsSection

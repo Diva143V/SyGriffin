@@ -1,10 +1,10 @@
 # Tutorial: How to Finetune Llama-3 and Use In Ollama
 
-By the end of this tutorial, you will create a custom chatbot by **finetuning Llama-3** with [**Unsloth**](https://github.com/unslothai/unsloth) for free. It can run locally via [**Ollama**](https://github.com/ollama/ollama) on your PC, or in a free GPU instance through [**Google Colab**](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3_\(8B\)-Ollama.ipynb). You will be able to interact with the chatbot interactively like below:
+By the end of this tutorial, you will create a custom chatbot by **finetuning Llama-3** with [**Unsloth**]() for free. It can run locally via [**Ollama**]() on your PC, or in a free GPU instance through [**Google Colab**](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3_\(8B\)-Ollama.ipynb). You will be able to interact with the chatbot interactively like below:
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2Fgit-blob-cf9aed2029e54afbb65889b480134e6d5e1cf3a7%2FAssistant%20example.png?alt=media" alt=""><figcaption></figcaption></figure>
 
-**Unsloth** makes finetuning much easier, and can automatically export the finetuned model to **Ollama** with integrated automatic `Modelfile` creation! If you need help, you can join our Discord server: <https://discord.com/invite/unsloth>
+**Unsloth** makes finetuning much easier, and can automatically export the finetuned model to **Ollama** with integrated automatic `Modelfile` creation! If you need help, you can join our Discord server: <#>
 
 {% hint style="warning" %}
 **If you’d like to copy or save the code, everything is available in our** [**Ollama Colab notebook**](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3_\(8B\)-Ollama.ipynb)**. You can use it directly there or adapt it for your local setup:** [**https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3\_(8B)-Ollama.ipynb**](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3_\(8B\)-Ollama.ipynb)
@@ -12,7 +12,7 @@ By the end of this tutorial, you will create a custom chatbot by **finetuning Ll
 
 ## 1. What is Unsloth?
 
-[Unsloth](https://github.com/unslothai/unsloth) makes finetuning LLMs like Llama-3, Mistral, Phi-3 and Gemma 2x faster, use 70% less memory, and with no degradation in accuracy! We will be using Google Colab which provides a free GPU during this tutorial. You can access our free notebooks below:
+[Unsloth]() makes finetuning LLMs like Llama-3, Mistral, Phi-3 and Gemma 2x faster, use 70% less memory, and with no degradation in accuracy! We will be using Google Colab which provides a free GPU during this tutorial. You can access our free notebooks below:
 
 * [Ollama Llama-3 Alpaca](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3_\(8B\)-Ollama.ipynb) (notebook which we will be usin
 * [CSV/Excel Ollama Guide](https://colab.research.google.com/drive/1VYkncZMfGFkeCEgN2IzbZIKEDkyQuJAS?usp=sharing)
@@ -23,7 +23,7 @@ By the end of this tutorial, you will create a custom chatbot by **finetuning Ll
 
 ## 2. What is Ollama?
 
-[Ollama ](https://github.com/ollama/ollama)allows you to run language models from your own computer in a quick and simple way! It quietly launches a program which can run a language model like Llama-3 in the background. If you suddenly want to ask the language model a question, you can simply submit a request to Ollama, and it'll quickly return the results to you! We'll be using Ollama as our inference engine!
+[Ollama ]()allows you to run language models from your own computer in a quick and simple way! It quietly launches a program which can run a language model like Llama-3 in the background. If you suddenly want to ask the language model a question, you can simply submit a request to Ollama, and it'll quickly return the results to you! We'll be using Ollama as our inference engine!
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2Fgit-blob-fd25844766001d93ed0949fc8f57957f49b1e6e5%2FOllama.png?alt=media" alt=""><figcaption></figcaption></figure>
 
@@ -132,7 +132,7 @@ The goal is to change these numbers to increase accuracy, but also **counteract 
 
 We will now use the Alpaca Dataset created by calling GPT-4 itself. It is a list of 52,000 instructions and outputs which was very popular when Llama-1 was released, since it made finetuning a base LLM be competitive with ChatGPT itself.
 
-You can access the GPT4 version of the Alpaca dataset here: <https://huggingface.co/datasets/vicgalle/alpaca-gpt4>. An older first version of the dataset is here: <https://github.com/tatsu-lab/stanford_alpaca>. Below shows some examples of the dataset:
+You can access the GPT4 version of the Alpaca dataset here: <https://huggingface.co/datasets/vicgalle/alpaca-gpt4>. An older first version of the dataset is here: <>. Below shows some examples of the dataset:
 
 <figure><img src="https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2Fgit-blob-0dde50e386e7b245d3e8a57e10a4a81755b3769a%2Fimage.png?alt=media" alt=""><figcaption></figcaption></figure>
 
@@ -301,7 +301,7 @@ Then we export the finetuned model we have to llama.cpp's GGUF formats like belo
 
 Reminder to convert `False` to `True` for 1 row, and not change every row to `True`, or else you'll be waiting for a very time! We normally suggest the first row getting set to `True`, so we can export the finetuned model quickly to `Q8_0` format (8 bit quantization). We also allow you to export to a whole list of quantization methods as well, with a popular one being `q4_k_m`.
 
-Head over to <https://github.com/ggerganov/llama.cpp> to learn more about GGUF. We also have some manual instructions of how to export to GGUF if you want here: <https://github.com/unslothai/unsloth/wiki#manually-saving-to-gguf>
+Head over to <.cpp> to learn more about GGUF. We also have some manual instructions of how to export to GGUF if you want here: </wiki#manually-saving-to-gguf>
 
 You will see a long list of text like below - please wait 5 to 10 minutes!!
 
@@ -349,8 +349,8 @@ And finally, you can interact with the finetuned model just like an actual ChatG
 
 You've successfully finetuned a language model and exported it to Ollama with Unsloth 2x faster and with 70% less VRAM! And all this for free in a Google Colab notebook!
 
-If you want to learn how to do reward modelling, do continued pretraining, export to vLLM or GGUF, do text completion, or learn more about finetuning tips and tricks, head over to our [Github](https://github.com/unslothai/unsloth#-finetune-for-free).
+If you want to learn how to do reward modelling, do continued pretraining, export to vLLM or GGUF, do text completion, or learn more about finetuning tips and tricks, head over to our [Github](#-finetune-for-free).
 
-If you need any help on finetuning, you can also join our Discord server [here](https://discord.gg/unsloth). If you want help with Ollama, you can also join their server [here](https://discord.gg/ollama).
+If you need any help on finetuning, you can also join our Discord server [here](). If you want help with Ollama, you can also join their server [here]().
 
 And finally, we want to thank you for reading and following this far! We hope this made you understand some of the nuts and bolts behind finetuning language models, and we hope this was useful!

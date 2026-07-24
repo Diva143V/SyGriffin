@@ -346,7 +346,7 @@ watch -n 1 nvidia-smi
 
 ## Resources
 
-- GitHub Issues: https://github.com/radixark/miles/issues
+- GitHub Issues: /issues
 - Unified FP8 Blog: https://lmsys.org/blog/2025-11-25-fp8-rl/
-- Train-Inference Mismatch Tutorial: https://github.com/zhaochenyang20/Awesome-ML-SYS-Tutorial/blob/main/rlhf/slime/mismatch/blog-en.md
+- Train-Inference Mismatch Tutorial: /blob/main/rlhf/slime/mismatch/blog-en.md
 - SGLang Discord: Community support

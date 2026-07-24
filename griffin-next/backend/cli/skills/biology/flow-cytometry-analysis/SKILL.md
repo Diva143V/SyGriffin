@@ -533,7 +533,7 @@ for phase, pct in phases.items():
 
 ## Resources
 
-- [FlowIO Documentation](https://github.com/whitews/FlowIO)
+- [FlowIO Documentation]()
 - [ISAC Data Standards](https://isac-net.org/page/data-standards)
 - [Flow Cytometry Bioinformatics (Bioconductor)](https://www.bioconductor.org/packages/release/BiocViews.html#___FlowCytometry)
 - [Practical Flow Cytometry by Howard Shapiro](https://onlinelibrary.wiley.com/doi/book/10.1002/0471722731)

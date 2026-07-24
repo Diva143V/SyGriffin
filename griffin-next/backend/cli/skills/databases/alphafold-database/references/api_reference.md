@@ -403,7 +403,7 @@ Always specify and track database versions in your code (current: v4).
 
 ## Additional Resources
 
-- **AlphaFold GitHub:** https://github.com/google-deepmind/alphafold
+- **AlphaFold GitHub:** 
 - **Google Cloud Documentation:** https://cloud.google.com/datasets/alphafold
 - **3D-Beacons Documentation:** https://www.ebi.ac.uk/pdbe/pdbe-kb/3dbeacons/docs
 - **Biopython Tutorial:** https://biopython.org/wiki/AlphaFold

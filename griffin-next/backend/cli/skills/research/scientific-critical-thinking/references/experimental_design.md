@@ -326,7 +326,7 @@
 - [ ] Software selected (R, SPSS, Stata, Python, etc.)
 - [ ] Version documented
 - [ ] Analysis scripts prepared in advance
-- [ ] Will be made available (Open Science)
+- [ ] Will be made available (griffin)
 
 ## Ethical Considerations
 
@@ -412,7 +412,7 @@
 - [ ] Deviations from protocol noted
 - [ ] Conflicts of interest disclosed
 
-### Open Science
+### griffin
 - [ ] Data sharing planned (when ethical)
 - [ ] Analysis code shared
 - [ ] Materials available

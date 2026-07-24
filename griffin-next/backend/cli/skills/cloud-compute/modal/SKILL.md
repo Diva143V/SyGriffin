@@ -41,9 +41,9 @@ This skill provides the decision framework, GPU guide, API reference, and a cata
 | Long-running persistent pods | **RunPod** |
 | Scientific GPU computing (simulations, MD, Monte Carlo) | **modal-research-gpu** |
 
-## Credential Setup (openscience)
+## Credential Setup (griffin)
 
-Credentials are auto-injected via OpenScience. Verify before running Modal workloads:
+Credentials are auto-injected via Griffin. Verify before running Modal workloads:
 
 ```bash
 # Check credentials are set (NEVER echo the actual values)
@@ -60,7 +60,7 @@ If Modal CLI isn't installed: `pip install modal` (no `modal setup` needed — e
 | Topic | Reference |
 |-------|-----------|
 | Example Catalog (50+ examples) | [Examples Catalog](references/examples-catalog.md) |
-| Advanced Patterns & openscience Integration | [Advanced Patterns](references/advanced-patterns.md) |
+| Advanced Patterns & griffin Integration | [Advanced Patterns](references/advanced-patterns.md) |
 | Troubleshooting | [Troubleshooting](references/troubleshooting.md) |
 
 ## Execution Modes
@@ -416,5 +416,5 @@ When implementing a Modal workload:
 1. Check the example catalog above to find the closest matching example
 2. Load the [Examples Catalog](references/examples-catalog.md) for expanded implementation notes
 3. Refer to Modal's docs at https://modal.com/docs/examples for full source code
-4. Adapt for your use case using openscience credentials (`MODAL_TOKEN_ID`/`MODAL_TOKEN_SECRET`)
-5. After job completes, report usage via `OpenScience.reportUsage()` with `service="modal"`
+4. Adapt for your use case using griffin credentials (`MODAL_TOKEN_ID`/`MODAL_TOKEN_SECRET`)
+5. After job completes, report usage via `Griffin.reportUsage()` with `service="modal"`

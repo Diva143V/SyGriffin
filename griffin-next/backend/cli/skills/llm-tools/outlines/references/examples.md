@@ -770,4 +770,4 @@ def rate_limited_extract(texts: list[str], schema: type[BaseModel]):
 
 - **Outlines Documentation**: https://outlines-dev.github.io/outlines
 - **Pydantic Documentation**: https://docs.pydantic.dev
-- **GitHub Examples**: https://github.com/outlines-dev/outlines/tree/main/examples
+- **GitHub Examples**: /tree/main/examples

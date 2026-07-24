@@ -11,7 +11,7 @@ import {
   type Rejection,
 } from "./review"
 import { Progress } from "./progress"
-import { OpenScience } from "../../openscience"
+import { Griffin } from "../../griffin"
 
 export interface InstallOptions {
   confirm?: boolean
@@ -31,8 +31,8 @@ export interface InstallResult {
 
 function installedDir(): string {
   // Same path the loader scans (Global.Path.data resolves XDG_DATA_HOME first).
-  // Allow tests to override via OPENSCIENCE_DATA_DIR without monkey-patching globals.
-  const base = process.env.OPENSCIENCE_DATA_DIR ?? Global.Path.data
+  // Allow tests to override via GRIFFIN_DATA_DIR without monkey-patching globals.
+  const base = process.env.GRIFFIN_DATA_DIR ?? Global.Path.data
   return path.join(base, "installed-skills")
 }
 
@@ -63,7 +63,7 @@ export namespace Install {
       const reasoningByName: Record<string, string> = {}
       const classifierRejected: Rejection[] = []
       if (!skipClassifier && surviving.length > 0) {
-        const review = await OpenScience.requestSkillReview(
+        const review = await Griffin.requestSkillReview(
           surviving.map((s) => ({
             namespace: s.namespace,
             name: s.name,
@@ -117,7 +117,7 @@ export namespace Install {
         // Persist the repo's entry manifest (or absence thereof) so the
         // loader can filter user-facing skills from internal helpers.
         if (entries !== null) {
-          await fs.writeFile(path.join(nsDir, "openscience-skills.json"), JSON.stringify({ entries }, null, 2))
+          await fs.writeFile(path.join(nsDir, "griffin-skills.json"), JSON.stringify({ entries }, null, 2))
         }
         for (const skill of surviving) {
           const skillDir = path.join(skillsDir, skill.name)
@@ -141,7 +141,7 @@ export namespace Install {
             // (repo_url + pinned_sha + classifier verdict), not the SKILL.md
             // content. Other machines re-fetch from git on next sync.
             // Best-effort; local install stands if the upload fails.
-            await OpenScience.postInstalledSkill({
+            await Griffin.postInstalledSkill({
               namespace: skill.namespace,
               name: skill.name,
               description: skill.description,
@@ -195,7 +195,7 @@ export namespace Install {
         .then(() => true)
         .catch(() => false)
       await fs.rm(dir, { recursive: true, force: true }).catch(() => {})
-      const ok = await OpenScience.deleteInstalledSkill(namespace, name).catch(() => false)
+      const ok = await Griffin.deleteInstalledSkill(namespace, name).catch(() => false)
       return { archived: ok || existedLocally ? 1 : 0 }
     }
 
@@ -208,12 +208,12 @@ export namespace Install {
       /* skills/ subdir absent */
     }
     await fs.rm(dir, { recursive: true, force: true }).catch(() => {})
-    const result = await OpenScience.deleteInstalledNamespace(namespace).catch(() => null)
+    const result = await Griffin.deleteInstalledNamespace(namespace).catch(() => null)
     return { archived: Math.max(result?.archived ?? 0, localCount) }
   }
 
   export async function list(): Promise<{ namespace: string; name: string; description: string; verdict: string }[]> {
-    const rows = await OpenScience.fetchInstalledSkills()
+    const rows = await Griffin.fetchInstalledSkills()
     return (rows ?? []).map((r) => ({
       namespace: r.namespace,
       name: r.name,

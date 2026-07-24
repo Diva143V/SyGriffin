@@ -77,7 +77,7 @@ export function parseSkillUrl(input: string): ParsedSkillUrl {
 
   // Absolute filesystem path (mostly for tests / local dev) — namespace is
   // the last path segment; clone via git directly against the local path.
-  if (raw.startsWith("/")) {
+  if (raw.startsWith("/") || path.isAbsolute(raw)) {
     const repo = path.basename(raw)
     return {
       kind: "git",

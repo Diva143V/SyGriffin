@@ -9,7 +9,7 @@ import { getJSON } from "../http"
 import { arr, asRecord, type Rec } from "./util"
 
 const BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
-const TOOL = "openscience-science"
+const TOOL = "griffin-science"
 
 interface ESearchEnvelope {
   esearchresult?: { idlist?: unknown; count?: string }

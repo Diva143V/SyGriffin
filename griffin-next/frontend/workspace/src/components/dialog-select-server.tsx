@@ -1,19 +1,19 @@
 import { createResource, createEffect, createMemo, onCleanup, Show, createSignal } from "solid-js"
 import { createStore, reconcile } from "solid-js/store"
-import { useDialog } from "@synsci/ui/context/dialog"
-import { Dialog } from "@synsci/ui/dialog"
-import { List } from "@synsci/ui/list"
-import { Button } from "@synsci/ui/button"
-import { IconButton } from "@synsci/ui/icon-button"
-import { TextField } from "@synsci/ui/text-field"
+import { useDialog } from "@griffin/ui/context/dialog"
+import { Dialog } from "@griffin/ui/dialog"
+import { List } from "@griffin/ui/list"
+import { Button } from "@griffin/ui/button"
+import { IconButton } from "@griffin/ui/icon-button"
+import { TextField } from "@griffin/ui/text-field"
 import { normalizeServerUrl, serverDisplayName, useServer } from "@/context/server"
 import { usePlatform } from "@/context/platform"
-import { createOpenScienceClient } from "@synsci/sdk/v2/client"
+import { createGriffinClient } from "@griffin/sdk/v2/client"
 import { useNavigate } from "@solidjs/router"
 import { useLanguage } from "@/context/language"
-import { DropdownMenu } from "@synsci/ui/dropdown-menu"
-import { Tooltip } from "@synsci/ui/tooltip"
-import { showToast } from "@synsci/ui/toast"
+import { DropdownMenu } from "@griffin/ui/dropdown-menu"
+import { Tooltip } from "@griffin/ui/tooltip"
+import { showToast } from "@griffin/ui/toast"
 
 type ServerStatus = { healthy: boolean; version?: string }
 
@@ -41,7 +41,7 @@ interface EditRowProps {
 
 async function checkHealth(url: string, platform: ReturnType<typeof usePlatform>): Promise<ServerStatus> {
   const signal = (AbortSignal as unknown as { timeout?: (ms: number) => AbortSignal }).timeout?.(3000)
-  const sdk = createOpenScienceClient({
+  const sdk = createGriffinClient({
     baseUrl: url,
     fetch: platform.fetch,
     signal,

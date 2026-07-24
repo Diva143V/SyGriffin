@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@synsci/sdk",
+  "name": "@griffin/sdk",
   "version": "1.2.2",
   "type": "module",
   "license": "Apache-2.0",
@@ -32,6 +32,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synthetic-sciences/openscience.git"
+    "url": "git+https://github.com/synthetic-sciences/griffin.git"
   }
 }

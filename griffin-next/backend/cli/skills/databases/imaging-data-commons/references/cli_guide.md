@@ -269,4 +269,4 @@ For unstable networks, download in smaller batches using Python to generate mult
 
 - [idc-index Documentation](https://idc-index.readthedocs.io/)
 - [IDC Portal](https://portal.imaging.datacommons.cancer.gov/) - Interactive cohort building
-- [IDC Tutorials](https://github.com/ImagingDataCommons/IDC-Tutorials)
+- [IDC Tutorials]()

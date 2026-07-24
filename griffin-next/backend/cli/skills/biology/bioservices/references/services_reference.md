@@ -633,4 +633,4 @@ service.clear_cache()  # Clear cache
 For detailed API documentation:
 - Official docs: https://bioservices.readthedocs.io/
 - Individual service docs linked from main page
-- Source code: https://github.com/cokelaer/bioservices
+- Source code: 

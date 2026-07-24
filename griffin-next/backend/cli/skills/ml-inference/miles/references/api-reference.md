@@ -135,7 +135,7 @@ Same interface as slime:
 
 ## Resources
 
-- GitHub: https://github.com/radixark/miles
+- GitHub: 
 - Introduction Blog: https://lmsys.org/blog/2025-11-19-miles/
-- Slime (upstream): https://github.com/THUDM/slime
-- SGLang: https://github.com/sgl-project/sglang
+- Slime (upstream): 
+- SGLang: 

@@ -1,9 +1,9 @@
 /**
  * Bridge for `/api/atlas/*` → the Atlas graph backend.
  *
- * The OpenScience web canvas (node list) and project/session sync proxy
+ * The Griffin web canvas (node list) and project/session sync proxy
  * through here to the Atlas REST API (`API_BASE/api/v1/*`), authenticated
- * with the user's stored `thk_` key (`OpenScience.getSession()`). This is the
+ * with the user's stored `thk_` key (`Griffin.getSession()`). This is the
  * same backend + token the CLI already uses for sync/skills/billing, and
  * the same contract the `atlas` CLI binary speaks (`nodes:list`,
  * `nodes:commit-new`, `auth/github/*`).
@@ -17,7 +17,7 @@ import crypto from "crypto"
 import { realpathSync, readFileSync, writeFileSync, mkdirSync } from "fs"
 import { join } from "path"
 import { lazy } from "../../util/lazy"
-import { OpenScience, API_BASE } from "../../openscience"
+import { Griffin, API_BASE } from "../../griffin"
 import { Log } from "../../util/log"
 
 const log = Log.create({ service: "atlas-bridge" })
@@ -49,17 +49,17 @@ function nodeIdOf(data: any): string | null {
 }
 
 async function token(): Promise<string | null> {
-  const session = await OpenScience.getSession()
+  const session = await Griffin.getSession()
   return session?.api_key ?? null
 }
 
 // Bound every Atlas bridge call. Without this a slow/unresponsive backend hangs
-// the caller forever — and because `openscience project init` (run from the
+// the caller forever — and because `griffin project init` (run from the
 // research prompt on every session) goes through here, and the agent's bash tool
 // has no default timeout, a slow graph-create wedged a whole session for >60 min.
 // A timeout turns that into a fast, actionable "couldn't reach Atlas" instead.
-// Overridable for genuinely slow links via OPENSCIENCE_ATLAS_TIMEOUT_MS.
-const ATLAS_TIMEOUT_MS = Number(process.env["OPENSCIENCE_ATLAS_TIMEOUT_MS"]) || 60_000
+// Overridable for genuinely slow links via GRIFFIN_ATLAS_TIMEOUT_MS.
+const ATLAS_TIMEOUT_MS = Number(process.env["GRIFFIN_ATLAS_TIMEOUT_MS"]) || 60_000
 
 /** Call the Atlas backend with the user's key. Throws if unauthenticated, and
  *  aborts (rejects) after ATLAS_TIMEOUT_MS so callers fail fast, never hang. */
@@ -229,8 +229,8 @@ function projectIdOf(p: any): string | null {
   return p?.project_id ?? p?.id ?? p?.node_id ?? null
 }
 
-// ── local project pin (.openscience/project.json) ─────────────────────────────
-// Written by `openscience project init` / `project merge` and by a successful
+// ── local project pin (.griffin/project.json) ─────────────────────────────
+// Written by `griffin project init` / `project merge` and by a successful
 // resolve. Read FIRST so a linked repo shows its graph instantly (and offline)
 // without re-hitting the API — closing the gap where the pin was written but
 // never honoured. Lives at the repo root next to .git.
@@ -241,8 +241,8 @@ export interface ProjectPin {
 }
 
 function readProjectPin(root: string): ProjectPin | null {
-  // legacy `.synsci/` pins predate the OpenScience rename; still honored
-  for (const dir of [".openscience", ".synsci"]) {
+  // legacy `.griffin/` pins predate the Griffin rename; still honored
+  for (const dir of [".griffin", ".griffin"]) {
     try {
       const raw = readFileSync(join(root, dir, "project.json"), "utf8")
       const j = JSON.parse(raw)
@@ -256,7 +256,7 @@ function readProjectPin(root: string): ProjectPin | null {
 /** Trust a pin only when it carries no dedupe key (legacy/back-compat) or its
  *  key matches the repo's freshly-computed key. A pin whose key differs belongs
  *  to a DIFFERENT repo identity (e.g. the remote was re-pointed, or a stale
- *  `.openscience/` was copied in) and must not shadow — or block find-or-create
+ *  `.griffin/` was copied in) and must not shadow — or block find-or-create
  *  of — the correct project. */
 export function pinMatchesKey(pin: ProjectPin, key: string): boolean {
   return !pin.dedupe_key || pin.dedupe_key === key
@@ -264,9 +264,9 @@ export function pinMatchesKey(pin: ProjectPin, key: string): boolean {
 
 function writeProjectPin(root: string, projectId: string, key: string): void {
   try {
-    mkdirSync(join(root, ".openscience"), { recursive: true })
+    mkdirSync(join(root, ".griffin"), { recursive: true })
     writeFileSync(
-      join(root, ".openscience", "project.json"),
+      join(root, ".griffin", "project.json"),
       JSON.stringify({ project_id: projectId, dedupe_key: key, resolved_at: new Date().toISOString() }, null, 2) + "\n",
     )
   } catch {
@@ -390,7 +390,7 @@ function pickFailure(
 }
 
 // Find-or-create the repo's project root — the "initialize graph" action, shared
-// by the web bridge (POST /project/init) and the `openscience project init` CLI so
+// by the web bridge (POST /project/init) and the `griffin project init` CLI so
 // both take the exact same, dedupe-consistent path. Primary create is the
 // projects endpoint; on any failure it falls back to a dedupe-tagged ROOT NODE
 // via the proven commit-new endpoint (the same call the canvas uses), so init
@@ -406,7 +406,7 @@ export async function initProjectDetailed(directory: string): Promise<InitProjec
   if (!directory)
     return { projectId: null, failure: { kind: "backend", message: "no directory provided", host: API_BASE } }
   // Fail fast offline: no managed session means no request can succeed —
-  // don't turn a missing `openscience login` into a network error.
+  // don't turn a missing `griffin login` into a network error.
   if (!(await token())) return { projectId: null, failure: { kind: "unauthenticated", host: API_BASE } }
   const existing = await resolveProjectId(directory)
   if (existing) return { projectId: existing }
@@ -517,7 +517,7 @@ export const AtlasBridgeRoutes = lazy(() =>
             summary: "",
             hypothesis: "",
             content: "",
-            reason: "Created from OpenScience web.",
+            reason: "Created from Griffin web.",
             context: await repoContext(process.cwd()),
           }),
         )

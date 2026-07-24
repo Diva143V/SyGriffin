@@ -16,7 +16,7 @@ pip uninstall bitsandbytes
 pip install bitsandbytes --no-cache-dir
 
 # Or compile from source for specific CUDA
-git clone https://github.com/TimDettmers/bitsandbytes.git
+git clone .git
 cd bitsandbytes
 CUDA_VERSION=118 make cuda11x  # Adjust for your CUDA
 pip install .
@@ -454,7 +454,7 @@ benchmark_generation(merged_model, tokenizer, "Hello")
 
 ## Getting Help
 
-1. **Check PEFT GitHub Issues**: https://github.com/huggingface/peft/issues
+1. **Check PEFT GitHub Issues**: /issues
 2. **HuggingFace Forums**: https://discuss.huggingface.co/
 3. **PEFT Documentation**: https://huggingface.co/docs/peft
 

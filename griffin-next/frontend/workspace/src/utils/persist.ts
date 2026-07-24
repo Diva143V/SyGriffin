@@ -1,6 +1,6 @@
 import { usePlatform } from "@/context/platform"
 import { makePersisted, type AsyncStorage, type SyncStorage } from "@solid-primitives/storage"
-import { checksum } from "@synsci/util/encode"
+import { checksum } from "@griffin/util/encode"
 import { createResource, type Accessor } from "solid-js"
 import type { SetStoreFunction, Store } from "solid-js/store"
 
@@ -15,8 +15,8 @@ type PersistTarget = {
 }
 
 const LEGACY_STORAGE = "default.dat"
-const GLOBAL_STORAGE = "openscience.global.dat"
-const LOCAL_PREFIX = "openscience."
+const GLOBAL_STORAGE = "griffin.global.dat"
+const LOCAL_PREFIX = "griffin."
 const fallback = { disabled: false }
 
 const CACHE_MAX_ENTRIES = 500
@@ -191,7 +191,7 @@ function parse(value: string) {
 function workspaceStorage(dir: string) {
   const head = dir.slice(0, 12) || "workspace"
   const sum = checksum(dir) ?? "0"
-  return `openscience.workspace.${head}.${sum}.dat`
+  return `griffin.workspace.${head}.${sum}.dat`
 }
 
 function localStorageWithPrefix(prefix: string): SyncStorage {

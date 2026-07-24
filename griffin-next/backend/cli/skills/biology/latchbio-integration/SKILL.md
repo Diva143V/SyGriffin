@@ -337,7 +337,7 @@ def registry_workflow(sample_id: str, table_id: str):
 ## Additional Resources
 
 - **Official Documentation**: https://docs.latch.bio
-- **GitHub Repository**: https://github.com/latchbio/latch
+- **GitHub Repository**: 
 - **Slack Community**: Join Latch SDK workspace
 - **API Reference**: https://docs.latch.bio/api/latch.html
 - **Blog**: https://blog.latch.bio

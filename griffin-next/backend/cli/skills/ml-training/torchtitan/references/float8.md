@@ -10,7 +10,7 @@ Float8 training provides substantial speedups for models where GEMMs are large e
 ## Installation
 
 ```bash
-USE_CPP=0 pip install git+https://github.com/pytorch/ao.git
+USE_CPP=0 pip install git+.git
 ```
 
 ## Usage: Tensorwise Scaling
@@ -124,10 +124,10 @@ From benchmarks on H100:
 
 ## Determining Float8 Benefit
 
-Check [torchao microbenchmarks](https://github.com/pytorch/ao/tree/main/torchao/float8#performance) for forward+backward pass speedups on "layer norm => linear => sigmoid" for different M,N,K sizes.
+Check [torchao microbenchmarks](/tree/main/torchao/float8#performance) for forward+backward pass speedups on "layer norm => linear => sigmoid" for different M,N,K sizes.
 
 Rule of thumb: GEMMs with K,N > 4096 typically benefit from Float8.
 
 ## MXFP8 Training (Blackwell)
 
-For NVIDIA Blackwell GPUs, TorchTitan supports MXFP8 (Microscaling FP8) for both dense and MoE models. See [docs/mxfp8.md](https://github.com/pytorch/torchtitan/blob/main/docs/mxfp8.md) for details.
+For NVIDIA Blackwell GPUs, TorchTitan supports MXFP8 (Microscaling FP8) for both dense and MoE models. See [docs/mxfp8.md](/blob/main/docs/mxfp8.md) for details.

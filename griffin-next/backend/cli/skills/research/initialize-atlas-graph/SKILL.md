@@ -27,24 +27,24 @@ Run this skill when:
    atlas doctor --format=json
    ```
    If it reports unavailable/unauthenticated, tell the user to run
-   `openscience login` — the graph cannot be created without a session.
+   `griffin login` — the graph cannot be created without a session.
 
 2. **Create or link the graph** (idempotent — safe to re-run; returns the
    existing graph if one already exists):
    ```bash
-   openscience project init --format=json
+   griffin project init --format=json
    ```
-   On success this prints `{"project_id":"<id>"}` and writes `.openscience/project.json`
+   On success this prints `{"project_id":"<id>"}` and writes `.griffin/project.json`
    at the repo root so the canvas links to it immediately.
 
    On failure it prints `project_id: null` plus an `error` kind (and `host`,
    `status`, `message` when known). Relay the fix that matches the kind — do
    NOT guess or tell the user to re-login for a network problem:
    - `"unauthenticated"` — no session, or the backend rejected the saved key.
-     Tell the user to run `openscience login`.
+     Tell the user to run `griffin login`.
    - `"unreachable"` — the Atlas backend at the printed `host` could not be
      reached (network/DNS error or 5xx). The user IS logged in; suggest checking
-     connectivity and any `OPENSCIENCE_API_BASE`/`SYNSC_API_BASE` override, then
+     connectivity and any `GRIFFIN_API_BASE`/`SYNSC_API_BASE` override, then
      retrying — not re-authenticating.
    - `"plan"` — authenticated, but the account has no active Atlas plan. Point
      the user at https://app.syntheticsciences.ai/cli (Plan tab); include the
@@ -61,5 +61,5 @@ Run this skill when:
   the same graph for the same repo.
 - **Repo-rooted:** run it from anywhere inside the repo — it resolves to the git
   top-level.
-- **Do not** hand-edit `.openscience/project.json`; let `openscience project init` manage
-  it (use `openscience project merge` to pick a canonical root if duplicates exist).
+- **Do not** hand-edit `.griffin/project.json`; let `griffin project init` manage
+  it (use `griffin project merge` to pick a canonical root if duplicates exist).

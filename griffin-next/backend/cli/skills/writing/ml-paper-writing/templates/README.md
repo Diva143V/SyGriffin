@@ -108,11 +108,11 @@ tlmgr install <package-name>
 | Conference | Directory | Year | Source |
 |------------|-----------|------|--------|
 | ICML | `icml2026/` | 2026 | [Official ICML](https://icml.cc/Conferences/2026/AuthorInstructions) |
-| ICLR | `iclr2026/` | 2026 | [Official GitHub](https://github.com/ICLR/Master-Template) |
+| ICLR | `iclr2026/` | 2026 | [Official GitHub]() |
 | NeurIPS | `neurips2025/` | 2025 | Community template |
-| ACL | `acl/` | 2025+ | [Official ACL](https://github.com/acl-org/acl-style-files) |
+| ACL | `acl/` | 2025+ | [Official ACL]() |
 | AAAI | `aaai2026/` | 2026 | [AAAI Author Kit](https://aaai.org/authorkit26/) |
-| COLM | `colm2025/` | 2025 | [Official COLM](https://github.com/COLM-org/Template) |
+| COLM | `colm2025/` | 2025 | [Official COLM]() |
 
 ## Usage
 
@@ -246,6 +246,6 @@ Templates are updated annually. Check official sources before each submission:
 - ICML: https://icml.cc/
 - ICLR: https://iclr.cc/
 - NeurIPS: https://neurips.cc/
-- ACL: https://github.com/acl-org/acl-style-files
+- ACL: 
 - AAAI: https://aaai.org/
 - COLM: https://colmweb.org/

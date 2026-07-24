@@ -178,7 +178,7 @@ trainer.train()
 
 ```python
 # 1. Install YaRN
-# git clone https://github.com/jquesnelle/yarn
+# git clone 
 # cd yarn && pip install -e .
 
 # 2. Configure YaRN scaling

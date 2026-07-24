@@ -5,7 +5,7 @@ Based on arXiv 2401.10774 (2024) - MEDUSA: Simple LLM Inference Acceleration Fra
 ## Overview
 
 **Source**: https://arxiv.org/abs/2401.10774
-**GitHub**: https://github.com/FasterDecoding/Medusa
+**GitHub**: 
 
 Medusa augments LLM inference by adding extra decoding heads to predict multiple subsequent tokens in parallel, achieving 2.2-3.6× speedup without quality loss.
 
@@ -257,7 +257,7 @@ medusa_choices = [
 
 ```bash
 # Clone Medusa repo
-git clone https://github.com/FasterDecoding/Medusa
+git clone 
 cd Medusa
 
 # Train Medusa-1 (frozen base)
@@ -345,6 +345,6 @@ outputs = model.medusa_generate(
 ## Resources
 
 - **Paper**: https://arxiv.org/abs/2401.10774
-- **GitHub**: https://github.com/FasterDecoding/Medusa
+- **GitHub**: 
 - **Blog**: https://www.together.ai/blog/medusa
 - **Demo**: https://sites.google.com/view/medusa-llm

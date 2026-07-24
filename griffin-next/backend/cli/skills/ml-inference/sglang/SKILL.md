@@ -44,7 +44,7 @@ pip install "sglang[all]"
 pip install sglang[all] flashinfer -i https://flashinfer.ai/whl/cu121/torch2.4/
 
 # From source
-git clone https://github.com/sgl-project/sglang.git
+git clone .git
 cd sglang
 pip install -e "python[all]"
 ```
@@ -440,9 +440,9 @@ response = client.chat.completions.create(
 
 ## Resources
 
-- **GitHub**: https://github.com/sgl-project/sglang
+- **GitHub**: 
 - **Docs**: https://sgl-project.github.io/
 - **Paper**: RadixAttention (arXiv:2312.07104)
-- **Discord**: https://discord.gg/sglang
+- **Discord**: 
 
 

@@ -382,7 +382,7 @@ Refer to this document when detailed API information is needed or when troublesh
 
 - ChEMBL website: https://www.ebi.ac.uk/chembl/
 - API documentation: https://www.ebi.ac.uk/chembl/api/data/docs
-- Python client GitHub: https://github.com/chembl/chembl_webresource_client
+- Python client GitHub: 
 - Interface documentation: https://chembl.gitbook.io/chembl-interface-documentation/
-- Example notebooks: https://github.com/chembl/notebooks
+- Example notebooks: 
 

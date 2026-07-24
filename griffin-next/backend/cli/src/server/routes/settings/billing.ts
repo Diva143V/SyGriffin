@@ -2,7 +2,7 @@ import { Hono } from "hono"
 import { describeRoute, resolver, validator } from "hono-openapi"
 import z from "zod"
 import { Config } from "../../../config/config"
-import { OpenScience } from "../../../openscience"
+import { Griffin } from "../../../griffin"
 import { lazy } from "../../../util/lazy"
 import { Log } from "../../../util/log"
 
@@ -31,8 +31,8 @@ const BillingPatch = z.object({
 
 async function readState(): Promise<BillingState> {
   const cfg = await Config.getGlobal()
-  const session = await OpenScience.getSession().catch(() => null)
-  const balanceUsd = (session ? await OpenScience.getBalance().catch(() => null) : null) ?? -1
+  const session = await Griffin.getSession().catch(() => null)
+  const balanceUsd = (session ? await Griffin.getBalance().catch(() => null) : null) ?? -1
   return {
     llm: cfg.billing?.llm ?? null,
     compute: cfg.billing?.compute ?? "byok",
@@ -73,7 +73,7 @@ export const BillingSettingsRoutes = lazy(() =>
         const patch = c.req.valid("json")
         // Persist only the delta. updateGlobal deep-merges into the raw file;
         // writing back Config.getGlobal() would bake resolved {env:}/{file:}
-        // secrets into openscience.json in plaintext.
+        // secrets into griffin.json in plaintext.
         await Config.updateGlobal({ billing: patch })
         log.info("update", { keys: Object.keys(patch) })
 
@@ -83,10 +83,10 @@ export const BillingSettingsRoutes = lazy(() =>
         // Auto (null) has no server-side counterpart — the account mode stays put and
         // the gate auto-detects from the resolved credential per call.
         if (patch.llm) {
-          await OpenScience.setBillingMode(patch.llm).catch((e) =>
+          await Griffin.setBillingMode(patch.llm).catch((e) =>
             log.warn("setBillingMode failed", { error: e instanceof Error ? e.message : String(e) }),
           )
-          await OpenScience.syncServices().catch((e) =>
+          await Griffin.syncServices().catch((e) =>
             log.warn("resync after billing change failed", { error: e instanceof Error ? e.message : String(e) }),
           )
         }

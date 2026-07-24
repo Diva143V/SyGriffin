@@ -474,5 +474,5 @@ for ex in samples:
 ## References
 
 - HuggingFace Datasets: https://huggingface.co/datasets
-- Alignment Handbook: https://github.com/huggingface/alignment-handbook
+- Alignment Handbook: 
 - UltraFeedback: https://huggingface.co/datasets/HuggingFaceH4/ultrafeedback_binarized

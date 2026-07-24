@@ -315,7 +315,7 @@ print(f"Found {len(cat1_matched)} matches")
 
 - Official Astropy Documentation: https://docs.astropy.org/en/stable/
 - Tutorials: https://learn.astropy.org/
-- GitHub: https://github.com/astropy/astropy
+- GitHub: 
 
 ## Reference Files
 

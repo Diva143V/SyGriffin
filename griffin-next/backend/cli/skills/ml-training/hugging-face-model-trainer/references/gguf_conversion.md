@@ -220,7 +220,7 @@ ollama run my-model
 **Fix:**
 - Ensure llama.cpp supports the model architecture
 - Check for standard architecture (Qwen, Llama, Mistral, etc.)
-- Update llama.cpp to latest: `git clone --depth 1 https://github.com/ggerganov/llama.cpp.git`
+- Update llama.cpp to latest: `git clone --depth 1 .cpp.git`
 - Check llama.cpp documentation for model support
 
 ### Quantization fails
@@ -275,8 +275,8 @@ hub_repo_details(["trl-lib/argilla-dpo-mix-7k"], repo_type="dataset")  # Would c
 - `scripts/convert_to_gguf.py` - Complete, production-ready script
 
 **External:**
-- [llama.cpp Repository](https://github.com/ggerganov/llama.cpp)
-- [GGUF Specification](https://github.com/ggerganov/ggml/blob/master/docs/gguf.md)
+- [llama.cpp Repository](.cpp)
+- [GGUF Specification](/blob/master/docs/gguf.md)
 - [Ollama Documentation](https://ollama.ai)
 - [LM Studio](https://lmstudio.ai)
 

@@ -46,7 +46,7 @@
 - Failing to label units for key parameters.
 - Inferring unprovided information, leading to distorted conclusions.
 
-## Mode B — Open Science Best Practices
+## Mode B — Griffin Best Practices
 
 ### Pre-registration Platforms
 
@@ -103,7 +103,7 @@
 | Diagnostic accuracy | STARD |
 | Prediction models | TRIPOD |
 
-### Open Science Badges
+### Griffin Badges
 
 - **Open Data Badge**: Data publicly available in trusted repository.
 - **Open Materials Badge**: Research materials publicly available.

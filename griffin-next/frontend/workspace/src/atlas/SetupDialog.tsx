@@ -1,8 +1,8 @@
 import { type JSX, For, Show, createSignal } from "solid-js"
-import { Dialog } from "@synsci/ui/dialog"
-import { useDialog } from "@synsci/ui/context/dialog"
-import { Button } from "@synsci/ui/button"
-import { TextField } from "@synsci/ui/text-field"
+import { Dialog } from "@griffin/ui/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
+import { Button } from "@griffin/ui/button"
+import { TextField } from "@griffin/ui/text-field"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { FONT_SANS } from "@/styles/tokens"
 

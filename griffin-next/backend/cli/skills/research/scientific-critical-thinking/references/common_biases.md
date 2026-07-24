@@ -359,6 +359,6 @@
 ### Meta-Level
 1. Adversarial collaboration
 2. Replication studies
-3. Open science practices
+3. griffin practices
 4. Peer review
 5. Systematic reviews

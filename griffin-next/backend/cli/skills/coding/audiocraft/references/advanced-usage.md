@@ -71,7 +71,7 @@ def prepare_dataset(audio_dir, output_dir, metadata_file):
 pip install dora-search
 
 # Clone AudioCraft
-git clone https://github.com/facebookresearch/audiocraft.git
+git clone .git
 cd audiocraft
 
 # Create config for fine-tuning

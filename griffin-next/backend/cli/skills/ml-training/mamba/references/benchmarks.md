@@ -249,7 +249,7 @@ Actual Mamba state size:
 
 ## Resources
 
-- Benchmarks code: https://github.com/state-spaces/mamba/tree/main/benchmarks
+- Benchmarks code: /tree/main/benchmarks
 - Paper (Mamba-1): https://arxiv.org/abs/2312.00752 (Section 4: Experiments)
 - Paper (Mamba-2): https://arxiv.org/abs/2405.21060 (Section 5: Experiments)
 - Pretrained models: https://huggingface.co/state-spaces

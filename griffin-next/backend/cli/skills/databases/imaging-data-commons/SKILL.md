@@ -7,7 +7,7 @@ metadata:
     version: 1.2.0
     skill-author: Andrey Fedorov, @fedorov
     idc-index: "0.11.7"
-    repository: https://github.com/ImagingDataCommons/idc-claude-skill
+    repository: 
 ---
 
 # Imaging Data Commons
@@ -16,7 +16,7 @@ metadata:
 
 Use the `idc-index` Python package to query and download public cancer imaging data from the National Cancer Institute Imaging Data Commons (IDC). No authentication required for data access.
 
-**Primary tool:** `idc-index` ([GitHub](https://github.com/imagingdatacommons/idc-index))
+**Primary tool:** `idc-index` ([GitHub]())
 
 **Check current data scale for the latest version:**
 
@@ -713,7 +713,7 @@ See `references/bigquery_guide.md` for setup, table schemas, query patterns, pri
 | Programmatic queries & downloads | `idc-index` | This document |
 | Interactive exploration | IDC Portal | https://portal.imaging.datacommons.cancer.gov/ |
 | Complex metadata queries | BigQuery | `references/bigquery_guide.md` |
-| 3D visualization & analysis | SlicerIDCBrowser | https://github.com/ImagingDataCommons/SlicerIDCBrowser |
+| 3D visualization & analysis | SlicerIDCBrowser |  |
 
 **Default choice:** Use `idc-index` for most tasks (no auth, easy API, batch downloads).
 
@@ -898,7 +898,7 @@ for _, row in series_list.iterrows():
     # webbrowser.open(viewer_url)  # Uncomment to open automatically
 ```
 
-For additional visualization options, see the [IDC Portal getting started guide](https://learn.canceridc.dev/portal/getting-started) or [SlicerIDCBrowser](https://github.com/ImagingDataCommons/SlicerIDCBrowser) for 3D Slicer integration.
+For additional visualization options, see the [IDC Portal getting started guide](https://learn.canceridc.dev/portal/getting-started) or [SlicerIDCBrowser]() for 3D Slicer integration.
 
 ### Use Case 4: License-Aware Batch Download for Commercial Use
 
@@ -1171,13 +1171,13 @@ columns = [(c['name'], c['type'], c.get('description', '')) for c in schema['col
 
 - **IDC Portal**: https://portal.imaging.datacommons.cancer.gov/explore/
 - **Documentation**: https://learn.canceridc.dev/
-- **Tutorials**: https://github.com/ImagingDataCommons/IDC-Tutorials
+- **Tutorials**: 
 - **User Forum**: https://discourse.canceridc.dev/
-- **idc-index GitHub**: https://github.com/ImagingDataCommons/idc-index
+- **idc-index GitHub**: 
 - **Citation**: Fedorov, A., et al. "National Cancer Institute Imaging Data Commons: Toward Transparency, Reproducibility, and Scalability in Imaging Artificial Intelligence." RadioGraphics 43.12 (2023). https://doi.org/10.1148/rg.230180
 
 ### Skill Updates
 
 This skill version is available in skill metadata. To check for updates:
-- Visit the [releases page](https://github.com/ImagingDataCommons/idc-claude-skill/releases)
+- Visit the [releases page](/releases)
 - Watch the repository on GitHub (Watch → Custom → Releases)

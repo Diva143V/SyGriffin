@@ -677,4 +677,4 @@ with mlflow.start_run():
 
 - **Tracking API**: https://mlflow.org/docs/latest/tracking.html
 - **Python API**: https://mlflow.org/docs/latest/python_api/mlflow.html
-- **Examples**: https://github.com/mlflow/mlflow/tree/master/examples
+- **Examples**: /tree/master/examples

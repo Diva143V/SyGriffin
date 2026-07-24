@@ -515,6 +515,6 @@ image = pipe(prompt, num_inference_steps=20).images[0]
 ## Resources
 
 - **Documentation**: https://huggingface.co/docs/diffusers
-- **Repository**: https://github.com/huggingface/diffusers
+- **Repository**: 
 - **Model Hub**: https://huggingface.co/models?library=diffusers
-- **Discord**: https://discord.gg/diffusers
+- **Discord**: 

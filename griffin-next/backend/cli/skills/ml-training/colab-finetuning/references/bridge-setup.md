@@ -5,13 +5,13 @@
 The bridge notebook creates a WebSocket tunnel from a Google Colab runtime to your local machine:
 
 ```
-openscience CLI ←→ WebSocket ←→ Cloudflare Tunnel ←→ Jupyter Server (on Colab GPU)
+griffin CLI ←→ WebSocket ←→ Cloudflare Tunnel ←→ Jupyter Server (on Colab GPU)
 ```
 
 1. A Jupyter notebook server starts on the Colab VM (port 8888)
 2. `jupyter_http_over_ws` extension enables WebSocket connections
 3. `cloudflared` creates a public tunnel URL
-4. openscience connects via WebSocket and sends Jupyter kernel messages
+4. griffin connects via WebSocket and sends Jupyter kernel messages
 
 ## Step-by-Step Setup
 
@@ -19,11 +19,11 @@ openscience CLI ←→ WebSocket ←→ Cloudflare Tunnel ←→ Jupyter Server 
 ```
 Use colab_notebook tool with workflow="bridge"
 ```
-This creates `openscience-bridge.ipynb` in your project directory.
+This creates `griffin-bridge.ipynb` in your project directory.
 
 ### 2. Upload to Google Colab
 - Go to [colab.research.google.com](https://colab.research.google.com)
-- File → Upload notebook → select `openscience-bridge.ipynb`
+- File → Upload notebook → select `griffin-bridge.ipynb`
 
 ### 3. Select GPU Runtime
 - Runtime → Change runtime type
@@ -44,14 +44,14 @@ The output will show:
 SYNSC BRIDGE READY
 ============================================================
 
-Paste this URL into openscience:
+Paste this URL into griffin:
 
   wss://random-name.trycloudflare.com/api/kernels/default/channels?token=...
 
 ============================================================
 ```
 
-### 6. Connect from openscience
+### 6. Connect from griffin
 ```
 Use colab_connect tool with connection_url="wss://..."
 ```

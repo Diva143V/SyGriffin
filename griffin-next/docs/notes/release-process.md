@@ -1,7 +1,7 @@
 # Release process
 
-OpenScience ships as native binaries and an npm package
-(`@synsci/openscience`). Releases are cut from `main` — never from a feature
+Griffin ships as native binaries and an npm package
+(`@griffin/griffin`). Releases are cut from `main` — never from a feature
 branch.
 
 ## Cutting a release
@@ -32,7 +32,7 @@ branch.
 ## Verifying a release
 
 ```bash
-npm view @synsci/openscience version     # equals the new version once npm propagates
+npm view @griffin/griffin version     # equals the new version once npm propagates
 gh release view vX.Y.Z --json assets     # binaries + checksums.txt attached
 ```
 

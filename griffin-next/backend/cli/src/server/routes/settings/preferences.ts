@@ -10,7 +10,7 @@ const log = Log.create({ service: "settings-preferences" })
 
 // Minimal real JSON preference store for settings surfaces that have no home in
 // the strict Config schema (which strips unknown keys). Persists to
-// `~/.config/openscience/settings.json` so the values survive restarts and are shared
+// `~/.config/griffin/settings.json` so the values survive restarts and are shared
 // across every client talking to this local server.
 const filepath = path.join(Global.Path.config, "settings.json")
 

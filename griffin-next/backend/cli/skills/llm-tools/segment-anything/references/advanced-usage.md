@@ -7,7 +7,7 @@
 SAM 2 extends SAM to video segmentation with streaming memory architecture:
 
 ```bash
-pip install git+https://github.com/facebookresearch/segment-anything-2.git
+pip install git+.git
 ```
 
 ### Video segmentation
@@ -50,7 +50,7 @@ for frame_idx, masks in predictor.propagate_in_video():
 
 ```bash
 pip install groundingdino-py
-pip install git+https://github.com/facebookresearch/segment-anything.git
+pip install git+.git
 ```
 
 ### Text-to-mask pipeline
@@ -347,7 +347,7 @@ for batch in dataloader:
 
 ```python
 # MedSAM is a fine-tuned SAM for medical images
-# https://github.com/bowang-lab/MedSAM
+# 
 
 from segment_anything import sam_model_registry, SamPredictor
 import torch

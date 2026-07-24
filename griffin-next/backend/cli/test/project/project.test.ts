@@ -20,9 +20,9 @@ describe("Project.fromDirectory", () => {
     expect(project.vcs).toBe("git")
     expect(project.worktree).toBe(tmp.path)
 
-    // The `.git/openscience` cache file is no longer written — identity is path-derived.
-    const openscienceFile = path.join(tmp.path, ".git", "openscience")
-    expect(await Bun.file(openscienceFile).exists()).toBe(false)
+    // The `.git/griffin` cache file is no longer written — identity is path-derived.
+    const griffinFile = path.join(tmp.path, ".git", "griffin")
+    expect(await Bun.file(griffinFile).exists()).toBe(false)
   })
 
   test("git repository with commits gets a stable path id, no cache file", async () => {
@@ -35,8 +35,8 @@ describe("Project.fromDirectory", () => {
     expect(project.vcs).toBe("git")
     expect(project.worktree).toBe(tmp.path)
 
-    const openscienceFile = path.join(tmp.path, ".git", "openscience")
-    expect(await Bun.file(openscienceFile).exists()).toBe(false)
+    const griffinFile = path.join(tmp.path, ".git", "griffin")
+    expect(await Bun.file(griffinFile).exists()).toBe(false)
   })
 })
 

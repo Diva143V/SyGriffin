@@ -34,7 +34,7 @@ pip install transformers datasets accelerate
 pip install torch deepspeed wandb
 
 # Optional: MiniLLM implementation
-git clone https://github.com/microsoft/LMOps
+git clone 
 cd LMOps/minillm
 pip install -e .
 ```
@@ -454,6 +454,6 @@ for prompt in prompts:
 - **Hinton et al. 2015 (Foundational)**: https://arxiv.org/abs/1503.02531
 - **MiniLLM (Reverse KLD)**: https://arxiv.org/abs/2306.08543
 - **KD Survey for LLMs (2024)**: https://arxiv.org/abs/2402.13116
-- **MiniLLM GitHub**: https://github.com/microsoft/LMOps/tree/main/minillm
+- **MiniLLM GitHub**: /tree/main/minillm
 
 

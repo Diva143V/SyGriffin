@@ -320,8 +320,8 @@ results = noise_comparison_study(circuit, noise_levels)
 - **Official Documentation**: https://quantumai.google/cirq
 - **API Reference**: https://quantumai.google/reference/python/cirq
 - **Tutorials**: https://quantumai.google/cirq/tutorials
-- **Examples**: https://github.com/quantumlib/Cirq/tree/master/examples
-- **ReCirq**: https://github.com/quantumlib/ReCirq
+- **Examples**: /tree/master/examples
+- **ReCirq**: 
 
 ## Common Issues
 

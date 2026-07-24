@@ -13,7 +13,7 @@ dependencies: [nnsight>=0.5.0, torch>=2.0.0]
 
 nnsight (/ɛn.saɪt/) enables researchers to interpret and manipulate the internals of any PyTorch model, with the unique capability of running the same code locally on small models or remotely on massive models (70B+) via NDIF.
 
-**GitHub**: [ndif-team/nnsight](https://github.com/ndif-team/nnsight) (730+ stars)
+**GitHub**: [ndif-team/nnsight]() (730+ stars)
 **Paper**: [NNsight and NDIF: Democratizing Access to Foundation Model Internals](https://arxiv.org/abs/2407.14561) (ICLR 2025)
 
 ## Key Value Proposition

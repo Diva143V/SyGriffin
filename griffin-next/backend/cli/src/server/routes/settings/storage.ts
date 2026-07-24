@@ -1,6 +1,6 @@
 /**
  * Local storage inspector (settings ▸ Storage). Reports the real on-disk
- * footprint of Open Science's data directory (and the config/cache/state
+ * footprint of Griffin's data directory (and the config/cache/state
  * siblings), plus a supported "change data location" operation.
  *
  * Change-location is a genuine move: it copies the current data directory to
@@ -54,7 +54,7 @@ export const StorageRoutes = lazy(() =>
       "/",
       describeRoute({
         summary: "Get storage usage",
-        description: "Real on-disk sizes for the OpenScience data directory and its top-level entries.",
+        description: "Real on-disk sizes for the Griffin data directory and its top-level entries.",
         operationId: "settings.storage.usage",
         responses: {
           200: {

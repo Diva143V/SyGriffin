@@ -531,6 +531,6 @@ print(f"rRNA count: {len(genes_df[genes_df['type'] == 'rRNA'])}")
 ## Resources
 
 - [Baranyi Growth Model Paper](https://doi.org/10.1016/0168-1605(94)90157-0)
-- [Prokka Documentation](https://github.com/tseemann/prokka)
+- [Prokka Documentation]()
 - [scipy.integrate.solve_ivp](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html)
 - [Gillespie Algorithm Tutorial](https://doi.org/10.1146/annurev.physchem.58.032806.104637)

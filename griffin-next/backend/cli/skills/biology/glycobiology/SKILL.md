@@ -267,7 +267,7 @@ GLYCAN_TOOLS = {
         'output': '3D coordinates (PDB), AMBER parameters'
     },
     'Glycoshield-MD': {
-        'url': 'https://github.com/GlycoSHIELD-MD/GlycoSHIELD-MD',
+        'url': '',
         'description': 'Model glycan shields on protein structures for MD',
         'input': 'Protein PDB + glycosylation sites',
         'output': 'Glycosylated protein structure'

@@ -339,21 +339,21 @@ Q：使用昇腾 NPU 推理报错 RuntimeError: ACL stream synchronize failed, e
 
 A: 设置 do_sample: false，取消随机抽样策略。
 
-https://github.com/hiyouga/LLaMA-Factory/issues/3840
+/issues/3840
 
 Q：使用 ChatGLM 系列模型微调/训练模型时，报错 NotImplementedError: Unknown device for graph fuser
 
 A: 在 modelscope 或 huggingface 下载的 repo 里修改 modeling_chatglm.py 代码，取消 torch.jit 装饰器注释
 
-https://github.com/hiyouga/LLaMA-Factory/issues/3788
+/issues/3788
 
-https://github.com/hiyouga/LLaMA-Factory/issues/4228
+/issues/4228
 
 Q：微调/训练启动后，HCCL 报错，包含如下关键信息：
 
 A: 杀掉 device 侧所有进程，等待 10s 后重新启动训练。
 
-https://github.com/hiyouga/LLaMA-Factory/issues/3839
+/issues/3839
 
 Q：使用 TeleChat 模型在昇腾 NPU 推理时，报错 AssertionError： Torch not compiled with CUDA enabled
 

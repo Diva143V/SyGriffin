@@ -1,6 +1,6 @@
 import z from "zod"
 import { EOL } from "os"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { logo as glyphs } from "./logo"
 
 /** Whether to emit ANSI escape sequences in CLI output.

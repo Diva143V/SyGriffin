@@ -131,9 +131,9 @@ type IssueQueryResponse = {
   }
 }
 
-const AGENT_USERNAME = "openscience-agent[bot]"
+const AGENT_USERNAME = "griffin-agent[bot]"
 const AGENT_REACTION = "eyes"
-const WORKFLOW_FILE = ".github/workflows/openscience.yml"
+const WORKFLOW_FILE = ".github/workflows/griffin.yml"
 
 // Event categories for routing
 // USER_EVENTS: triggered by user actions, have actor/issueId, support reactions/comments
@@ -146,8 +146,8 @@ type UserEvent = (typeof USER_EVENTS)[number]
 type RepoEvent = (typeof REPO_EVENTS)[number]
 
 // Parses GitHub remote URLs in various formats:
-// - https://github.com/owner/repo.git
-// - https://github.com/owner/repo
+// - .git
+// - 
 // - git@github.com:owner/repo.git
 // - git@github.com:owner/repo
 // - ssh://git@github.com/owner/repo.git
@@ -234,7 +234,7 @@ export const GithubInstallCommand = cmd({
                 `    1. Commit the \`${WORKFLOW_FILE}\` file and push`,
                 step2,
                 "",
-                "    3. Go to a GitHub issue and comment `/openscience summarize` to see the agent in action",
+                "    3. Go to a GitHub issue and comment `/griffin summarize` to see the agent in action",
                 "",
                 "   Learn more about the GitHub agent - https://syntheticsciences.ai/docs/github/#usage-examples",
               ].join("\n"),
@@ -260,7 +260,7 @@ export const GithubInstallCommand = cmd({
 
           async function promptProvider() {
             const priority: Record<string, number> = {
-              openscience: 0,
+              griffin: 0,
               anthropic: 1,
               openai: 2,
               google: 3,
@@ -318,7 +318,7 @@ export const GithubInstallCommand = cmd({
             if (installation) return s.stop("GitHub app already installed")
 
             // Open browser
-            const url = "https://github.com/apps/openscience-agent"
+            const url = ""
             const command =
               process.platform === "darwin"
                 ? `open "${url}"`
@@ -370,7 +370,7 @@ export const GithubInstallCommand = cmd({
 
             await Bun.write(
               path.join(app.root, WORKFLOW_FILE),
-              `name: openscience
+              `name: griffin
 
 on:
   issue_comment:
@@ -379,12 +379,12 @@ on:
     types: [created]
 
 jobs:
-  openscience:
+  griffin:
     if: |
       contains(github.event.comment.body, ' /oc') ||
       startsWith(github.event.comment.body, '/oc') ||
-      contains(github.event.comment.body, ' /openscience') ||
-      startsWith(github.event.comment.body, '/openscience')
+      contains(github.event.comment.body, ' /griffin') ||
+      startsWith(github.event.comment.body, '/griffin')
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -397,8 +397,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Run openscience
-        uses: synthetic-sciences/OpenScience/github@latest${envStr}
+      - name: Run griffin
+        uses: synthetic-sciences/Griffin/github@latest${envStr}
         with:
           model: ${provider}/${model}`,
             )
@@ -512,7 +512,7 @@ export const GithubRunCommand = cmd({
           await addReaction(commentType)
         }
 
-        // Setup openscience session
+        // Setup griffin session
         const repoData = await fetchRepo()
         session = await Session.create({
           permission: [
@@ -524,7 +524,7 @@ export const GithubRunCommand = cmd({
           ],
         })
         subscribeSessionEvents()
-        console.log("openscience session", session.id)
+        console.log("griffin session", session.id)
 
         // Handle event types:
         // REPO_EVENTS (schedule, workflow_dispatch): no issue/PR context, output to logs/PR only
@@ -713,7 +713,7 @@ export const GithubRunCommand = cmd({
         }
 
         const reviewContext = getReviewCommentContext()
-        const mentions = (process.env["MENTIONS"] || "/openscience,/oc")
+        const mentions = (process.env["MENTIONS"] || "/griffin,/oc")
           .split(",")
           .map((m) => m.trim().toLowerCase())
           .filter(Boolean)
@@ -749,9 +749,9 @@ export const GithubRunCommand = cmd({
         }[] = []
 
         // Search for files
-        // ie. <img alt="Image" src="https://github.com/user-attachments/assets/xxxx" />
-        // ie. [api.json](https://github.com/user-attachments/files/21433810/api.json)
-        // ie. ![Image](https://github.com/user-attachments/assets/xxxx)
+        // ie. <img alt="Image" src="/xxxx" />
+        // ie. [api.json](/21433810/api.json)
+        // ie. ![Image](/xxxx)
         const mdMatches = prompt.matchAll(/!?\[.*?\]\((https:\/\/github\.com\/user-attachments\/[^)]+)\)/gi)
         const tagMatches = prompt.matchAll(/<img .*?src="(https:\/\/github\.com\/user-attachments\/[^"]+)" \/>/gi)
         const matches = [...mdMatches, ...tagMatches].sort((a, b) => a.index - b.index)
@@ -859,7 +859,7 @@ export const GithubRunCommand = cmd({
       }
 
       async function chat(message: string, files: PromptFiles = []) {
-        console.log("Sending message to openscience...")
+        console.log("Sending message to griffin...")
 
         const result = await SessionPrompt.prompt({
           sessionID: session.id,
@@ -943,7 +943,7 @@ export const GithubRunCommand = cmd({
 
       async function getOidcToken() {
         try {
-          return await core.getIDToken("openscience-github-action")
+          return await core.getIDToken("griffin-github-action")
         } catch (error) {
           console.error("Failed to get OIDC token:", error instanceof Error ? error.message : error)
           throw new Error(
@@ -1044,9 +1044,9 @@ export const GithubRunCommand = cmd({
           .join("")
         if (type === "schedule" || type === "dispatch") {
           const hex = crypto.randomUUID().slice(0, 6)
-          return `openscience/${type}-${hex}-${timestamp}`
+          return `griffin/${type}-${hex}-${timestamp}`
         }
-        return `openscience/${type}${issueId}-${timestamp}`
+        return `griffin/${type}${issueId}-${timestamp}`
       }
 
       async function pushToNewBranch(summary: string, branch: string, commit: boolean, isSchedule: boolean) {
@@ -1338,7 +1338,7 @@ query($owner: String!, $repo: String!, $number: Int!) {
         return [
           "<github_action_context>",
           "You are running as a GitHub Action. Important:",
-          "- Git push and PR creation are handled AUTOMATICALLY by the openscience infrastructure after your response",
+          "- Git push and PR creation are handled AUTOMATICALLY by the griffin infrastructure after your response",
           "- Do NOT include warnings or disclaimers about GitHub tokens, workflow permissions, or PR creation capabilities",
           "- Do NOT suggest manual steps for creating PRs or pushing code - this happens automatically",
           "- Focus only on the code changes and your analysis/response",
@@ -1476,7 +1476,7 @@ query($owner: String!, $repo: String!, $number: Int!) {
         return [
           "<github_action_context>",
           "You are running as a GitHub Action. Important:",
-          "- Git push and PR creation are handled AUTOMATICALLY by the openscience infrastructure after your response",
+          "- Git push and PR creation are handled AUTOMATICALLY by the griffin infrastructure after your response",
           "- Do NOT include warnings or disclaimers about GitHub tokens, workflow permissions, or PR creation capabilities",
           "- Do NOT suggest manual steps for creating PRs or pushing code - this happens automatically",
           "- Focus only on the code changes and your analysis/response",

@@ -425,7 +425,7 @@ TrainingArguments(learning_rate=1e-4)
 
 ## Resources
 
-- **GitHub**: https://github.com/huggingface/peft
+- **GitHub**: 
 - **Docs**: https://huggingface.co/docs/peft
 - **LoRA Paper**: arXiv:2106.09685
 - **QLoRA Paper**: arXiv:2305.14314

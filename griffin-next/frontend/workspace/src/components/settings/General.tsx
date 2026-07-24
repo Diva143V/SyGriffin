@@ -3,12 +3,12 @@
 //   • Account   → client.account.get / client.account.logout, billing link.
 //   • Model      → global config `model` / `small_model` (client.global.config.update
 //                  via useGlobalSync().updateConfig) + the reasoning effort store.
-//   • Licensing  → /settings/preferences (real JSON store, persisted to ~/.openscience).
+//   • Licensing  → /settings/preferences (real JSON store, persisted to ~/.griffin).
 //   • Appearance → the extracted AppearanceSections (theme, sounds, updates, …).
 import { Component, Show, createMemo, createSignal, onMount, type JSX } from "solid-js"
-import { Button } from "@synsci/ui/button"
-import { Select } from "@synsci/ui/select"
-import { showToast } from "@synsci/ui/toast"
+import { Button } from "@griffin/ui/button"
+import { Select } from "@griffin/ui/select"
+import { showToast } from "@griffin/ui/toast"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { useGlobalSync } from "@/context/global-sync"
 import { useModels } from "@/context/models"

@@ -3,12 +3,12 @@
 // what scope, plus the per-tool allow/ask/deny defaults.
 //
 // Registry-write grants persist to routes/settings/permissions.ts (a real JSON
-// store under ~/.openscience/). Tool defaults reuse the config `permission` key via
+// store under ~/.griffin/). Tool defaults reuse the config `permission` key via
 // the existing globalSync-backed component.
 import { Component, For, Show, createResource, createSignal } from "solid-js"
-import { Select } from "@synsci/ui/select"
-import { Button } from "@synsci/ui/button"
-import { showToast } from "@synsci/ui/toast"
+import { Select } from "@griffin/ui/select"
+import { Button } from "@griffin/ui/button"
+import { showToast } from "@griffin/ui/toast"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 import { settingsApi } from "./api"

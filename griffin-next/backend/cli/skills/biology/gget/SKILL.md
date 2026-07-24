@@ -865,6 +865,6 @@ This skill includes reference documentation for detailed module information:
 
 For additional help:
 - Official documentation: https://pachterlab.github.io/gget/
-- GitHub issues: https://github.com/pachterlab/gget/issues
+- GitHub issues: /issues
 - Citation: Luebbert, L. & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 

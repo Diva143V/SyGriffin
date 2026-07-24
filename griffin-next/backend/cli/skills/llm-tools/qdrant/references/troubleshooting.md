@@ -617,8 +617,8 @@ test_connection()
 ## Getting Help
 
 1. **Documentation**: https://qdrant.tech/documentation/
-2. **GitHub Issues**: https://github.com/qdrant/qdrant/issues
-3. **Discord**: https://discord.gg/qdrant
+2. **GitHub Issues**: /issues
+3. **Discord**: 
 4. **Stack Overflow**: Tag `qdrant`
 
 ### Reporting Issues

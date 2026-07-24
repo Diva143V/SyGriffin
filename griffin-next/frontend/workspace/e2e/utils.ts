@@ -1,5 +1,5 @@
-import { createOpenScienceClient } from "@synsci/sdk/v2/client"
-import { base64Encode } from "@synsci/util/encode"
+import { createGriffinClient } from "@griffin/sdk/v2/client"
+import { base64Encode } from "@griffin/util/encode"
 
 export const serverHost = process.env.PLAYWRIGHT_SERVER_HOST ?? "localhost"
 export const serverPort = process.env.PLAYWRIGHT_SERVER_PORT ?? "4096"
@@ -15,7 +15,7 @@ export const terminalSelector = '[data-component="terminal"]'
 export const modelVariantCycleSelector = '[data-action="model-variant-cycle"]'
 
 export function createSdk(directory?: string) {
-  return createOpenScienceClient({ baseUrl: serverUrl, directory, throwOnError: true })
+  return createGriffinClient({ baseUrl: serverUrl, directory, throwOnError: true })
 }
 
 export async function getWorktree() {

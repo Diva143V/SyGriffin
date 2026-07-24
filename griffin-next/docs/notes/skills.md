@@ -11,7 +11,7 @@ The catalog is assembled in `backend/cli/src/skill/skill.ts` from several source
 keyed by skill `name`:
 
 1. **Project `.claude/skills/`** — skills committed to the repo being worked in,
-   plus `~/.claude/skills/` (opt out with `OPENSCIENCE_DISABLE_CLAUDE_CODE_SKILLS`).
+   plus `~/.claude/skills/` (opt out with `GRIFFIN_DISABLE_CLAUDE_CODE_SKILLS`).
 2. **The Atlas skill catalog** — released builds fetch the index from
    `/api/cli/skills` (name + description only; content is fetched lazily on first
    use) and cache it. This is the primary source of the bundled library in a
@@ -24,10 +24,10 @@ keyed by skill `name`:
    resolves in every install.
 5. **Learned skills** — distilled from prior runs (RSI), synced from the cloud
    and cached under the data directory.
-6. **User skills** — authored locally via `openscience skill new`, private by
+6. **User skills** — authored locally via `griffin skill new`, private by
    default.
 
-All of steps 2–4 respect the `OPENSCIENCE_DISABLE_BUNDLED_SKILLS` opt-out.
+All of steps 2–4 respect the `GRIFFIN_DISABLE_BUNDLED_SKILLS` opt-out.
 
 ## Resolution
 
@@ -39,9 +39,9 @@ closest fuzzy matches.
 ## Authoring
 
 ```bash
-openscience skill new leakage-checks --description "Checklists for spotting data leakage"
-openscience skill validate leakage-checks
-openscience skill list --all      # everything discovered on this install
+griffin skill new leakage-checks --description "Checklists for spotting data leakage"
+griffin skill validate leakage-checks
+griffin skill list --all      # everything discovered on this install
 ```
 
-Pin extra skill folders per project with `skills.paths` in `openscience.json`.
+Pin extra skill folders per project with `skills.paths` in `griffin.json`.

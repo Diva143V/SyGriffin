@@ -45,7 +45,7 @@ pip install verl[vllm]  # or verl[sglang] for SGLang backend
 docker pull verlai/verl:vllm011.latest
 
 # Option 3: From source
-git clone https://github.com/volcengine/verl.git
+git clone .git
 cd verl && pip install -e .[vllm,math]
 ```
 
@@ -386,7 +386,7 @@ actor_rollout_ref:
 
 - **Documentation**: https://verl.readthedocs.io/
 - **Paper**: https://arxiv.org/abs/2409.19256
-- **GitHub**: https://github.com/volcengine/verl
-- **Recipes**: https://github.com/verl-project/verl-recipe (DAPO, GSPO, etc.)
+- **GitHub**: 
+- **Recipes**:  (DAPO, GSPO, etc.)
 - **Community**: Slack at verl-project
 

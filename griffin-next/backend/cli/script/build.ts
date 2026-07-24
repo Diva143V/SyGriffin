@@ -13,7 +13,7 @@ const dir = path.resolve(__dirname, "..")
 process.chdir(dir)
 
 import pkg from "../package.json"
-import { Script } from "@synsci/script"
+import { Script } from "@griffin/script"
 
 // Fetch and generate models.dev snapshot. Runtime refreshes stale snapshots
 // when current frontier IDs are missing, so avoid inventing model aliases here.
@@ -114,7 +114,7 @@ const targets = singleFlag
 
 await $`rm -rf dist`
 
-// Build the openscience web UI (frontend/workspace) and regenerate the embedded asset
+// Build the griffin web UI (frontend/workspace) and regenerate the embedded asset
 // manifest so the catch-all route in server.ts can serve it locally instead
 // of proxying to Vercel. The manifest imports every dist file with
 // `with { type: "file" }` so Bun's --compile bundles them into the binary.
@@ -129,7 +129,7 @@ if (!fs.existsSync(path.join(repoRoot, "node_modules")) || !fs.existsSync(path.j
   console.log("workspace node_modules missing — running bun install at repo root")
   await $`bun install`.cwd(repoRoot)
 }
-console.log("building frontend/workspace (openscience web)")
+console.log("building frontend/workspace (griffin web)")
 await $`bun run build`.cwd(webAppDir)
 await $`bun run script/generate-web-assets.ts`
 
@@ -167,16 +167,16 @@ for (const item of targets) {
       autoloadTsconfig: true,
       autoloadPackageJson: true,
       target: name.replace(pkg.name, "bun") as any,
-      outfile: `dist/${name}/bin/openscience`,
-      execArgv: [`--user-agent=openscience/${Script.version}`, "--use-system-ca", "--"],
+      outfile: `dist/${name}/bin/griffin`,
+      execArgv: [`--user-agent=griffin/${Script.version}`, "--use-system-ca", "--"],
       windows: {},
     },
     entrypoints: ["./src/index.ts"],
     define: {
       ...keyDefines,
-      OPENSCIENCE_VERSION: `'${Script.version}'`,
-      OPENSCIENCE_CHANNEL: `'${Script.channel}'`,
-      OPENSCIENCE_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
+      GRIFFIN_VERSION: `'${Script.version}'`,
+      GRIFFIN_CHANNEL: `'${Script.channel}'`,
+      GRIFFIN_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
     },
   })
 
@@ -196,7 +196,7 @@ for (const item of targets) {
         // the repo the workflow ran from (case-sensitive)
         repository: {
           type: "git",
-          url: "git+https://github.com/synthetic-sciences/openscience.git",
+          url: "git+.git",
         },
       },
       null,
@@ -209,7 +209,7 @@ for (const item of targets) {
 if (Script.release) {
   const checksums: string[] = []
   for (const key of Object.keys(binaries)) {
-    const archiveName = key.replace(`${pkg.name}-`, "openscience-") + (key.includes("linux") ? ".tar.gz" : ".zip")
+    const archiveName = key.replace(`${pkg.name}-`, "griffin-") + (key.includes("linux") ? ".tar.gz" : ".zip")
     if (key.includes("linux")) {
       await $`tar -czf ${path.resolve(dir, `dist/${archiveName}`)} *`.cwd(`dist/${key}/bin`)
     } else {

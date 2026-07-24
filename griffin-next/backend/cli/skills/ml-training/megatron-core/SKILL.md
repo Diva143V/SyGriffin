@@ -363,7 +363,7 @@ Stabilize training:
 ## Resources
 
 - Docs: https://docs.nvidia.com/megatron-core/
-- GitHub: https://github.com/NVIDIA/Megatron-LM
+- GitHub: 
 - Papers:
   - "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism" (2019)
   - "Efficient Large-Scale Language Model Training on GPU Clusters Using Megatron-LM" (2021)

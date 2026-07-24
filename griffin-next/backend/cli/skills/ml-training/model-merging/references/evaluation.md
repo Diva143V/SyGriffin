@@ -57,7 +57,7 @@ print(f"Average: {avg_score:.2f}")
 **Installation**:
 
 ```bash
-git clone https://github.com/lm-sys/FastChat
+git clone 
 cd FastChat
 pip install -e .
 ```
@@ -456,7 +456,7 @@ Before deploying merged model:
 
 ## Resources
 
-- **lm-evaluation-harness**: https://github.com/EleutherAI/lm-evaluation-harness
-- **MT-Bench**: https://github.com/lm-sys/FastChat
-- **HumanEval**: https://github.com/openai/human-eval
+- **lm-evaluation-harness**: 
+- **MT-Bench**: 
+- **HumanEval**: 
 - **Open LLM Leaderboard**: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard

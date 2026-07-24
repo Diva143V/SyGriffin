@@ -395,7 +395,7 @@ Orpheus supports emotional tags: `<laugh>`, `<sigh>`, `<cough>`, `<gasp>`, `<yaw
 
 ## Workflow 5: Colab Fine-Tuning (Remote GPU)
 
-Use this to run any Unsloth workflow on a Google Colab GPU directly from openscience — no local GPU required.
+Use this to run any Unsloth workflow on a Google Colab GPU directly from griffin — no local GPU required.
 
 ### Setup
 1. Generate the bridge notebook: `colab_notebook workflow=bridge`
@@ -633,9 +633,9 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 
 ## Resources
 
-- **GitHub**: https://github.com/unslothai/unsloth
+- **GitHub**: 
 - **Documentation**: https://docs.unsloth.ai
 - **Hugging Face**: https://huggingface.co/unsloth
 - **Docker Hub**: https://hub.docker.com/r/unsloth/unsloth
-- **Notebooks**: https://github.com/unslothai/notebooks
-- **Discord**: https://discord.gg/unsloth
+- **Notebooks**: 
+- **Discord**: 

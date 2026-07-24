@@ -607,7 +607,7 @@ utils.tokenization.process_tokens_for_rl_debug(
 
 core.trainers.grpo.sampler
 
-Repeat random sampler (similar to the one implemented in https://github.com/huggingface/trl/blob/main/trl/trainer/grpo_trainer.py) that adds sequence parallelism functionality; i.e., duplicating data across ranks in the same sequence parallel group.
+Repeat random sampler (similar to the one implemented in /blob/main/trl/trainer/grpo_trainer.py) that adds sequence parallelism functionality; i.e., duplicating data across ranks in the same sequence parallel group.
 
 Sampler for GRPO training with sequence parallelism.
 
@@ -705,7 +705,7 @@ evaluate.evaluate_dataset(trainer, dataset, dataset_type, flash_optimum=False)
 
 utils.optimizers.adopt
 
-Copied from https://github.com/iShohei220/adopt
+Copied from 
 
 ADOPT: Modified Adam Can Converge with Any β2 with the Optimal Rate (2024) Taniguchi, Shohei and Harada, Keno and Minegishi, Gouki and Oshima, Yuta and Jeong, Seong Cheol and Nagahara, Go and Iiyama, Tomoshi and Suzuki, Masahiro and Iwasawa, Yusuke and Matsuo, Yutaka
 
@@ -1192,7 +1192,7 @@ Flash attention monkey patch for llama model
 
 Input shape: Batch x Time x Channel
 
-From: https://github.com/dvlab-research/LongLoRA/blob/main/llama_attn_replace.py
+From: /blob/main/llama_attn_replace.py
 
 attention_mask: [bsz, q_len]
 
@@ -1301,7 +1301,7 @@ Modify tokenizer files to replace added_tokens strings, save to output directory
 
 This only works with reserved tokens that were added to the tokenizer, not tokens already part of the vocab.
 
-Ref: https://github.com/huggingface/transformers/issues/27974#issuecomment-1854188941
+Ref: /issues/27974#issuecomment-1854188941
 
 **Examples:**
 
@@ -1434,7 +1434,7 @@ Module containing the DictDefault class
 
 A Dict that returns None instead of returning empty Dict for missing keys.
 
-Remove null from a dictionary-like obj or list. These can appear due to Dataset loading causing schema merge. See https://github.com/axolotl-ai-cloud/axolotl/pull/2909
+Remove null from a dictionary-like obj or list. These can appear due to Dataset loading causing schema merge. See /pull/2909
 
 **Examples:**
 
@@ -1605,7 +1605,7 @@ core.trainers.mixins.rng_state_loader
 
 Temporary fix/override for bug in resume from checkpoint
 
-See https://github.com/huggingface/transformers/pull/37162
+See /pull/37162
 
 TODO: Remove when upstream added PR to release
 
@@ -3236,9 +3236,9 @@ cli.checks.check_user_token()
 
 prompt_strategies.llama2_chat
 
-Prompt Strategy for finetuning Llama2 chat models see also https://github.com/facebookresearch/llama/blob/6c7fe276574e78057f917549435a2554000a876d/llama/generation.py#L213 for ma reference implementation.
+Prompt Strategy for finetuning Llama2 chat models see also /blob/6c7fe276574e78057f917549435a2554000a876d/llama/generation.py#L213 for ma reference implementation.
 
-This implementation is based on the Vicuna PR and the fastchat repo, see also: https://github.com/lm-sys/FastChat/blob/cdd7730686cb1bf9ae2b768ee171bdf7d1ff04f3/fastchat/conversation.py#L847
+This implementation is based on the Vicuna PR and the fastchat repo, see also: /blob/cdd7730686cb1bf9ae2b768ee171bdf7d1ff04f3/fastchat/conversation.py#L847
 
 Use dataset type: “llama2_chat” in conig.yml to use this prompt style.
 
@@ -3250,9 +3250,9 @@ in a jsonl file. The first message should be from the human, the second from gpt
 
 Important: Don’t use “special_tokens:” in your config.yml if you are not sure what you are doing!
 
-Tokenizing strategy for Llama2 prompts. adapted from https://github.com/lm-sys/FastChat/blob/main/fastchat/train/train.py
+Tokenizing strategy for Llama2 prompts. adapted from /blob/main/fastchat/train/train.py
 
-A class that manages prompt templates and keeps all conversation history. copied from https://github.com/lm-sys/FastChat/blob/main/fastchat/conversation.py
+A class that manages prompt templates and keeps all conversation history. copied from /blob/main/fastchat/conversation.py
 
 Append a new message.
 
@@ -3478,7 +3478,7 @@ Module loading the AlpacaInstructPromptTokenizingStrategy class
 **Contents:**
 - utils.callbacks.lisa
 
-Adapted from https://github.com/OptimalScale/LMFlow/pull/701 for HF transformers & Axolotl Arxiv: https://arxiv.org/abs/2403.17919 License: Apache 2.0
+Adapted from /pull/701 for HF transformers & Axolotl Arxiv: https://arxiv.org/abs/2403.17919 License: Apache 2.0
 
 ---
 
@@ -5075,7 +5075,7 @@ monkeypatch.relora.ReLoRACallback(cfg)
 
 monkeypatch.transformers_fa_utils
 
-see https://github.com/huggingface/transformers/pull/35834
+see /pull/35834
 
 PEFT usually casts the layer norms in float32 for training stability reasons therefore the input hidden states gets silently casted in float32. Hence, we need cast them back in float16 / bfloat16 just to be sure everything works as expected. This might slowdown training & inference so it is recommended to not cast the LayerNorms!
 

@@ -201,6 +201,6 @@ C = torch.randn(d_inner, d_state)
 
 - Paper: https://arxiv.org/abs/2312.00752 (Mamba-1)
 - Paper: https://arxiv.org/abs/2405.21060 (Mamba-2)
-- GitHub: https://github.com/state-spaces/mamba
+- GitHub: 
 - Models: https://huggingface.co/state-spaces
-- CUDA kernels: https://github.com/state-spaces/mamba/tree/main/csrc
+- CUDA kernels: /tree/main/csrc

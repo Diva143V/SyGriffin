@@ -106,7 +106,7 @@ When you run `prime lab setup`, bundled workflow skills are installed at `.prime
 | **train** | Launch and manage training runs |
 | **GEPA** | Automatic prompt optimization workflows |
 
-These skills provide agent-friendly workflows that the `openscience` CLI can invoke.
+These skills provide agent-friendly workflows that the `griffin` CLI can invoke.
 
 ---
 
@@ -526,7 +526,7 @@ prime rl cancel <run-id>
 
 ## Agent Usage Instructions
 
-When the `openscience` agent loads this skill for a user task:
+When the `griffin` agent loads this skill for a user task:
 
 1. **Check credentials**: Verify `PRIME_API_KEY` is set
 2. **Set up workspace**: `prime lab setup` if not already initialized
@@ -536,7 +536,7 @@ When the `openscience` agent loads this skill for a user task:
 6. **Estimate cost**: Check `prime rl estimate --config <config.toml>` before launching
 7. **Wait for approval**: Present cost estimate and get explicit user approval
 8. **Monitor training**: Use `prime rl logs --follow` to track progress
-9. **Report usage**: After completion, report via `OpenScience.reportUsage()` with `service="primeintellect"`
+9. **Report usage**: After completion, report via `Griffin.reportUsage()` with `service="primeintellect"`
 
 ### Example Agent Workflow
 
@@ -555,7 +555,7 @@ Agent steps:
 9. Launch: prime rl run configs/rl/gsm8k.toml
 10. Monitor: prime rl logs --follow
 11. Download adapter and run final eval
-12. Report usage to OpenScience
+12. Report usage to Griffin
 ```
 
 ### Using the Brainstorm Skill

@@ -1,7 +1,7 @@
-import { createOpenScienceClient, createOpenScienceServer } from "@synsci/sdk"
+import { createGriffinClient, createGriffinServer } from "@griffin/sdk"
 
-const server = await createOpenScienceServer()
-const client = createOpenScienceClient({ baseUrl: server.url })
+const server = await createGriffinServer()
+const client = createGriffinClient({ baseUrl: server.url })
 
 const input = await Array.fromAsync(new Bun.Glob("backend/cli/src/*.ts").scan())
 

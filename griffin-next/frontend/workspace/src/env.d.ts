@@ -1,7 +1,7 @@
 interface ImportMetaEnv {
-  readonly VITE_OPENSCIENCE_SERVER_HOST: string
-  readonly VITE_OPENSCIENCE_SERVER_PORT: string
-  readonly VITE_OPENSCIENCE_SERVER?: string
+  readonly VITE_GRIFFIN_SERVER_HOST: string
+  readonly VITE_GRIFFIN_SERVER_PORT: string
+  readonly VITE_GRIFFIN_SERVER?: string
 }
 
 interface ImportMeta {
@@ -9,5 +9,5 @@ interface ImportMeta {
 }
 
 interface Window {
-  __OPENSCIENCE_BASE_URL__?: string
+  __GRIFFIN_BASE_URL__?: string
 }

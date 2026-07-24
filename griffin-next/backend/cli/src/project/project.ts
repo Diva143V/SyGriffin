@@ -9,7 +9,7 @@ import { Log } from "../util/log"
 import { Flag } from "@/flag/flag"
 import { Session } from "../session"
 import { work } from "../util/queue"
-import { fn } from "@synsci/util/fn"
+import { fn } from "@griffin/util/fn"
 import { BusEvent } from "@/bus/bus-event"
 import { iife } from "@/util/iife"
 import { GlobalBus } from "@/bus/global"
@@ -81,7 +81,7 @@ export namespace Project {
         let sandbox = path.dirname(git)
 
         if (!gitBinary) {
-          return { sandbox, worktree: sandbox, vcs: Info.shape.vcs.parse(Flag.OPENSCIENCE_FAKE_VCS) }
+          return { sandbox, worktree: sandbox, vcs: Info.shape.vcs.parse(Flag.GRIFFIN_FAKE_VCS) }
         }
 
         const top = await $`git rev-parse --show-toplevel`
@@ -93,7 +93,7 @@ export namespace Project {
           .catch(() => undefined)
 
         if (!top) {
-          return { sandbox, worktree: sandbox, vcs: Info.shape.vcs.parse(Flag.OPENSCIENCE_FAKE_VCS) }
+          return { sandbox, worktree: sandbox, vcs: Info.shape.vcs.parse(Flag.GRIFFIN_FAKE_VCS) }
         }
 
         sandbox = top
@@ -111,7 +111,7 @@ export namespace Project {
           .catch(() => undefined)
 
         if (!worktree) {
-          return { sandbox, worktree: sandbox, vcs: Info.shape.vcs.parse(Flag.OPENSCIENCE_FAKE_VCS) }
+          return { sandbox, worktree: sandbox, vcs: Info.shape.vcs.parse(Flag.GRIFFIN_FAKE_VCS) }
         }
 
         return { sandbox, worktree, vcs: "git" as const }
@@ -122,7 +122,7 @@ export namespace Project {
       return {
         sandbox: directory,
         worktree: directory,
-        vcs: Info.shape.vcs.parse(Flag.OPENSCIENCE_FAKE_VCS),
+        vcs: Info.shape.vcs.parse(Flag.GRIFFIN_FAKE_VCS),
       }
     })
 
@@ -152,7 +152,7 @@ export namespace Project {
     // migrate old projects before sandboxes
     if (!existing.sandboxes) existing.sandboxes = []
 
-    if (Flag.OPENSCIENCE_EXPERIMENTAL_ICON_DISCOVERY) discover(existing)
+    if (Flag.GRIFFIN_EXPERIMENTAL_ICON_DISCOVERY) discover(existing)
 
     const result: Info = {
       ...existing,

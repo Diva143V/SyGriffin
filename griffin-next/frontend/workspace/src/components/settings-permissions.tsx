@@ -1,5 +1,5 @@
-import { Select } from "@synsci/ui/select"
-import { showToast } from "@synsci/ui/toast"
+import { Select } from "@griffin/ui/select"
+import { showToast } from "@griffin/ui/toast"
 import { Component, For, createMemo, type JSX } from "solid-js"
 import { useGlobalSync } from "@/context/global-sync"
 import { useLanguage } from "@/context/language"

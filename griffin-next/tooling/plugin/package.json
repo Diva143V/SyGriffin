@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@synsci/plugin",
+  "name": "@griffin/plugin",
   "version": "1.2.2",
   "type": "module",
   "license": "Apache-2.0",
@@ -16,7 +16,7 @@
     "dist"
   ],
   "dependencies": {
-    "@synsci/sdk": "workspace:*",
+    "@griffin/sdk": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {
@@ -27,6 +27,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synthetic-sciences/openscience.git"
+    "url": "git+https://github.com/synthetic-sciences/griffin.git"
   }
 }

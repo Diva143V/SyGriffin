@@ -1,8 +1,8 @@
-# OpenScience docs
+# Griffin docs
 
-The documentation site for OpenScience, the open-source AI workbench for scientific research. It ships at [openscience.sh/docs](https://openscience.sh/docs).
+The documentation site for Griffin, the open-source AI workbench for scientific research. It ships at [griffin.sh/docs](https://griffin.sh/docs).
 
-It is a small Vite + React app that renders a folder of MDX pages — no docs framework, no CMS, no server. Pages live in `src/content/openscience/` as `.mdx` files plus a `docs.json` that drives the sidebar. Routing is hash-based (`#/openscience/<page>`), so the whole thing is a static single-page app.
+It is a small Vite + React app that renders a folder of MDX pages — no docs framework, no CMS, no server. Pages live in `src/content/griffin/` as `.mdx` files plus a `docs.json` that drives the sidebar. Routing is hash-based (`#/griffin/<page>`), so the whole thing is a static single-page app.
 
 ## Develop
 
@@ -20,9 +20,9 @@ bun run --cwd frontend/docs typecheck  # tsc --noEmit
 
 ## Add a page
 
-1. Create `src/content/openscience/<page>.mdx` with `title` and `description` frontmatter.
-2. Add the page to `src/content/openscience/docs.json` under the right group.
-3. Internal links use `/openscience/<page>`; they resolve to hash routes at build.
+1. Create `src/content/griffin/<page>.mdx` with `title` and `description` frontmatter.
+2. Add the page to `src/content/griffin/docs.json` under the right group.
+3. Internal links use `/griffin/<page>`; they resolve to hash routes at build.
 
 ## Deploy
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 import { $ } from "bun"
-import { Script } from "@synsci/script"
+import { Script } from "@griffin/script"
 
 const highlightsTemplate = `
 <!--
@@ -102,27 +102,27 @@ try {
   failures.push("plugin")
 }
 
-console.log("\n=== launcher (openscience) ===\n")
+console.log("\n=== launcher (griffin) ===\n")
 try {
   const launcherDir = new URL("../launcher", import.meta.url).pathname
-  // Pin @synsci/openscience dependency to the version being published.
+  // Pin @griffin/griffin dependency to the version being published.
   // Defensive: initialize `dependencies` if the launcher's package.json
   // was authored without it — happened on the v1.1.117 publish (broken
   // launcher step). Empty object is fine since we only need the pin.
   const launcherPkg = await Bun.file(`${launcherDir}/package.json`).json()
-  // Keep the launcher version in lockstep with the just-released @synsci/openscience.
+  // Keep the launcher version in lockstep with the just-released @griffin/griffin.
   // Without this, each subsequent publish would npm-error with "cannot
   // publish over existing version" because the launcher's package.json
   // never gets bumped (the source value stays whatever the last manual
   // commit set it to).
   launcherPkg.version = Script.version
-  // Do NOT declare @synsci/openscience as a static dependency. Both packages
-  // expose a `openscience` bin and npx resolves dep-bin before parent-bin,
-  // which caused `npx openscience` to skip the launcher and jump straight
-  // into the CLI (npm caches: openscience -> @synsci/openscience/bin/openscience instead
-  // of openscience -> openscience/bin/openscience.mjs). The launcher already shells
-  // out `npm i -g @synsci/openscience@latest` at runtime when it needs the
-  // binary — that path puts openscience on PATH for the subsequent spawn
+  // Do NOT declare @griffin/griffin as a static dependency. Both packages
+  // expose a `griffin` bin and npx resolves dep-bin before parent-bin,
+  // which caused `npx griffin` to skip the launcher and jump straight
+  // into the CLI (npm caches: griffin -> @griffin/griffin/bin/griffin instead
+  // of griffin -> griffin/bin/griffin.mjs). The launcher already shells
+  // out `npm i -g @griffin/griffin@latest` at runtime when it needs the
+  // binary — that path puts griffin on PATH for the subsequent spawn
   // without polluting node_modules/.bin in the npx temp tree.
   delete launcherPkg.dependencies
   await Bun.file(`${launcherDir}/package.json`).write(JSON.stringify(launcherPkg, null, 2))
@@ -131,22 +131,22 @@ try {
   process.stderr.write(result.stderr.toString())
   if (result.exitCode !== 0) {
     const stderr = result.stderr.toString()
-    // The unscoped `synsci` package has its own npm owner list; a token
+    // The unscoped `griffin` package has its own npm owner list; a token
     // whose account isn't on it gets E403. That's an ownership grant to
-    // chase (`npm owner add <token-user> synsci`), not a broken release —
+    // chase (`npm owner add <token-user> griffin`), not a broken release —
     // every other package shipped, so warn loudly instead of failing.
     if (stderr.includes("E403") || stderr.includes("do not have permission")) {
       // A GitHub Actions annotation, so this shows on the run summary
       // instead of being a log line nobody reads on a green run.
       console.warn(
-        "::warning title=launcher not published::npm token's account is not an owner of the 'synsci' package — users keep getting the previous launcher. Fix: an owner runs `npm owner add <token-user> synsci`, then re-release.",
+        "::warning title=launcher not published::npm token's account is not an owner of the 'griffin' package — users keep getting the previous launcher. Fix: an owner runs `npm owner add <token-user> griffin`, then re-release.",
       )
     } else if (stderr.includes("cannot publish over") || stderr.includes("previously published")) {
       // The launcher sometimes ships out-of-band between releases. That
       // means the release-built launcher for this version will never ship,
       // so surface it on the run summary rather than silently skipping.
       console.warn(
-        `::warning title=launcher skipped::synsci@${Script.version} already exists on the registry (published out-of-band) — the release-built launcher was NOT published.`,
+        `::warning title=launcher skipped::griffin@${Script.version} already exists on the registry (published out-of-band) — the release-built launcher was NOT published.`,
       )
     } else {
       throw new Error(`npm publish exited with ${result.exitCode}`)

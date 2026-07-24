@@ -13,7 +13,7 @@ dependencies: [pyvene>=0.1.8, torch>=2.0.0, transformers>=4.30.0]
 
 pyvene is Stanford NLP's library for performing causal interventions on PyTorch models. It provides a declarative, dict-based framework for activation patching, causal tracing, and interchange intervention training - making intervention experiments reproducible and shareable.
 
-**GitHub**: [stanfordnlp/pyvene](https://github.com/stanfordnlp/pyvene) (840+ stars)
+**GitHub**: [stanfordnlp/pyvene]() (840+ stars)
 **Paper**: [pyvene: A Library for Understanding and Improving PyTorch Models via Interventions](https://aclanthology.org/2024.naacl-demo.16) (NAACL 2024)
 
 ## When to Use pyvene

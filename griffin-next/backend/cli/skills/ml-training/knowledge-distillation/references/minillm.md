@@ -5,7 +5,7 @@ Based on arXiv 2306.08543 (2024) - MiniLLM: Knowledge Distillation of Large Lang
 ## Overview
 
 **Source**: https://arxiv.org/abs/2306.08543
-**GitHub**: https://github.com/microsoft/LMOps/tree/main/minillm
+**GitHub**: /tree/main/minillm
 
 MiniLLM replaces forward KLD with reverse KLD for knowledge distillation, achieving better performance on generative language models.
 
@@ -330,5 +330,5 @@ lr_minillm = 5e-5      # MiniLLM (can handle higher LR)
 ## Resources
 
 - **Paper**: https://arxiv.org/abs/2306.08543
-- **GitHub**: https://github.com/microsoft/LMOps/tree/main/minillm
+- **GitHub**: /tree/main/minillm
 - **Blog**: https://www.microsoft.com/en-us/research/blog/minillm-small-language-models-via-large-language-model-distillation/

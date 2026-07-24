@@ -1,5 +1,5 @@
 import { Show, type JSX } from "solid-js"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useServer } from "@/context/server"
 import { DialogSelectServer } from "@/components/dialog-select-server"
 import { FONT_MONO, FONT_SANS } from "@/styles/tokens"

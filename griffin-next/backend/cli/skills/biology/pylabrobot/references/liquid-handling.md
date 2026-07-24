@@ -400,4 +400,4 @@ finally:
 
 - Official Liquid Handling Guide: https://docs.pylabrobot.org/user_guide/basic.html
 - API Reference: https://docs.pylabrobot.org/api/pylabrobot.liquid_handling.html
-- Example Protocols: https://github.com/PyLabRobot/pylabrobot/tree/main/examples
+- Example Protocols: /tree/main/examples

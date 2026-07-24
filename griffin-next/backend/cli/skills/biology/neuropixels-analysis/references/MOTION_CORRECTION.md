@@ -319,5 +319,5 @@ axes[1].set_title('After Correction')
 
 - [SpikeInterface Motion Correction Docs](https://spikeinterface.readthedocs.io/en/stable/modules/motion_correction.html)
 - [Handle Drift Tutorial](https://spikeinterface.readthedocs.io/en/stable/how_to/handle_drift.html)
-- [DREDge GitHub](https://github.com/evarol/DREDge)
+- [DREDge GitHub]()
 - Windolf et al. (2023) "DREDge: robust motion correction for high-density extracellular recordings"

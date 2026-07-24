@@ -6,7 +6,7 @@ import { bootstrap } from "../bootstrap"
 import { Command } from "../../command"
 import { EOL } from "os"
 import { select } from "@clack/prompts"
-import { createOpenScienceClient, type OpenScienceClient } from "@synsci/sdk/v2"
+import { createGriffinClient, type GriffinClient } from "@griffin/sdk/v2"
 import { Server } from "../../server/server"
 import { Provider } from "../../provider/provider"
 import { Agent } from "../../agent/agent"
@@ -76,7 +76,7 @@ export const RunCommand = cmd({
       })
       .option("attach", {
         type: "string",
-        describe: "attach to a running openscience server (e.g., http://localhost:4096)",
+        describe: "attach to a running griffin server (e.g., http://localhost:4096)",
       })
       .option("port", {
         type: "number",
@@ -134,7 +134,7 @@ export const RunCommand = cmd({
       process.exit(1)
     }
 
-    const execute = async (sdk: OpenScienceClient, sessionID: string) => {
+    const execute = async (sdk: GriffinClient, sessionID: string) => {
       const printEvent = (color: string, type: string, title: string) => {
         UI.println(
           color + `|`,
@@ -302,7 +302,7 @@ export const RunCommand = cmd({
     }
 
     if (args.attach) {
-      const sdk = createOpenScienceClient({ baseUrl: args.attach })
+      const sdk = createGriffinClient({ baseUrl: args.attach })
 
       const sessionID = await (async () => {
         if (args.continue) {
@@ -352,7 +352,7 @@ export const RunCommand = cmd({
     }
 
     await bootstrap(process.cwd(), async () => {
-      const sdk = createOpenScienceClient({ baseUrl: "http://openscience.internal", fetch: Server.internalFetch() })
+      const sdk = createGriffinClient({ baseUrl: "http://griffin.internal", fetch: Server.internalFetch() })
 
       if (args.command) {
         const exists = await Command.get(args.command)

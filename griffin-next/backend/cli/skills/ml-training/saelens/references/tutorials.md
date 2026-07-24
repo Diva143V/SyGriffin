@@ -305,9 +305,9 @@ for idx, val in zip(top_consistent.indices, top_consistent.values):
 ## External Resources
 
 ### Official Tutorials
-- [Basic Loading & Analysis](https://github.com/jbloomAus/SAELens/blob/main/tutorials/basic_loading_and_analysing.ipynb)
-- [Training SAEs](https://github.com/jbloomAus/SAELens/blob/main/tutorials/training_a_sparse_autoencoder.ipynb)
-- [Logits Lens with Features](https://github.com/jbloomAus/SAELens/blob/main/tutorials/logits_lens_with_features.ipynb)
+- [Basic Loading & Analysis](/blob/main/tutorials/basic_loading_and_analysing.ipynb)
+- [Training SAEs](/blob/main/tutorials/training_a_sparse_autoencoder.ipynb)
+- [Logits Lens with Features](/blob/main/tutorials/logits_lens_with_features.ipynb)
 
 ### ARENA Curriculum
 Comprehensive SAE course: https://www.lesswrong.com/posts/LnHowHgmrMbWtpkxx/intro-to-superposition-and-sparse-autoencoders-colab

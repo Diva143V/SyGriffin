@@ -16,9 +16,9 @@ mock.module("../../src/bun/index", () => ({
   },
 }))
 const mockPlugin = () => ({})
-mock.module("openscience-copilot-auth", () => ({ default: mockPlugin }))
-mock.module("openscience-anthropic-auth", () => ({ default: mockPlugin }))
-mock.module("@gitlab/openscience-gitlab-auth", () => ({ default: mockPlugin }))
+mock.module("griffin-copilot-auth", () => ({ default: mockPlugin }))
+mock.module("griffin-anthropic-auth", () => ({ default: mockPlugin }))
+mock.module("@gitlab/griffin-gitlab-auth", () => ({ default: mockPlugin }))
 
 import { tmpdir } from "../fixture/fixture"
 import { Instance } from "../../src/project/instance"
@@ -61,10 +61,10 @@ describe("Provider.managedRoutesOpenRouterOnly (pure)", () => {
 })
 
 describe("Provider.managedProviderAllowed (pure)", () => {
-  test("OpenRouter and the hosted synsci demo are the only allowed providers", () => {
+  test("OpenRouter and the hosted griffin demo are the only allowed providers", () => {
     expect(Provider.managedProviderAllowed("openrouter")).toBe(true)
-    expect(Provider.managedProviderAllowed("synsci")).toBe(true)
-    expect(Provider.managedProviderAllowed("synsci-hosted")).toBe(true)
+    expect(Provider.managedProviderAllowed("griffin")).toBe(true)
+    expect(Provider.managedProviderAllowed("griffin-hosted")).toBe(true)
   })
   test("first-party managed proxies + everything else are rejected", () => {
     for (const id of ["anthropic", "openai", "google", "openai-codex", "github-copilot", "gateway", "azure"]) {

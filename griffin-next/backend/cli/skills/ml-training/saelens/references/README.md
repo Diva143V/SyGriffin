@@ -10,7 +10,7 @@ This directory contains comprehensive reference materials for SAELens.
 
 ## Quick Links
 
-- **GitHub Repository**: https://github.com/jbloomAus/SAELens
+- **GitHub Repository**: 
 - **Neuronpedia**: https://neuronpedia.org (browse pre-trained SAE features)
 - **HuggingFace SAEs**: Search for tag `saelens`
 

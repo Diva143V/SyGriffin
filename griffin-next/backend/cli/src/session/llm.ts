@@ -219,16 +219,16 @@ export namespace LLM {
       maxOutputTokens,
       abortSignal: input.abort,
       headers: {
-        ...(input.model.providerID.startsWith("synsci")
+        ...(input.model.providerID.startsWith("griffin")
           ? {
-              "x-openscience-project": Instance.project.id,
-              "x-openscience-session": input.sessionID,
-              "x-openscience-request": input.user.id,
-              "x-openscience-client": Flag.OPENSCIENCE_CLIENT,
+              "x-griffin-project": Instance.project.id,
+              "x-griffin-session": input.sessionID,
+              "x-griffin-request": input.user.id,
+              "x-griffin-client": Flag.GRIFFIN_CLIENT,
             }
           : input.model.providerID !== "anthropic"
             ? {
-                "User-Agent": `openscience/${Installation.VERSION}`,
+                "User-Agent": `griffin/${Installation.VERSION}`,
               }
             : undefined),
         ...input.model.headers,

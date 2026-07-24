@@ -6,13 +6,13 @@ import { Instance } from "../../src/project/instance"
 import { ToolRegistry } from "../../src/tool/registry"
 
 describe("tool.registry", () => {
-  test("loads tools from .openscience/tool (singular)", async () => {
+  test("loads tools from .griffin/tool (singular)", async () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
-        const openscienceDir = path.join(dir, ".openscience")
-        await fs.mkdir(openscienceDir, { recursive: true })
+        const griffinDir = path.join(dir, ".griffin")
+        await fs.mkdir(griffinDir, { recursive: true })
 
-        const toolDir = path.join(openscienceDir, "tool")
+        const toolDir = path.join(griffinDir, "tool")
         await fs.mkdir(toolDir, { recursive: true })
 
         await Bun.write(
@@ -40,13 +40,13 @@ describe("tool.registry", () => {
     })
   })
 
-  test("loads tools from .openscience/tools (plural)", async () => {
+  test("loads tools from .griffin/tools (plural)", async () => {
     await using tmp = await tmpdir({
       init: async (dir) => {
-        const openscienceDir = path.join(dir, ".openscience")
-        await fs.mkdir(openscienceDir, { recursive: true })
+        const griffinDir = path.join(dir, ".griffin")
+        await fs.mkdir(griffinDir, { recursive: true })
 
-        const toolsDir = path.join(openscienceDir, "tools")
+        const toolsDir = path.join(griffinDir, "tools")
         await fs.mkdir(toolsDir, { recursive: true })
 
         await Bun.write(

@@ -41,7 +41,7 @@ model.save_pretrained_merged("merged_model", tokenizer, save_method = "merged_16
 ```bash
 apt-get update
 apt-get install pciutils build-essential cmake curl libcurl4-openssl-dev -y
-git clone https://github.com/ggerganov/llama.cpp
+git clone .cpp
 cmake llama.cpp -B llama.cpp/build \
     -DBUILD_SHARED_LIBS=ON -DGGML_CUDA=ON -DLLAMA_CURL=ON
 cmake --build llama.cpp/build --config Release -j --clean-first --target llama-quantize llama-cli llama-gguf-split llama-mtmd-cli
@@ -199,6 +199,6 @@ locale.getpreferredencoding = lambda: "UTF-8"
   title        = {Unsloth},
   year         = {2025},
   publisher    = {Github},
-  howpublished = {\url{https://github.com/unslothai/unsloth}}
+  howpublished = {\url{}}
 }
 ```

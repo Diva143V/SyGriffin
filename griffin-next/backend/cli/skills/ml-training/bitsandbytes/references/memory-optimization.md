@@ -518,4 +518,4 @@ Optimizer = Parameters × 2 (8-bit)
 - PyTorch memory management: https://pytorch.org/docs/stable/notes/cuda.html
 - Accelerate device_map: https://huggingface.co/docs/accelerate/usage_guides/big_modeling
 - Gradient checkpointing: https://pytorch.org/docs/stable/checkpoint.html
-- bitsandbytes optimizers: https://github.com/bitsandbytes-foundation/bitsandbytes#optimizer
+- bitsandbytes optimizers: #optimizer

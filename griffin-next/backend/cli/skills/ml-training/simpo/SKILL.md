@@ -24,7 +24,7 @@ conda create -n simpo python=3.10 && conda activate simpo
 # Visit: https://pytorch.org/get-started/locally/
 
 # Install alignment-handbook
-git clone https://github.com/huggingface/alignment-handbook.git
+git clone .git
 cd alignment-handbook
 python -m pip install .
 
@@ -212,9 +212,9 @@ gradient_checkpointing: true
 ## Resources
 
 - Paper: https://arxiv.org/abs/2405.14734 (NeurIPS 2024)
-- GitHub: https://github.com/princeton-nlp/SimPO
+- GitHub: 
 - Models: https://huggingface.co/princeton-nlp
-- Alignment Handbook: https://github.com/huggingface/alignment-handbook
+- Alignment Handbook: 
 
 
 

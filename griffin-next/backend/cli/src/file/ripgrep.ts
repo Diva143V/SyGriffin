@@ -3,7 +3,7 @@ import path from "path"
 import { Global } from "../global"
 import fs from "fs/promises"
 import z from "zod"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { lazy } from "../util/lazy"
 import { $ } from "bun"
 
@@ -135,7 +135,7 @@ export namespace Ripgrep {
 
       const version = "14.1.1"
       const filename = `ripgrep-${version}-${config.platform}.${config.extension}`
-      const url = `https://github.com/BurntSushi/ripgrep/releases/download/${version}/${filename}`
+      const url = `/releases/download/${version}/${filename}`
 
       const response = await fetch(url)
       if (!response.ok) throw new DownloadFailedError({ url, status: response.status })
@@ -224,7 +224,7 @@ export namespace Ripgrep {
     }
 
     // Bun.spawn should throw this, but it incorrectly reports that the executable does not exist.
-    // See https://github.com/oven-sh/bun/issues/24012
+    // See /issues/24012
     if (!(await fs.stat(input.cwd).catch(() => undefined))?.isDirectory()) {
       throw Object.assign(new Error(`No such file or directory: '${input.cwd}'`), {
         code: "ENOENT",
@@ -302,7 +302,7 @@ export namespace Ripgrep {
       children: [],
     }
     for (const file of files) {
-      if (file.includes(".openscience") || file.includes(".synsc")) continue
+      if (file.includes(".griffin") || file.includes(".synsc")) continue
       const parts = file.split(path.sep)
       getPath(root, parts, true)
     }

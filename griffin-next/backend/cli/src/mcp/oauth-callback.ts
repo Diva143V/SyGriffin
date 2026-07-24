@@ -6,7 +6,7 @@ const log = Log.create({ service: "mcp.oauth-callback" })
 const HTML_SUCCESS = `<!DOCTYPE html>
 <html>
 <head>
-  <title>OpenScience - Authorization Successful</title>
+  <title>Griffin - Authorization Successful</title>
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #1a1a2e; color: #eee; }
     .container { text-align: center; padding: 2rem; }
@@ -17,7 +17,7 @@ const HTML_SUCCESS = `<!DOCTYPE html>
 <body>
   <div class="container">
     <h1>Authorization Successful</h1>
-    <p>You can close this window and return to OpenScience.</p>
+    <p>You can close this window and return to Griffin.</p>
   </div>
   <script>setTimeout(() => window.close(), 2000);</script>
 </body>
@@ -26,7 +26,7 @@ const HTML_SUCCESS = `<!DOCTYPE html>
 const HTML_ERROR = (error: string) => `<!DOCTYPE html>
 <html>
 <head>
-  <title>OpenScience - Authorization Failed</title>
+  <title>Griffin - Authorization Failed</title>
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #1a1a2e; color: #eee; }
     .container { text-align: center; padding: 2rem; }

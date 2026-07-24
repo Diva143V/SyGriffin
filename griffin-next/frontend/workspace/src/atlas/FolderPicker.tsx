@@ -1,6 +1,6 @@
 import { createSignal, createMemo, createResource, createEffect, type JSX, For, Show } from "solid-js"
-import { Dialog } from "@synsci/ui/dialog"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { Dialog } from "@griffin/ui/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { useGlobalSync } from "@/context/global-sync"
 import { FONT_MONO, FONT_SANS } from "@/styles/tokens"

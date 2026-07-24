@@ -383,7 +383,7 @@ Read the relevant reference file(s) based on the specific LaminDB capability nee
 
 - **Official Documentation**: https://docs.lamin.ai
 - **API Reference**: https://docs.lamin.ai/api
-- **GitHub Repository**: https://github.com/laminlabs/lamindb
+- **GitHub Repository**: 
 - **Tutorial**: https://docs.lamin.ai/tutorial
 - **FAQ**: https://docs.lamin.ai/faq
 

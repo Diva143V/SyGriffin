@@ -1,18 +1,18 @@
 {
-  "name": "synsci",
+  "name": "griffin",
   "version": "1.2.5",
-  "description": "Install wizard for OpenScience, the open-source AI research workspace (optionally with Atlas)",
+  "description": "Install wizard for Griffin, the open-source AI research workspace (optionally with Atlas)",
   "license": "Apache-2.0",
   "type": "module",
   "bin": {
-    "synsci": "bin/synsci.mjs"
+    "griffin": "bin/griffin.mjs"
   },
   "files": [
     "bin"
   ],
   "keywords": [
-    "openscience",
-    "synsci",
+    "griffin",
+    "griffin",
     "synthetic-sciences",
     "atlas",
     "ai",
@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synthetic-sciences/openscience.git"
+    "url": "git+https://github.com/synthetic-sciences/griffin.git"
   },
   "homepage": "https://syntheticsciences.ai"
 }

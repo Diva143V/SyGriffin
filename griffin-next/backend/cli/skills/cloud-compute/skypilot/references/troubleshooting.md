@@ -555,9 +555,9 @@ df -h
 ## Getting Help
 
 1. **Documentation**: https://docs.skypilot.co
-2. **GitHub Issues**: https://github.com/skypilot-org/skypilot/issues
+2. **GitHub Issues**: /issues
 3. **Slack**: https://slack.skypilot.co
-4. **Examples**: https://github.com/skypilot-org/skypilot/tree/master/examples
+4. **Examples**: /tree/master/examples
 
 ### Reporting Issues
 

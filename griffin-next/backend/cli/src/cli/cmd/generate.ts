@@ -14,9 +14,9 @@ export const GenerateCommand = {
           {
             lang: "js",
             source: [
-              `import { createOpenScienceClient } from "@synsci/sdk`,
+              `import { createGriffinClient } from "@griffin/sdk`,
               ``,
-              `const client = createOpenScienceClient()`,
+              `const client = createGriffinClient()`,
               `await client.${operation.operationId}({`,
               `  ...`,
               `})`,

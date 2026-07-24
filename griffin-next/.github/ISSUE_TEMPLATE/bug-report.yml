@@ -20,10 +20,10 @@ body:
       required: false
 
   - type: input
-    id: openscience-version
+    id: griffin-version
     attributes:
-      label: OpenScience version
-      description: What version of OpenScience are you using?
+      label: Griffin version
+      description: What version of Griffin are you using?
     validations:
       required: false
 

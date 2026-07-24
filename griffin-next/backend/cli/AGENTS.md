@@ -1,6 +1,6 @@
-# OpenScience - ML Workflow Defaults
+# Griffin - ML Workflow Defaults
 
-This file provides default instructions for the OpenScience when working in ML/AI research projects.
+This file provides default instructions for the Griffin when working in ML/AI research projects.
 
 ## Skill Loading Guide
 

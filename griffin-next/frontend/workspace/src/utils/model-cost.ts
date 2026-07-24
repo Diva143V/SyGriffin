@@ -65,7 +65,7 @@ export function pricingLines(cost?: ModelCost | null): PricingLines {
 export type ModelSource = "managed" | "signed-in" | "byok"
 
 /** Managed (metered / wallet-debiting) providers reached through the Atlas seam. */
-const MANAGED_PROVIDERS = new Set(["synsci"])
+const MANAGED_PROVIDERS = new Set(["griffin"])
 
 export interface SourceInput {
   providerID: string

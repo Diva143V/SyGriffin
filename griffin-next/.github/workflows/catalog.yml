@@ -23,9 +23,9 @@ jobs:
       - uses: ./.github/actions/setup-bun
       - name: Configure git for tests
         run: |
-          git config --global user.email "ci@openscience.dev"
-          git config --global user.name "OpenScience CI"
+          git config --global user.email "ci@griffin.dev"
+          git config --global user.name "Griffin CI"
           git config --global init.defaultBranch main
       - run: bun run --cwd backend/cli test test/provider/live-catalog.test.ts
         env:
-          OPENSCIENCE_LIVE_CATALOG: "1"
+          GRIFFIN_LIVE_CATALOG: "1"

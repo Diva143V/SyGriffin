@@ -17,7 +17,7 @@ BigCode Evaluation Harness evaluates code generation models across 15+ benchmark
 
 **Installation**:
 ```bash
-git clone https://github.com/bigcode-project/bigcode-evaluation-harness.git
+git clone .git
 cd bigcode-evaluation-harness
 pip install -e .
 accelerate config
@@ -399,8 +399,8 @@ docker pull ghcr.io/bigcode-project/evaluation-harness-multiple
 
 ## Resources
 
-- **GitHub**: https://github.com/bigcode-project/bigcode-evaluation-harness
-- **Documentation**: https://github.com/bigcode-project/bigcode-evaluation-harness/tree/main/docs
+- **GitHub**: 
+- **Documentation**: /tree/main/docs
 - **BigCode Leaderboard**: https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard
 - **HumanEval Dataset**: https://huggingface.co/datasets/openai/openai_humaneval
-- **MultiPL-E**: https://github.com/nuprl/MultiPL-E
+- **MultiPL-E**: 

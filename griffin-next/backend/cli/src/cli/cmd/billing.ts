@@ -1,7 +1,7 @@
 import { cmd } from "./cmd"
 import * as prompts from "@clack/prompts"
 import { UI } from "../ui"
-import { OpenScience } from "../../openscience"
+import { Griffin } from "../../griffin"
 
 const PLAN_URL = process.env.SYNSC_AUTH_URL?.replace(/\/+$/, "") || "https://app.syntheticsciences.ai/cli"
 
@@ -17,16 +17,16 @@ const BillingShowCommand = cmd({
   describe: "show CLI wallet balance and key routing",
   async handler() {
     UI.empty()
-    prompts.intro("openscience billing")
+    prompts.intro("griffin billing")
 
-    const session = await OpenScience.getSession()
+    const session = await Griffin.getSession()
     if (!session) {
-      prompts.log.warn("Not authenticated. Run `openscience login` first.")
+      prompts.log.warn("Not authenticated. Run `griffin login` first.")
       prompts.outro("Done")
       return
     }
 
-    const mode = await OpenScience.getBillingMode()
+    const mode = await Griffin.getBillingMode()
     if (!mode) {
       prompts.log.error("Couldn't fetch billing state. Check your connection or visit " + PLAN_URL)
       prompts.outro("Done")
@@ -49,7 +49,7 @@ const BillingTopupCommand = cmd({
   describe: "open the web Plan tab to top up CLI wallet credits",
   async handler() {
     UI.empty()
-    prompts.intro("openscience billing")
+    prompts.intro("griffin billing")
     prompts.log.info(`Open: ${PLAN_URL}`)
     prompts.log.info("CLI wallet top-ups: $50 or $200, one-time or recurring monthly.")
     prompts.log.info("BYOK works on every plan — bring your own provider keys at any tier.")

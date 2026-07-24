@@ -7,16 +7,16 @@ import { useCommand } from "@/context/command"
 import { useLanguage } from "@/context/language"
 import { usePlatform } from "@/context/platform"
 import { useSync } from "@/context/sync"
-import { getFilename } from "@synsci/util/path"
+import { getFilename } from "@griffin/util/path"
 import { decode64 } from "@/utils/base64"
 
-import { Icon } from "@synsci/ui/icon"
-import { IconButton } from "@synsci/ui/icon-button"
-import { Button } from "@synsci/ui/button"
-import { Tooltip, TooltipKeybind } from "@synsci/ui/tooltip"
-import { Popover } from "@synsci/ui/popover"
-import { TextField } from "@synsci/ui/text-field"
-import { Keybind } from "@synsci/ui/keybind"
+import { Icon } from "@griffin/ui/icon"
+import { IconButton } from "@griffin/ui/icon-button"
+import { Button } from "@griffin/ui/button"
+import { Tooltip, TooltipKeybind } from "@griffin/ui/tooltip"
+import { Popover } from "@griffin/ui/popover"
+import { TextField } from "@griffin/ui/text-field"
+import { Keybind } from "@griffin/ui/keybind"
 import { StatusPopover } from "../status-popover"
 
 export function SessionHeader() {
@@ -92,8 +92,8 @@ export function SessionHeader() {
     platform.openLink(url)
   }
 
-  const centerMount = createMemo(() => document.getElementById("openscience-titlebar-center"))
-  const rightMount = createMemo(() => document.getElementById("openscience-titlebar-right"))
+  const centerMount = createMemo(() => document.getElementById("griffin-titlebar-center"))
+  const rightMount = createMemo(() => document.getElementById("griffin-titlebar-right"))
 
   return (
     <>

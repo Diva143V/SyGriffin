@@ -106,7 +106,7 @@ Use non-expiring credentials for controllers:
 
 ```yaml
 workdir:
-  url: https://github.com/user/repo.git
+  url: .git
   ref: main
   # For private repos, set GIT_TOKEN env var
 ```

@@ -25,7 +25,7 @@ python -c "from transformers import Blip2ForConditionalGeneration; print('OK')"
 **Solutions**:
 ```bash
 # Install from source
-git clone https://github.com/salesforce/LAVIS.git
+git clone .git
 cd LAVIS
 pip install -e .
 
@@ -510,7 +510,7 @@ dataset = load_dataset("coco_caption", split="val")
 ## Getting Help
 
 1. **HuggingFace Forums**: https://discuss.huggingface.co
-2. **LAVIS GitHub Issues**: https://github.com/salesforce/LAVIS/issues
+2. **LAVIS GitHub Issues**: /issues
 3. **Paper**: https://arxiv.org/abs/2301.12597
 4. **Model Card**: https://huggingface.co/Salesforce/blip2-opt-2.7b
 

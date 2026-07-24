@@ -13,7 +13,7 @@ dependencies: [sae-lens>=6.0.0, transformer-lens>=2.0.0, torch>=2.0.0]
 
 SAELens is the primary library for training and analyzing Sparse Autoencoders (SAEs) - a technique for decomposing polysemantic neural network activations into sparse, interpretable features. Based on Anthropic's groundbreaking research on monosemanticity.
 
-**GitHub**: [jbloomAus/SAELens](https://github.com/jbloomAus/SAELens) (1,100+ stars)
+**GitHub**: [jbloomAus/SAELens]() (1,100+ stars)
 
 ## The Problem: Polysemanticity & Superposition
 
@@ -356,8 +356,8 @@ For detailed API documentation, tutorials, and advanced usage, see the `referenc
 ## External Resources
 
 ### Tutorials
-- [Basic Loading & Analysis](https://github.com/jbloomAus/SAELens/blob/main/tutorials/basic_loading_and_analysing.ipynb)
-- [Training a Sparse Autoencoder](https://github.com/jbloomAus/SAELens/blob/main/tutorials/training_a_sparse_autoencoder.ipynb)
+- [Basic Loading & Analysis](/blob/main/tutorials/basic_loading_and_analysing.ipynb)
+- [Training a Sparse Autoencoder](/blob/main/tutorials/training_a_sparse_autoencoder.ipynb)
 - [ARENA SAE Curriculum](https://www.lesswrong.com/posts/LnHowHgmrMbWtpkxx/intro-to-superposition-and-sparse-autoencoders-colab)
 
 ### Papers

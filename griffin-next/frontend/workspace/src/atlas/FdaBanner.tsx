@@ -1,6 +1,6 @@
 import { createSignal, createResource, type JSX, Show, onMount } from "solid-js"
-import { Dialog } from "@synsci/ui/dialog"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { Dialog } from "@griffin/ui/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { FONT_CODE, FONT_MONO, FONT_SANS } from "@/styles/tokens"
 import { IconRefresh, IconArrowRight } from "@/atlas/shared/Icon"
 

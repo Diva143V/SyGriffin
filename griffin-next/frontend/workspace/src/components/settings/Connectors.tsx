@@ -1,11 +1,11 @@
 import { For, Show, createMemo, createSignal, onMount } from "solid-js"
-import { Switch } from "@synsci/ui/switch"
-import { Icon } from "@synsci/ui/icon"
-import { IconButton } from "@synsci/ui/icon-button"
-import { showToast } from "@synsci/ui/toast"
+import { Switch } from "@griffin/ui/switch"
+import { Icon } from "@griffin/ui/icon"
+import { IconButton } from "@griffin/ui/icon-button"
+import { showToast } from "@griffin/ui/toast"
 import { useGlobalSync } from "@/context/global-sync"
 import { useGlobalSDK } from "@/context/global-sdk"
-import type { Config, McpStatus } from "@synsci/sdk/v2/client"
+import type { Config, McpStatus } from "@griffin/sdk/v2/client"
 import {
   PanelScroll,
   PanelHeader,

@@ -313,7 +313,7 @@ huggingface-cli login
 **Solution**: Build locally:
 ```bash
 # Clone repo
-git clone https://github.com/bigcode-project/bigcode-evaluation-harness.git
+git clone .git
 cd bigcode-evaluation-harness
 
 # Build image
@@ -385,7 +385,7 @@ accelerate launch main.py \
 
 ## Getting Help
 
-1. **Check existing issues**: https://github.com/bigcode-project/bigcode-evaluation-harness/issues
+1. **Check existing issues**: /issues
 2. **Search closed issues**: Often contains solutions
 3. **Open new issue** with:
    - Full command used

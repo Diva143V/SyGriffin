@@ -152,7 +152,7 @@ def test_authentication(config_path='config.yaml'):
 
     except ImportError:
         print("\n⚠️  labarchives-py package not installed")
-        print("   Install with: pip install git+https://github.com/mcmero/labarchives-py")
+        print("   Install with: pip install git+")
 
     except Exception as e:
         print(f"\n❌ Connection test failed: {e}")

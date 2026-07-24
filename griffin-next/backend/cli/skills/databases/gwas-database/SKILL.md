@@ -563,7 +563,7 @@ Consult this reference when:
 ### Training Materials
 
 The GWAS Catalog team provides workshop materials:
-- GitHub repository: https://github.com/EBISPOT/GWAS_Catalog-workshop
+- GitHub repository: 
 - Jupyter notebooks with example queries
 - Google Colab integration for cloud execution
 
@@ -601,7 +601,7 @@ When using GWAS Catalog data, cite:
 - **API documentation**: https://www.ebi.ac.uk/gwas/rest/docs/api
 - **Summary Statistics API**: https://www.ebi.ac.uk/gwas/summary-statistics/docs/
 - **FTP site**: http://ftp.ebi.ac.uk/pub/databases/gwas/
-- **Training materials**: https://github.com/EBISPOT/GWAS_Catalog-workshop
+- **Training materials**: 
 - **PGS Catalog** (polygenic scores): https://www.pgscatalog.org/
 - **Help and support**: gwas-info@ebi.ac.uk
 

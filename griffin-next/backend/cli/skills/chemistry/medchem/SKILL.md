@@ -401,5 +401,5 @@ python scripts/filter_molecules.py input.csv --rules rule_of_five,rule_of_cns --
 ## Documentation
 
 Official documentation: https://medchem-docs.datamol.io/
-GitHub repository: https://github.com/datamol-io/medchem
+GitHub repository: 
 

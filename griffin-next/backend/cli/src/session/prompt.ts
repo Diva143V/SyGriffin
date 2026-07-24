@@ -45,7 +45,7 @@ import { ConfigMarkdown } from "../config/markdown"
 import { Config } from "../config/config"
 import { computeBillingMode } from "./billing-gate"
 import { SessionSummary } from "./summary"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { fn } from "@/util/fn"
 import { SessionProcessor } from "./processor"
 import { TaskTool } from "@/tool/task"
@@ -1540,7 +1540,7 @@ export namespace SessionPrompt {
     }
 
     // Original logic when experimental plan mode is disabled
-    if (!Flag.OPENSCIENCE_EXPERIMENTAL_PLAN_MODE) {
+    if (!Flag.GRIFFIN_EXPERIMENTAL_PLAN_MODE) {
       if (input.agent.name === "plan") {
         userMessage.parts.push({
           id: Identifier.ascending("part"),

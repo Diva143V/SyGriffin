@@ -1,0 +1,71 @@
+---
+title: "Quickstart"
+description: "Install Griffin, set a provider key, and run your first research session."
+icon: "rocket"
+---
+
+Five minutes from zero to a running research session. No account required.
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g @synsci/griffin
+    ```
+
+    Or without a global install, `npx synsci` runs the same workbench in one step. The install script (`curl -fsSL https://griffin.sh/install | bash`) drops a standalone `griffin` binary into `~/.griffin/bin`, and platform binaries are attached to every [GitHub release](https://github.com/synthetic-sciences/griffin/releases).
+  </Step>
+  <Step title="Set a provider key">
+    ```bash
+    export ANTHROPIC_API_KEY=sk-ant-...   # or OPENAI_API_KEY, GEMINI_API_KEY, ...
+    ```
+
+    Any provider works — bring your own key and it stays on your machine. `griffin keys add` gives you an interactive sign-in for providers that support it. See [Models](/griffin/models) for routing and reasoning-effort tiers.
+  </Step>
+  <Step title="Open the workspace">
+    ```bash
+    griffin
+    ```
+
+    The command starts a local server and opens the browser workspace: file tree, editor, terminal, and session history, with inline rendering for molecules, structures, genomes, and plots. See [Workspace](/griffin/workspace).
+  </Step>
+  <Step title="Give it a goal">
+    Ask for the outcome, not the steps. The default `research` agent plans, reads, codes, runs, and reports:
+
+    ```text
+    Reproduce the headline result of arXiv:2305.13245 on a small model
+    and tell me whether it holds at 125M parameters.
+    ```
+
+    Prefer the terminal? One-shot runs work without the browser:
+
+    ```bash
+    griffin run "Profile train.py and find the input-pipeline bottleneck"
+    ```
+  </Step>
+  <Step title="Optional: connect Atlas">
+    ```bash
+    griffin login
+    ```
+
+    Connecting an [Atlas](/griffin/atlas) account records your research into durable graphs and unlocks a managed model route with spend controls. Griffin never requires it. See [Connect to Atlas](/griffin/atlas).
+  </Step>
+</Steps>
+
+## Verify the install
+
+```bash
+griffin --version
+griffin models        # configured providers and models
+griffin skill list    # installed skills
+```
+
+## Where next
+
+<Columns cols={2}>
+  <Card title="Agents" icon="bot" href="/griffin/agents">
+    The research agent, the biology / physics / ml specialists, and plan mode.
+  </Card>
+  <Card title="Command reference" icon="terminal" href="/griffin/commands">
+    Every subcommand: runs, sessions, skills, server, lifecycle.
+  </Card>
+</Columns>

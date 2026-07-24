@@ -486,9 +486,9 @@ client = QdrantClient(
 
 ## Resources
 
-- **GitHub**: https://github.com/qdrant/qdrant (22k+ stars)
+- **GitHub**:  (22k+ stars)
 - **Docs**: https://qdrant.tech/documentation/
-- **Python Client**: https://github.com/qdrant/qdrant-client
+- **Python Client**: 
 - **Cloud**: https://cloud.qdrant.io
 - **Version**: 1.12.0+
 - **License**: Apache 2.0

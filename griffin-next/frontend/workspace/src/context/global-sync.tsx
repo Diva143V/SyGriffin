@@ -17,14 +17,14 @@ import {
   type VcsInfo,
   type PermissionRequest,
   type QuestionRequest,
-  createOpenScienceClient,
-} from "@synsci/sdk/v2/client"
+  createGriffinClient,
+} from "@griffin/sdk/v2/client"
 import { createStore, produce, reconcile, type SetStoreFunction, type Store } from "solid-js/store"
-import { Binary } from "@synsci/util/binary"
-import { retry } from "@synsci/util/retry"
+import { Binary } from "@griffin/util/binary"
+import { retry } from "@griffin/util/retry"
 import { useGlobalSDK } from "./global-sdk"
 // InitError used to live in pages/error.tsx (now deleted with the legacy
-// openscience shell). Inline the shape so the openscience context layer keeps
+// griffin shell). Inline the shape so the griffin context layer keeps
 // compiling — it's dead code under the new AtlasApp entry but is still
 // imported transitively from app.tsx tooling.
 type InitError = { code: string; message?: string; cause?: unknown }
@@ -41,8 +41,8 @@ import {
   type Accessor,
   type ParentProps,
 } from "solid-js"
-import { showToast } from "@synsci/ui/toast"
-import { getFilename } from "@synsci/util/path"
+import { showToast } from "@griffin/ui/toast"
+import { getFilename } from "@griffin/util/path"
 import { usePlatform } from "./platform"
 import { useLanguage } from "@/context/language"
 import { Persist, persisted } from "@/utils/persist"
@@ -151,12 +151,12 @@ function createGlobalSync() {
   const metaCache = new Map<string, MetaCache>()
   const iconCache = new Map<string, IconCache>()
 
-  const sdkCache = new Map<string, ReturnType<typeof createOpenScienceClient>>()
+  const sdkCache = new Map<string, ReturnType<typeof createGriffinClient>>()
   const sdkFor = (directory: string) => {
     const cached = sdkCache.get(directory)
     if (cached) return cached
 
-    const sdk = createOpenScienceClient({
+    const sdk = createGriffinClient({
       baseUrl: globalSDK.url,
       fetch: platform.fetch,
       directory,
@@ -441,7 +441,8 @@ function createGlobalSync() {
     return childStore
   }
 
-  function child(directory: string, options: ChildOptions = {}) {
+  function child(rawDirectory: string, options: ChildOptions = {}) {
+    const directory = rawDirectory ? rawDirectory.replaceAll("\\", "/").toLowerCase() : rawDirectory
     const childStore = ensureChild(directory)
     const shouldBootstrap = options.bootstrap ?? true
     if (shouldBootstrap && childStore[0].status === "loading") {
@@ -982,7 +983,7 @@ function createGlobalSync() {
         globalSDK.client.project.list().then(async (x) => {
           const projects = (x.data ?? [])
             .filter((p) => !!p?.id)
-            .filter((p) => !!p.worktree && !p.worktree.includes("openscience-test"))
+            .filter((p) => !!p.worktree && !p.worktree.includes("griffin-test"))
             .slice()
             .sort((a, b) => a.id.localeCompare(b.id))
           setGlobalStore("project", projects)

@@ -4,11 +4,11 @@ import { AppBaseProviders, AppInterface } from "@/app"
 import { Platform, PlatformProvider } from "@/context/platform"
 import { dict as en } from "@/i18n/en"
 import { dict as zh } from "@/i18n/zh"
-import { openscienceFetch } from "@/utils/openscience-fetch"
+import { griffinFetch } from "@/utils/griffin-fetch"
 import { URLS } from "@/config/urls"
 import pkg from "../package.json"
 
-const DEFAULT_SERVER_URL_KEY = "openscience.settings.dat:defaultServerUrl"
+const DEFAULT_SERVER_URL_KEY = "griffin.settings.dat:defaultServerUrl"
 
 const root = document.getElementById("root")
 if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
@@ -87,7 +87,7 @@ const platform: Platform = {
       return
     }
   },
-  fetch: openscienceFetch,
+  fetch: griffinFetch,
 }
 
 render(

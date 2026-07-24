@@ -28,10 +28,10 @@ describe("endpoints.managedApiBase", () => {
         ATLAS_BASE_URL: "https://c.test",
       }),
     ).toBe("https://a.test")
-    expect(managedApiBase({ OPENSCIENCE_API_BASE: "https://n.test" })).toBe("https://n.test")
+    expect(managedApiBase({ GRIFFIN_API_BASE: "https://n.test" })).toBe("https://n.test")
     expect(
       managedApiBase({
-        OPENSCIENCE_API_BASE: "https://n.test",
+        GRIFFIN_API_BASE: "https://n.test",
         SYNSC_API_BASE: "https://a.test",
       }),
     ).toBe("https://n.test")

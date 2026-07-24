@@ -522,4 +522,4 @@ nvidia-smi nvlink -s
 - Accelerate Performance: https://huggingface.co/docs/accelerate/usage_guides/performance
 - PyTorch Profiler: https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html
 - NCCL Tuning: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html
-- Flash Attention: https://github.com/Dao-AILab/flash-attention
+- Flash Attention: 

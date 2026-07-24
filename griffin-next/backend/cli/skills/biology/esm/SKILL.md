@@ -300,7 +300,7 @@ These references contain detailed API specifications, parameter descriptions, an
 
 ## Resources and Documentation
 
-- **GitHub Repository:** https://github.com/evolutionaryscale/esm
+- **GitHub Repository:** 
 - **Forge Platform:** https://forge.evolutionaryscale.ai
 - **Scientific Paper:** Hayes et al., Science (2025) - https://www.science.org/doi/10.1126/science.ads0018
 - **Blog Posts:**

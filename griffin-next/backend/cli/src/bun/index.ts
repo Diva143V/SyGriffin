@@ -3,7 +3,7 @@ import { Global } from "../global"
 import { Log } from "../util/log"
 import path from "path"
 import { Filesystem } from "../util/filesystem"
-import { NamedError } from "@synsci/util/error"
+import { NamedError } from "@griffin/util/error"
 import { readableStreamToText } from "bun"
 import { Lock } from "../util/lock"
 
@@ -87,7 +87,7 @@ export namespace BunProc {
       "add",
       "--force",
       "--exact",
-      // TODO: get rid of this case (see: https://github.com/oven-sh/bun/issues/19936)
+      // TODO: get rid of this case (see: /issues/19936)
       ...(proxied ? ["--no-cache"] : []),
       "--cwd",
       Global.Path.cache,

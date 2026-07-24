@@ -491,7 +491,7 @@ python scripts/fda_examples.py
 - **openFDA Homepage**: https://open.fda.gov/
 - **API Documentation**: https://open.fda.gov/apis/
 - **Interactive API Explorer**: https://open.fda.gov/apis/try-the-api/
-- **GitHub Repository**: https://github.com/FDA/openfda
+- **GitHub Repository**: 
 - **Terms of Service**: https://open.fda.gov/terms/
 
 ## Support and Troubleshooting
@@ -512,6 +512,6 @@ python scripts/fda_examples.py
 
 ### Getting Help
 
-- **GitHub Issues**: https://github.com/FDA/openfda/issues
+- **GitHub Issues**: /issues
 - **Email**: open-fda@fda.hhs.gov
 

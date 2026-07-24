@@ -93,7 +93,7 @@ export const dict = {
   "dialog.provider.group.popular": "popular",
   "dialog.provider.group.other": "other",
   "dialog.provider.tag.recommended": "recommended",
-  "dialog.provider.synsci.note": "curated models including Claude, GPT, Gemini and more",
+  "dialog.provider.griffin.note": "curated models including Claude, GPT, Gemini and more",
   "dialog.provider.anthropic.note": "direct access to Claude models, including Pro and Max",
   "dialog.provider.copilot.note": "Claude models for coding assistance",
   "dialog.provider.openai.note": "GPT models for fast, capable general AI tasks",

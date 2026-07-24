@@ -12,7 +12,7 @@
 - Supports all fields of fundamental science and engineering (except medical sciences)
 - Emphasis on education and workforce development
 - Strong commitment to diversity, equity, and inclusion
-- Promotes open science and data sharing
+- Promotes griffin and data sharing
 - Collaborative research across institutions encouraged
 
 ## NSF Directorates
@@ -492,7 +492,7 @@ NSF uses two equally weighted criteria for all proposals:
 
 1. **Data Management and Sharing Plan**: Now required for all proposals (2 pages max)
 2. **Biographical Sketch Format**: Updated to include "Products" instead of "Publications"
-3. **Open Science**: Increased emphasis on open-access publications and data
+3. **griffin**: Increased emphasis on open-access publications and data
 4. **Plan for Dissemination**: Some programs require explicit dissemination plans
 5. **Mentoring Plans**: Enhanced requirements for postdoc mentoring plans
 

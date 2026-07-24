@@ -38,14 +38,14 @@ Together AI is an AI cloud platform providing serverless inference on 200+ open-
 
 ## Credential Setup
 
-Credentials are auto-injected by openscience when connected via the dashboard.
+Credentials are auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$TOGETHER_API_KEY" ] && echo "TOGETHER_API_KEY set" || echo "NOT SET"
 ```
 
-If not set: connect Together AI at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect Together AI at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Quick Start
 
@@ -729,7 +729,7 @@ Streaming does not cost more but gives faster time-to-first-token and lets you a
 - **Dashboard**: https://api.together.xyz
 - **Model Catalog**: https://docs.together.ai/docs/serverless-models
 - **Fine-Tuning Guide**: https://docs.together.ai/docs/fine-tuning-quickstart
-- **Python SDK**: https://github.com/togethercomputer/together-python
-- **TypeScript SDK**: https://github.com/togethercomputer/together-typescript
-- **Cookbook (Examples)**: https://github.com/togethercomputer/together-cookbook
+- **Python SDK**: 
+- **TypeScript SDK**: 
+- **Cookbook (Examples)**: 
 - **Status Page**: https://status.together.ai

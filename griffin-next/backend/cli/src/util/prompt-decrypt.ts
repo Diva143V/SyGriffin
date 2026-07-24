@@ -1,12 +1,12 @@
 import crypto from "crypto"
 
-declare const OPENSCIENCE_K1: string
-declare const OPENSCIENCE_K2: string
-declare const OPENSCIENCE_K3: string
-declare const OPENSCIENCE_K4: string
+declare const GRIFFIN_K1: string
+declare const GRIFFIN_K2: string
+declare const GRIFFIN_K3: string
+declare const GRIFFIN_K4: string
 
 function getKey(): Buffer {
-  const fragments = [OPENSCIENCE_K1, OPENSCIENCE_K2, OPENSCIENCE_K3, OPENSCIENCE_K4].map((f) =>
+  const fragments = [GRIFFIN_K1, GRIFFIN_K2, GRIFFIN_K3, GRIFFIN_K4].map((f) =>
     Buffer.from(f, "base64"),
   )
   const key = Buffer.alloc(32)

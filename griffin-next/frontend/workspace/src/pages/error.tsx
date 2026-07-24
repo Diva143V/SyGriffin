@@ -1,10 +1,10 @@
-import { TextField } from "@synsci/ui/text-field"
-import { Button } from "@synsci/ui/button"
+import { TextField } from "@griffin/ui/text-field"
+import { Button } from "@griffin/ui/button"
 import { Component, Show } from "solid-js"
 import { createStore } from "solid-js/store"
 import { usePlatform } from "@/context/platform"
 import { useLanguage } from "@/context/language"
-import { Icon } from "@synsci/ui/icon"
+import { Icon } from "@griffin/ui/icon"
 import { FONT_SANS } from "@/styles/tokens"
 
 export type InitError = {

@@ -11,7 +11,7 @@ This directory contains comprehensive reference materials for TransformerLens.
 ## Quick Links
 
 - **Official Documentation**: https://transformerlensorg.github.io/TransformerLens/
-- **GitHub Repository**: https://github.com/TransformerLensOrg/TransformerLens
+- **GitHub Repository**: 
 - **Model Properties Table**: https://transformerlensorg.github.io/TransformerLens/generated/model_properties_table.html
 
 ## Installation

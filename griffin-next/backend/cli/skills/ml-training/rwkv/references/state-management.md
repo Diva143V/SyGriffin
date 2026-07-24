@@ -364,6 +364,6 @@ time_decay = torch.clamp(time_decay, min=-8.0, max=-0.1)
 
 ## Resources
 
-- State management examples: https://github.com/BlinkDL/ChatRWKV
+- State management examples: 
 - Wiki: https://wiki.rwkv.com/state-management
-- Discord: https://discord.gg/bDSBUMeFpc (RWKV community)
+- Discord:  (RWKV community)

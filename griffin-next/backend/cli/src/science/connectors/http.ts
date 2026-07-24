@@ -14,7 +14,7 @@
 
 import type { RateLimit } from "./types"
 
-const USER_AGENT = "openscience-science/1.0 (+https://syntheticsciences.ai)"
+const USER_AGENT = "griffin-science/1.0 (+https://syntheticsciences.ai)"
 const DEFAULT_TIMEOUT = 30_000
 const DEFAULT_RETRIES = 3
 const DEFAULT_CACHE_TTL = 5 * 60_000 // 5 minutes
@@ -61,9 +61,7 @@ const cache = new Map<string, CacheEntry>()
 
 const sleep = (ms: number) =>
   new Promise<void>((resolve) => {
-    const timer = setTimeout(resolve, ms)
-    // Don't let a lone pacing/backoff timer keep the process (or a test run) alive.
-    ;(timer as { unref?: () => void }).unref?.()
+    setTimeout(resolve, ms)
   })
 
 function isRetryable(status: number): boolean {

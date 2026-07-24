@@ -43,19 +43,19 @@ This skill should be used when:
 - **molecular-docking**: Full end-to-end pipeline including target prep, pocket detection, AutoDock Vina, scoring, and interaction analysis. Use when you need the complete workflow, not just DiffDock.
 - **denovo-design**: For generating new molecules (not docking). Use diffdock afterwards to dock generated molecules.
 
-## Running DiffDock on Modal (Recommended for openscience)
+## Running DiffDock on Modal (Recommended for griffin)
 
 Use Modal for on-demand GPU access without local GPU setup.
 
 ### Prerequisites
 
 ```bash
-# Verify Modal credentials (auto-injected by openscience)
+# Verify Modal credentials (auto-injected by griffin)
 [ -n "$MODAL_TOKEN_ID" ] && echo "MODAL_TOKEN_ID set" || echo "NOT SET"
 [ -n "$MODAL_TOKEN_SECRET" ] && echo "MODAL_TOKEN_SECRET set" || echo "NOT SET"
 ```
 
-If not set: connect Modal at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect Modal at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ### Modal DiffDock Wrapper
 
@@ -154,7 +154,7 @@ This script validates Python version, PyTorch with CUDA, PyTorch Geometric, RDKi
 
 **Option 1: Conda (Recommended)**
 ```bash
-git clone https://github.com/gcorso/DiffDock.git
+git clone .git
 cd DiffDock
 conda env create --file environment.yml
 conda activate diffdock
@@ -578,7 +578,7 @@ ICLR 2023, arXiv:2210.01776
 
 ## Additional Resources
 
-- **GitHub Repository**: https://github.com/gcorso/DiffDock
+- **GitHub Repository**: 
 - **Online Demo**: https://huggingface.co/spaces/reginabarzilaygroup/DiffDock-Web
 - **DiffDock-L Paper**: https://arxiv.org/abs/2402.18396
 - **Original Paper**: https://arxiv.org/abs/2210.01776

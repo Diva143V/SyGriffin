@@ -93,7 +93,7 @@ export const dict = {
   "dialog.provider.group.popular": "Populaire",
   "dialog.provider.group.other": "Autre",
   "dialog.provider.tag.recommended": "Recommandé",
-  "dialog.provider.synsci.note": "curated models including Claude, GPT, Gemini and more",
+  "dialog.provider.griffin.note": "curated models including Claude, GPT, Gemini and more",
   "dialog.provider.anthropic.note": "Connectez-vous avec Claude Pro/Max ou une clé API",
   "dialog.provider.openai.note": "Connectez-vous avec ChatGPT Pro/Plus ou une clé API",
   "dialog.provider.google.note": "Gemini models for fast, structured responses",

@@ -57,7 +57,7 @@ Expert guidance for fine-tuning large language models using Tinker's managed clo
 
 ```bash
 pip install tinker tinker-cookbook
-# TINKER_API_KEY must be set — connect Tinker in the OpenScience dashboard to sync your API key.
+# TINKER_API_KEY must be set — connect Tinker in the Griffin dashboard to sync your API key.
 # Verify: [ -n "$TINKER_API_KEY" ] && echo "set" || echo "not set"
 ```
 
@@ -129,7 +129,7 @@ with open(data_file) as f:
         text = " ".join(m.get("content", "") for m in row.get("messages", []))
         total_tokens += len(tokenizer.encode(text))
 total_tokens *= num_epochs
-print(f'\n[OPENSCIENCE_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
+print(f'\n[GRIFFIN_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
 ```
 
 ### Data Format
@@ -207,7 +207,7 @@ for lf in log_files:
 if total_tokens == 0:
     # Fallback estimate: batch_size × group_size × max_tokens × num_batches
     total_tokens = batch_size * group_size * max_tokens * 100
-print(f'\n[OPENSCIENCE_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
+print(f'\n[GRIFFIN_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
 ```
 
 ### Custom RL with Low-Level API
@@ -269,7 +269,7 @@ for batch_idx, batch_rows in enumerate(dataset):
     fwd_bwd.result(); optim.result()
 
 # --- Exact usage reporting (auto-captured by CLI) ---
-print(f'\n[OPENSCIENCE_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
+print(f'\n[GRIFFIN_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
 ```
 
 ### Available RL Loss Functions
@@ -399,12 +399,12 @@ Present the cost estimate to the user for approval before starting training.
 
 ### Automatic Usage Reporting (Ground Truth)
 
-**CRITICAL**: All training scripts MUST print a `[OPENSCIENCE_USAGE]` line at the end. The CLI automatically captures this and reports exact billing to the dashboard.
+**CRITICAL**: All training scripts MUST print a `[GRIFFIN_USAGE]` line at the end. The CLI automatically captures this and reports exact billing to the dashboard.
 
 ```python
 # Add this at the END of every training script:
 import json
-print(f'\n[OPENSCIENCE_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
+print(f'\n[GRIFFIN_USAGE] {json.dumps({"service": "tinker", "event_type": "training", "model": model_name, "tokens_used": total_tokens})}')
 ```
 
 How token counting works per workflow:
@@ -412,13 +412,13 @@ How token counting works per workflow:
 - **Cookbook RL**: Parse training logs for `num_tokens`, or estimate from `batch_size × group_size × max_tokens × batches`
 - **Low-level API**: Sum `datum.model_input.length()` across all `forward_backward()` calls
 
-The CLI bash tool scans output for `[OPENSCIENCE_USAGE]` markers and auto-reports to the dashboard — no manual reporting needed.
+The CLI bash tool scans output for `[GRIFFIN_USAGE]` markers and auto-reports to the dashboard — no manual reporting needed.
 
 ## Common Issues
 
 | Problem | Solution |
 |---------|----------|
-| `TINKER_API_KEY` not set | `export TINKER_API_KEY=your_key` or check OpenScience credential sync |
+| `TINKER_API_KEY` not set | `export TINKER_API_KEY=your_key` or check Griffin credential sync |
 | KL divergence > 0.01 | Reduce learning rate, check group size |
 | OOM on dataset loading | Use `StreamingSupervisedDatasetFromHFDataset` for large datasets |
 | Reward stuck at 0 | Debug reward function independently, check answer extraction |
@@ -463,5 +463,5 @@ from tinker_cookbook.tokenizer_utils import get_tokenizer
 ## External Resources
 
 - Documentation: https://tinker-docs.thinkingmachines.ai/
-- Cookbook Repo: https://github.com/thinking-machines-lab/tinker-cookbook
+- Cookbook Repo: 
 - Console: https://tinker-console.thinkingmachines.ai

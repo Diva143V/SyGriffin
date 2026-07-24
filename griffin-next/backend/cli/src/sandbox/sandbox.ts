@@ -13,7 +13,7 @@ const log = Log.create({ service: "sandbox" })
  *
  * The permission system decides *whether* a command runs; it is an approval
  * layer, not an isolation boundary — an approved (or auto-approved) command
- * otherwise executes with the full authority of the user running OpenScience.
+ * otherwise executes with the full authority of the user running Griffin.
  * This module adds the missing boundary: it wraps the command in a real OS
  * sandbox so that, regardless of what the command tries to do, it cannot write
  * outside the workspace (plus temp dirs) and — optionally — cannot reach the
@@ -421,8 +421,8 @@ export namespace Sandbox {
     if (b === "none") return { backend: b, available: false, checks: [], ok: false }
 
     const shell = Shell.acceptable()
-    const work = fs.mkdtempSync(path.join(os.tmpdir(), "openscience-sbx-"))
-    const outside = path.join(os.homedir(), `.openscience-sbx-escape-${process.pid}`)
+    const work = fs.mkdtempSync(path.join(os.tmpdir(), "griffin-sbx-"))
+    const outside = path.join(os.homedir(), `.griffin-sbx-escape-${process.pid}`)
     const checks: Check[] = []
 
     const run = (command: string, network: "allow" | "deny") => {

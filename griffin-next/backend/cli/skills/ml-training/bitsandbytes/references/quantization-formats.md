@@ -443,5 +443,5 @@ torch_dtype=torch.bfloat16  # Must match!
 
 - LLM.int8() paper: "LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale" (2022)
 - QLoRA paper: "QLoRA: Efficient Finetuning of Quantized LLMs" (2023)
-- bitsandbytes GitHub: https://github.com/bitsandbytes-foundation/bitsandbytes
+- bitsandbytes GitHub: 
 - HuggingFace quantization docs: https://huggingface.co/docs/transformers/quantization/bitsandbytes

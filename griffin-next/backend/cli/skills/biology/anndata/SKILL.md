@@ -399,5 +399,5 @@ adata.obs['new_col'] = external_data.set_index('cell_id').loc[adata.obs_names, '
 - **Official documentation**: https://anndata.readthedocs.io/
 - **Scanpy tutorials**: https://scanpy.readthedocs.io/
 - **Scverse ecosystem**: https://scverse.org/
-- **GitHub repository**: https://github.com/scverse/anndata
+- **GitHub repository**: 
 

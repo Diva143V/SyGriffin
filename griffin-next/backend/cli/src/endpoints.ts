@@ -8,7 +8,7 @@
  * closed backend.
  *
  * Resolution order (first non-empty wins):
- *   OPENSCIENCE_API_BASE — the current CLI override
+ *   GRIFFIN_API_BASE — the current CLI override
  *   SYNSC_API_BASE       — the historical CLI override (kept for back-compat)
  *   MANAGED_API_BASE     — managed-backend override
  *   ATLAS_BASE_URL       — alias for MANAGED_API_BASE
@@ -25,7 +25,7 @@ function stripTrailingSlashes(url: string): string {
 
 /** Env var names that override the managed base URL, highest precedence first. */
 export const MANAGED_API_BASE_ENV_KEYS = [
-  "OPENSCIENCE_API_BASE",
+  "GRIFFIN_API_BASE",
   "SYNSC_API_BASE",
   "MANAGED_API_BASE",
   "ATLAS_BASE_URL",

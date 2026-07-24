@@ -276,7 +276,7 @@ result = md.convert("presentation.pptx")
 
 ## Resources
 
-- **MarkItDown GitHub**: https://github.com/microsoft/markitdown
+- **MarkItDown GitHub**: 
 - **PyPI**: https://pypi.org/project/markitdown/
 - **OpenRouter**: https://openrouter.ai (AI model access)
 - **OpenRouter API Keys**: https://openrouter.ai/keys

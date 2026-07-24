@@ -1,6 +1,6 @@
 // Opens provider setup once for a new Griffin installation.
 import { createEffect, createSignal } from "solid-js"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useServer } from "@/context/server"
 import { useGlobalSync } from "@/context/global-sync"
 import { useProviders } from "@/hooks/use-providers"
@@ -15,7 +15,7 @@ export function SetupGate() {
   let decided = false
 
   const configured = () =>
-    providers.connected().some((provider) => provider.id !== "synsci") || !!globalSync.data.config?.model
+    providers.connected().some((provider) => provider.id !== "griffin") || !!globalSync.data.config?.model
 
   createEffect(() => {
     if (decided || dismissed()) return

@@ -2,8 +2,8 @@
 // /settings/credentials) + provider BYOK keys (auth.json via /auth). Every
 // secret is write-only: values are never returned after saving.
 import { type Component, type JSX, For, Show, createMemo, createSignal, onMount } from "solid-js"
-import { Button } from "@synsci/ui/button"
-import type { Provider } from "@synsci/sdk/v2/client"
+import { Button } from "@griffin/ui/button"
+import type { Provider } from "@griffin/sdk/v2/client"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 import { useProviders } from "@/hooks/use-providers"
@@ -170,9 +170,9 @@ export const Credentials: Component = () => {
   const [keyProvider, setKeyProvider] = createSignal<string>(BYOK_PROVIDERS[0])
   const [keyValue, setKeyValue] = createSignal("")
   const [savingKey, setSavingKey] = createSignal(false)
-  const connectedProviders = createMemo(() => providers.connected().filter((p) => p.id !== "synsci"))
+  const connectedProviders = createMemo(() => providers.connected().filter((p) => p.id !== "griffin"))
   // The list endpoint's generated type omits `source`, but the payload carries it
-  // for every connected provider (see Provider in @synsci/sdk/v2/client).
+  // for every connected provider (see Provider in @griffin/sdk/v2/client).
   const sourceInfo = (p: { id: string }) => SOURCE_INFO[(p as { source?: Provider["source"] }).source ?? "api"]
   const saveKey = async () => {
     if (savingKey()) return

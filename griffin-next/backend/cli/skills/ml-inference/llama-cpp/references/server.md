@@ -54,7 +54,7 @@ curl http://localhost:8080/v1/chat/completions \
 ```dockerfile
 FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y git build-essential
-RUN git clone https://github.com/ggerganov/llama.cpp
+RUN git clone .cpp
 WORKDIR /llama.cpp
 RUN make LLAMA_CUDA=1
 COPY models/ /models/

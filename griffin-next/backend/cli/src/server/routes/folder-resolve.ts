@@ -1,8 +1,8 @@
 /**
- * Folder picker support endpoints used by the openscience web UI.
+ * Folder picker support endpoints used by the griffin web UI.
  *
  * Originally implemented as a Vite dev-server middleware
- * (`frontend/workspace/vite-folder-resolve.js`). When `openscience web` proxied the
+ * (`frontend/workspace/vite-folder-resolve.js`). When `griffin web` proxied the
  * SPA from Vercel these endpoints never existed there either — the SPA
  * relied on graceful failure. Now that the SPA is served locally we need
  * to answer these calls so the Finder-style picker can validate a path

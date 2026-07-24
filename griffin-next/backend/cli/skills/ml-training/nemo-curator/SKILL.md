@@ -375,7 +375,7 @@ cluster.close()
 
 ## Resources
 
-- **GitHub**: https://github.com/NVIDIA/NeMo-Curator ⭐ 500+
+- **GitHub**:  ⭐ 500+
 - **Docs**: https://docs.nvidia.com/nemo-framework/user-guide/latest/datacuration/
 - **Version**: 0.4.0+
 - **License**: Apache 2.0

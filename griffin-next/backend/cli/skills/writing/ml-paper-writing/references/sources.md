@@ -64,7 +64,7 @@ This document lists all authoritative sources used to build this skill, organize
 
 | Document | URL | Purpose |
 |----------|-----|---------|
-| ACL Style Files | [GitHub](https://github.com/acl-org/acl-style-files) | LaTeX templates |
+| ACL Style Files | [GitHub]() | LaTeX templates |
 | ACL Rolling Review | [ARR](https://aclrollingreview.org/) | Submission process |
 
 ### AAAI
@@ -77,7 +77,7 @@ This document lists all authoritative sources used to build this skill, organize
 
 | Document | URL | Purpose |
 |----------|-----|---------|
-| Template | [GitHub](https://github.com/COLM-org/Template) | LaTeX templates |
+| Template | [GitHub]() | LaTeX templates |
 
 ---
 
@@ -115,8 +115,8 @@ This document lists all authoritative sources used to build this skill, organize
 
 | Tool | URL | Purpose |
 |------|-----|---------|
-| PlotNeuralNet | [GitHub](https://github.com/HarisIqbal88/PlotNeuralNet) | TikZ neural network diagrams |
-| SciencePlots | [GitHub](https://github.com/garrettj403/SciencePlots) | Publication-ready matplotlib |
+| PlotNeuralNet | [GitHub]() | TikZ neural network diagrams |
+| SciencePlots | [GitHub]() | Publication-ready matplotlib |
 | Okabe-Ito Palette | [Reference](https://jfly.uni-koeln.de/color/) | Colorblind-safe colors |
 
 ### LaTeX Resources

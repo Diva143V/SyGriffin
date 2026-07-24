@@ -38,7 +38,7 @@ import { Config } from "@/config/config"
 import { Todo } from "@/session/todo"
 import { z } from "zod"
 import { LoadAPIKeyError } from "ai"
-import type { Event, OpenScienceClient, SessionMessageResponse } from "@synsci/sdk/v2"
+import type { Event, GriffinClient, SessionMessageResponse } from "@griffin/sdk/v2"
 import { applyPatch } from "diff"
 
 type ModeOption = { id: string; name: string; description?: string }
@@ -49,7 +49,7 @@ const DEFAULT_VARIANT_VALUE = "default"
 export namespace ACP {
   const log = Log.create({ service: "acp-agent" })
 
-  export async function init({ sdk: _sdk }: { sdk: OpenScienceClient }) {
+  export async function init({ sdk: _sdk }: { sdk: GriffinClient }) {
     return {
       create: (connection: AgentSideConnection, fullConfig: ACPConfig) => {
         return new Agent(connection, fullConfig)
@@ -60,7 +60,7 @@ export namespace ACP {
   export class Agent implements ACPAgent {
     private connection: AgentSideConnection
     private config: ACPConfig
-    private sdk: OpenScienceClient
+    private sdk: GriffinClient
     private sessionManager: ACPSessionManager
     private eventAbort = new AbortController()
     private eventStarted = false
@@ -415,18 +415,18 @@ export namespace ACP {
       log.info("initialize", { protocolVersion: params.protocolVersion })
 
       const authMethod: AuthMethod = {
-        description: "Run `openscience login` in the terminal",
-        name: "Login with OpenScience",
-        id: "openscience-login",
+        description: "Run `griffin login` in the terminal",
+        name: "Login with Griffin",
+        id: "griffin-login",
       }
 
       // If client supports terminal-auth capability, use that instead.
       if (params.clientCapabilities?._meta?.["terminal-auth"] === true) {
         authMethod._meta = {
           "terminal-auth": {
-            command: "synsci",
+            command: "griffin",
             args: ["connect", "login"],
-            label: "OpenScience Login",
+            label: "Griffin Login",
           },
         }
       }
@@ -451,7 +451,7 @@ export namespace ACP {
         },
         authMethods: [authMethod],
         agentInfo: {
-          name: "OpenScience",
+          name: "Griffin",
           version: Installation.VERSION,
         },
       }
@@ -866,7 +866,7 @@ export namespace ACP {
           }
         } else if (part.type === "file") {
           // Replay file attachments as appropriate ACP content blocks.
-          // OpenScience stores files internally as { type: "file", url, filename, mime }.
+          // Griffin stores files internally as { type: "file", url, filename, mime }.
           // We convert these back to ACP blocks based on the URL scheme and MIME type:
           // - file:// URLs → resource_link
           // - data: URLs with image/* → image block
@@ -1388,12 +1388,12 @@ export namespace ACP {
 
     if (specified && !providers.length) return specified
 
-    const openscienceProvider = providers.find((p) => p.id === "synsci")
-    if (openscienceProvider) {
-      if (openscienceProvider.models["big-pickle"]) {
-        return { providerID: "synsci", modelID: "big-pickle" }
+    const griffinProvider = providers.find((p) => p.id === "griffin")
+    if (griffinProvider) {
+      if (griffinProvider.models["big-pickle"]) {
+        return { providerID: "griffin", modelID: "big-pickle" }
       }
-      const [best] = Provider.sort(Object.values(openscienceProvider.models))
+      const [best] = Provider.sort(Object.values(griffinProvider.models))
       if (best) {
         return {
           providerID: best.providerID,
@@ -1413,7 +1413,7 @@ export namespace ACP {
 
     if (specified) return specified
 
-    return { providerID: "synsci", modelID: "big-pickle" }
+    return { providerID: "griffin", modelID: "big-pickle" }
   }
 
   function parseUri(
@@ -1525,7 +1525,7 @@ export namespace ACP {
     availableVariants: string[]
   }) {
     return {
-      synsci: {
+      griffin: {
         modelId: `${input.model.providerID}/${input.model.modelID}`,
         variant: input.variant ?? null,
         availableVariants: input.availableVariants,

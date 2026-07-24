@@ -49,10 +49,10 @@ function detectPlatformAndArch() {
 
 function findBinary() {
   const { platform, arch } = detectPlatformAndArch()
-  const binaryName = platform === "windows" ? "openscience.exe" : "openscience"
+  const binaryName = platform === "windows" ? "griffin.exe" : "griffin"
 
-  // Try scoped package first (@synsci/openscience-darwin-arm64), then unscoped (openscience-darwin-arm64)
-  const packageNames = [`@synsci/openscience-${platform}-${arch}`, `openscience-${platform}-${arch}`]
+  // Try scoped package first (@synsci/griffin-darwin-arm64), then unscoped (griffin-darwin-arm64)
+  const packageNames = [`@synsci/griffin-${platform}-${arch}`, `griffin-${platform}-${arch}`]
 
   for (const packageName of packageNames) {
     try {
@@ -94,7 +94,7 @@ function symlinkBinary(sourcePath, binaryName) {
   const { targetPath } = prepareBinDirectory(binaryName)
 
   fs.symlinkSync(sourcePath, targetPath)
-  console.log(`openscience binary symlinked: ${targetPath} -> ${sourcePath}`)
+  console.log(`griffin binary symlinked: ${targetPath} -> ${sourcePath}`)
 
   // Verify the file exists after operation
   if (!fs.existsSync(targetPath)) {
@@ -117,7 +117,7 @@ async function main() {
     console.log(`Platform binary verified at: ${binaryPath}`)
     console.log("Wrapper script will handle binary execution")
   } catch (error) {
-    console.error("Failed to setup openscience binary:", error.message)
+    console.error("Failed to setup griffin binary:", error.message)
     process.exit(1)
   }
 }

@@ -281,7 +281,7 @@ actor_num_nodes * actor_num_gpus_per_node == vllm_num_engines * vllm_tensor_para
 
 ## References
 
-- OpenRLHF: https://github.com/OpenRLHF/OpenRLHF
+- OpenRLHF: 
 - Ray: https://docs.ray.io/en/latest/ray-core/scheduling/placement-group.html
 - vLLM: https://docs.vllm.ai/
 - DeepSpeed ZeRO: https://www.deepspeed.ai/tutorials/zero/

@@ -18,26 +18,26 @@ const FILES = [
 
 function globalFiles() {
   const files = [path.join(Global.Path.config, "AGENTS.md")]
-  if (!Flag.OPENSCIENCE_DISABLE_CLAUDE_CODE_PROMPT) {
+  if (!Flag.GRIFFIN_DISABLE_CLAUDE_CODE_PROMPT) {
     files.push(path.join(os.homedir(), ".claude", "CLAUDE.md"))
   }
-  if (Flag.OPENSCIENCE_CONFIG_DIR) {
-    files.push(path.join(Flag.OPENSCIENCE_CONFIG_DIR, "AGENTS.md"))
+  if (Flag.GRIFFIN_CONFIG_DIR) {
+    files.push(path.join(Flag.GRIFFIN_CONFIG_DIR, "AGENTS.md"))
   }
   return files
 }
 
 async function resolveRelative(instruction: string): Promise<string[]> {
-  if (!Flag.OPENSCIENCE_DISABLE_PROJECT_CONFIG) {
+  if (!Flag.GRIFFIN_DISABLE_PROJECT_CONFIG) {
     return Filesystem.globUp(instruction, Instance.directory, Instance.worktree).catch(() => [])
   }
-  if (!Flag.OPENSCIENCE_CONFIG_DIR) {
+  if (!Flag.GRIFFIN_CONFIG_DIR) {
     log.warn(
-      `Skipping relative instruction "${instruction}" - no OPENSCIENCE_CONFIG_DIR set while project config is disabled`,
+      `Skipping relative instruction "${instruction}" - no GRIFFIN_CONFIG_DIR set while project config is disabled`,
     )
     return []
   }
-  return Filesystem.globUp(instruction, Flag.OPENSCIENCE_CONFIG_DIR, Flag.OPENSCIENCE_CONFIG_DIR).catch(() => [])
+  return Filesystem.globUp(instruction, Flag.GRIFFIN_CONFIG_DIR, Flag.GRIFFIN_CONFIG_DIR).catch(() => [])
 }
 
 export namespace InstructionPrompt {
@@ -71,7 +71,7 @@ export namespace InstructionPrompt {
     const config = await Config.get()
     const paths = new Set<string>()
 
-    if (!Flag.OPENSCIENCE_DISABLE_PROJECT_CONFIG) {
+    if (!Flag.GRIFFIN_DISABLE_PROJECT_CONFIG) {
       for (const file of FILES) {
         const matches = await Filesystem.findUp(file, Instance.directory, Instance.worktree)
         if (matches.length > 0) {

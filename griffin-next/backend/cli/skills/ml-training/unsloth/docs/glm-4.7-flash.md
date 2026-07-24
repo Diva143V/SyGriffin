@@ -59,13 +59,13 @@ Instructions to run in llama.cpp (note we will be using 4-bit to fit most device
 
 {% stepper %}
 {% step %}
-Obtain the latest `llama.cpp` on [GitHub here](https://github.com/ggml-org/llama.cpp). You can follow the build instructions below as well. Change `-DGGML_CUDA=ON` to `-DGGML_CUDA=OFF` if you don't have a GPU or just want CPU inference.
+Obtain the latest `llama.cpp` on [GitHub here](.cpp). You can follow the build instructions below as well. Change `-DGGML_CUDA=ON` to `-DGGML_CUDA=OFF` if you don't have a GPU or just want CPU inference.
 
 {% code overflow="wrap" %}
 
 ```bash
 apt-get update
-apt-get install pciutils build-essential cmake curl libcurl4-openssl-dev it clone https://github.com/ggml-org/llama.cpp
+apt-get install pciutils build-essential cmake curl libcurl4-openssl-dev it clone .cpp
 cmake llama.cpp -B llama.cpp/build \
     -DBUILD_SHARED_LIBS=OFF -DGGML_CUDA=ON
 cmake --build llama.cpp/build --config Release -j --clean-first --target llama-cli llama-mtmd-cli llama-server llama-gguf-split
@@ -697,7 +697,7 @@ You can now use our new [FP8 Dynamic quant](https://huggingface.co/unsloth/GLM-4
 
 ```bash
 uv pip install --upgrade --force-reinstall vllm --torch-backend=auto --extra-index-url https://wheels.vllm.ai/nightly/cu130
-uv pip install --upgrade --force-reinstall git+https://github.com/huggingface/transformers.git
+uv pip install --upgrade --force-reinstall git+.git
 uv pip instrce-reinstall numba
 ```
 

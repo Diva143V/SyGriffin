@@ -1,4 +1,4 @@
-# Contributing to OpenScience
+# Contributing to Griffin
 
 Thanks for your interest in contributing. These changes are the most likely to be merged:
 
@@ -10,7 +10,7 @@ Thanks for your interest in contributing. These changes are the most likely to b
 - Missing standard behavior
 - Documentation improvements
 
-Any UI or core product feature should go through a design discussion with the maintainers before you build it. If you are not sure whether a change would be accepted, ask in an issue or look for issues labeled [`help wanted`](https://github.com/synthetic-sciences/OpenScience/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22), [`good first issue`](https://github.com/synthetic-sciences/OpenScience/issues?q=is%3Aissue+state%3Aopen+label%3A%22good+first+issue%22), or [`bug`](https://github.com/synthetic-sciences/OpenScience/issues?q=is%3Aissue+state%3Aopen+label%3Abug).
+Any UI or core product feature should go through a design discussion with the maintainers before you build it. If you are not sure whether a change would be accepted, ask in an issue or look for issues labeled [`help wanted`](https://github.com/synthetic-sciences/Griffin/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22), [`good first issue`](https://github.com/synthetic-sciences/Griffin/issues?q=is%3Aissue+state%3Aopen+label%3A%22good+first+issue%22), or [`bug`](https://github.com/synthetic-sciences/Griffin/issues?q=is%3Aissue+state%3Aopen+label%3Abug).
 
 ## Development
 
@@ -21,7 +21,7 @@ bun install
 bun dev
 ```
 
-`bun dev` is the local equivalent of the built `openscience` command. It runs against the `backend/cli` directory by default. To run it elsewhere:
+`bun dev` is the local equivalent of the built `griffin` command. It runs against the `backend/cli` directory by default. To run it elsewhere:
 
 ```bash
 bun dev <directory>     # run in a specific directory
@@ -52,7 +52,7 @@ See [docs/notes/verification.md](docs/notes/verification.md) for the full list, 
 
 ```bash
 ./backend/cli/script/build.ts --single
-./backend/cli/dist/@synsci/openscience-<platform>/bin/openscience
+./backend/cli/dist/@griffin/griffin-<platform>/bin/griffin
 ```
 
 Replace `<platform>` with your platform, for example `darwin-arm64` or `linux-x64`.
@@ -63,10 +63,10 @@ Replace `<platform>` with your platform, for example `darwin-arm64` or `linux-x6
 - `frontend/workspace`: the workspace UI, written in SolidJS.
 - `frontend/ui`: shared UI components and themes.
 - `frontend/docs`: the documentation and share site.
-- `frontend/landing`: the marketing site at openscience.sh.
-- `tooling/plugin`: the source for `@synsci/plugin`.
+- `frontend/landing`: the marketing site at griffin.sh.
+- `tooling/plugin`: the source for `@griffin/plugin`.
 - `tooling/sdk/js`: the TypeScript SDK.
-- `tooling/launcher`: the `npx synsci` installer.
+- `tooling/launcher`: the `npx griffin` installer.
 
 ### Working on the workspace UI
 
@@ -90,7 +90,7 @@ bun run --cwd frontend/docs dev
 bun run --cwd frontend/landing dev
 ```
 
-Docs pages live under `frontend/docs/src/content/openscience/` as MDX; keep them plain-markdown — the MDX parser is deprecated and those files are excluded from Prettier.
+Docs pages live under `frontend/docs/src/content/griffin/` as MDX; keep them plain-markdown — the MDX parser is deprecated and those files are excluded from Prettier.
 
 Please follow the [style guide](./AGENTS.md).
 
@@ -143,4 +143,4 @@ These are guidelines, not hard rules:
 
 ## Feature requests
 
-For new functionality, start with a design conversation. Open an issue describing the problem, an optional proposed approach, and why it belongs in OpenScience. Wait for maintainer agreement before opening a feature pull request.
+For new functionality, start with a design conversation. Open an issue describing the problem, an optional proposed approach, and why it belongs in Griffin. Wait for maintainer agreement before opening a feature pull request.

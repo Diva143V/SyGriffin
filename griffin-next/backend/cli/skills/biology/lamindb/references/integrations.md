@@ -488,10 +488,10 @@ patient = clinical.Patient(patient_id="P001").save()
 
 ```python
 # Configure git sync
-export LAMINDB_SYNC_GIT_REPO=https://github.com/user/repo.git
+export LAMINDB_SYNC_GIT_REPO=.git
 
 # Or programmatically
-ln.settings.sync_git_repo = "https://github.com/user/repo.git"
+ln.settings.sync_git_repo = ".git"
 
 # Set development directory
 lamin settings set dev-dir .

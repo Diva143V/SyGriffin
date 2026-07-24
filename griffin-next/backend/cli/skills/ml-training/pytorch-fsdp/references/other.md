@@ -4112,7 +4112,7 @@ args: positional arguments to the model (as in non-pipeline case). kwargs: keywo
 
 Created On: Jun 13, 2025 | Last Updated On: Jun 13, 2025
 
-Tensor Parallelism(TP) is built on top of the PyTorch DistributedTensor (DTensor)[https://github.com/pytorch/pytorch/blob/main/torch/distributed/tensor/README.md] and provides different parallelism styles: Colwise, Rowwise, and Sequence Parallelism.
+Tensor Parallelism(TP) is built on top of the PyTorch DistributedTensor (DTensor)[/blob/main/torch/distributed/tensor/README.md] and provides different parallelism styles: Colwise, Rowwise, and Sequence Parallelism.
 
 Tensor Parallelism APIs are experimental and subject to change.
 

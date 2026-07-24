@@ -435,9 +435,9 @@ A: Yes, OpenRouter is designed for production use with robust infrastructure, SL
 - Billing: https://openrouter.ai/credits
 
 **Community:**
-- OpenRouter Discord: https://discord.gg/openrouter
+- OpenRouter Discord: 
 - GitHub Issues: https://github.com/OpenRouter
-- LiteLLM GitHub: https://github.com/BerriAI/litellm
+- LiteLLM GitHub: 
 
 ## Summary
 

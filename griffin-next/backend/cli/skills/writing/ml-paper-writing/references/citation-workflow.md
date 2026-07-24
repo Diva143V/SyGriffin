@@ -555,7 +555,7 @@ Before adding a citation:
 **Python Libraries:**
 - `semanticscholar`: https://pypi.org/project/semanticscholar/
 - `arxiv`: https://pypi.org/project/arxiv/
-- `habanero` (CrossRef): https://github.com/sckott/habanero
+- `habanero` (CrossRef): 
 
 **Verification Tools:**
 - Citely: https://citely.ai/citation-checker

@@ -1,5 +1,5 @@
 /**
- * Git repository support for the openscience web Repository tab.
+ * Git repository support for the griffin web Repository tab.
  *
  * Port of `frontend/workspace/vite-repo.js` (a dev-only vite middleware). The
  * SPA's RightPane → RepoView calls these endpoints to show branch state,

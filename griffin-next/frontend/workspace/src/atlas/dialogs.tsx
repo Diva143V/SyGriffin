@@ -1,5 +1,5 @@
 import { createSignal, Show, type JSX } from "solid-js"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { FONT_MONO, FONT_SANS, FONT_SERIF } from "@/styles/tokens"
 
 type Dialog = ReturnType<typeof useDialog>

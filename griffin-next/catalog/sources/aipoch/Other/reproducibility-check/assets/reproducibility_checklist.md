@@ -42,7 +42,7 @@
 ### Supplementary Recommendations
 -
 
-## Mode B — Open Science Best Practices
+## Mode B — Griffin Best Practices
 
 ### Pre-registration
 - [ ] Pre-registration completed before data collection/analysis
@@ -78,7 +78,7 @@
 - [ ] Exploratory analyses clearly labeled
 - [ ] Supplementary materials shared
 
-### Open Science Practices
+### Griffin Practices
 - [ ] Open science badge eligibility assessed (data / materials / pre-registration)
 - [ ] Registered reports format considered
 - [ ] Preprint posted (bioRxiv / medRxiv / arXiv / SSRN)

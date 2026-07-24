@@ -5,7 +5,7 @@ import { Tool } from "./tool"
 import { Skill } from "../skill"
 import { ConfigMarkdown } from "../config/markdown"
 import { PermissionNext } from "../permission/next"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { RSILifecycle } from "@/session/rsi/lifecycle"
 import { Global } from "@/global"
 
@@ -158,7 +158,7 @@ export const SkillTool = Tool.define("skill", async (ctx) => {
         const hasContent = await Bun.file(skill.location).exists()
         const hasFiles = await Bun.file(path.join(dir, ".cache-v2")).exists()
         if (!hasContent || !hasFiles) {
-          const fetched = await OpenScience.fetchSkillContent(name)
+          const fetched = await Griffin.fetchSkillContent(name)
           if (!fetched) {
             if (!hasContent) throw new Error(`Skill "${name}" not available (offline and not cached)`)
           } else {

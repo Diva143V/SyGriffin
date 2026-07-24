@@ -1,14 +1,4 @@
 #!/usr/bin/env node
-
-// `npx synsci`: the OpenScience install wizard.
-//
-// The npm package (and this bin) keep the historical `synsci` name so the
-// one-liner everyone knows keeps working; everything it installs is the
-// OpenScience CLI (`@synsci/openscience`, binary `openscience`), optionally with the
-// Atlas managed platform on top.
-
-// Hard guard against recursive invocation. If a check ever resolves to the
-// launcher itself, this prevents an infinite spawn chain that exhausts memory.
 if (process.env.__SYNSCI_LAUNCHER_PID) {
   process.stderr.write(
     `synsci: launcher invoked recursively (parent pid ${process.env.__SYNSCI_LAUNCHER_PID}). Exiting.\n`,
@@ -44,18 +34,12 @@ const SHOW_CURSOR = "\x1b[?25h"
 const CLEAR_LINE = "\x1b[2K\r"
 
 const LOGO = [
-  "███████╗██╗   ██╗███╗   ██╗████████╗██╗  ██╗███████╗████████╗██╗ ██████╗",
-  "██╔════╝╚██╗ ██╔╝████╗  ██║╚══██╔══╝██║  ██║██╔════╝╚══██╔══╝██║██╔════╝",
-  "███████╗ ╚████╔╝ ██╔██╗ ██║   ██║   ███████║█████╗     ██║   ██║██║     ",
-  "╚════██║  ╚██╔╝  ██║╚██╗██║   ██║   ██╔══██║██╔══╝     ██║   ██║██║     ",
-  "███████║   ██║   ██║ ╚████║   ██║   ██║  ██║███████╗   ██║   ██║╚██████╗",
-  "╚══════╝   ╚═╝   ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝ ╚═════╝",
-  "███████╗ ██████╗██╗███████╗███╗   ██╗ ██████╗███████╗███████╗",
-  "██╔════╝██╔════╝██║██╔════╝████╗  ██║██╔════╝██╔════╝██╔════╝",
-  "███████╗██║     ██║█████╗  ██╔██╗ ██║██║     █████╗  ███████╗",
-  "╚════██║██║     ██║██╔══╝  ██║╚██╗██║██║     ██╔══╝  ╚════██║",
-  "███████║╚██████╗██║███████╗██║ ╚████║╚██████╗███████╗███████║",
-  "╚══════╝ ╚═════╝╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝╚══════╝╚══════╝",
+  "  ██████╗ ██████╗ ██╗███████╗███████╗██╗███╗   ██╗",
+  " ██╔════╝ ██╔══██╗██║██╔════╝██╔════╝██║████╗  ██║",
+  " ██║  ███╗██████╔╝██║█████╗  █████╗  ██║██╔██╗ ██║",
+  " ██║   ██║██╔══██╗██║██╔══╝  ██╔══╝  ██║██║╚██╗██║",
+  " ╚██████╔╝██║  ██║██║██║     ██║     ██║██║ ╚████║",
+  "  ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═══╝",
 ]
 
 function ok(msg) {
@@ -130,22 +114,22 @@ function isLauncherPath(p) {
   }
 }
 
-// Returns the absolute path to the real @synsci/openscience binary (`openscience`).
+// Returns the absolute path to the real @synsci/griffin binary (`griffin`).
 // Only trusts canonical install locations (no `$PATH` walk) to avoid picking
 // up dev shims or workspace symlinks. Each candidate is verified by invoking
 // `--version` so half-broken installs are skipped instead of accepted.
 function resolveCli() {
   const candidates = []
-  // 1. Global npm prefix (where `npm i -g @synsci/openscience` puts it).
+  // 1. Global npm prefix (where `npm i -g @synsci/griffin` puts it).
   // On Windows the global bin dir is the prefix itself and the entry is an
-  // openscience.cmd shim; on POSIX it's <prefix>/bin/openscience.
+  // griffin.cmd shim; on POSIX it's <prefix>/bin/griffin.
   const prefix = runQuiet("npm prefix -g")
   if (prefix) {
-    if (process.platform === "win32") candidates.push(join(prefix, "openscience.cmd"))
-    else candidates.push(join(prefix, "bin", "openscience"))
+    if (process.platform === "win32") candidates.push(join(prefix, "griffin.cmd"))
+    else candidates.push(join(prefix, "bin", "griffin"))
   }
-  // 2. ~/.openscience/bin/openscience (curl-installer location, POSIX only)
-  if (process.platform !== "win32") candidates.push(join(homedir(), ".openscience", "bin", "openscience"))
+  // 2. ~/.griffin/bin/griffin (curl-installer location, POSIX only)
+  if (process.platform !== "win32") candidates.push(join(homedir(), ".griffin", "bin", "griffin"))
 
   for (const cand of candidates) {
     if (!existsSync(cand) || isLauncherPath(cand)) continue
@@ -163,7 +147,7 @@ function resolveCli() {
   return null
 }
 
-// The deprecated `@synsci/cli` package links the same `openscience` bin. npm
+// The deprecated `@synsci/cli` package links the same `griffin` bin. npm
 // refuses to overwrite a bin file owned by another package (EEXIST), so a
 // stale global install dead-ends the upgrade — and its old binary shadows the
 // real one on PATH. `npm ls` exits nonzero when the package is absent but
@@ -184,10 +168,13 @@ function hasDeprecatedCli() {
 
 function isConnected() {
   const xdgData = process.env.XDG_DATA_HOME || join(homedir(), ".local", "share")
-  const sessionPath = join(xdgData, "openscience", "openscience-session.json")
-  if (!existsSync(sessionPath)) return false
+  const sessionPath = join(xdgData, "griffin", "griffin-session.json")
+  const legacySessionPath = join(xdgData, "openscience", "openscience-session.json")
+  const pathToRead = existsSync(sessionPath) ? sessionPath : legacySessionPath
+  
+  if (!existsSync(pathToRead)) return false
   try {
-    const data = JSON.parse(readFileSync(sessionPath, "utf-8"))
+    const data = JSON.parse(readFileSync(pathToRead, "utf-8"))
     if (!data.access_token || !data.expires_at) return false
     return new Date(data.expires_at) > new Date()
   } catch {
@@ -255,13 +242,13 @@ async function main() {
   for (const line of LOGO) console.log(`   ${CYAN}${line}${RESET}`)
   console.log()
   console.log(
-    `   ${BOLD}Synthetic Sciences${RESET} ${DIM}OpenScience, the open-source AI research workspace · Atlas, the research platform${RESET}`,
+    `   ${BOLD}Synthetic Sciences${RESET} ${DIM}Griffin, the open-source AI research workspace · Atlas, the research platform${RESET}`,
   )
   console.log()
 
-  // --- Step 1: Install or upgrade the OpenScience CLI ---
+  // --- Step 1: Install or upgrade the Griffin CLI ---
   if (hasDeprecatedCli()) {
-    const s = spinner("Removing the deprecated @synsci/cli so it can't shadow the openscience command...")
+    const s = spinner("Removing the deprecated @synsci/cli so it can't shadow the griffin command...")
     if (runQuiet("npm rm -g @synsci/cli") !== null) {
       s.ok("Removed the deprecated @synsci/cli")
     } else {
@@ -274,13 +261,13 @@ async function main() {
     const raw = runFileQuiet(cliPath, ["--version"]) || "unknown"
     const isDev = raw === "local" || raw.includes("-")
     if (isDev) {
-      ok(`openscience ${DIM}(dev build)${RESET}`)
+      ok(`griffin ${DIM}(dev build)${RESET}`)
     } else {
       const s = spinner("Checking for updates...")
       const current = raw.replace(/[^0-9.]/g, "")
-      const latest = runQuiet("npm view @synsci/openscience version")
+      const latest = runQuiet("npm view @synsci/griffin version")
       if (!latest || current === latest) {
-        s.ok(`openscience ${current} ${DIM}(up to date)${RESET}`)
+        s.ok(`griffin ${current} ${DIM}(up to date)${RESET}`)
       } else {
         s.update(`Upgrading ${current} → ${latest}...`)
         try {
@@ -292,10 +279,10 @@ async function main() {
       }
     }
   } else {
-    const s = spinner("Installing OpenScience...")
+    const s = spinner("Installing Griffin...")
     try {
       try {
-        execSync("npm i -g @synsci/openscience@latest", { stdio: "pipe" })
+        execSync("npm i -g @synsci/griffin@latest", { stdio: "pipe" })
       } catch (e) {
         // npm refuses to overwrite a bin file owned by another package
         // (EEXIST). If the conflict is the deprecated @synsci/cli, remove it
@@ -303,35 +290,35 @@ async function main() {
         const stderr = e && e.stderr ? String(e.stderr) : ""
         const conflict = stderr.includes("EEXIST") && (stderr.includes("@synsci/cli") || hasDeprecatedCli())
         if (!conflict) throw e
-        s.update("Removing the deprecated @synsci/cli so it can't shadow the openscience command...")
+        s.update("Removing the deprecated @synsci/cli so it can't shadow the griffin command...")
         runQuiet("npm rm -g @synsci/cli")
-        s.update("Retrying the OpenScience install...")
-        execSync("npm i -g @synsci/openscience@latest", { stdio: "pipe" })
+        s.update("Retrying the Griffin install...")
+        execSync("npm i -g @synsci/griffin@latest", { stdio: "pipe" })
       }
       cliPath = resolveCli()
-      if (!cliPath) throw new Error("openscience not on PATH after install")
-      s.ok("Installed OpenScience")
+      if (!cliPath) throw new Error("griffin not on PATH after install")
+      s.ok("Installed Griffin")
     } catch {
       // The standalone installer is a bash script; on native Windows there's
       // no bash to pipe it into, so don't suggest a fallback that can't run.
       if (process.platform === "win32") {
         s.fail("Install failed")
-        console.log(`\n  Try manually: ${CYAN}npm i -g @synsci/openscience${RESET}\n`)
+        console.log(`\n  Try manually: ${CYAN}npm i -g @synsci/griffin${RESET}\n`)
         process.exit(1)
       }
       // Global npm installs commonly fail on permissions. Fall back to the
-      // standalone installer, which lands in ~/.openscience/bin without sudo
+      // standalone installer, which lands in ~/.griffin/bin without sudo
       // (resolveCli already checks that location).
       s.update("npm -g failed, trying the standalone installer...")
       try {
-        execSync("curl -fsSL https://openscience.sh/install | bash", { stdio: "pipe" })
+        execSync("curl -fsSL https://griffin.sh/install | bash", { stdio: "pipe" })
         cliPath = resolveCli()
-        if (!cliPath) throw new Error("openscience not found after install")
-        s.ok("Installed OpenScience")
+        if (!cliPath) throw new Error("griffin not found after install")
+        s.ok("Installed Griffin")
       } catch (e2) {
         s.fail(`Install failed${e2 && e2.message ? ": " + e2.message : ""}`)
-        console.log(`\n  Try manually: ${CYAN}npm i -g @synsci/openscience${RESET}`)
-        console.log(`  or:           ${CYAN}curl -fsSL https://openscience.sh/install | bash${RESET}\n`)
+        console.log(`\n  Try manually: ${CYAN}npm i -g @synsci/griffin${RESET}`)
+        console.log(`  or:           ${CYAN}curl -fsSL https://griffin.sh/install | bash${RESET}\n`)
         process.exit(1)
       }
     }
@@ -342,10 +329,10 @@ async function main() {
   console.log(`  ${BOLD}How do you want to run it?${RESET}`)
   console.log()
   console.log(
-    `    ${BOLD}1${RESET}  ${CYAN}OpenScience${RESET}         ${DIM}free and open source, bring your own API keys, no account${RESET}`,
+    `    ${BOLD}1${RESET}  ${CYAN}Griffin${RESET}         ${DIM}free and open source, bring your own API keys, no account${RESET}`,
   )
   console.log(
-    `    ${BOLD}2${RESET}  ${CYAN}OpenScience + Atlas${RESET} ${DIM}managed models, wallet billing, research graph & compute${RESET}`,
+    `    ${BOLD}2${RESET}  ${CYAN}Griffin + Atlas${RESET} ${DIM}managed models, wallet billing, research graph & compute${RESET}`,
   )
   console.log(
     `    ${BOLD}3${RESET}  ${CYAN}Atlas CLI${RESET}           ${DIM}just the Atlas research CLI — maps, runs, and compute from the terminal${RESET}`,
@@ -372,7 +359,7 @@ async function main() {
     } else {
       console.log()
       console.log(
-        `  ${DIM}Connect your Atlas account for managed credentials:${RESET} ${CYAN}openscience connect login${RESET}`,
+        `  ${DIM}Connect your Atlas account for managed credentials:${RESET} ${CYAN}griffin connect login${RESET}`,
       )
     }
     console.log()

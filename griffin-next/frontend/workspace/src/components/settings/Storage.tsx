@@ -2,7 +2,7 @@
 // supported "change location" move, and a jump to Credentials for cloud buckets.
 // Backed by /settings/storage (routes/settings/storage.ts).
 import { type Component, type JSX, For, Show, createMemo, createSignal, onMount } from "solid-js"
-import { Button } from "@synsci/ui/button"
+import { Button } from "@griffin/ui/button"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { usePlatform } from "@/context/platform"
 import { FONT_CODE, FONT_SANS } from "@/styles/tokens"

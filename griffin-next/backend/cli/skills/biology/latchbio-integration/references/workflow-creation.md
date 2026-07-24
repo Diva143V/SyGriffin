@@ -250,5 +250,5 @@ latch register --verbose <workflow-directory>
 ## References
 
 - Official Documentation: https://docs.latch.bio
-- GitHub Repository: https://github.com/latchbio/latch
+- GitHub Repository: 
 - Slack Community: https://join.slack.com/t/latchbiosdk

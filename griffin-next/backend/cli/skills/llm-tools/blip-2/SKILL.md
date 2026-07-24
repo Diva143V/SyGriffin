@@ -559,7 +559,7 @@ processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
 ## Resources
 
 - **Paper**: https://arxiv.org/abs/2301.12597
-- **GitHub (LAVIS)**: https://github.com/salesforce/LAVIS
+- **GitHub (LAVIS)**: 
 - **HuggingFace**: https://huggingface.co/Salesforce/blip2-opt-2.7b
 - **Demo**: https://huggingface.co/spaces/Salesforce/BLIP2
 - **InstructBLIP**: https://arxiv.org/abs/2305.06500 (successor)

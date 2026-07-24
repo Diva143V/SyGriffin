@@ -251,7 +251,7 @@ pipeline_results/
 
 | Error | Cause | Fix |
 |-------|-------|-----|
-| "Script not found" | Missing skill or wrong OPENSCIENCE_SKILLS_DIR | Set OPENSCIENCE_SKILLS_DIR to skills root or ensure skills are installed |
+| "Script not found" | Missing skill or wrong GRIFFIN_SKILLS_DIR | Set GRIFFIN_SKILLS_DIR to skills root or ensure skills are installed |
 | "Schema validation failed" | Upstream script produced unexpected output | Check the failed stage's output file manually |
 | "No pockets detected" | Protein too small or no clear cavity | Try `--skip pocket-detection` with manual `--pocket` coordinates |
 | "Docking failed" | Missing Vina binary or wrong PDB format | Install Vina: `pip install vina`, or use `--docking-method diffdock` |

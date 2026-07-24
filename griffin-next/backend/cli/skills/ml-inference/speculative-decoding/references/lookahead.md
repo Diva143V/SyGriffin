@@ -6,7 +6,7 @@ Based on ICML 2024 paper and LMSYS blog post
 
 **Source**: https://lmsys.org/blog/2023-11-21-lookahead-decoding/
 **Paper**: ICML 2024
-**GitHub**: https://github.com/hao-ai-lab/LookaheadDecoding
+**GitHub**: 
 
 Lookahead Decoding breaks sequential dependency in autoregressive decoding using Jacobi iteration, achieving 1.5-2.3× speedup without draft models or training.
 
@@ -304,6 +304,6 @@ print(response)
 ## Resources
 
 - **Blog Post**: https://lmsys.org/blog/2023-11-21-lookahead-decoding/
-- **GitHub**: https://github.com/hao-ai-lab/LookaheadDecoding
+- **GitHub**: 
 - **Paper**: ICML 2024 (Break the Sequential Dependency of LLM Inference Using Lookahead Decoding)
 - **NVIDIA Blog**: https://developer.nvidia.com/blog/optimizing-qwen2-5-coder-throughput-with-nvidia-tensorrt-llm-lookahead-decoding/

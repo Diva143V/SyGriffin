@@ -14,7 +14,7 @@ import { lazy } from "../../../util/lazy"
 // attach/detach a connector) and at what scope. Each action is granted at
 // "global" scope (persists across every session) or "session" scope (this
 // session only), or "revoked" (blocked). Persisted to a real JSON store under
-// ~/.openscience/ so the grant survives restarts and is readable by the agent loop.
+// ~/.griffin/ so the grant survives restarts and is readable by the agent loop.
 
 export namespace RegistryPermissions {
   const filepath = path.join(Global.Path.config, "settings-registry-permissions.json")

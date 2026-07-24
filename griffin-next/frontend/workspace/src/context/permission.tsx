@@ -1,12 +1,12 @@
 import { createMemo, onCleanup } from "solid-js"
 import { createStore, produce } from "solid-js/store"
-import { createSimpleContext } from "@synsci/ui/context"
-import type { PermissionRequest } from "@synsci/sdk/v2/client"
+import { createSimpleContext } from "@griffin/ui/context"
+import type { PermissionRequest } from "@griffin/sdk/v2/client"
 import { Persist, persisted } from "@/utils/persist"
 import { useGlobalSDK } from "@/context/global-sdk"
 import { useGlobalSync } from "./global-sync"
 import { useParams } from "@solidjs/router"
-import { base64Encode } from "@synsci/util/encode"
+import { base64Encode } from "@griffin/util/encode"
 import { decode64 } from "@/utils/base64"
 
 type PermissionRespondFn = (input: {

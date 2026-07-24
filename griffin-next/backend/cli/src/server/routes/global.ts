@@ -10,7 +10,7 @@ import { Log } from "../../util/log"
 import { lazy } from "../../util/lazy"
 import { Config } from "../../config/config"
 import { errors } from "../error"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { Provider } from "@/provider/provider"
 
 const log = Log.create({ service: "server" })
@@ -23,7 +23,7 @@ export const GlobalRoutes = lazy(() =>
       "/health",
       describeRoute({
         summary: "Get health",
-        description: "Get health information about the OpenScience server.",
+        description: "Get health information about the Griffin server.",
         operationId: "global.health",
         responses: {
           200: {
@@ -44,7 +44,7 @@ export const GlobalRoutes = lazy(() =>
       "/event",
       describeRoute({
         summary: "Get global events",
-        description: "Subscribe to global events from the OpenScience system using server-sent events.",
+        description: "Subscribe to global events from the Griffin system using server-sent events.",
         operationId: "global.event",
         responses: {
           200: {
@@ -71,6 +71,7 @@ export const GlobalRoutes = lazy(() =>
         return streamSSE(c, async (stream) => {
           stream.writeSSE({
             data: JSON.stringify({
+              directory: "global",
               payload: {
                 type: "server.connected",
                 properties: {},
@@ -78,8 +79,12 @@ export const GlobalRoutes = lazy(() =>
             }),
           })
           async function handler(event: any) {
+            const ev = { ...event }
+            if (typeof ev.directory === "string") {
+              ev.directory = ev.directory.replaceAll("\\", "/")
+            }
             await stream.writeSSE({
-              data: JSON.stringify(event),
+              data: JSON.stringify(ev),
             })
           }
           GlobalBus.on("event", handler)
@@ -88,6 +93,7 @@ export const GlobalRoutes = lazy(() =>
           const heartbeat = setInterval(() => {
             stream.writeSSE({
               data: JSON.stringify({
+                directory: "global",
                 payload: {
                   type: "server.heartbeat",
                   properties: {},
@@ -111,7 +117,7 @@ export const GlobalRoutes = lazy(() =>
       "/config",
       describeRoute({
         summary: "Get global configuration",
-        description: "Retrieve the current global OpenScience configuration settings and preferences.",
+        description: "Retrieve the current global Griffin configuration settings and preferences.",
         operationId: "global.config.get",
         responses: {
           200: {
@@ -132,7 +138,7 @@ export const GlobalRoutes = lazy(() =>
       "/config",
       describeRoute({
         summary: "Update global configuration",
-        description: "Update global OpenScience configuration settings and preferences.",
+        description: "Update global Griffin configuration settings and preferences.",
         operationId: "global.config.update",
         responses: {
           200: {
@@ -226,7 +232,7 @@ export const GlobalRoutes = lazy(() =>
       "/dispose",
       describeRoute({
         summary: "Dispose instance",
-        description: "Clean up and dispose all OpenScience instances, releasing all resources.",
+        description: "Clean up and dispose all Griffin instances, releasing all resources.",
         operationId: "global.dispose",
         responses: {
           200: {
@@ -255,7 +261,7 @@ export const GlobalRoutes = lazy(() =>
       "/sync",
       describeRoute({
         summary: "Sync account services",
-        description: "Refresh OpenScience account services and reload local provider/config state.",
+        description: "Refresh Griffin account services and reload local provider/config state.",
         operationId: "global.sync",
         responses: {
           200: {
@@ -275,7 +281,7 @@ export const GlobalRoutes = lazy(() =>
         },
       }),
       async (c) => {
-        const result = await OpenScience.syncServices()
+        const result = await Griffin.syncServices()
         Provider.invalidate()
         await Instance.disposeAll()
         GlobalBus.emit("event", {

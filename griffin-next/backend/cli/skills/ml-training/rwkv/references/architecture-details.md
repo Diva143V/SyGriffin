@@ -339,6 +339,6 @@ out, state = model.forward(new_tokens, state)
 
 - Paper (RWKV): https://arxiv.org/abs/2305.13048 (May 2023)
 - Paper (RWKV-7): https://arxiv.org/abs/2503.14456 (March 2025)
-- GitHub: https://github.com/BlinkDL/RWKV-LM
+- GitHub: 
 - Math derivation: https://wiki.rwkv.com/
-- CUDA kernels: https://github.com/BlinkDL/RWKV-CUDA
+- CUDA kernels: 

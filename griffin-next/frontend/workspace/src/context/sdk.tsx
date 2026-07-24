@@ -1,5 +1,5 @@
-import { createOpenScienceClient, type Event } from "@synsci/sdk/v2/client"
-import { createSimpleContext } from "@synsci/ui/context"
+import { createGriffinClient, type Event } from "@griffin/sdk/v2/client"
+import { createSimpleContext } from "@griffin/ui/context"
 import { createGlobalEmitter } from "@solid-primitives/event-bus"
 import { createEffect, createMemo, onCleanup } from "solid-js"
 import { useGlobalSDK } from "./global-sdk"
@@ -12,8 +12,9 @@ export const { use: useSDK, provider: SDKProvider } = createSimpleContext({
     const globalSDK = useGlobalSDK()
 
     const directory = createMemo(() => props.directory)
+    const normalizedDirectory = createMemo(() => directory().replaceAll("\\", "/").toLowerCase())
     const client = createMemo(() =>
-      createOpenScienceClient({
+      createGriffinClient({
         baseUrl: globalSDK.url,
         fetch: platform.fetch,
         directory: directory(),
@@ -26,7 +27,9 @@ export const { use: useSDK, provider: SDKProvider } = createSimpleContext({
     }>()
 
     createEffect(() => {
-      const unsub = globalSDK.event.on(directory(), (event) => {
+      console.log("[SDK] Subscribing to directory:", normalizedDirectory())
+      const unsub = globalSDK.event.on(normalizedDirectory(), (event) => {
+        console.log("[SDK] Received event for directory:", normalizedDirectory(), "event type:", event.type, "event:", event)
         emitter.emit(event.type, event)
       })
       onCleanup(unsub)

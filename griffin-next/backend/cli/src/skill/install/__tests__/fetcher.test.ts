@@ -8,7 +8,7 @@ import { fetchManifest } from "../fetcher"
 let fixtureRepo: string
 
 async function makeFixture(): Promise<string> {
-  const dir = await mkdtemp(path.join(os.tmpdir(), "openscience-fixture-"))
+  const dir = await mkdtemp(path.join(os.tmpdir(), "griffin-fixture-"))
   await mkdir(path.join(dir, "skills/brainstorming"), { recursive: true })
   await mkdir(path.join(dir, "skills/debugging"), { recursive: true })
   await writeFile(
@@ -69,8 +69,8 @@ describe("fetchManifest", () => {
     }
   })
 
-  it("reads openscience-skills.json entries from repo root when present", async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), "openscience-manifest-"))
+  it("reads griffin-skills.json entries from repo root when present", async () => {
+    const dir = await mkdtemp(path.join(os.tmpdir(), "griffin-manifest-"))
     await mkdir(path.join(dir, "skills/public-skill"), { recursive: true })
     await mkdir(path.join(dir, "skills/helper-skill"), { recursive: true })
     await writeFile(
@@ -81,7 +81,7 @@ describe("fetchManifest", () => {
       path.join(dir, "skills/helper-skill/SKILL.md"),
       "---\nname: helper-skill\ndescription: internal\n---\n# y",
     )
-    await writeFile(path.join(dir, "openscience-skills.json"), JSON.stringify({ entries: ["public-skill"] }))
+    await writeFile(path.join(dir, "griffin-skills.json"), JSON.stringify({ entries: ["public-skill"] }))
     await $`git init -q`.cwd(dir).quiet()
     await $`git add -A`.cwd(dir).quiet()
     await $`git -c user.email=t@t -c user.name=t commit -q -m init`.cwd(dir).quiet()
@@ -105,7 +105,7 @@ describe("fetchManifest", () => {
   })
 
   it("rejects when no skills/**/SKILL.md found", async () => {
-    const empty = await mkdtemp(path.join(os.tmpdir(), "openscience-empty-"))
+    const empty = await mkdtemp(path.join(os.tmpdir(), "griffin-empty-"))
     await $`git init -q`.cwd(empty).quiet()
     await writeFile(path.join(empty, "README.md"), "no skills")
     await $`git add -A`.cwd(empty).quiet()

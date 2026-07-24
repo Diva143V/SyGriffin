@@ -17,7 +17,7 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YuhangChen1/Paper2All.git
+git clone .git
 cd Paper2All
 ```
 
@@ -46,7 +46,7 @@ brew install libreoffice poppler
 
 **Windows:**
 - Download and install LibreOffice from https://www.libreoffice.org/
-- Download and install Poppler from https://github.com/oschwartz10612/poppler-windows
+- Download and install Poppler from 
 
 ## API Configuration
 

@@ -509,7 +509,7 @@ Browse all: https://huggingface.co/models?library=tokenizers
 ## Resources
 
 - **Docs**: https://huggingface.co/docs/tokenizers
-- **GitHub**: https://github.com/huggingface/tokenizers ⭐ 9,000+
+- **GitHub**:  ⭐ 9,000+
 - **Version**: 0.20.0+
 - **Course**: https://huggingface.co/learn/nlp-course/chapter6/1
 - **Paper**: BPE (Sennrich et al., 2016), WordPiece (Schuster & Nakajima, 2012)

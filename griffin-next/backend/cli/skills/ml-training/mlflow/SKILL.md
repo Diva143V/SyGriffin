@@ -692,8 +692,8 @@ mlflow.set_tracking_uri("http://localhost:5000")
 ## Resources
 
 - **Documentation**: https://mlflow.org/docs/latest
-- **GitHub**: https://github.com/mlflow/mlflow (23k+ stars)
-- **Examples**: https://github.com/mlflow/mlflow/tree/master/examples
+- **GitHub**:  (23k+ stars)
+- **Examples**: /tree/master/examples
 - **Community**: https://mlflow.org/community
 
 ## See Also

@@ -267,6 +267,6 @@ ChEMBL has fair usage policies:
 ## Additional Resources
 
 - Official API documentation: https://www.ebi.ac.uk/chembl/api/data/docs
-- Python client GitHub: https://github.com/chembl/chembl_webresource_client
+- Python client GitHub: 
 - ChEMBL interface docs: https://chembl.gitbook.io/chembl-interface-documentation/
-- Example notebooks: https://github.com/chembl/notebooks
+- Example notebooks: 

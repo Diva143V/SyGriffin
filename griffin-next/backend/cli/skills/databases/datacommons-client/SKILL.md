@@ -240,7 +240,7 @@ Comprehensive documentation for each endpoint is available in the `references/` 
 - **Official Documentation**: https://docs.datacommons.org/api/python/v2/
 - **Statistical Variable Explorer**: https://datacommons.org/tools/statvar
 - **Data Commons Browser**: https://datacommons.org/browser/
-- **GitHub Repository**: https://github.com/datacommonsorg/api-python
+- **GitHub Repository**: 
 
 ## Tips for Effective Use
 

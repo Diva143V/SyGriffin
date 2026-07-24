@@ -16565,9 +16565,9 @@
       }
     }
   },
-  "synsci": {
-    "id": "synsci",
-    "env": ["SYNSCI_API_KEY"],
+  "griffin": {
+    "id": "griffin",
+    "env": ["GRIFFIN_API_KEY"],
     "npm": "@ai-sdk/openai-compatible",
     "api": "https://api.syntheticsciences.ai/v1",
     "name": "Atlas",

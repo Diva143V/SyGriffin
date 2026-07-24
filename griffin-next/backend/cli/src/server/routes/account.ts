@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { describeRoute, resolver, validator } from "hono-openapi"
 import z from "zod"
-import { OpenScience } from "@/openscience"
+import { Griffin } from "@/griffin"
 import { Provider } from "@/provider/provider"
 import { Instance } from "@/project/instance"
 import { GlobalBus } from "@/bus/global"
@@ -40,7 +40,7 @@ export const AccountRoutes = lazy(() =>
       "/",
       describeRoute({
         summary: "Get account",
-        description: "Get synced OpenScience account and billing summary.",
+        description: "Get synced Griffin account and billing summary.",
         operationId: "account.get",
         responses: {
           200: {
@@ -61,11 +61,11 @@ export const AccountRoutes = lazy(() =>
         },
       }),
       async (c) => {
-        const session = await OpenScience.getSession()
-        const sync = session ? await OpenScience.syncServices() : null
+        const session = await Griffin.getSession()
+        const sync = session ? await Griffin.syncServices() : null
         // -1 is the wire encoding for "unknown" (schema: number)
-        const balance = (session ? await OpenScience.getBalance() : null) ?? -1
-        const billing = session ? await OpenScience.getBillingMode() : null
+        const balance = (session ? await Griffin.getBalance() : null) ?? -1
+        const billing = session ? await Griffin.getBillingMode() : null
         return c.json({
           session: !!session,
           user: sync?.user,
@@ -86,7 +86,7 @@ export const AccountRoutes = lazy(() =>
           },
         },
       }),
-      async (c) => c.json({ balance_usd: (await OpenScience.getBalance()) ?? -1 }),
+      async (c) => c.json({ balance_usd: (await Griffin.getBalance()) ?? -1 }),
     )
     .get(
       "/devices",
@@ -100,7 +100,7 @@ export const AccountRoutes = lazy(() =>
           },
         },
       }),
-      async (c) => c.json((await OpenScience.listDevices()) ?? []),
+      async (c) => c.json((await Griffin.listDevices()) ?? []),
     )
     .delete(
       "/devices/:keyID",
@@ -115,7 +115,7 @@ export const AccountRoutes = lazy(() =>
         },
       }),
       validator("param", z.object({ keyID: z.string() })),
-      async (c) => c.json(await OpenScience.revokeDevice(c.req.valid("param").keyID)),
+      async (c) => c.json(await Griffin.revokeDevice(c.req.valid("param").keyID)),
     )
     .get(
       "/billing-mode",
@@ -129,7 +129,7 @@ export const AccountRoutes = lazy(() =>
           },
         },
       }),
-      async (c) => c.json(await OpenScience.getBillingMode()),
+      async (c) => c.json(await Griffin.getBillingMode()),
     )
     .post(
       "/billing-mode",
@@ -144,7 +144,7 @@ export const AccountRoutes = lazy(() =>
         },
       }),
       validator("json", z.object({ mode: z.enum(["byok", "managed"]) })),
-      async (c) => c.json(await OpenScience.setBillingMode(c.req.valid("json").mode)),
+      async (c) => c.json(await Griffin.setBillingMode(c.req.valid("json").mode)),
     )
     .post(
       "/login-key",
@@ -169,8 +169,8 @@ export const AccountRoutes = lazy(() =>
         // models light up without a terminal. A rejected key is a 200
         // { ok:false } (an expected user error, not a server fault).
         try {
-          await OpenScience.loginWithKey(c.req.valid("json").key.trim())
-          await OpenScience.syncServices().catch(() => {})
+          await Griffin.loginWithKey(c.req.valid("json").key.trim())
+          await Griffin.syncServices().catch(() => {})
           Provider.invalidate()
           return c.json({ ok: true })
         } catch (err) {
@@ -194,8 +194,8 @@ export const AccountRoutes = lazy(() =>
         // Best-effort server-side revocation of this device's key while the
         // session can still authenticate the call; local cleanup follows
         // regardless of the outcome.
-        await OpenScience.revokeCurrentDevice()
-        await OpenScience.clearSession()
+        await Griffin.revokeCurrentDevice()
+        await Griffin.clearSession()
         Provider.invalidate()
         await Instance.disposeAll()
         emitDisposed()

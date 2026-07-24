@@ -26,7 +26,7 @@ hub_repo_details(["author/dataset-name"], repo_type="dataset")
 hub_repo_details(["org/model-name"], repo_type="model")
 
 # Check script/file paths (for URL-based scripts)
-# Verify before using: https://github.com/user/repo/blob/main/script.py
+# Verify before using: /blob/main/script.py
 ```
 
 **Examples that would have caught errors:**
@@ -180,13 +180,13 @@ subprocess.run([
 
 ```python
 # ❌ INCOMPLETE: Assumes build tools exist
-subprocess.run(["git", "clone", "https://github.com/ggerganov/llama.cpp.git", "/tmp/llama.cpp"])
+subprocess.run(["git", "clone", ".cpp.git", "/tmp/llama.cpp"])
 subprocess.run(["make", "-C", "/tmp/llama.cpp", "llama-quantize"])  # FAILS: no gcc/make
 
 # ✅ COMPLETE: Installs all requirements
 subprocess.run(["apt-get", "update", "-qq"], check=True)
 subprocess.run(["apt-get", "install", "-y", "-qq", "build-essential", "cmake"], check=True)
-subprocess.run(["git", "clone", "https://github.com/ggerganov/llama.cpp.git", "/tmp/llama.cpp"])
+subprocess.run(["git", "clone", ".cpp.git", "/tmp/llama.cpp"])
 # ... then build
 ```
 

@@ -9,7 +9,7 @@ import { get, type ArtifactKind } from "./renderers"
  * it. If no renderer is registered (or it throws at mount), falls back to a
  * graceful placeholder + a collapsed JSON dump so the artifact is never lost.
  *
- * Integration: a tool renderer registered via `@synsci/ui/message-part`'s
+ * Integration: a tool renderer registered via `@griffin/ui/message-part`'s
  * `ToolRegistry.register(...)` reads the science-artifact envelope from a tool
  * part's `metadata` and mounts this component. See SCIENCE_PATTERNS.md.
  */

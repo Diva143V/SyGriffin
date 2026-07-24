@@ -11,9 +11,9 @@ The LaTeX style files are available
 
 - as an [Overleaf template](https://www.overleaf.com/latex/templates/association-for-computational-linguistics-acl-conference/jvxskxpnznfj)
 - in this repository
-- as a [.zip file](https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip)
+- as a [.zip file](/archive/refs/heads/master.zip)
 
-Please see [`acl_latex.tex`](https://github.com/acl-org/acl-style-files/blob/master/acl_latex.tex) for an example.
+Please see [`acl_latex.tex`](/blob/master/acl_latex.tex) for an example.
 
 Please follow the paper formatting guidelines general to *ACL
 conferences:

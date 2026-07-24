@@ -1,16 +1,16 @@
 export * from "./client.js"
 export * from "./server.js"
 
-import { createOpenScienceClient } from "./client.js"
-import { createOpenScienceServer } from "./server.js"
+import { createGriffinClient } from "./client.js"
+import { createGriffinServer } from "./server.js"
 import type { ServerOptions } from "./server.js"
 
-export async function createOpenScience(options?: ServerOptions) {
-  const server = await createOpenScienceServer({
+export async function createGriffin(options?: ServerOptions) {
+  const server = await createGriffinServer({
     ...options,
   })
 
-  const client = createOpenScienceClient({
+  const client = createGriffinClient({
     baseUrl: server.url,
   })
 

@@ -13,7 +13,7 @@ You might sometimes encounter an issue where your model runs and produces good r
   * Llama-3.2 3B Conversational notebook [Open in Colab](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Llama3.2_(1B_and_3B)-Conversational.ipynb)
   * Phi-4 14B Conversational notebook [Open in Colab](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Phi_4-Conversational.ipynb)
   * Mistral v0.3 7B Conversational notebook [Open in Colab](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Mistral_v0.3_(7B)-Conversational.ipynb)
-  * **More notebooks in our [notebooks repo](https://github.com/unslothai/notebooks).**
+  * **More notebooks in our [notebooks repo]().**
 
 ### Saving to `safetensors`, not `bin` format in Colab
 

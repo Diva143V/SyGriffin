@@ -1,9 +1,9 @@
-const dir = process.env.OPENSCIENCE_E2E_PROJECT_DIR ?? process.cwd()
-const title = process.env.OPENSCIENCE_E2E_SESSION_TITLE ?? "E2E Session"
-const text = process.env.OPENSCIENCE_E2E_MESSAGE ?? "Seeded for UI e2e"
-const model = process.env.OPENSCIENCE_E2E_MODEL ?? "synsci/gpt-5-nano"
+const dir = process.env.GRIFFIN_E2E_PROJECT_DIR ?? process.cwd()
+const title = process.env.GRIFFIN_E2E_SESSION_TITLE ?? "E2E Session"
+const text = process.env.GRIFFIN_E2E_MESSAGE ?? "Seeded for UI e2e"
+const model = process.env.GRIFFIN_E2E_MODEL ?? "griffin/gpt-5-nano"
 const parts = model.split("/")
-const providerID = parts[0] ?? "synsci"
+const providerID = parts[0] ?? "griffin"
 const modelID = parts[1] ?? "gpt-5-nano"
 const now = Date.now()
 

@@ -1,27 +1,27 @@
 import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js"
 import { createStore, reconcile } from "solid-js/store"
 import { useNavigate } from "@solidjs/router"
-import { useDialog } from "@synsci/ui/context/dialog"
-import { Popover } from "@synsci/ui/popover"
-import { Tabs } from "@synsci/ui/tabs"
-import { Button } from "@synsci/ui/button"
-import { Switch } from "@synsci/ui/switch"
-import { Icon } from "@synsci/ui/icon"
-import { Tooltip } from "@synsci/ui/tooltip"
+import { useDialog } from "@griffin/ui/context/dialog"
+import { Popover } from "@griffin/ui/popover"
+import { Tabs } from "@griffin/ui/tabs"
+import { Button } from "@griffin/ui/button"
+import { Switch } from "@griffin/ui/switch"
+import { Icon } from "@griffin/ui/icon"
+import { Tooltip } from "@griffin/ui/tooltip"
 import { useSync } from "@/context/sync"
 import { useSDK } from "@/context/sdk"
 import { normalizeServerUrl, serverDisplayName, useServer } from "@/context/server"
 import { usePlatform } from "@/context/platform"
 import { useLanguage } from "@/context/language"
-import { createOpenScienceClient } from "@synsci/sdk/v2/client"
+import { createGriffinClient } from "@griffin/sdk/v2/client"
 import { DialogSelectServer } from "./dialog-select-server"
-import { showToast } from "@synsci/ui/toast"
+import { showToast } from "@griffin/ui/toast"
 
 type ServerStatus = { healthy: boolean; version?: string }
 
 async function checkHealth(url: string, platform: ReturnType<typeof usePlatform>): Promise<ServerStatus> {
   const signal = (AbortSignal as unknown as { timeout?: (ms: number) => AbortSignal }).timeout?.(3000)
-  const sdk = createOpenScienceClient({
+  const sdk = createGriffinClient({
     baseUrl: url,
     fetch: platform.fetch,
     signal,
@@ -386,7 +386,7 @@ export function StatusPopover() {
                     <div class="text-14-regular text-text-base text-center my-auto">
                       {(() => {
                         const value = language.t("dialog.plugins.empty")
-                        const file = "openscience.json"
+                        const file = "griffin.json"
                         const parts = value.split(file)
                         if (parts.length === 1) return value
                         return (

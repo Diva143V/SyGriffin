@@ -6,7 +6,7 @@ import { Log } from "../util/log"
 
 // Outbound domain allow-list. A catalog of curated science-connector domain
 // sets (each toggleable as a group) plus a free-form list of custom domains.
-// Persisted as a single JSON document under the ~/.openscience data dir and readable
+// Persisted as a single JSON document under the ~/.griffin data dir and readable
 // by the backend via `Network.allowlist()`.
 export namespace Network {
   const log = Log.create({ service: "settings.network" })

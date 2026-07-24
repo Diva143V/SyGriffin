@@ -37,14 +37,14 @@ Groq runs open-weight LLMs on custom LPU (Language Processing Unit) hardware, de
 
 ## Credential Setup
 
-Credentials are auto-injected by openscience when connected via the dashboard.
+Credentials are auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$GROQ_API_KEY" ] && echo "GROQ_API_KEY set" || echo "NOT SET"
 ```
 
-If not set: connect Groq at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect Groq at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Quick Start
 
@@ -355,6 +355,6 @@ def call_with_retry(messages, model="llama-3.3-70b-versatile", max_retries=3):
 - **Vision**: https://console.groq.com/docs/vision
 - **Speech-to-Text**: https://console.groq.com/docs/speech-to-text
 - **Structured Outputs**: https://console.groq.com/docs/structured-outputs
-- **Python SDK**: https://github.com/groq/groq-python (`pip install groq`)
+- **Python SDK**:  (`pip install groq`)
 - **Status**: https://status.groq.com
 - **LPU Architecture**: https://groq.com/blog/inside-the-lpu-deconstructing-groq-speed

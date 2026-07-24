@@ -516,6 +516,6 @@ See full working example at `examples/qlora_training.py` in the repository.
 ## References
 
 - QLoRA paper: "QLoRA: Efficient Finetuning of Quantized LLMs" (Dettmers et al., 2023)
-- bitsandbytes GitHub: https://github.com/bitsandbytes-foundation/bitsandbytes
+- bitsandbytes GitHub: 
 - PEFT documentation: https://huggingface.co/docs/peft
 - FSDP+QLoRA guide: https://huggingface.co/blog/fsdp-qlora

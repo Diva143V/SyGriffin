@@ -289,8 +289,8 @@ async def strict_fact_check(context):
 ## Resources
 
 - Docs: https://docs.nvidia.com/nemo/guardrails/
-- GitHub: https://github.com/NVIDIA/NeMo-Guardrails ⭐ 4,300+
-- Examples: https://github.com/NVIDIA/NeMo-Guardrails/tree/main/examples
+- GitHub:  ⭐ 4,300+
+- Examples: /tree/main/examples
 - Version: v0.9.0+ (v0.12.0 expected)
 - Production: NVIDIA enterprise deployments
 

@@ -5,9 +5,9 @@ import { createSignal, createEffect } from "solid-js"
  *  - favorites: sticky-on-top, marked with a filled star.
  *  - hidden:    filtered out of the recent list.
  *
- * Both are keyed by the openscience project worktree (absolute path) and
+ * Both are keyed by the griffin project worktree (absolute path) and
  * persisted to localStorage so they survive reloads. We do NOT delete
- * the project from openscience itself — openscience tracks workspaces globally,
+ * the project from griffin itself — griffin tracks workspaces globally,
  * and the user might want to "unhide" later.
  */
 

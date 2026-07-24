@@ -1,7 +1,7 @@
 import { createSignal, createEffect, onMount, onCleanup } from "solid-js"
-import { Dialog } from "@synsci/ui/dialog"
-import { Button } from "@synsci/ui/button"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { Dialog } from "@griffin/ui/dialog"
+import { Button } from "@griffin/ui/button"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useSettings } from "@/context/settings"
 
 export type Highlight = {

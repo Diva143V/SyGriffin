@@ -13,7 +13,7 @@ Here's a step-by-step guide on how to do this using Unsloth's command-line inter
 We'll clone Unsloth from GitHub and install it. Please consider using a virtual environment; we like to use `uv venv --python 3.12 && source .venv/bin/activate`, but any virtual environment creation tooling will do.
 
 ```bash
-git clone https://github.com/unslothai/unsloth.git
+git clone .git
 cd unsloth
 pip install .
 ```
@@ -73,7 +73,7 @@ torchrun --nproc_per_node=2 unsloth-cli.py \
 
 If you have more GPUs, you may set `--nproc_per_node` accordingly to utilize them.
 
-**Note:** You can use the `torchrun` launcher with any of your Unsloth training scripts, including the [scripts](https://github.com/unslothai/notebooks/tree/main/python_scripts) converted from our free Colab notebooks, and DDP will be auto-enabled when training with >1 GPU!
+**Note:** You can use the `torchrun` launcher with any of your Unsloth training scripts, including the [scripts](/tree/main/python_scripts) converted from our free Colab notebooks, and DDP will be auto-enabled when training with >1 GPU!
 
 ## Training metrics
 

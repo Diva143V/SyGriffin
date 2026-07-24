@@ -381,6 +381,6 @@ Example: `32 × 8 = 256 × 1`
 
 ## Resources
 
-- GitHub Issues: https://github.com/THUDM/slime/issues
+- GitHub Issues: /issues
 - Documentation: https://thudm.github.io/slime/
 - Examples: `examples/` directory

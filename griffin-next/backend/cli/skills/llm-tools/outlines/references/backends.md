@@ -610,6 +610,6 @@ def extract(text: str):
 ## Resources
 
 - **Transformers**: https://huggingface.co/docs/transformers
-- **llama.cpp**: https://github.com/ggerganov/llama.cpp
+- **llama.cpp**: .cpp
 - **vLLM**: https://docs.vllm.ai
-- **Outlines**: https://github.com/outlines-dev/outlines
+- **Outlines**: 

@@ -2,16 +2,16 @@ import { Popover as Kobalte } from "@kobalte/core/popover"
 import { Component, ComponentProps, createEffect, createMemo, JSX, onCleanup, Show, ValidComponent } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useLocal } from "@/context/local"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { popularProviders } from "@/hooks/use-providers"
-import { Button } from "@synsci/ui/button"
-import { IconButton } from "@synsci/ui/icon-button"
-import { Tag } from "@synsci/ui/tag"
-import { Dialog } from "@synsci/ui/dialog"
-import { List } from "@synsci/ui/list"
-import { Tooltip } from "@synsci/ui/tooltip"
-import { ProviderIcon } from "@synsci/ui/provider-icon"
-import type { IconName } from "@synsci/ui/icons/provider"
+import { Button } from "@griffin/ui/button"
+import { IconButton } from "@griffin/ui/icon-button"
+import { Tag } from "@griffin/ui/tag"
+import { Dialog } from "@griffin/ui/dialog"
+import { List } from "@griffin/ui/list"
+import { Tooltip } from "@griffin/ui/tooltip"
+import { ProviderIcon } from "@griffin/ui/provider-icon"
+import type { IconName } from "@griffin/ui/icons/provider"
 import { DialogManageModels } from "./dialog-manage-models"
 import { ModelTooltip } from "./model-tooltip"
 import { useLanguage } from "@/context/language"
@@ -60,7 +60,7 @@ const ModelList: Component<{
             <ModelTooltip
               model={item}
               latest={item.latest}
-              free={item.provider.id === "synsci" && (!item.cost || item.cost.input === 0)}
+              free={item.provider.id === "griffin" && (!item.cost || item.cost.input === 0)}
             />
           }
         >
@@ -79,7 +79,7 @@ const ModelList: Component<{
           <ProviderIcon id={i.provider.id as IconName} class="size-4 shrink-0 opacity-90" />
           <span class="truncate">{i.name}</span>
           <span class="flex items-center gap-x-1.5 ml-auto shrink-0">
-            <Show when={i.provider.id === "synsci" && (!i.cost || i.cost?.input === 0)}>
+            <Show when={i.provider.id === "griffin" && (!i.cost || i.cost?.input === 0)}>
               <Tag>{language.t("model.tag.free")}</Tag>
             </Show>
             <Show when={i.latest}>

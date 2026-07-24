@@ -14,7 +14,7 @@ Complete technical guide to model merging algorithms based on research papers.
 
 **Paper**: "TIES-Merging: Resolving Interference When Merging Models" (NeurIPS 2023)
 **Authors**: Prateek Yadav et al.
-**Code**: https://github.com/prateeky2806/ties-merging
+**Code**: 
 
 ### Algorithm Overview
 
@@ -349,4 +349,4 @@ merged = task_arithmetic(
 
 - **TIES Paper**: https://arxiv.org/abs/2306.01708
 - **DARE Paper**: https://arxiv.org/abs/2311.03099
-- **mergekit**: https://github.com/arcee-ai/mergekit
+- **mergekit**: 

@@ -230,7 +230,7 @@ Optimizer: Adam (β1=0.9, β2=0.95)
 - Downloaded 100,000+ times
 - Used in hundreds of research papers
 - Enabled multilingual AI research
-- Demonstrated open science at scale
+- Demonstrated griffin at scale
 
 ## DeepSeek-V3
 

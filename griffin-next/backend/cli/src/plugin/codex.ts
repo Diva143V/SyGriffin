@@ -1,8 +1,8 @@
-import type { Hooks, PluginInput } from "@synsci/plugin"
+import type { Hooks, PluginInput } from "@griffin/plugin"
 import { Log } from "../util/log"
 import { Installation } from "../installation"
 import { OAUTH_DUMMY_KEY } from "../auth"
-import { OpenScience } from "../openscience"
+import { Griffin } from "../griffin"
 import { managedApiBase } from "../endpoints"
 import os from "os"
 
@@ -188,7 +188,7 @@ function buildAuthorizeUrl(redirectUri: string, pkce: PkceCodes, state: string):
     id_token_add_organizations: "true",
     codex_cli_simplified_flow: "true",
     state,
-    originator: "synsci",
+    originator: "griffin",
   })
   return `${ISSUER}/oauth/authorize?${params.toString()}`
 }
@@ -260,7 +260,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<TokenRes
 const HTML_SUCCESS = `<!doctype html>
 <html>
   <head>
-    <title>OpenScience - Codex Authorization Successful</title>
+    <title>Griffin - Codex Authorization Successful</title>
     <style>
       body {
         font-family:
@@ -291,7 +291,7 @@ const HTML_SUCCESS = `<!doctype html>
   <body>
     <div class="container">
       <h1>Authorization Successful</h1>
-      <p>You can close this window and return to OpenScience.</p>
+      <p>You can close this window and return to Griffin.</p>
     </div>
     <script>
       setTimeout(() => window.close(), 2000)
@@ -302,7 +302,7 @@ const HTML_SUCCESS = `<!doctype html>
 const HTML_ERROR = (error: string) => `<!doctype html>
 <html>
   <head>
-    <title>OpenScience - Codex Authorization Failed</title>
+    <title>Griffin - Codex Authorization Failed</title>
     <style>
       body {
         font-family:
@@ -522,7 +522,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
               } catch (e) {
                 // ChatGPT rotates the refresh token on every refresh, and the
                 // single-flight guard only covers this process. When two
-                // openscience processes (CLI + workspace server) race a
+                // griffin processes (CLI + workspace server) race a
                 // refresh — common while requests are being retried against an
                 // exhausted usage limit — the loser is left holding a revoked
                 // token and every later refresh fails, even after the limit
@@ -539,7 +539,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
                   if (!tokens) {
                     log.warn("codex token refresh failed", { error: String(e) })
                     if (e instanceof CodexRefreshInvalidError)
-                      throw new Error("Codex sign-in expired. Reconnect it with `openscience keys signin`.")
+                      throw new Error("Codex sign-in expired. Reconnect it with `griffin keys signin`.")
                     throw new Error(
                       "Codex is temporarily unavailable (couldn't refresh the access token). Please retry in a moment.",
                     )
@@ -665,7 +665,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
                 return tokens.access_token
               } catch (e) {
                 if (e instanceof CodexRefreshInvalidError)
-                  throw new Error("Codex sign-in expired. Reconnect it with `openscience keys signin`.")
+                  throw new Error("Codex sign-in expired. Reconnect it with `griffin keys signin`.")
                 log.warn("codex 401-triggered refresh failed", { error: String(e) })
                 return undefined
               }
@@ -699,7 +699,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
               throw new Error(
                 `Couldn't start the browser sign-in listener on port ${OAUTH_PORT} ` +
                   `(${e instanceof Error ? e.message : String(e)}). Free the port, or run ` +
-                  "`openscience keys signin` and choose the device-code method.",
+                  "`griffin keys signin` and choose the device-code method.",
               )
             }
             const pkce = await generatePKCE()
@@ -710,7 +710,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
 
             // Fetch the Atlas session once at authorize time so the callback
             // closure can reuse it without a second async call.
-            const session = await OpenScience.getSession?.()
+            const session = await Griffin.getSession?.()
             const thkToken = session?.api_key
 
             return {
@@ -742,8 +742,8 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
                     })
                     // Re-sync after backend now knows about the new codex
                     // credential, so `openai-codex` shows up in the local
-                    // provider list without a separate `openscience sync`.
-                    await OpenScience.syncServices?.().catch((e: unknown) => {
+                    // provider list without a separate `griffin sync`.
+                    await Griffin.syncServices?.().catch((e: unknown) => {
                       log.warn("post-codex-login sync failed", { error: String(e) })
                     })
                   }
@@ -770,7 +770,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "User-Agent": `openscience/${Installation.VERSION}`,
+                "User-Agent": `griffin/${Installation.VERSION}`,
               },
               body: JSON.stringify({ client_id: CLIENT_ID }),
               signal: AbortSignal.timeout(OAUTH_HTTP_TIMEOUT_MS),
@@ -787,7 +787,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
 
             // Fetch the Atlas session once at authorize time so the polling
             // callback closure can reuse it without a repeated async call.
-            const session = await OpenScience.getSession?.()
+            const session = await Griffin.getSession?.()
             const thkToken = session?.api_key
 
             return {
@@ -805,7 +805,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
                       method: "POST",
                       headers: {
                         "Content-Type": "application/json",
-                        "User-Agent": `openscience/${Installation.VERSION}`,
+                        "User-Agent": `griffin/${Installation.VERSION}`,
                       },
                       body: JSON.stringify({
                         device_auth_id: deviceData.device_auth_id,
@@ -859,7 +859,7 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
                           ? (parseJwtClaims(tokens.id_token) as Record<string, unknown> | undefined)
                           : undefined,
                       })
-                      await OpenScience.syncServices?.().catch((e: unknown) => {
+                      await Griffin.syncServices?.().catch((e: unknown) => {
                         log.warn("post-codex-login sync failed", { error: String(e) })
                       })
                     }
@@ -899,9 +899,9 @@ export async function CodexAuthPlugin(input: PluginInput): Promise<Hooks> {
     },
     "chat.headers": async (input, output) => {
       if (input.model.providerID !== "openai-codex") return
-      output.headers.originator = "synsci"
+      output.headers.originator = "griffin"
       output.headers["User-Agent"] =
-        `openscience/${Installation.VERSION} (${os.platform()} ${os.release()}; ${os.arch()})`
+        `griffin/${Installation.VERSION} (${os.platform()} ${os.release()}; ${os.arch()})`
       output.headers.session_id = input.sessionID
     },
   }

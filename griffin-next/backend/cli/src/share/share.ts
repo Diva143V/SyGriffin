@@ -68,8 +68,8 @@ export namespace Share {
 
   // Default to the managed base — a neutral public host resolved (and
   // overridable) through src/endpoints.ts. Never ship a hardcoded *.dev.*
-  // host in the public build; OPENSCIENCE_API still wins for explicit overrides.
-  export const URL = process.env["OPENSCIENCE_API"] ?? MANAGED_API_BASE
+  // host in the public build; GRIFFIN_API still wins for explicit overrides.
+  export const URL = process.env["GRIFFIN_API"] ?? MANAGED_API_BASE
 
   const disabled = true
 

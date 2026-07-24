@@ -2,10 +2,10 @@ export * from "./gen/types.gen.js"
 
 import { createClient } from "./gen/client/client.gen.js"
 import { type Config } from "./gen/client/types.gen.js"
-import { OpenScienceClient } from "./gen/sdk.gen.js"
-export { type Config as OpenScienceClientConfig, OpenScienceClient }
+import { GriffinClient } from "./gen/sdk.gen.js"
+export { type Config as GriffinClientConfig, GriffinClient }
 
-export function createOpenScienceClient(config?: Config & { directory?: string }) {
+export function createGriffinClient(config?: Config & { directory?: string }) {
   if (!config?.fetch) {
     const customFetch: any = (req: any) => {
       // @ts-ignore
@@ -21,10 +21,10 @@ export function createOpenScienceClient(config?: Config & { directory?: string }
   if (config?.directory) {
     config.headers = {
       ...config.headers,
-      "x-openscience-directory": config.directory,
+      "x-griffin-directory": config.directory,
     }
   }
 
   const client = createClient(config)
-  return new OpenScienceClient({ client })
+  return new GriffinClient({ client })
 }

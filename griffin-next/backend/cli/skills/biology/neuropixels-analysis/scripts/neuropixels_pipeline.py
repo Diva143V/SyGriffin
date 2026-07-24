@@ -9,7 +9,7 @@ Usage:
 
 References:
     - https://spikeinterface.readthedocs.io/en/stable/how_to/analyze_neuropixels.html
-    - https://github.com/AllenInstitute/ecephys_spike_sorting
+    - 
 """
 
 import argparse

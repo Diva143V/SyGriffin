@@ -480,8 +480,8 @@ def debug_environment():
 ## Getting Help
 
 1. **Documentation**: https://modal.com/docs
-2. **Examples**: https://github.com/modal-labs/modal-examples
-3. **Discord**: https://discord.gg/modal
+2. **Examples**: 
+3. **Discord**: 
 4. **Status**: https://status.modal.com
 
 ### Reporting Issues

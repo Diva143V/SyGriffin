@@ -86,14 +86,14 @@ response = client.chat.completions.create(
 
 ## Credential Setup
 
-Credentials are auto-injected by openscience when connected via the dashboard.
+Credentials are auto-injected by griffin when connected via the dashboard.
 
 ```bash
 # Verify credentials
 [ -n "$LANGSMITH_API_KEY" ] && echo "LANGSMITH_API_KEY set" || echo "NOT SET"
 ```
 
-If not set: connect LangSmith at https://app.syntheticsciences.ai -> Services, then restart openscience.
+If not set: connect LangSmith at https://app.syntheticsciences.ai -> Services, then restart griffin.
 
 ## Core concepts
 
@@ -429,7 +429,7 @@ def my_function(data):
 ## Resources
 
 - **Documentation**: https://docs.smith.langchain.com
-- **Python SDK**: https://github.com/langchain-ai/langsmith-sdk
+- **Python SDK**: 
 - **Web App**: https://smith.langchain.com
 - **Version**: 0.2.0+
 - **License**: MIT

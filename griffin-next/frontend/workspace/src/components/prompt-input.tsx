@@ -1,4 +1,4 @@
-import { useFilteredList } from "@synsci/ui/hooks"
+import { useFilteredList } from "@griffin/ui/hooks"
 import {
   createEffect,
   on,
@@ -31,17 +31,17 @@ import { useSDK } from "@/context/sdk"
 import { useNavigate, useParams } from "@solidjs/router"
 import { useSync } from "@/context/sync"
 import { useComments } from "@/context/comments"
-import { FileIcon } from "@synsci/ui/file-icon"
-import { Button } from "@synsci/ui/button"
-import { Icon } from "@synsci/ui/icon"
-import { ProviderIcon } from "@synsci/ui/provider-icon"
-import type { IconName } from "@synsci/ui/icons/provider"
-import { Tooltip, TooltipKeybind } from "@synsci/ui/tooltip"
-import { IconButton } from "@synsci/ui/icon-button"
-import { Select } from "@synsci/ui/select"
-import { getDirectory, getFilename, getFilenameTruncated } from "@synsci/util/path"
-import { useDialog } from "@synsci/ui/context/dialog"
-import { ImagePreview } from "@synsci/ui/image-preview"
+import { FileIcon } from "@griffin/ui/file-icon"
+import { Button } from "@griffin/ui/button"
+import { Icon } from "@griffin/ui/icon"
+import { ProviderIcon } from "@griffin/ui/provider-icon"
+import type { IconName } from "@griffin/ui/icons/provider"
+import { Tooltip, TooltipKeybind } from "@griffin/ui/tooltip"
+import { IconButton } from "@griffin/ui/icon-button"
+import { Select } from "@griffin/ui/select"
+import { getDirectory, getFilename, getFilenameTruncated } from "@griffin/util/path"
+import { useDialog } from "@griffin/ui/context/dialog"
+import { ImagePreview } from "@griffin/ui/image-preview"
 import { ModelSelectorPopover } from "@/components/dialog-select-model"
 import { DialogSelectModelUnpaid } from "@/components/dialog-select-model-unpaid"
 import { useProviders } from "@/hooks/use-providers"
@@ -54,10 +54,10 @@ import { usePermission } from "@/context/permission"
 import { useLanguage } from "@/context/language"
 import { useGlobalSync } from "@/context/global-sync"
 import { usePlatform } from "@/context/platform"
-import { createOpenScienceClient, type Message, type Part } from "@synsci/sdk/v2/client"
-import { Binary } from "@synsci/util/binary"
-import { showToast } from "@synsci/ui/toast"
-import { base64Encode } from "@synsci/util/encode"
+import { createGriffinClient, type Message, type Part } from "@griffin/sdk/v2/client"
+import { Binary } from "@griffin/util/binary"
+import { showToast } from "@griffin/ui/toast"
+import { base64Encode } from "@griffin/util/encode"
 
 const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/gif", "image/webp"]
 const ACCEPTED_TEXT_TYPES = ["text/markdown", "text/plain"]
@@ -1228,7 +1228,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       }
 
       if (sessionDirectory !== projectDirectory) {
-        client = createOpenScienceClient({
+        client = createGriffinClient({
           baseUrl: sdk.url,
           fetch: platform.fetch,
           directory: sessionDirectory,

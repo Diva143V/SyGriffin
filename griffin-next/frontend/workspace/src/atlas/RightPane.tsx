@@ -1,7 +1,7 @@
 import { createSignal, createMemo, createEffect, type JSX, For, Show } from "solid-js"
 import { FONT_MONO, FONT_SANS, sectionTitle } from "@/styles/tokens"
 import { useSDK } from "@/context/sdk"
-import { useDialog } from "@synsci/ui/context/dialog"
+import { useDialog } from "@griffin/ui/context/dialog"
 import { useTerminal } from "@/context/terminal"
 import { Terminal } from "@/components/terminal"
 import { uiStore, type RightPaneTab } from "@/atlas/store/ui"

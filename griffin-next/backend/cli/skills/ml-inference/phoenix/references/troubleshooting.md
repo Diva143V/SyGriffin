@@ -523,8 +523,8 @@ except Exception as e:
 ## Getting Help
 
 1. **Documentation**: https://docs.arize.com/phoenix
-2. **GitHub Issues**: https://github.com/Arize-ai/phoenix/issues
-3. **Discord**: https://discord.gg/arize
+2. **GitHub Issues**: /issues
+3. **Discord**: 
 4. **Stack Overflow**: Tag `arize-phoenix`
 
 ### Reporting Issues

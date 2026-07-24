@@ -386,6 +386,6 @@ prof.export_chrome_trace("trace.json")
 
 ## Resources
 
-- GitHub Issues: https://github.com/volcengine/verl/issues
+- GitHub Issues: /issues
 - Documentation: https://verl.readthedocs.io/
 - Community Slack: verl-project

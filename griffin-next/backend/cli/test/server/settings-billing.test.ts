@@ -4,7 +4,7 @@ import fs from "fs/promises"
 import { Global } from "../../src/global"
 import { BillingSettingsRoutes } from "../../src/server/routes/settings/billing"
 
-const file = path.join(Global.Path.config, "openscience.json")
+const file = path.join(Global.Path.config, "griffin.json")
 
 afterEach(async () => {
   await fs.rm(file, { force: true }).catch(() => {})

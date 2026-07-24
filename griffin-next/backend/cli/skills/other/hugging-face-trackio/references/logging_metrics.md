@@ -2,7 +2,7 @@
 
 **Trackio** is a lightweight, free experiment tracking library from Hugging Face. It provides a wandb-compatible API for logging metrics with local-first design.
 
-- **GitHub**: [gradio-app/trackio](https://github.com/gradio-app/trackio)
+- **GitHub**: [gradio-app/trackio]()
 - **Docs**: [huggingface.co/docs/trackio](https://huggingface.co/docs/trackio/index)
 
 ## Installation

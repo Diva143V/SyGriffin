@@ -50,7 +50,7 @@ export class McpOAuthProvider implements OAuthClientProvider {
   get clientMetadata(): OAuthClientMetadata {
     return {
       redirect_uris: [this.redirectUrl],
-      client_name: "OpenScience",
+      client_name: "Griffin",
       client_uri: "https://syntheticsciences.ai",
       grant_types: ["authorization_code", "refresh_token"],
       response_types: ["code"],
@@ -141,7 +141,7 @@ export class McpOAuthProvider implements OAuthClientProvider {
   }
 
   /** Refresh with cross-process recovery. The single-flight guard only
-   *  covers this process; when another openscience process wins a refresh
+   *  covers this process; when another griffin process wins a refresh
    *  race against a rotating-refresh server, it has already persisted the
    *  rotated pair. Re-read the store before surfacing re-auth, and retry
    *  once with the rotated token. */

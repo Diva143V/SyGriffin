@@ -79,7 +79,7 @@ When this skill is loaded in your agent's context:
 
 - [TRL Documentation](https://huggingface.co/docs/trl)
 - [DeepSeek R1 Paper](https://arxiv.org/abs/2501.12948)
-- [Open R1 Implementation](https://github.com/huggingface/open-r1)
+- [Open R1 Implementation]()
 - [Unsloth (2-3x faster)](https://docs.unsloth.ai/)
 
 ## 📝 Version
