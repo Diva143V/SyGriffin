@@ -10,7 +10,19 @@ import { DatabaseMode } from "../../../src/storage/db/mode"
  * A unit test of a tool's `execute` does not catch that — only asking the
  * registry what it actually offers does.
  */
-const DB_TOOLS = ["graph_search", "graph_neighbors", "graph_lineage", "kb_assert", "kb_entity", "kb_vocabulary_propose"]
+const DB_TOOLS = [
+  "graph_search",
+  "graph_neighbors",
+  "graph_lineage",
+  "graph_link",
+  "graph_explore_relations",
+  "graph_expand",
+  "graph_evidence",
+  "graph_reason",
+  "kb_assert",
+  "kb_entity",
+  "kb_vocabulary_propose",
+]
 
 afterEach(() => {
   delete process.env["GRIFFIN_DB"]

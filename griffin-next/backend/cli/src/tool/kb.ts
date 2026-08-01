@@ -3,6 +3,7 @@ import { Tool } from "./tool"
 import { DatabaseClient } from "../storage/db/client"
 import { GraphStore } from "../storage/db/graph/store"
 import { Vocabulary } from "../storage/db/graph/vocabulary"
+import { EntityResolver } from "../storage/db/graph/resolve"
 import { Hash } from "../storage/db/hash"
 
 export const KbAssertTool = Tool.define("kb_assert", {
@@ -58,33 +59,53 @@ export const KbAssertTool = Tool.define("kb_assert", {
 })
 
 export const KbEntityTool = Tool.define("kb_entity", {
-  description: "Create or resolve a biological entity node in the KB against an accession and authority.",
+  description: [
+    "Resolve a biological entity to a canonical identity and record it in the knowledge base.",
+    "The accession is VERIFIED against the source database (Ensembl, UniProt, ChEBI, PubMed, ...) before",
+    "the entity is trusted. Give the accession if you know it, otherwise give the name and let it resolve.",
+    "An entity that cannot be verified is still recorded, but stays unreviewed and out of default scope.",
+  ].join("\n"),
   parameters: z.object({
-    name: z.string().describe("Canonical name of the entity"),
-    authority: z.string().describe("Accession namespace e.g. 'hgnc' | 'uniprot' | 'chebi' | 'ensembl'"),
-    accession: z.string().describe("Accession ID in authority namespace e.g. 'ENSG00000141510'"),
-    subtype: z.string().optional().default("gene").describe("Entity subtype e.g. 'gene' | 'protein' | 'compound'"),
+    name: z.string().describe("Name or symbol of the entity, e.g. 'TP53'"),
+    authority: z
+      .string()
+      .describe(`Accession namespace. One of: ${EntityResolver.authorities().join(", ")}`),
+    accession: z
+      .string()
+      .optional()
+      .describe("Accession in that namespace if known, e.g. 'ENSG00000141510'. Omit to resolve by name."),
+    subtype: z.string().optional().describe("Entity subtype; inferred from the authority when omitted"),
   }),
-  async execute(params) {
+  async execute(params, ctx) {
     const handle = DatabaseClient.writer()
-    const nodeId = `ent:${params.authority.toLowerCase()}:${params.accession}`
 
-    GraphStore.recordNode(handle, {
-      id: nodeId,
-      kind: "entity",
+    // Resolve rather than trust. Recording an unverified accession as
+    // `accepted` puts it in default query scope looking authoritative, which
+    // is the exact failure the trust columns exist to prevent — a wrong
+    // identity silently merges two different things for every later query.
+    const res = await EntityResolver.resolveAndRecord(handle, {
+      authority: params.authority,
+      query: params.accession ?? params.name,
+      name: params.name,
       subtype: params.subtype,
-      label: params.name,
-      recorded_at: Date.now(),
-      authority: params.authority.toLowerCase(),
-      accession: params.accession,
-      origin: "agent",
-      review_state: "accepted",
+      signal: ctx.abort,
     })
 
+    const explain: Record<EntityResolver.Status, string> = {
+      resolved: `Verified against ${params.authority} and accepted.`,
+      "no-match": `${params.authority} returned no exact match. Recorded as unreviewed — check the spelling or the namespace.`,
+      unavailable: `Could not reach ${params.authority}. Recorded as unreviewed and queued for retry; absence is NOT confirmed.`,
+      "unknown-authority": `Unknown authority "${params.authority}". Recorded as unreviewed. Known authorities: ${EntityResolver.authorities().join(", ")}.`,
+    }
+
     return {
-      title: `Entity ${nodeId}`,
-      output: `Resolved entity node ${nodeId} (${params.name}) under ${params.authority}:${params.accession}.`,
-      metadata: { id: nodeId, authority: params.authority, accession: params.accession },
+      title: `Entity ${res.nodeId}`,
+      output: [
+        `**${params.name}** → \`${res.nodeId}\``,
+        res.accession ? `accession: ${params.authority}:${res.accession}` : "accession: none",
+        explain[res.status],
+      ].join("\n"),
+      metadata: { id: res.nodeId, status: res.status, accession: res.accession },
     }
   },
 })

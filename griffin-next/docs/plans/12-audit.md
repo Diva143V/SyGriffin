@@ -258,6 +258,30 @@ Four, none of which were visible from reading the code:
    pollution read as drift. Both now take `{dataDir, handle}`, which is also
    what makes `--data-dir` work for the CI fixture.
 
+### Found later, while writing the manual test guide
+
+Two more, both surfaced only by running the flow end to end rather than by
+reading code or running the suite:
+
+5. **`graph_lineage` answered the reproducibility question with nothing.**
+   `produced` and `consumed` both point `run → artifact`, and `derived-from`
+   points from the derived thing to its source — so no single traversal
+   direction expresses data flow. `direction: "ancestors"`, the default, walked
+   `from_id → to_id`, which on an output artifact (no outgoing edges) returned
+   only the artifact itself. "What produced this figure" — *the* query the
+   lineage DAG exists for — was empty. `lineage()` now re-orients edges into a
+   `flow(src, dst)` relation before traversing, and excludes `part-of`
+   entirely: it is containment, not derivation, and treating it as a hop pulled
+   in every sibling artifact through the shared parent message (a 2-node answer
+   became 9). Six regression tests in `lineage.test.ts`.
+6. **Rebuild determinism was never actually asserted.** `rebuild.test.ts`
+   checked that agent nodes survive, not that the derived graph is reproducible,
+   so criterion 5 was unverified. It is in fact deterministic — but only if
+   `derived_at` is excluded, since that column is a wall-clock watermark for
+   *when* derivation ran rather than graph content. The test now pins the exact
+   content-column set, and additionally asserts that `derived_at` *does* change,
+   so the exclusion cannot quietly widen until the test means nothing.
+
 ### Not addressed
 
 - The 34 pre-existing suite failures (Windows path/symlink/unicode in `patch`,

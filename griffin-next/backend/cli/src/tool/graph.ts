@@ -2,6 +2,8 @@ import z from "zod"
 import { Tool } from "./tool"
 import { DatabaseClient } from "../storage/db/client"
 import { GraphQuery } from "../storage/db/graph/query"
+import { GraphReasoningTools } from "./graph-reason"
+import { GraphReasonTool } from "./graph-reason-tool"
 
 export const GraphSearchTool = Tool.define("graph_search", {
   description: [
@@ -131,4 +133,7 @@ export const GraphLineageTool = Tool.define("graph_lineage", {
   },
 })
 
-export const GraphTools = [GraphSearchTool, GraphNeighborsTool, GraphLineageTool]
+/** Stateless retrieval. The Think-on-Graph loop lives in `graph-reason.ts`. */
+export const GraphRetrievalTools = [GraphSearchTool, GraphNeighborsTool, GraphLineageTool]
+
+export const GraphTools = [...GraphRetrievalTools, ...GraphReasoningTools, GraphReasonTool]

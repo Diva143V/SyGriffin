@@ -90,21 +90,51 @@ export namespace GraphStore {
       )
   }
 
+  /**
+   * Drop and re-derive the system-origin graph, preserving everything the
+   * agent or a user asserted.
+   *
+   * Foreign keys are DEFERRED for the duration.
+   *
+   * The wipe-then-rederive sequence passes through a transiently inconsistent
+   * state: an agent claim's `source_node_id` legitimately points at a
+   * system-observed source (that is the whole design — claims cite observed
+   * evidence), so deleting system nodes trips the constraint mid-transaction
+   * even though the node is about to be recreated. Deferring moves the check
+   * to COMMIT, where the state is whole again.
+   *
+   * If a referenced node genuinely does not come back — its underlying message
+   * was deleted, say — the commit fails rather than silently orphaning a
+   * claim's provenance. That is the right trade: a claim whose evidence
+   * vanished is a problem to surface, not to paper over.
+   */
   export function rebuild(handle: DatabaseClient.Handle): { systemNodes: number; systemEdges: number } {
     let systemNodes = 0
     let systemEdges = 0
 
-    handle.tx(() => {
-      // Delete system edges and system nodes
-      handle.stmt(`DELETE FROM edge WHERE origin = 'system'`).run()
-      handle.stmt(`DELETE FROM node WHERE origin = 'system'`).run()
+    try {
+      handle.tx(() => {
+        handle.db.exec(`PRAGMA defer_foreign_keys = ON`)
 
-      // Re-derive workspace system events
-      Derive.deriveAll(handle)
+        handle.stmt(`DELETE FROM edge WHERE origin = 'system'`).run()
+        handle.stmt(`DELETE FROM node WHERE origin = 'system'`).run()
 
-      systemNodes = (handle.stmt(`SELECT count(*) as n FROM node WHERE origin = 'system'`).get() as any)?.n ?? 0
-      systemEdges = (handle.stmt(`SELECT count(*) as n FROM edge WHERE origin = 'system'`).get() as any)?.n ?? 0
-    })
+        Derive.deriveAll(handle)
+
+        systemNodes = (handle.stmt(`SELECT count(*) as n FROM node WHERE origin = 'system'`).get() as any)?.n ?? 0
+        systemEdges = (handle.stmt(`SELECT count(*) as n FROM edge WHERE origin = 'system'`).get() as any)?.n ?? 0
+      })
+    } catch (e) {
+      if (String(e).includes("FOREIGN KEY")) {
+        throw new Error(
+          "rebuild aborted: an agent- or user-origin node references a system node that no longer derives " +
+            "(likely its source message was deleted). Nothing was changed. " +
+            "Inspect with: SELECT id, source_node_id FROM node WHERE origin != 'system' AND source_node_id IS NOT NULL",
+          { cause: e },
+        )
+      }
+      throw e
+    }
 
     log.info("rebuild completed", { systemNodes, systemEdges })
     return { systemNodes, systemEdges }

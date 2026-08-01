@@ -14,49 +14,60 @@ export namespace GraphQuery {
     edges: any[]
   }
 
+  /**
+   * Edges re-oriented as data flow: `src` produced or informed `dst`.
+   *
+   * Raw edge direction cannot be traversed uniformly, because the relations do
+   * not agree on what "forward" means:
+   *
+   *   run --produced-->     artifact    data flows run -> artifact
+   *   run --consumed-->     artifact    data flows artifact -> run  (INVERTED)
+   *   x   --derived-from--> y           data flows y -> x           (INVERTED)
+   *
+   * Walking `from_id -> to_id` for all three — which is what "ancestors" used
+   * to do — answers no real question. On an output artifact it returned only
+   * the artifact itself, because an output has no outgoing edges. "What
+   * produced this figure" is *the* reproducibility query, and it was returning
+   * nothing by default.
+   *
+   * `part-of` is deliberately excluded: it is containment, not derivation.
+   * Including it made a two-hop lineage query drag in the whole project
+   * (session, sibling messages, every unrelated artifact) via shared parents.
+   * Containment is what `neighbors()` is for.
+   */
+  const FLOW = /* sql */ `
+    SELECT from_id AS src, to_id AS dst FROM edge WHERE relation = 'produced'      AND revoked_at IS NULL
+    UNION ALL
+    SELECT to_id   AS src, from_id AS dst FROM edge WHERE relation = 'consumed'    AND revoked_at IS NULL
+    UNION ALL
+    SELECT to_id   AS src, from_id AS dst FROM edge WHERE relation = 'derived-from' AND revoked_at IS NULL
+  `
+
   export function lineage(handle: DatabaseClient.Handle, opts: LineageOptions): LineageResult {
     const direction = opts.direction ?? "ancestors"
     const maxDepth = opts.maxDepth ?? 6
     const limit = opts.limit ?? 500
 
-    let nodeSql = ""
-    if (direction === "ancestors") {
-      nodeSql = /* sql */ `
-        WITH RECURSIVE anc(id, depth) AS (
+    // ancestors: walk flow backwards (what fed into this).
+    // descendants: walk it forwards (what this went on to feed).
+    const step =
+      direction === "ancestors"
+        ? `SELECT f.src, w.depth + 1 FROM flow f JOIN walk w ON f.dst = w.id`
+        : direction === "descendants"
+          ? `SELECT f.dst, w.depth + 1 FROM flow f JOIN walk w ON f.src = w.id`
+          : `SELECT CASE WHEN f.src = w.id THEN f.dst ELSE f.src END, w.depth + 1
+             FROM flow f JOIN walk w ON (f.src = w.id OR f.dst = w.id)`
+
+    const nodeSql = /* sql */ `
+      WITH RECURSIVE
+        flow(src, dst) AS (${FLOW}),
+        walk(id, depth) AS (
           SELECT ?, 0
-          UNION ALL
-          SELECT e.to_id, a.depth + 1
-          FROM edge e
-          JOIN anc a ON e.from_id = a.id
-          WHERE a.depth < ? AND e.revoked_at IS NULL
+          UNION
+          ${step} WHERE w.depth < ?
         )
-        SELECT DISTINCT n.* FROM node n JOIN anc a ON n.id = a.id LIMIT ?
-      `
-    } else if (direction === "descendants") {
-      nodeSql = /* sql */ `
-        WITH RECURSIVE desc(id, depth) AS (
-          SELECT ?, 0
-          UNION ALL
-          SELECT e.from_id, d.depth + 1
-          FROM edge e
-          JOIN desc d ON e.to_id = d.id
-          WHERE d.depth < ? AND e.revoked_at IS NULL
-        )
-        SELECT DISTINCT n.* FROM node n JOIN desc d ON n.id = d.id LIMIT ?
-      `
-    } else {
-      nodeSql = /* sql */ `
-        WITH RECURSIVE comp(id, depth) AS (
-          SELECT ?, 0
-          UNION ALL
-          SELECT CASE WHEN e.from_id = c.id THEN e.to_id ELSE e.from_id END, c.depth + 1
-          FROM edge e
-          JOIN comp c ON (e.from_id = c.id OR e.to_id = c.id)
-          WHERE c.depth < ? AND e.revoked_at IS NULL
-        )
-        SELECT DISTINCT n.* FROM node n JOIN comp c ON n.id = c.id LIMIT ?
-      `
-    }
+      SELECT DISTINCT n.* FROM node n JOIN walk w ON n.id = w.id LIMIT ?
+    `
 
     const nodes = handle.stmt(nodeSql).all(opts.nodeId, maxDepth, limit) as any[]
     if (nodes.length === 0) return { nodes: [], edges: [] }

@@ -103,6 +103,14 @@ export namespace Derive {
             )
             .run(runNodeId, msgNodeId, partTime)
 
+          // KB nodes from a connector search.
+          //
+          // `science_search` records these live, but they must also be
+          // re-derivable so `db rebuild` does not silently drop the entire
+          // knowledge base. The accessions are persisted in the tool part's
+          // metadata precisely so this can run offline.
+          deriveKbMentions(handle, partVal, msgNodeId, partTime)
+
           // Tool input paths allowlist
           if (partVal.state?.input && typeof partVal.state.input === "object") {
             for (const [k, v] of Object.entries(partVal.state.input)) {
@@ -186,6 +194,54 @@ export namespace Derive {
         }
       }
     })
+  }
+
+  /**
+   * Re-create `source`/`entity` nodes and their `mentions` edges from a stored
+   * `science_search` tool part.
+   *
+   * Reads only the persisted metadata — no network. Nodes recorded here keep
+   * `origin='system'`: the accession came from the authority, so the identity
+   * is observed rather than asserted, and `db rebuild` is allowed to recreate
+   * it. Anything the *model* asserted (`kb_assert`, `kb_entity` fallbacks)
+   * carries `origin='agent'` and is preserved by rebuild rather than derived.
+   */
+  function deriveKbMentions(
+    handle: DatabaseClient.Handle,
+    partVal: any,
+    msgNodeId: string,
+    at: number,
+  ): void {
+    const meta = partVal?.state?.metadata
+    if (!meta || typeof meta !== "object") return
+    const nodes: unknown = meta.kb_nodes
+    if (!Array.isArray(nodes) || nodes.length === 0) return
+
+    const label = typeof meta.db === "string" ? meta.db : "source"
+    for (const raw of nodes) {
+      const nodeId = String(raw ?? "").trim()
+      // ids are `src:<authority>:<accession>` or `ent:<authority>:<accession>`
+      const parts = nodeId.split(":")
+      if (parts.length < 3) continue
+      const [prefix, authority, ...rest] = parts
+      const accession = rest.join(":")
+      if (prefix !== "src" && prefix !== "ent") continue
+
+      handle
+        .stmt(
+          `INSERT INTO node (id, kind, label, recorded_at, authority, accession, origin, review_state)
+           VALUES (?, ?, ?, ?, ?, ?, 'system', 'accepted') ON CONFLICT(id) DO NOTHING`,
+        )
+        .run(nodeId, prefix === "src" ? "source" : "entity", accession || nodeId, at, authority, accession)
+
+      handle
+        .stmt(
+          `INSERT INTO edge (from_id, to_id, relation, origin, created_at, meta)
+           VALUES (?, ?, 'mentions', 'system', ?, ?)
+           ON CONFLICT(from_id, to_id, relation) WHERE revoked_at IS NULL DO NOTHING`,
+        )
+        .run(msgNodeId, nodeId, at, JSON.stringify({ connector: label }))
+    }
   }
 
   export function deriveAll(handle: DatabaseClient.Handle): void {
