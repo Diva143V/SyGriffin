@@ -126,7 +126,37 @@ export const StorageRoutes = lazy(() =>
         if (existing && existing.length > 0) return c.json({ error: "Target directory is not empty" }, 400)
 
         await fs.mkdir(target, { recursive: true })
-        await fs.cp(source, target, { recursive: true, errorOnExist: false, force: true })
+        const dbPath = path.join(source, "griffin.db")
+        const targetDbPath = path.join(target, "griffin.db")
+        const dbExists = await fs.stat(dbPath).then(() => true).catch(() => false)
+        if (dbExists) {
+          // VACUUM INTO writes a consistent snapshot in one operation and skips
+          // the WAL entirely. A plain file copy cannot be used here, not even
+          // as a fallback: the database is open, so `griffin.db` alone omits
+          // whatever is still in `-wal`, and copying the WAL set separately
+          // races the writer. A torn database that looks like a successful
+          // relocation is worse than a relocation that refused to run.
+          try {
+            const { DatabaseClient } = await import("@/storage/db/client")
+            DatabaseClient.reader().db.query(`VACUUM INTO ?`).run(targetDbPath)
+          } catch (e) {
+            await fs.rm(targetDbPath, { force: true }).catch(() => {})
+            return c.json(
+              { error: `Could not snapshot the database to the new location: ${e}. Nothing was moved.` },
+              500,
+            )
+          }
+        }
+        await fs.cp(source, target, {
+          recursive: true,
+          errorOnExist: false,
+          force: true,
+          filter: (srcPath) => {
+            const base = path.basename(srcPath)
+            return !base.startsWith("griffin.db")
+          },
+        })
+        await Bun.write(path.join(source, ".relocated"), target)
         await Bun.write(pointerPath, target, { mode: 0o600 })
         return c.json({ ok: true, target, restart_required: true })
       },
