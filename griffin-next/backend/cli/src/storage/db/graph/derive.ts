@@ -20,6 +20,45 @@ export namespace Derive {
     return "art:" + Hash.sha256Hex(norm).slice(0, 16)
   }
 
+  /** Characters of message text sampled into a node label. */
+  const SNIPPET_CHARS = 60
+
+  /**
+   * A short, human-readable sample of what a message said.
+   *
+   * Truncates by code point, not UTF-16 unit: `"🧬".slice(0, 60)` can cut a
+   * surrogate pair in half, and the result lands in the graph label, the
+   * Obsidian note title, and therefore a filename.
+   */
+  function messageSnippet(handle: DatabaseClient.Handle, messageId: string): string {
+    const rows = handle
+      .stmt(
+        `SELECT type, json FROM part
+          WHERE message_id = ? AND type IN ('text','reasoning')
+          ORDER BY CASE type WHEN 'text' THEN 0 ELSE 1 END, created_at
+          LIMIT 4`,
+      )
+      .all(messageId) as { type: string; json: string }[]
+
+    for (const row of rows) {
+      let text = ""
+      try {
+        const parsed = JSON.parse(row.json || "{}")
+        text = String(parsed.text ?? parsed.content ?? "")
+      } catch {
+        continue
+      }
+      const clean = text.replace(/\s+/g, " ").trim()
+      if (!clean) continue
+      const points = [...clean]
+      const snippet = points.length > SNIPPET_CHARS ? `${points.slice(0, SNIPPET_CHARS).join("")}…` : clean
+      // Reasoning is a fallback, so mark it — otherwise a label reads as
+      // something the user was shown when it never left the model's head.
+      return row.type === "reasoning" ? `(reasoning) ${snippet}` : snippet
+    }
+    return ""
+  }
+
   export function deriveFromMessage(handle: DatabaseClient.Handle, messageId: string): void {
     const msgRow = handle
       .stmt(`SELECT id, session_id, role, agent, model, created_at, json FROM message WHERE id = ?`)
@@ -62,13 +101,24 @@ export namespace Derive {
         .run(sesNodeId, prjNodeId, recordedAt)
 
       // 3. Message node + edge
+      //
+      // The label carries a snippet of what was actually said, which is what
+      // makes the graph readable instead of a wall of ids. Prefer visible text;
+      // fall back to reasoning, because an assistant turn can be almost all
+      // reasoning with a one-word reply, and `message assistant msg_01H…` tells
+      // a reader nothing.
+      const snippet = messageSnippet(handle, messageId)
+      const labelText = snippet
+        ? `${msgRow.role ?? "message"}: ${snippet}`
+        : `${msgRow.role ?? "message"} ${msgRow.id}`
+
       handle
         .stmt(
           `INSERT INTO node (id, kind, label, recorded_at, entity_type, entity_id, origin, review_state, derived_at) ` +
             `VALUES (?, 'message', ?, ?, 'message', ?, 'system', 'accepted', ?) ` +
-            `ON CONFLICT(id) DO UPDATE SET derived_at = excluded.derived_at`,
+            `ON CONFLICT(id) DO UPDATE SET label = excluded.label, derived_at = excluded.derived_at`,
         )
-        .run(msgNodeId, `${msgRow.role ?? "message"} ${msgRow.id}`, recordedAt, msgRow.id, Date.now())
+        .run(msgNodeId, labelText, recordedAt, msgRow.id, Date.now())
 
       handle
         .stmt(

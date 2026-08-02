@@ -30,21 +30,166 @@ describe("normalize", () => {
     expect(Vocabulary.normalize("  Gene Expression  ")).toBe("gene-expression")
   })
 
-  test("does not strip a trailing s from short or double-s words", () => {
+  test("splits camelCase, which models emit constantly", () => {
+    expect(Vocabulary.normalize("expressedIn")).toBe("expressed-in")
+    expect(Vocabulary.normalize("isPartOf")).toBe("is-part-of")
+  })
+
+  test("handles real English plural forms", () => {
+    // A naive trailing-s strip produces `suppresse` and `entitie`, which then
+    // become permanent vocabulary entries.
+    expect(Vocabulary.normalize("suppresses")).toBe("suppress")
+    expect(Vocabulary.normalize("entities")).toBe("entity")
+    expect(Vocabulary.normalize("boxes")).toBe("box")
+    expect(Vocabulary.normalize("matches")).toBe("match")
+  })
+
+  test("does not strip a trailing s from words that are not plural", () => {
     expect(Vocabulary.normalize("mass")).toBe("mass")
     expect(Vocabulary.normalize("gas")).toBe("gas")
+    expect(Vocabulary.normalize("status")).toBe("status")
+    expect(Vocabulary.normalize("bus")).toBe("bus")
+  })
+})
+
+describe("governed relations", () => {
+  test("seeded relation names survive verbatim", async () => {
+    // Singularizing turns `same-as` into `same-a` and `supports` into
+    // `support`, so a governor that always singularized would mangle its own
+    // seeded names into new proposed relations — causing the exact drift it
+    // exists to prevent. An exact existing spelling must always win.
+    const h = await db()
+    for (const name of ["same-as", "supports", "refutes", "mentions", "derived-from"]) {
+      const res = Vocabulary.resolveRelation(h, name)
+      expect(res.name).toBe(name)
+      expect(res.status).toBe("core")
+    }
+    h.close()
+  })
+
+  test("lineage relations are refused, however they are spelled", async () => {
+    // Asserting `produced` would fabricate provenance, and it would sit in
+    // graph_lineage output looking exactly like an observed edge.
+    const h = await db()
+    for (const name of ["produced", "Produced", "part of", "consumes", "PART_OF"]) {
+      expect(Vocabulary.resolveRelation(h, name).reserved).toBeTrue()
+    }
+    h.close()
+  })
+
+  test("a genuinely new relation is minted as proposed and is usable at once", async () => {
+    const h = await db()
+    const res = Vocabulary.resolveRelation(h, "inhibits", "A inhibits B")
+
+    expect(res.name).toBe("inhibit")
+    expect(res.status).toBe("proposed")
+    expect(res.reused).toBeFalse()
+    h.close()
+  })
+
+  test("spelling variants of a new relation collapse to one term", async () => {
+    const h = await db()
+    for (const variant of ["inhibits", "Inhibits", "inhibit", "inhibts", "INHIBIT_S"]) {
+      expect(Vocabulary.resolveRelation(h, variant).name).toBe("inhibit")
+    }
+    const rows = h.db
+      .query("SELECT name, usage_count FROM vocabulary WHERE kind = ? AND status = 'proposed'")
+      .all(Vocabulary.RELATION) as any[]
+    // Minting sets the count to 1; the four reuses each increment it.
+    expect(rows).toEqual([{ name: "inhibit", usage_count: 5 }])
+    h.close()
+  })
+
+  test("genuinely different relations are NOT merged", async () => {
+    const h = await db()
+    Vocabulary.resolveRelation(h, "inhibits")
+    expect(Vocabulary.resolveRelation(h, "activates").name).toBe("activate")
+    expect(Vocabulary.resolveRelation(h, "binds-to").name).toBe("binds-to")
+    h.close()
+  })
+
+  test("short terms are never fuzzy-merged", async () => {
+    // `gene` and `gone` differ by one character. Merging at that length would
+    // be worse than the duplication it prevents.
+    const h = await db()
+    Vocabulary.resolveRelation(h, "cite")
+    expect(Vocabulary.resolveRelation(h, "site").name).toBe("site")
+    h.close()
+  })
+})
+
+describe("governed node kinds", () => {
+  test("a new kind is accepted as proposed", async () => {
+    const h = await db()
+    const res = Vocabulary.resolveNodeKind(h, "cohort", "A study cohort")
+    expect(res.name).toBe("cohort")
+    expect(res.status).toBe("proposed")
+    h.close()
+  })
+
+  test("variants reuse the seeded kind rather than forking it", async () => {
+    const h = await db()
+    expect(Vocabulary.resolveNodeKind(h, "Entities").name).toBe("entity")
+    expect(Vocabulary.resolveNodeKind(h, "Sources").name).toBe("source")
+    h.close()
+  })
+
+  test("kinds and relations live in separate namespaces", async () => {
+    // Both are stored in `vocabulary`; a relation named `entity` must not
+    // collide with the node kind of that name.
+    const h = await db()
+    Vocabulary.resolveRelation(h, "cohort-of")
+    Vocabulary.resolveNodeKind(h, "cohort")
+
+    const relations = (h.db.query("SELECT name FROM vocabulary WHERE kind = ?").all(Vocabulary.RELATION) as any[]).map(
+      (r) => r.name,
+    )
+    const kinds = (h.db.query("SELECT name FROM vocabulary WHERE kind = ?").all(Vocabulary.NODE_KIND) as any[]).map(
+      (r) => r.name,
+    )
+    expect(relations).toContain("cohort-of")
+    expect(relations).not.toContain("cohort")
+    expect(kinds).toContain("cohort")
+    h.close()
   })
 })
 
 describe("core seed", () => {
   test("ships with the schema so common subtypes are never 'proposed'", async () => {
     const h = await db()
-    const rows = h.db.query("SELECT kind, name, status FROM vocabulary ORDER BY kind, name").all() as any[]
+    // Exclude the reserved namespaces: `@relation` and `@node-kind` govern
+    // relations and kinds, and the three lineage relations ship as `reserved`
+    // rather than `core` because an agent may never author them.
+    const rows = h.db
+      .query("SELECT kind, name, status FROM vocabulary WHERE kind NOT LIKE '@%' ORDER BY kind, name")
+      .all() as any[]
 
     expect(rows.length).toBeGreaterThan(0)
     expect(rows.every((r) => r.status === "core")).toBeTrue()
     expect(rows.some((r) => r.kind === "entity" && r.name === "gene")).toBeTrue()
     expect(rows.some((r) => r.kind === "claim" && r.name === "review")).toBeTrue()
+  })
+
+  test("relations and node kinds are seeded as governed terms", async () => {
+    const h = await db()
+    const relations = Object.fromEntries(
+      (h.db.query("SELECT name, status FROM vocabulary WHERE kind = ?").all(Vocabulary.RELATION) as any[]).map(
+        (r) => [r.name, r.status],
+      ),
+    )
+
+    // Lineage is observed, never asserted.
+    expect(relations["produced"]).toBe("reserved")
+    expect(relations["consumed"]).toBe("reserved")
+    expect(relations["part-of"]).toBe("reserved")
+    // Semantic relations are the agent's to use.
+    expect(relations["mentions"]).toBe("core")
+    expect(relations["supports"]).toBe("core")
+
+    const kinds = (h.db.query("SELECT name FROM vocabulary WHERE kind = ?").all(Vocabulary.NODE_KIND) as any[]).map(
+      (r) => r.name,
+    )
+    expect(kinds.sort()).toEqual(["artifact", "claim", "entity", "message", "project", "run", "session", "source"])
   })
 
   test("created_at is fixed at 0 so a rebuild stays byte-identical", async () => {

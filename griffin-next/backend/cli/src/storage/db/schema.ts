@@ -43,14 +43,20 @@ export namespace Schema {
   }
 
   export function current(handle: DatabaseClient.Handle): number {
-    handle.db.exec(TABLE)
-    const row = handle.db.query("SELECT COALESCE(MAX(id), 0) AS v FROM schema_migrations").get() as { v: number }
-    return row.v
+    try {
+      const row = handle.db.query("SELECT COALESCE(MAX(id), 0) AS v FROM schema_migrations").get() as { v: number } | null
+      return row?.v ?? 0
+    } catch {
+      return 0
+    }
   }
 
   export function applied(handle: DatabaseClient.Handle): { id: number; name: string; applied_at: number }[] {
-    handle.db.exec(TABLE)
-    return handle.db.query("SELECT id, name, applied_at FROM schema_migrations ORDER BY id").all() as any
+    try {
+      return handle.db.query("SELECT id, name, applied_at FROM schema_migrations ORDER BY id").all() as any
+    } catch {
+      return []
+    }
   }
 
   function apply(handle: DatabaseClient.Handle, migration: Migration) {

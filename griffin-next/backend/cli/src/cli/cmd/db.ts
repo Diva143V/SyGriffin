@@ -10,6 +10,8 @@ import { Backfill } from "../../storage/db/backfill"
 import { Verify } from "../../storage/db/verify"
 import { GraphStore } from "../../storage/db/graph/store"
 import { Vocabulary } from "../../storage/db/graph/vocabulary"
+import { Readiness } from "../../storage/db/readiness"
+import { ObsidianExporter } from "../../storage/db/graph/obsidian"
 
 /**
  * `griffin db` — inspect and maintain the SQLite datastore.
@@ -28,6 +30,7 @@ export const DbCommand = cmd({
       .command(DbVerifyCommand)
       .command(DbRebuildCommand)
       .command(DbSchemaCommand)
+      .command(DbExportObsidianCommand)
       .demandCommand(),
   async handler() {},
 })
@@ -57,6 +60,9 @@ type Status = {
   /** Agent-proposed subtypes awaiting review, highest usage first. */
   proposed_vocabulary: { kind: string; name: string; usage_count: number }[]
   unreviewed_nodes: number
+  /** Whether the database is complete enough to be the authoritative read path. */
+  primary_ready: boolean
+  unprojected: { namespace: string; json: number; rows: number }[]
 }
 
 async function collect(): Promise<Status> {
@@ -78,6 +84,8 @@ async function collect(): Promise<Status> {
       migrations: [],
       proposed_vocabulary: [],
       unreviewed_nodes: 0,
+      primary_ready: false,
+      unprojected: [],
     }
   }
 
@@ -85,6 +93,7 @@ async function collect(): Promise<Status> {
   // user inspecting an `off` install would silently get a schema written.
   const handle = DatabaseClient.reader()
   const version = Schema.current(handle)
+  const readiness = await Readiness.check({ handle })
   const rows: Record<string, number> = {}
   for (const table of ENTITY_TABLES) {
     try {
@@ -115,6 +124,8 @@ async function collect(): Promise<Status> {
       () => (handle.db.query("SELECT count(*) AS n FROM node WHERE review_state = 'unreviewed'").get() as any).n,
       0,
     ),
+    primary_ready: readiness.ready,
+    unprojected: readiness.missing,
   }
 }
 
@@ -179,6 +190,17 @@ const DbStatusCommand = cmd({
 
     if (status.schema_version < status.schema_latest) {
       prompts.log.warn(`${status.schema_latest - status.schema_version} migration(s) pending`)
+    }
+
+    // The readiness line is the thing to check before flipping to `primary`.
+    if (status.primary_ready) {
+      prompts.log.info(`primary         ready`)
+    } else {
+      prompts.log.error(`primary         NOT READY — ${status.unprojected.length} namespace(s) unprojected`)
+      for (const u of status.unprojected) {
+        prompts.log.warn(`  ${u.namespace}: ${u.json} on disk, ${u.rows} in the database`)
+      }
+      prompts.log.info("Run `griffin db backfill` before setting experimental.db to primary.")
     }
 
     const counted = Object.entries(status.rows)
@@ -290,18 +312,30 @@ const DbRebuildCommand = cmd({
   command: "rebuild",
   describe: "drop and re-derive system-origin graph nodes and edges",
   builder: (yargs) =>
-    yargs.option("format", { choices: ["text", "json"] as const, default: "text", describe: "output format" }),
+    yargs
+      .option("format", { choices: ["text", "json"] as const, default: "text", describe: "output format" })
+      .option("obsidian", {
+        type: "boolean",
+        default: true,
+        describe: "refresh an existing Obsidian vault afterwards (never creates one)",
+      }),
   async handler(args) {
     const handle = DatabaseClient.writer()
     Schema.migrate(handle)
     const res = GraphStore.rebuild(handle)
+
+    // Keep an existing vault current — it just went stale by definition. A
+    // vault is never created here; that stays an explicit `db export-obsidian`.
+    const synced = args.obsidian ? await ObsidianExporter.syncIfPresent(handle) : undefined
+
     if (args.format === "json") {
-      process.stdout.write(JSON.stringify(res, null, 2) + "\n")
+      process.stdout.write(JSON.stringify({ ...res, obsidian: synced ?? null }, null, 2) + "\n")
       return
     }
     UI.empty()
     prompts.log.info(`system_nodes     ${res.systemNodes}`)
     prompts.log.info(`system_edges     ${res.systemEdges}`)
+    if (synced) prompts.log.info(`obsidian         ${synced.written} note(s), ${synced.pruned} pruned`)
     prompts.log.info("rebuild          ok")
     UI.empty()
   },
@@ -330,6 +364,51 @@ const DbSchemaCommand = cmd({
     await Bun.write(target, sql)
     UI.empty()
     prompts.log.success(`wrote ${target}`)
+    UI.empty()
+  },
+})
+
+const DbExportObsidianCommand = cmd({
+  command: "export-obsidian",
+  describe: "export graph nodes and edges to an Obsidian vault directory",
+  builder: (yargs) =>
+    yargs
+      .option("format", { choices: ["text", "json"] as const, default: "text", describe: "output format" })
+      .option("target-dir", { type: "string", describe: "custom target directory for the vault" })
+      .option("include-text", {
+        type: "boolean",
+        default: false,
+        describe: "inline full message bodies into notes (off by default — vaults get synced and shared)",
+      })
+      .option("redact", {
+        type: "boolean",
+        default: false,
+        describe:
+          "strip conversation text entirely: message notes are titled `role id`, so no wording reaches the body, heading, or filename",
+      })
+      .option("prune", {
+        type: "boolean",
+        default: true,
+        describe: "remove notes this exporter wrote whose node no longer exists",
+      }),
+  async handler(args) {
+    const handle = DatabaseClient.reader()
+    const res = await ObsidianExporter.exportVault(handle, {
+      targetDir: args["target-dir"],
+      includeText: args["include-text"],
+      redact: args.redact,
+      prune: args.prune,
+    })
+    if (args.format === "json") {
+      process.stdout.write(JSON.stringify(res, null, 2) + "\n")
+      return
+    }
+    UI.empty()
+    prompts.log.info(`written        ${res.written}`)
+    prompts.log.info(`pruned         ${res.pruned}`)
+    prompts.log.info(`edges          ${res.edges}`)
+    prompts.log.info(`target_dir     ${res.targetDir}`)
+    prompts.log.success("export-obsidian ok")
     UI.empty()
   },
 })

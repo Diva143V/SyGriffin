@@ -33,10 +33,11 @@ REQUIRED_VIEWS = {
 # against." Bump MAX when a migration is known-compatible; bump MIN only when a
 # view's shape actually changes.
 # 2: contract views introduced. 3: graph layer (v_node, v_edge_active).
-# 4: full-text search tables — additive, no view change, so the range widens
+# 4: full-text search tables. 5: governed relation and node-kind taxonomy.
+#    Both additive, no view change, so the range widens
 #    rather than the minimum moving.
 MIN_SUPPORTED_SCHEMA = 2
-MAX_KNOWN_SCHEMA = 4
+MAX_KNOWN_SCHEMA = 5
 
 
 def schema_version(conn: sqlite3.Connection) -> int:

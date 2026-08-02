@@ -10,6 +10,7 @@ import { NamedError } from "@griffin/util/error"
 import z from "zod"
 import { DatabaseMode } from "./db/mode"
 import { Projection } from "./db/projection"
+import { Readiness } from "./db/readiness"
 
 export namespace Storage {
   const log = Log.create({ service: "storage" })
@@ -200,6 +201,9 @@ export namespace Storage {
 
   /** SQL-backed read that preserves `NotFoundError` and its exact message. */
   async function readPrimary<T>(key: string[], target: string): Promise<T> {
+    // Refuse to serve reads from an incompletely backfilled database. Without
+    // this, missing rows present as absent records rather than as an error.
+    await Readiness.assertReady()
     const value = await Projection.read<T>(key)
     // The message names the JSON path even though no file was consulted:
     // ~15 call sites match on this error, and several log it.
@@ -231,6 +235,9 @@ export namespace Storage {
   const glob = new Bun.Glob("**/*")
   export async function list(prefix: string[]) {
     if (DatabaseMode.primary()) {
+      // The most dangerous path: an unprojected namespace makes this return a
+      // shorter list, which reads as "those records were deleted".
+      await Readiness.assertReady()
       const keys = await Projection.list(prefix)
       keys.sort()
       return keys

@@ -1,7 +1,7 @@
 -- GENERATED FILE — DO NOT EDIT.
 -- Source: backend/cli/src/storage/db/migrations/index.ts
 -- Regenerate: cd griffin-next/backend/cli && bun run src/index.ts db schema --write
--- schema_version: 4
+-- schema_version: 5
 
 -- migration 1: entity_layer
 CREATE TABLE project (
@@ -219,3 +219,27 @@ CREATE TABLE fts_queue (
     -- 'id' and 'kind' are UNINDEXED: stored, but not tokenized, so the index
     -- holds only genuinely searchable text.
     CREATE VIRTUAL TABLE fts_part USING fts5(id UNINDEXED, kind UNINDEXED, text);
+
+-- migration 5: governed_taxonomy
+INSERT INTO vocabulary (kind, name, status, definition, created_at) VALUES
+      -- Node kinds. Closed in practice for the system half (derivation writes
+      -- exactly these), open for anything the agent needs to model.
+      ('@node-kind','project','core','A workspace project.',0),
+      ('@node-kind','session','core','A conversation session.',0),
+      ('@node-kind','message','core','A single user or assistant message.',0),
+      ('@node-kind','run','core','A tool execution.',0),
+      ('@node-kind','artifact','core','A file produced or consumed by a run.',0),
+      ('@node-kind','source','core','An external record: paper, preprint, dataset.',0),
+      ('@node-kind','entity','core','A real-world thing with an accession.',0),
+      ('@node-kind','claim','core','An assertion carrying evidence and a confidence.',0),
+
+      -- Relations. 'reserved' means system-observed: derivation may write them,
+      -- an agent may not, because asserting them fabricates provenance.
+      ('@relation','part-of','reserved','Containment: run -> message -> session -> project.',0),
+      ('@relation','produced','reserved','A run created this artifact.',0),
+      ('@relation','consumed','reserved','A run read this artifact.',0),
+      ('@relation','derived-from','core','Lineage: this came from that.',0),
+      ('@relation','mentions','core','This references that entity or source.',0),
+      ('@relation','supports','core','Evidence for a claim.',0),
+      ('@relation','refutes','core','Evidence against a claim.',0),
+      ('@relation','same-as','core','These are the same thing. Revocable.',0);

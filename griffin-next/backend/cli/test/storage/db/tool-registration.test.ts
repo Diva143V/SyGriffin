@@ -21,6 +21,8 @@ const DB_TOOLS = [
   "graph_reason",
   "kb_assert",
   "kb_entity",
+  "kb_link",
+  "kb_node",
   "kb_vocabulary_propose",
 ]
 

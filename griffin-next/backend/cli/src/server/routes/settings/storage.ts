@@ -46,6 +46,7 @@ const Usage = z.object({
   pointer: z.string().nullable(),
   total_bytes: z.number(),
   entries: z.array(z.object({ name: z.string(), path: z.string(), bytes: z.number(), kind: z.enum(["dir", "file"]) })),
+  db_mode: z.enum(["off", "shadow", "primary"]),
 })
 
 export const StorageRoutes = lazy(() =>
@@ -82,6 +83,7 @@ export const StorageRoutes = lazy(() =>
           .text()
           .then((t) => t.trim() || null)
           .catch(() => null)
+        const { DatabaseMode } = await import("@/storage/db/mode")
         return c.json({
           data_dir: dataDir,
           config_dir: Global.Path.config,
@@ -90,7 +92,68 @@ export const StorageRoutes = lazy(() =>
           pointer,
           total_bytes: entries.reduce((sum, e) => sum + e.bytes, 0),
           entries,
+          db_mode: DatabaseMode.get(),
         })
+      },
+    )
+    .post(
+      "/db-mode",
+      describeRoute({
+        summary: "Toggle Knowledge Graph database mode",
+        description: "Update experimental.db in griffin.json to shadow or off.",
+        operationId: "settings.storage.setDbMode",
+        responses: {
+          200: {
+            description: "Updated DB mode",
+            content: {
+              "application/json": {
+                schema: resolver(z.object({ ok: z.boolean(), mode: z.enum(["off", "shadow", "primary"]) })),
+              },
+            },
+          },
+        },
+      }),
+      validator("json", z.object({ mode: z.enum(["off", "shadow", "primary"]) })),
+      async (c) => {
+        const mode = c.req.valid("json").mode
+        const configFile = path.join(Global.Path.config, "griffin.json")
+        let currentConfig: any = {}
+        try {
+          const text = await Bun.file(configFile).text()
+          currentConfig = JSON.parse(text.replace(/^\s*\/\/.*$/gm, ""))
+        } catch {}
+        currentConfig.experimental = { ...currentConfig.experimental, db: mode }
+        await Bun.write(configFile, JSON.stringify(currentConfig, null, 2), { mode: 0o600 })
+        const { DatabaseMode } = await import("@/storage/db/mode")
+        DatabaseMode.reset()
+        return c.json({ ok: true, mode: DatabaseMode.get() })
+      },
+    )
+    .post(
+      "/obsidian-sync",
+      describeRoute({
+        summary: "Sync graph to Obsidian vault",
+        description: "Export active Knowledge Graph nodes and edges as Markdown files for Obsidian.",
+        operationId: "settings.storage.obsidianSync",
+        responses: {
+          200: {
+            description: "Synced to Obsidian vault",
+            content: {
+              "application/json": {
+                schema: resolver(
+                  z.object({ ok: z.boolean(), exportedNodes: z.number(), exportedEdges: z.number(), targetDir: z.string() }),
+                ),
+              },
+            },
+          },
+        },
+      }),
+      async (c) => {
+        const { DatabaseClient } = await import("@/storage/db/client")
+        const { ObsidianExporter } = await import("@/storage/db/graph/obsidian")
+        const handle = DatabaseClient.reader()
+        const res = await ObsidianExporter.exportVault(handle)
+        return c.json({ ok: true, ...res })
       },
     )
     .post(

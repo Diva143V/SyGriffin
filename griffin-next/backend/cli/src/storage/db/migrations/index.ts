@@ -311,4 +311,53 @@ const fts: Migration = {
   `,
 }
 
-export const MIGRATIONS: Migration[] = [entity, views, graph, fts]
+/**
+ * Governed relations and node kinds.
+ *
+ * The original design closed both: an invented relation was said to be
+ * invisible to every query, so the graph would look fine and quietly
+ * under-return. That is no longer true. `Beam.exploreRelations` and
+ * `Beam.expand` group by `edge.relation` generically, so a new relation is
+ * traversable the moment it exists; only `graph_lineage` is relation-specific,
+ * and that is deliberate — lineage means data flow, and a semantic relation
+ * has no business in it.
+ *
+ * What remains is drift: left alone a model will mint `gene_of`, `hasGene` and
+ * `relates-to` for one idea. That is the same problem the subtype vocabulary
+ * already solves, so relations and kinds move into the same table and inherit
+ * the same governance — normalize, fuzzy-match-and-reuse, land as `proposed`,
+ * auto-promote on use, merge non-destructively, surface in `db status`.
+ *
+ * They live under reserved pseudo-kinds so no real node kind can collide with
+ * them. `status='core'` marks the ones shipped in code.
+ */
+const taxonomy: Migration = {
+  id: 5,
+  name: "governed_taxonomy",
+  sql: /* sql */ `
+    INSERT INTO vocabulary (kind, name, status, definition, created_at) VALUES
+      -- Node kinds. Closed in practice for the system half (derivation writes
+      -- exactly these), open for anything the agent needs to model.
+      ('@node-kind','project','core','A workspace project.',0),
+      ('@node-kind','session','core','A conversation session.',0),
+      ('@node-kind','message','core','A single user or assistant message.',0),
+      ('@node-kind','run','core','A tool execution.',0),
+      ('@node-kind','artifact','core','A file produced or consumed by a run.',0),
+      ('@node-kind','source','core','An external record: paper, preprint, dataset.',0),
+      ('@node-kind','entity','core','A real-world thing with an accession.',0),
+      ('@node-kind','claim','core','An assertion carrying evidence and a confidence.',0),
+
+      -- Relations. 'reserved' means system-observed: derivation may write them,
+      -- an agent may not, because asserting them fabricates provenance.
+      ('@relation','part-of','reserved','Containment: run -> message -> session -> project.',0),
+      ('@relation','produced','reserved','A run created this artifact.',0),
+      ('@relation','consumed','reserved','A run read this artifact.',0),
+      ('@relation','derived-from','core','Lineage: this came from that.',0),
+      ('@relation','mentions','core','This references that entity or source.',0),
+      ('@relation','supports','core','Evidence for a claim.',0),
+      ('@relation','refutes','core','Evidence against a claim.',0),
+      ('@relation','same-as','core','These are the same thing. Revocable.',0);
+  `,
+}
+
+export const MIGRATIONS: Migration[] = [entity, views, graph, fts, taxonomy]

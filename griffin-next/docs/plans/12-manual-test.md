@@ -11,7 +11,7 @@ cd griffin-next/backend/cli
 
 ---
 
-## Read this first — three things that will otherwise look broken
+## Read this first — four things that will otherwise look broken
 
 1. **The datastore is off by default.** Nothing is written to SQLite unless you
    set `experimental.db`. Use `GRIFFIN_DB=shadow` per-command, or put
@@ -31,6 +31,13 @@ cd griffin-next/backend/cli
    are two disconnected graphs right now. If you record provenance and then
    `graph_search` for it, you will correctly find nothing. Use `kb_entity` /
    `kb_assert` to write into the SQL graph.
+
+4. **`primary` now refuses to read an un-backfilled database.** That is
+   deliberate. Previously it returned a shorter list instead of an error, so
+   records that had never been projected simply looked deleted. Run
+   `griffin db backfill` before setting the mode, and check
+   `griffin db status` for the `primary ready` line. `GRIFFIN_DB_SKIP_READINESS=1`
+   overrides it if you genuinely want a partial database.
 
 ---
 
@@ -281,6 +288,31 @@ same thing internally at a cost of 2 model calls per hop.
 > If `graph_reason` reports "could not link any terms", the KB is empty for
 > that topic. Run a `science_search` first — the KB is populated from connector
 > results, not from message prose.
+
+### Obsidian visual graph
+
+```bash
+GRIFFIN_DB=shadow bun run dev db export-obsidian --format json
+```
+
+**Expect** `written` to equal the node count from step 2 exactly — one note per
+node. Open the directory as an Obsidian vault and Graph View renders the same
+graph the database holds. Node tags carry trust (`#origin-agent`,
+`#review-unreviewed`), so you can colour by it.
+
+Two flags worth knowing:
+
+```bash
+GRIFFIN_DB=shadow bun run dev db export-obsidian --redact
+```
+
+`--redact` titles message notes `role id`, so no conversation wording reaches
+the body, heading, **or filename**. Worth it if the vault syncs to cloud
+storage — note that without it, message note titles carry a 60-character prompt
+snippet even though `--include-text` is off by default.
+
+`griffin db rebuild` refreshes a vault that already exists. It will not create
+one; that stays an explicit `export-obsidian`. Nothing syncs on its own.
 
 ### Vocabulary governance
 
