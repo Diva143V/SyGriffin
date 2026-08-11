@@ -22,6 +22,8 @@ Nothing irreversible ships without owner sign-off — **sandboxing (10) is desig
 | 10  | Agent sandboxing (design only) | [10-agent-sandboxing.md](10-agent-sandboxing.md)           | design — needs sign-off | 📝     |
 | 11  | Reviewer agent + open ideas    | [11-reviewer-agent.md](11-reviewer-agent.md)               | prototype/spec          | 📝     |
 | 12  | SQLite datastore + knowledge graph | [12-sqlite-knowledge-graph.md](12-sqlite-knowledge-graph.md) | design — signed off | 🚧     |
+| 13  | Think-on-Graph reasoning | [13-think-on-graph.md](13-think-on-graph.md) | feature | ✅ |
+| 14  | Modular Think-on-Graph | [14-modular-think-on-graph.md](14-modular-think-on-graph.md) | design + rollout plan | 📝 |
 
 **Workstream 12** is signed off and in progress. All four open decisions are resolved in the plan: lineage DAG ships first; vocabulary promotion is hybrid (auto at 10 distinct nodes, plus maintainer override); `db verify` runs in CI against a committed fixture; and the Python CLI **does** share the database, read-only against versioned views with TypeScript owning every migration. Phases 0 (build spike) and 1 (characterization tests) are complete — see *Implementation findings* in the plan.
 
